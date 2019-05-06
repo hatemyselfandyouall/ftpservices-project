@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+        
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="${cps-services-config.name}"/>
+
+    <!-- 用dubbo协议暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${cps-services-config.port}"/>
+    
+	<!-- app后台专题管理 dubbo服务 -->
+	<bean id="appconsoleFacadeImpl" class="${cps-dubbo-appconsole-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appconsole-facade}"
+		ref="appconsoleFacadeImpl" version="${cps-dubbo-appconsole-version}"
+		delay="-1" />
+
+	<!-- app后台Banner和类目 dubbo服务 -->
+	<bean id="appBannerCategroyFacadeImpl" class="${cps-dubbo-appbanner-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appbanner-facade}"
+		ref="appBannerCategroyFacadeImpl" version="${cps-dubbo-appbanner-version}"
+		delay="-1" />
+
+	<!-- app后台板块管理 dubbo服务 -->
+	<bean id="appforumFacadeImpl" class="${cps-dubbo-appforum-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appforum-facade}"
+		ref="appforumFacadeImpl" version="${cps-dubbo-appforum-version}"
+		delay="-1" />
+
+	<!-- app借你花 dubbo服务 -->
+	<bean id="appLoanpurposeFacadeImpl" class="${cps-dubbo-apploan-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-apploan-facade}"
+		ref="appLoanpurposeFacadeImpl" version="${cps-dubbo-apploan-version}"
+		delay="-1" />
+
+	<!-- app借你花 dubbo服务 -->
+	<bean id="appSystemManagerFacadeImpl" class="${cps-dubbo-appsystem-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appsystem-facade}"
+		ref="appSystemManagerFacadeImpl" version="${cps-dubbo-appsystem-version}"
+		delay="-1" />
+		
+	<!-- 弹窗配置管理dubbo服务 -->
+	<bean id="appWindowPushFacadeImpl" class="${cps-dubbo-appwindowpush-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appwindowpush-facade}" ref="appWindowPushFacadeImpl"
+		version="${cps-dubbo-appwindowpush-version}" delay="-1" />
+
+	<!-- 区块管理相关dubbo服务 -->
+	<bean id="appBlockFacadeImpl" class="${cps-dubbo-appblock-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appblock-facade}" ref="appBlockFacadeImpl"
+		version="${cps-dubbo-appblock-version}" delay="-1" />
+		
+	<!-- APP通用版块dubbo服务 -->
+	<bean id="appCommonForumFacadeImpl" class="${cps-dubbo-appcommonforum-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appcommonforum-facade}" ref="appCommonForumFacadeImpl"
+		version="${cps-dubbo-appcommonforum-version}" delay="-1" />
+		
+	<!-- 楼层管理  dubbo服务 -->
+	<bean id="siteFloorFacadeImpl" class="${cps-dubbo-sitefloor-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-sitefloor-facade}"
+		ref="siteFloorFacadeImpl" version="${cps-dubbo-sitefloor-version}"
+		delay="-1" />
+				
+	<bean id="siteTopProductFacadeImpl" class="${cps-dubbo-sitetop-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-sitetop-facade}"
+		ref="siteTopProductFacadeImpl" version="${cps-dubbo-sitetop-version}"
+		delay="-1" />
+		
+	<bean id="siteActiveTopicFacadeImpl" class="${cps-dubbo-activetopic-impl}" />
+    <dubbo:service registry="servicesRegistry" interface="${cps-dubbo-activetopic-facade}" ref="siteActiveTopicFacadeImpl"
+		version="${cps-dubbo-activetopic-version}" delay="-1" />
+	
+	<!-- 校园招聘服务 -->
+	<bean id="acceptEmployFacadeImpl" class="${cps-dubbo-acceptemploy-impl}" />
+    <dubbo:service registry="servicesRegistry" interface="${cps-dubbo-acceptemploy-facade}" ref="acceptEmployFacadeImpl"
+		version="${cps-dubbo-acceptemploy-version}" delay="-1" />
+		
+	<!-- 角标和标签  dubbo服务 -->
+	<bean id="cpsCommCornerMarkFacadeImpl" class="${cps-dubbo-cornermark-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-cornermark-facade}"
+		ref="cpsCommCornerMarkFacadeImpl" version="${cps-dubbo-cornermark-version}"
+		delay="-1" />
+	
+	<!-- app倒计时板块服务 -->
+	<bean id="appCountDownFacadeImpl" class="${cps-dubbo-appcountdown-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-appcountdown-facade}" ref="appCountDownFacadeImpl"
+		version="${cps-dubbo-appcountdown-version}" delay="-1" />
+		
+	<!-- 浮层  dubbo服务 -->
+	<bean id="floatLayerFacadeImpl" class="${cps-dubbo-floatlayer-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-floatlayer-facade}"
+		ref="floatLayerFacadeImpl" version="${cps-dubbo-floatlayer-version}"
+		delay="-1" />
+	
+	<bean id="loanManagerFacadeImpl" class="${cps-dubbo-loanmanager-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-loanmanager-facade}" ref="loanManagerFacadeImpl" 
+		version="${cps-dubbo-loanmanager-version}" delay="-1" />
+		
+	<!-- app定位匹配 -->
+	<bean id="appLocationMatchFacadeImpl" class="${cps-dubbo-applocationmatch-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-applocationmatch-facade}" ref="appLocationMatchFacadeImpl" 
+		version="${cps-dubbo-applocationmatch-version}" delay="-1" />
+		
+	<bean id="drpProductFacadeImpl" class="${cps-dubbo-drpproduct-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-drpproduct-facade}" ref="drpProductFacadeImpl" 
+		version="${cps-dubbo-drpproduct-version}" delay="-1" />
+		
+	<bean id="drpUserFacadeImpl" class="${cps-dubbo-drpuser-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-drpuser-facade}" ref="drpUserFacadeImpl" 
+		version="${cps-dubbo-drpuser-version}" delay="-1" />
+		
+	<bean id="drpOrderFacadeImpl" class="${cps-dubbo-drporder-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-drporder-facade}" ref="drpOrderFacadeImpl" 
+		version="${cps-dubbo-drporder-version}" delay="-1" />	
+		
+	<bean id="websiteConfigFacadeImpl" class="${cps-dubbo-websiteconfig-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-websiteconfig-facade}"
+		ref="websiteConfigFacadeImpl" version="${cps-dubbo-websiteconfig-version}"
+		delay="-1" />	
+    <bean id="awardConfigFacadeImpl" class="${cps-dubbo-awardconfig-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-awardconfig-facade}" ref="awardConfigFacadeImpl" 
+		version="${cps-dubbo-awardconfig-version}" delay="-1" />	
+		
+	<bean id="awardRecordFacadeImpl" class="${cps-dubbo-awardrecord-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-awardrecord-facade}" ref="awardRecordFacadeImpl" 
+		version="${cps-dubbo-awardrecord-version}" delay="-1" />
+
+	<!-- 内容分类 dubbo服务 -->
+	<bean id="contextClassifyFacadeImpl" class="${cps-dubbo-contextclassify-impl}" />
+	<dubbo:service registry="servicesRegistry" interface="${cps-dubbo-contextclassify-facade}" ref="contextClassifyFacadeImpl"
+				   version="${cps-dubbo-contextclassify-version}" delay="-1" />
+</beans>

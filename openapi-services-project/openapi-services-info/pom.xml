@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>insigma.openapi.services</groupId>
+    <artifactId>openapi-services-project</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>openapi-services-info</artifactId>
+  <name>openapi-services-info</name>
+  
+  
+   <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-util</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-framework</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-cache</artifactId>
+			<scope>compile</scope>
+		</dependency>
+	    <dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+		 <!-- insigma-lib-bizbase -->
+		<dependency>
+			<groupId>insigma.common.lib.bizbase</groupId>
+  			<artifactId>insigma-lib-bizbase</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>insigma.openapi.facade.info</groupId>
+  			<artifactId>openapi-facade-info</artifactId>
+  			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+		
+	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>publish</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>make-assembly</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+  
+  
+  
+</project>

@@ -1,0 +1,246 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>insigma</groupId>
+    <artifactId>insigma-parent</artifactId>
+    <version>1.0.3</version>
+  </parent>
+  <groupId>insigma.openapi</groupId>
+  <artifactId>openapi-project</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>openapi-project</name>
+  <modules>
+  	<module>openapi-facade-project</module>
+  	<module>openapi-libs-project</module>
+  	<module>openapi-services-project</module>
+	<module>openapi-web-project</module>
+  </modules>
+  
+  
+  <dependencyManagement>
+		<dependencies>
+			 <!-- insigma-lib-bizbase -->
+			<dependency>
+				<groupId>insigma.common.lib.bizbase</groupId>
+  				<artifactId>insigma-lib-bizbase</artifactId>
+				<version>1.0.17</version>
+			</dependency>
+			 <dependency>
+				<groupId>insigma.common</groupId>
+				<artifactId>insigma-common-mq</artifactId>
+				<version>1.0.17</version>
+			</dependency>
+			 <dependency>
+				<groupId>insigma.common</groupId>
+				<artifactId>insigma-common-framework</artifactId>
+				<version>1.0.17</version>
+			</dependency>
+			<dependency>
+				<groupId>insigma.common</groupId>
+				<artifactId>insigma-common-util</artifactId>
+				<version>1.0.17</version>
+			</dependency>
+			<dependency>
+				<groupId>insigma.common</groupId>
+				<artifactId>insigma-common-cache</artifactId>
+				<version>1.0.17</version>
+			</dependency>
+			 <dependency>
+				<groupId>insigma.common</groupId>
+				<artifactId>insigma-common-framework-web</artifactId>
+				<version>1.0.17</version>
+			</dependency>
+			
+			 <dependency>
+				<groupId>insigma.openapi.libs.fineopenapi</groupId>
+  				<artifactId>openapi-lib-fineopenapi</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+			 <dependency>
+				<groupId>insigma.openapi.libs.base</groupId>
+ 				 <artifactId>openapi-lib-base</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+			
+			
+			<!-- fineopenapi bgn -->
+			<dependency>
+			    <groupId>com.fr</groupId>
+			    <artifactId>fr-chart</artifactId>
+			    <version>8.0</version>
+			</dependency>
+			<dependency>
+			    <groupId>com.fr</groupId>
+			    <artifactId>fr-core</artifactId>
+			    <version>8.0</version>
+			</dependency>
+			<dependency>
+				  <groupId>com.fr</groupId>
+				  <artifactId>fr-performance</artifactId>
+				  <version>8.0</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fr</groupId>
+			  <artifactId>fr-platform</artifactId>
+			  <version>8.0</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fr</groupId>
+			  <artifactId>fr-openapi</artifactId>
+			  <version>8.0</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fr</groupId>
+			  <artifactId>fr-third</artifactId>
+			  <version>8.0</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fr</groupId>
+			  <artifactId>plugin-com.fr.plugin.chart.vancharts</artifactId>
+			  <version>0</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fr</groupId>
+			  <artifactId>plugin-com.fr.plugin.chart.vancharts</artifactId>
+			  <version>1</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fr</groupId>
+			  <artifactId>plugin-com.fr.plugin.nativeprint</artifactId>
+			  <version>0</version>
+			</dependency>
+			<dependency>
+			  <groupId>com.fr</groupId>
+			  <artifactId>plugin-com.fr.plugin.openapifit</artifactId>
+			  <version>0</version>
+			</dependency>
+			
+			<!-- fineopenapi end -->
+		    <dependency>
+				<groupId>insigma.common.facade.collection</groupId>
+				<artifactId>empcollection-facade-collection</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+		 	<dependency>
+				<groupId>insigma.empparam.facade.info</groupId>
+  				<artifactId>empparam-facade-info</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>insigma.archive.facade.info</groupId>
+				<artifactId>archive-facade-info</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	
+		<profiles>
+		<profile>
+			<id>dev-mac</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+			<activation>
+				<os>
+					<family>Mac</family>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+					</plugin>
+				</plugins>
+				<filters>
+					<filter>../../filter/filter-dev-mac.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>performance</id>
+			<properties>
+				<env>performance</env>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<!-- 打包校验插件 -->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.12.4</version>
+						<configuration>
+							<forkMode>once</forkMode>
+							<argLine>-Dfile.encoding=UTF-8</argLine>
+							<!-- 是否跳过校验 -->
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>test2</id>
+			<properties>
+				<env>test2</env>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<!-- 打包校验插件 -->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.12.4</version>
+						<configuration>
+							<forkMode>once</forkMode>
+							<argLine>-Dfile.encoding=UTF-8</argLine>
+							<!-- 是否跳过校验 -->
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>test3</id>
+			<properties>
+				<env>test3</env>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<!-- 打包校验插件 -->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.12.4</version>
+						<configuration>
+							<forkMode>once</forkMode>
+							<argLine>-Dfile.encoding=UTF-8</argLine>
+							<!-- 是否跳过校验 -->
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+	
+	
+</project>

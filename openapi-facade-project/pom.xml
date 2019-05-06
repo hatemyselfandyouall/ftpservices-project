@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>insigma.openapi</groupId>
+    <artifactId>openapi-project</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>insigma.openapi.facade</groupId>
+  <artifactId>openapi-facade-project</artifactId>
+  <packaging>pom</packaging>
+  <name>openapi-facade-project</name>
+  <modules>
+  	<module>openapi-facade-info</module>
+  </modules>
+  
+  
+   <dependencies>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-util</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-framework</artifactId>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+	
+	
+</project>
