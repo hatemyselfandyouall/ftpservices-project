@@ -10,7 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import com.insigma.facade.report.vo.ProjectDTO;
+import com.insigma.facade.openapi.vo.ProjectDTO;
 import com.insigma.mapper.ProjectMapper;
 import com.insigma.po.Project;
 

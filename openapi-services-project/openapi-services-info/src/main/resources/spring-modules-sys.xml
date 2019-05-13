@@ -38,7 +38,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 		<property name="configLocation" value="classpath:spring-mybatis.xml" />
 	</bean>
 
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.insigma.mapper" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>

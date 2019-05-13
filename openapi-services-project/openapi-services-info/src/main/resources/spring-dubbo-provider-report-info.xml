@@ -11,7 +11,11 @@
 	<!-- jxm test eg -->
 		
 	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />
-	<dubbo:service interface="com.insigma.facade.report.ProjectFacade" ref="projectImpl"
-		version="1.0.1" delay="-1" retries="0"  />
-		
+	<dubbo:service interface="com.insigma.facade.openapi.ProjectFacade" ref="projectImpl"
+				   version="1.0.1" delay="-1" retries="0"  />
+
+	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.InterfaceFacade" ref="interfaceServiceImpl"
+				   version="1.0.1" delay="-1" retries="0"  />
+
 </beans>

@@ -1,4 +1,4 @@
-package com.insigma.facade.report.vo;
+package com.insigma.facade.openapi.vo;
 
 import star.vo.BaseVo;
 

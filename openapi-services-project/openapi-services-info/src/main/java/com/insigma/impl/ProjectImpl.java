@@ -3,8 +3,8 @@ package com.insigma.impl;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.insigma.facade.report.ProjectFacade;
-import com.insigma.facade.report.vo.ProjectDTO;
+import com.insigma.facade.openapi.ProjectFacade;
+import com.insigma.facade.openapi.vo.ProjectDTO;
 import com.insigma.modules.ProjectService;
 
 public class ProjectImpl implements ProjectFacade{

@@ -8,9 +8,9 @@
         ">
 
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<dubbo:application name="report-services-info" organization="${dubbo.organization}" />
+	<dubbo:application name="openapi-services-info" organization="${dubbo.organization}" />
 	<!-- 用dubbo协议暴露服务 -->
-	<dubbo:protocol name="dubbo" port="${report-services-info.port}" threadpool="limited" />
+	<dubbo:protocol name="dubbo" port="${openapi-services-info.port}" threadpool="limited" />
 	<!-- 使用定制的loadbalance -->
     <dubbo:provider loadbalance="${dubbo.loadbalance}" />
 	<dubbo:consumer loadbalance="${dubbo.loadbalance}" cluster="${dubbo.consumer.cluster}" />

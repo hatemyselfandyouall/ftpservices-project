@@ -43,28 +43,7 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 	
-	<!-- finereport config bgn -->
-	<mime-mapping>
-	  <extension>msi</extension>
-	  <mime-type>application/x-msi</mime-type>
-  </mime-mapping>
-	
-  <servlet>
-    <servlet-name>ReportServer</servlet-name>
-    <servlet-class>com.fr.web.ReportServlet</servlet-class>
-    <init-param>
-		<param-name>reportContextConfigLocation</param-name>
-		<param-value>classpath:spring-modules.xml</param-value>
-	</init-param>
-    <load-on-startup>0</load-on-startup>
-  </servlet>
 
-  <servlet-mapping>
-    <servlet-name>ReportServer</servlet-name>
-    <url-pattern>/ReportServer</url-pattern>
-  </servlet-mapping>
-  
-  <!-- finereport config end -->
 	
 	<filter>
 	    <filter-name>encodingFilter</filter-name>

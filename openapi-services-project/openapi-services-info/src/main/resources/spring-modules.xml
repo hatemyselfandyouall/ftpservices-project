@@ -33,10 +33,10 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
           class="com.taobao.diamond.extend.ExtendPropertiesFactoryBean">
         <property name="configs">
             <list>
-                <value>report,filter</value>
-                <value>report,dubboconfig</value>
-                <value>report-publish-dubbo,baseconfig</value>
-                <value>report-publish-dubbo,logconfig</value>
+                <value>openapi,filter</value>
+                <value>openapi,dubboconfig</value>
+                <value>openapi-publish-dubbo,baseconfig</value>
+                <value>openapi-publish-dubbo,logconfig</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>

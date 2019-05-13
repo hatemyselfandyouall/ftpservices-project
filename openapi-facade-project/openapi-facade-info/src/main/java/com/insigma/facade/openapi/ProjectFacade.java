@@ -1,11 +1,11 @@
-package com.insigma.facade.report;
+package com.insigma.facade.openapi;
 
 
 import java.util.HashMap;
 import java.util.List;
 
 
-import com.insigma.facade.report.vo.ProjectDTO;
+import com.insigma.facade.openapi.vo.ProjectDTO;
 
 
 /**

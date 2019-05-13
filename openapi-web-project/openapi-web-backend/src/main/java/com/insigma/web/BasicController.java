@@ -25,15 +25,15 @@ import star.fw.web.util.ServletAttributes;
 import star.util.StringUtil;
 
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  * Title: 基础Controller
- * 
+ *
  * Description:
- * 
+ *
  * Copyright: (c) 2014
- * 
+ *
  * @author haoxz11
  * @created 上午10:19:10
  * @version $Id: BasicController.java 123184 2015-12-17 07:25:17Z xuxh $
@@ -42,7 +42,7 @@ public abstract class BasicController {
 
 	public static final Gson gson = new Gson();
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	/**
 	 * 获取登陆用户的信息
@@ -59,10 +59,10 @@ public abstract class BasicController {
 	protected  ManagerVo getManageVo(HttpServletRequest request){
 		return (ManagerVo) request.getAttribute("sysUser");
 	}
-	
+
 	/**
 	 * 文本直接输出
-	 * 
+	 *
 	 * @param s
 	 * @param response
 	 */
@@ -78,7 +78,7 @@ public abstract class BasicController {
 
 	/**
 	 * 判断请求是否为ajax
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -88,7 +88,7 @@ public abstract class BasicController {
 
 	/**
 	 * 判断是否为爬虫
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -98,7 +98,7 @@ public abstract class BasicController {
 
 	/**
 	 * 判断是否为手机访问
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -108,7 +108,7 @@ public abstract class BasicController {
 
 	/**
 	 * 判断是否为ipad访问
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -118,7 +118,7 @@ public abstract class BasicController {
 
 	/**
 	 * 是否为UC浏览器
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -128,7 +128,7 @@ public abstract class BasicController {
 
 	/**
 	 * 302跳转
-	 * 
+	 *
 	 * @param response
 	 * @param redirectUrl
 	 */
@@ -138,7 +138,7 @@ public abstract class BasicController {
 
 	/**
 	 * 301跳转
-	 * 
+	 *
 	 * @param response
 	 * @param redirectUrl
 	 */
@@ -148,7 +148,7 @@ public abstract class BasicController {
 
 	/**
 	 * 修改response的状态码
-	 * 
+	 *
 	 * @param response
 	 * @param code
 	 */
@@ -162,7 +162,7 @@ public abstract class BasicController {
 
 	/**
 	 * 得到来源
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -172,7 +172,7 @@ public abstract class BasicController {
 
 	/**
 	 * 得到来源
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -189,7 +189,7 @@ public abstract class BasicController {
 		binder.registerCustomEditor(Long.class, new LongPropertiesSupport());
 		binder.registerCustomEditor(String.class, new StringPropertiesSupport());
 	}
-	
+
 	/**
 	 * 将获取的时间字符串转化成date对象
 	 * @param dateString
@@ -200,7 +200,7 @@ public abstract class BasicController {
 	        if(StringUtil.isEmpty(dateString)){
 	            return null;
 	        }
-           return simpleDateFormat.parse(dateString); 
+           return simpleDateFormat.parse(dateString);
         } catch (Exception e) {
             throw new RuntimeException("时间转换异常");
         }
