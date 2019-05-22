@@ -21,10 +21,12 @@ public class OpenapiUser implements Serializable{
 
 
 	//========== properties ==========
-	
+
+	@Id
+	@GeneratedValue(generator="JDBC")
     @ApiModelProperty("用户ID")
     @Column( name="id")
-    private String id;
+    private Long id;
 
     @ApiModelProperty("登录名")
     @Column( name="logon_name")
@@ -38,19 +40,11 @@ public class OpenapiUser implements Serializable{
     @Column( name="display_name")
     private String displayName;
 
-    @ApiModelProperty("区域id")
-    @Column( name="area_id")
-    private Long areaId;
+    @ApiModelProperty("openId")
+    @Column( name="open_id")
+    private String openId;
 
-    @ApiModelProperty("机构id")
-    @Column( name="org_id")
-    private Long orgId;
-
-    @ApiModelProperty("用户状态:1正常、2锁定、3注销")
-    @Column( name="user_state")
-    private String userState;
-
-    @ApiModelProperty("1超级管理员，2行政区管理员，3机构管理员，4业务操作员")
+    @ApiModelProperty("1超级管理员，2普通机构用户")
     @Column( name="user_type")
     private String userType;
 
@@ -85,6 +79,10 @@ public class OpenapiUser implements Serializable{
     @ApiModelProperty("创建人id")
     @Column( name="creator_id")
     private String creatorId;
+
+    @ApiModelProperty("创建时ip")
+    @Column( name="create_ip")
+    private String createIp;
 
     @ApiModelProperty("用户锁定时间")
     @Column( name="lock_time")
@@ -122,9 +120,9 @@ public class OpenapiUser implements Serializable{
     @Column( name="signs_tate")
     private String signsTate;
 
-    @ApiModelProperty("所属部门")
-    @Column( name="department")
-    private String department;
+    @ApiModelProperty("0未删除1已删除")
+    @Column( name="is_delete")
+    private Integer isDelete;
 
     @ApiModelProperty("创建日期")
     @Column( name="create_time")

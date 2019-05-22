@@ -4,10 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiUserFacade;
 import com.insigma.facade.openapi.po.OpenapiUser;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserListVO;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiUser.*;
 import com.insigma.web.BasicController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,10 +49,10 @@ public class OpenapiUserController extends BasicController {
 
     @ApiOperation(value = "用户详情")
     @RequestMapping(value = "/detail",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiUser> getOpenapiUserDetail(@RequestBody OpenapiUserDetailVO OpenapiUserDetailVO){
+    public ResultVo<OpenapiUserDetailShowVO> getOpenapiUserDetail(@RequestBody OpenapiUserDetailVO OpenapiUserDetailVO){
         ResultVo resultVo=new ResultVo();
         try {
-        OpenapiUser OpenapiUser=openapiUserFacade.getOpenapiUserDetail(OpenapiUserDetailVO);
+            OpenapiUserDetailShowVO OpenapiUser=openapiUserFacade.getOpenapiUserDetail(OpenapiUserDetailVO);
         if(OpenapiUser!=null){
             resultVo.setResult(OpenapiUser);
             resultVo.setSuccess(true);
@@ -74,12 +71,12 @@ public class OpenapiUserController extends BasicController {
     public ResultVo<OpenapiUser> saveOpenapiUser(@RequestBody OpenapiUserSaveVO OpenapiUserSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
-            Integer flag = openapiUserFacade.saveOpenapiUser(OpenapiUserSaveVO);
-            if (1 == flag) {
+            SaveUserBackVO saveUserBackVO = openapiUserFacade.saveOpenapiUser(OpenapiUserSaveVO);
+            if (saveUserBackVO!=null&&1 == saveUserBackVO.getFlag()) {
                 resultVo.setResultDes("用户保存成功");
                 resultVo.setSuccess(true);
             } else {
-                resultVo.setResultDes("用户保存失败");
+                resultVo.setResultDes("用户保存失败,原因为："+saveUserBackVO.getMsg());
             }
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常，原因为:"+e);

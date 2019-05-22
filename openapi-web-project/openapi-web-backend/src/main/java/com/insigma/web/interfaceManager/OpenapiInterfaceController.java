@@ -4,11 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.po.OpenapiInterface;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceListVO;
+import com.insigma.facade.openapi.vo.*;
 
-import com.insigma.facade.openapi.vo.OpenapiInterfaceSaveVO;
 import com.insigma.web.BasicController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,7 +52,7 @@ public class OpenapiInterfaceController extends BasicController {
     public ResultVo<OpenapiInterface> getOpenapiInterfaceDetail(@RequestBody OpenapiInterfaceDetailVO openapiInterfaceDetailVO){
         ResultVo resultVo=new ResultVo();
         try {
-        OpenapiInterface openapiInterface=interfaceFacade.getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
+            OpenapiInterfaceShowVO openapiInterface=interfaceFacade.getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
         if(openapiInterface!=null){
             resultVo.setResult(openapiInterface);
             resultVo.setSuccess(true);

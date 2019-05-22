@@ -2,25 +2,34 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.constant.DataConstant;
 import com.insigma.facade.openapi.facade.OpenapiUserFacade;
+import com.insigma.facade.openapi.po.OpenapiFtpAccount;
 import com.insigma.facade.openapi.po.OpenapiUser;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserListVO;
-import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiFtpAccount.OpenapiFtpAccountSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiUser.*;
+import com.insigma.mapper.OpenapiFtpAccountMapper;
 import com.insigma.mapper.OpenapiUserMapper;
 import com.insigma.util.JSONUtil;
+import com.insigma.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import star.bizbase.util.StringUtils;
+import star.util.PasswordUtil;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 public class OpenapiUserServiceImpl implements OpenapiUserFacade {
 
     @Autowired
-    OpenapiUserMapper OpenapiUserMapper;
+    OpenapiUserMapper openapiUserMapper;
+
+    @Autowired
+    OpenapiFtpAccountMapper openapiFtpAccountMapper;
 
     @Override
     public PageInfo<OpenapiUser> getOpenapiUserList(OpenapiUserListVO OpenapiUserListVO) {
@@ -29,34 +38,97 @@ public class OpenapiUserServiceImpl implements OpenapiUserFacade {
         }
         PageHelper.startPage(OpenapiUserListVO.getPageNum().intValue(),OpenapiUserListVO.getPageSize().intValue());
         OpenapiUser exampleObeject=new OpenapiUser();
-        List<OpenapiUser> OpenapiUserList=OpenapiUserMapper.select(exampleObeject);
+        List<OpenapiUser> OpenapiUserList=openapiUserMapper.select(exampleObeject);
         PageInfo<OpenapiUser> OpenapiUserPageInfo=new PageInfo<>(OpenapiUserList);
         return OpenapiUserPageInfo;
     }
 
     @Override
-    public OpenapiUser getOpenapiUserDetail(OpenapiUserDetailVO OpenapiUserDetailVO) {
-        if (OpenapiUserDetailVO==null||OpenapiUserDetailVO.getId()==null) {
+    public OpenapiUserDetailShowVO getOpenapiUserDetail(OpenapiUserDetailVO openapiUserDetailVO) {
+        if (openapiUserDetailVO==null||openapiUserDetailVO.getId()==null) {
             return null;
         };
-        OpenapiUser OpenapiUser=OpenapiUserMapper.selectByPrimaryKey(OpenapiUserDetailVO.getId());
-        return OpenapiUser;
+        OpenapiUser OpenapiUser=openapiUserMapper.selectByPrimaryKey(openapiUserDetailVO.getId());
+        OpenapiUserDetailShowVO openapiUserDetailShowVO=JSONUtil.convert(OpenapiUser,OpenapiUserDetailShowVO.class);
+        OpenapiFtpAccount example=new OpenapiFtpAccount();
+        example.setIsDelete(DataConstant.NO_DELETE);
+        example.setUserId(OpenapiUser.getId());
+        List<OpenapiFtpAccount> openapiFtpAccounts=openapiFtpAccountMapper.select(example);
+        if (openapiFtpAccounts!=null&&!openapiFtpAccounts.isEmpty()){
+            openapiUserDetailShowVO.setOpenapiFtpAccount(openapiFtpAccounts.get(0));
+        }
+        return openapiUserDetailShowVO;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public Integer saveOpenapiUser(OpenapiUserSaveVO OpenapiUserSaveVO) {
-        if (OpenapiUserSaveVO==null){
-            return 0;
+    public SaveUserBackVO saveOpenapiUser(OpenapiUserSaveVO openapiUserSaveVO) {
+
+        SaveUserBackVO checkSaveVO=checkSaveUserVO(openapiUserSaveVO);
+        if (1!=checkSaveVO.getFlag()){
+            return checkSaveVO;
         }
-        OpenapiUser OpenapiUser= JSONUtil.convert(OpenapiUserSaveVO,OpenapiUser.class);
-        if (OpenapiUser.getId()==null){
-            return OpenapiUserMapper.insertSelective(OpenapiUser);
+        OpenapiUser openapiUser= JSONUtil.convert(openapiUserSaveVO,OpenapiUser.class);
+        if (openapiUser.getId()==null){
+            openapiUser.setOpenId(UUID.randomUUID().toString().replaceAll("-",""));
+            openapiUser.setPasswd(PasswordUtils.encodePassWord(openapiUser.getPasswd(),openapiUser.getOpenId()));
+            openapiUserMapper.insertSelective(openapiUser);
+            if (openapiUserSaveVO.getOpenapiFtpAccountSaveVO()!=null){
+                saveFtpAccount(openapiUserSaveVO.getOpenapiFtpAccountSaveVO(),openapiUser.getId());
+            }
+            checkSaveVO.setMsg("保存成功");
+            return checkSaveVO;
         }else {
-            OpenapiUser.setModifyTime(new Date());
+            openapiUser.setPasswd(PasswordUtils.encodePassWord(openapiUser.getPasswd(),openapiUser.getOpenId()));
+            openapiUser.setModifyTime(new Date());
             Example example=new Example(OpenapiUser.class);
-            example.createCriteria().andEqualTo("id",OpenapiUser.getId());
-            return OpenapiUserMapper.updateByExampleSelective(OpenapiUser,example);
+            example.createCriteria().andEqualTo("id",openapiUser.getId());
+            openapiUserMapper.updateByExampleSelective(openapiUser,example);
+            if (openapiUserSaveVO.getOpenapiFtpAccountSaveVO()!=null){
+                saveFtpAccount(openapiUserSaveVO.getOpenapiFtpAccountSaveVO(),openapiUser.getId());
+            }
+            checkSaveVO.setMsg("保存成功");
+            return checkSaveVO;
         }
+    }
+
+    private void saveFtpAccount(OpenapiFtpAccountSaveVO openapiFtpAccountSaveVO,Long userId) {
+        //删除账号
+        Example example=new Example(OpenapiFtpAccount.class);
+        example.createCriteria().andEqualTo("userId",userId);
+        OpenapiFtpAccount deleteOb=new OpenapiFtpAccount();
+        deleteOb.setIsDelete(DataConstant.IS_DELETE);
+        openapiFtpAccountMapper.updateByExampleSelective(deleteOb,example);
+        //重新插入
+        OpenapiFtpAccount openapiFtpAccount=JSONUtil.convert(openapiFtpAccountSaveVO,OpenapiFtpAccount.class);
+        openapiFtpAccount.setUserId(userId);
+        openapiFtpAccountMapper.insertSelective(openapiFtpAccount);
+    }
+
+    private SaveUserBackVO checkSaveUserVO(OpenapiUserSaveVO openapiUserSaveVO) {
+        SaveUserBackVO saveUserBackVO=new SaveUserBackVO();
+        saveUserBackVO.setFlag(0);
+        if (openapiUserSaveVO==null){
+            saveUserBackVO.setMsg("入参为空！");
+            return saveUserBackVO;
+        }
+        if (StringUtils.isEmpty(openapiUserSaveVO.getLogonName())){
+            saveUserBackVO.setMsg("登录用户名为空！");
+            return saveUserBackVO;
+        }else {
+            OpenapiUser exampleUser=new OpenapiUser();
+            exampleUser.setLogonName(openapiUserSaveVO.getLogonName());
+            if (0!=openapiUserMapper.selectCount(exampleUser)){
+                saveUserBackVO.setMsg("用户名被占用！");
+                return saveUserBackVO;
+            }
+        }
+        if (openapiUserSaveVO.getPasswd().length()<6){
+            saveUserBackVO.setMsg("密码少于6位！");
+            return saveUserBackVO;
+        }
+        saveUserBackVO.setFlag(1);
+        return saveUserBackVO;
     }
 
     @Override
@@ -68,6 +140,6 @@ public class OpenapiUserServiceImpl implements OpenapiUserFacade {
         OpenapiUser.setModifyTime(new Date());
         Example example=new Example(OpenapiUser.class);
         example.createCriteria().andEqualTo("id",OpenapiUserDeleteVO.getId());
-        return OpenapiUserMapper.updateByExampleSelective(OpenapiUser,example);
+        return openapiUserMapper.updateByExampleSelective(OpenapiUser,example);
     }
 }
