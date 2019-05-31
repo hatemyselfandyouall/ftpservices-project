@@ -27,6 +27,9 @@ public class OpenapiUserSaveVO implements Serializable {
     @Column( name="passwd")
     private String passwd;
 
+    @ApiModelProperty("重置密码标识，为1时重置密码")
+    private String resetPasswdFlag;
+
     @ApiModelProperty("显示名")
     @Column( name="display_name")
     private String displayName;
@@ -34,6 +37,10 @@ public class OpenapiUserSaveVO implements Serializable {
     @ApiModelProperty("openId")
     @Column( name="open_id")
     private String openId;
+
+    @ApiModelProperty("显示名")
+    @Column( name="contact_name")
+    private String contactName;
 
     @ApiModelProperty("1超级管理员，2普通机构用户")
     @Column( name="user_type")
@@ -43,6 +50,16 @@ public class OpenapiUserSaveVO implements Serializable {
     @ApiModelProperty("创建时ip")
     @Column( name="create_ip")
     private String createIp;
+
+    @ApiModelProperty("联系电话")
+    @Column( name="tel")
+    private String tel;
+
+
+    @ApiModelProperty("电子邮箱")
+    @Column( name="email")
+    private String email;
+
 
     OpenapiFtpAccountSaveVO openapiFtpAccountSaveVO;
 

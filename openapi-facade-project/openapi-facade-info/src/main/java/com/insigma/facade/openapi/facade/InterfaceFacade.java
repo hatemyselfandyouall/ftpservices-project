@@ -9,9 +9,11 @@ public interface InterfaceFacade {
 
     OpenapiInterfaceShowVO getOpenapiInterfaceDetail(OpenapiInterfaceDetailVO openapiInterfaceDetailVO);
 
-    Integer saveOpenapiInterface(OpenapiInterfaceSaveVO openapiInterfaceSaveVO);
+    OpenapiInterfaceShowVO saveOpenapiInterface(OpenapiInterfaceSaveVO openapiInterfaceSaveVO);
 
     Integer deleteOpenapiInterface(OpenapiInterfaceDeleteVO openapiInterfaceDeleteVO);
 
     Integer updateInterfaceVersion(Long id);
+
+    OpenapiInterface getInterfaceByCode(String code);
 }

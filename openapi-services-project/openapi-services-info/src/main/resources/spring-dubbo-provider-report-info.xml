@@ -22,4 +22,8 @@
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade" ref="openapiInterfaceGroupServiceImpl"
 				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
+	<bean id="openapiAppServiceImpl" class="com.insigma.impl.OpenapiAppServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppFacade" ref="openapiAppServiceImpl"
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
+
 </beans>

@@ -14,7 +14,9 @@ import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.mapper.OpenapiInterfaceRequestParamMapper;
 import com.insigma.mapper.OpenapiInterfaceResponseParamMapper;
 import com.insigma.util.JSONUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import tk.mybatis.mapper.entity.Example;
@@ -40,6 +42,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         PageHelper.startPage(openapiInterfaceListVO.getPageNum().intValue(),openapiInterfaceListVO.getPageSize().intValue());
         OpenapiInterface exampleObeject=new OpenapiInterface();
+        exampleObeject.setGroupId(openapiInterfaceListVO.getGroupId());
         List<OpenapiInterface> openapiInterfaceList=openapiInterfaceMapper.select(exampleObeject);
         PageInfo<OpenapiInterface> openapiInterfacePageInfo=new PageInfo<>(openapiInterfaceList);
         return openapiInterfacePageInfo;
@@ -71,25 +74,42 @@ public class InterfaceServiceImpl implements InterfaceFacade {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer saveOpenapiInterface(OpenapiInterfaceSaveVO openapiInterfaceSaveVO) {
-        if (openapiInterfaceSaveVO==null){
-            return 0;
+    public OpenapiInterfaceShowVO saveOpenapiInterface(OpenapiInterfaceSaveVO openapiInterfaceSaveVO) {
+        if (openapiInterfaceSaveVO==null||openapiInterfaceSaveVO.getGroupId()==null){
+            return null;
         }
         OpenapiInterface openapiInterface= JSONUtil.convert(openapiInterfaceSaveVO,OpenapiInterface.class);
+        openapiInterface.setVersionNumber(getMaxVersion(openapiInterfaceSaveVO.getGroupId()));
         if (openapiInterface.getId()==null){
-            openapiInterface.setVersionNumber(1);
             openapiInterfaceMapper.insertSelective(openapiInterface);
-            saveRequestParams(openapiInterface.getId(),openapiInterfaceSaveVO.getOpenapiInterfaceRequestParamSaveVOList());
-            saveResponseParams(openapiInterface.getId(),openapiInterfaceSaveVO.getOpenapiInterfaceResponseParamSaveVOList());
-            return 1;
+            return getInterfaceDetail(openapiInterfaceSaveVO, openapiInterface);
         }else {
             updateInterface(openapiInterface);
             deleteRequestParams(openapiInterface.getId());
             deleteResponseParams(openapiInterface.getId());
-            saveRequestParams(openapiInterface.getId(),openapiInterfaceSaveVO.getOpenapiInterfaceRequestParamSaveVOList());
-            saveResponseParams(openapiInterface.getId(),openapiInterfaceSaveVO.getOpenapiInterfaceResponseParamSaveVOList());
+            return getInterfaceDetail(openapiInterfaceSaveVO, openapiInterface);
+        }
+    }
+
+    private Integer getMaxVersion(Integer groupId){
+        Example example=new Example(OpenapiInterface.class);
+        example.createCriteria().andEqualTo("groupId",groupId);
+        example.setOrderByClause("version_number desc");
+        List<OpenapiInterface> openapiInterfaces=openapiInterfaceMapper.selectByExample(example);
+        if (openapiInterfaces!=null&&!openapiInterfaces.isEmpty()){
+            return openapiInterfaces.get(0).getVersionNumber()+1;
+        }else {
             return 1;
         }
+    }
+
+    private OpenapiInterfaceShowVO getInterfaceDetail(OpenapiInterfaceSaveVO openapiInterfaceSaveVO, OpenapiInterface openapiInterface) {
+        saveRequestParams(openapiInterface.getId(),openapiInterfaceSaveVO.getOpenapiInterfaceRequestParamSaveVOList());
+        saveResponseParams(openapiInterface.getId(),openapiInterfaceSaveVO.getOpenapiInterfaceResponseParamSaveVOList());
+        OpenapiInterfaceDetailVO openapiInterfaceDetailVO=new OpenapiInterfaceDetailVO();
+        openapiInterfaceDetailVO.setId(openapiInterface.getId());
+        OpenapiInterfaceShowVO openapiInterfaceShowVO=getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
+        return openapiInterfaceShowVO;
     }
 
     private  void updateInterface(OpenapiInterface openapiInterface) {
@@ -116,6 +136,9 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     private void saveRequestParams(Long interfaceId,List<OpenapiInterfaceRequestParamSaveVO> openapiInterfaceRequestParamSaveVOList) {
+        if (CollectionUtils.isEmpty(openapiInterfaceRequestParamSaveVOList)){
+            return;
+        }
         List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams=openapiInterfaceRequestParamSaveVOList.stream().map(i->{
             OpenapiInterfaceRequestParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceRequestParam.class);
             openapiInterfaceRequestParam.setInterfaceId(interfaceId);
@@ -128,6 +151,9 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     private void saveResponseParams(Long interfaceId,List<OpenapiInterfaceResponseParamSaveVO> openapiInterfaceResponseParamSaveVOList) {
+        if (CollectionUtils.isEmpty(openapiInterfaceResponseParamSaveVOList)){
+            return;
+        }
         List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams=openapiInterfaceResponseParamSaveVOList.stream().map(i->{
             OpenapiInterfaceResponseParam openapiInterfaceResponseParam=JSONUtil.convert(i,OpenapiInterfaceResponseParam.class);
             openapiInterfaceResponseParam.setInterfaceId(interfaceId);
@@ -162,5 +188,14 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         versionNumber++;
         openapiInterface.setVersionNumber(versionNumber);
         return openapiInterfaceMapper.updateByPrimaryKeySelective(openapiInterface);
+    }
+
+    @Override
+    public OpenapiInterface getInterfaceByCode(String code){
+        OpenapiInterface example=new OpenapiInterface();
+        example.setCode(code);
+        example.setIsDelete(DataConstant.NO_DELETE);
+        OpenapiInterface openapiInterface=openapiInterfaceMapper.selectOne(example);
+        return openapiInterface;
     }
 }

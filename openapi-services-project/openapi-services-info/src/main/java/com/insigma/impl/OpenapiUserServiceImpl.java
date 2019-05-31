@@ -32,13 +32,12 @@ public class OpenapiUserServiceImpl implements OpenapiUserFacade {
     OpenapiFtpAccountMapper openapiFtpAccountMapper;
 
     @Override
-    public PageInfo<OpenapiUser> getOpenapiUserList(OpenapiUserListVO OpenapiUserListVO) {
-        if (OpenapiUserListVO==null||OpenapiUserListVO.getPageNum()==null||OpenapiUserListVO.getPageSize()==null) {
+    public PageInfo<OpenapiUser> getOpenapiUserList(OpenapiUserListVO openapiUserListVO) {
+        if (openapiUserListVO==null||openapiUserListVO.getPageNum()==null||openapiUserListVO.getPageSize()==null) {
             return null;
         }
-        PageHelper.startPage(OpenapiUserListVO.getPageNum().intValue(),OpenapiUserListVO.getPageSize().intValue());
-        OpenapiUser exampleObeject=new OpenapiUser();
-        List<OpenapiUser> OpenapiUserList=openapiUserMapper.select(exampleObeject);
+        PageHelper.startPage(openapiUserListVO.getPageNum().intValue(),openapiUserListVO.getPageSize().intValue());
+        List<OpenapiUser> OpenapiUserList=openapiUserMapper.getOpenapiUserList(openapiUserListVO);
         PageInfo<OpenapiUser> OpenapiUserPageInfo=new PageInfo<>(OpenapiUserList);
         return OpenapiUserPageInfo;
     }
@@ -79,10 +78,18 @@ public class OpenapiUserServiceImpl implements OpenapiUserFacade {
             checkSaveVO.setMsg("保存成功");
             return checkSaveVO;
         }else {
-            openapiUser.setPasswd(PasswordUtils.encodePassWord(openapiUser.getPasswd(),openapiUser.getOpenId()));
-            openapiUser.setModifyTime(new Date());
             Example example=new Example(OpenapiUser.class);
             example.createCriteria().andEqualTo("id",openapiUser.getId());
+            OpenapiUser oldUser=openapiUserMapper.selectOneByExample(example);
+            if (oldUser==null){
+                checkSaveVO.setMsg("无此用户!");
+                return checkSaveVO;
+            }
+            if ("1".equals(openapiUserSaveVO.getResetPasswdFlag())){
+                openapiUser.setPasswd(oldUser.getLogonName()+"123456");
+            }
+            openapiUser.setPasswd(PasswordUtils.encodePassWord(openapiUser.getPasswd(),openapiUser.getOpenId()));
+            openapiUser.setModifyTime(new Date());
             openapiUserMapper.updateByExampleSelective(openapiUser,example);
             if (openapiUserSaveVO.getOpenapiFtpAccountSaveVO()!=null){
                 saveFtpAccount(openapiUserSaveVO.getOpenapiFtpAccountSaveVO(),openapiUser.getId());

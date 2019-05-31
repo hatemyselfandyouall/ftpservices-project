@@ -71,8 +71,9 @@ public class OpenapiInterfaceController extends BasicController {
     public ResultVo<OpenapiInterface> saveOpenapiInterface(@RequestBody OpenapiInterfaceSaveVO openapiInterfaceSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
-            Integer flag = interfaceFacade.saveOpenapiInterface(openapiInterfaceSaveVO);
-            if (1 == flag) {
+            OpenapiInterfaceShowVO openapiInterfaceShowVO = interfaceFacade.saveOpenapiInterface(openapiInterfaceSaveVO);
+            if (openapiInterfaceShowVO!=null) {
+                resultVo.setResult(openapiInterfaceShowVO);
                 resultVo.setResultDes("接口保存成功");
                 resultVo.setSuccess(true);
             } else {

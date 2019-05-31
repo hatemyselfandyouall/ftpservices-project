@@ -33,6 +33,10 @@
 			<groupId>insigma.common</groupId>
 			<artifactId>insigma-common-framework-web</artifactId>
 		</dependency>
+	  <dependency>
+		  <groupId>insigma.openapi.libs.sign</groupId>
+		  <artifactId>openapi-lib-sign</artifactId>
+	  </dependency>
 		 <!-- insigma-lib-bizbase -->
 		<dependency>
 			<groupId>insigma.common.lib.bizbase</groupId>

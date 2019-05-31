@@ -28,9 +28,13 @@ public class OpenapiInterface implements Serializable{
     @Column( name="id")
     private Long id;
 
-    @ApiModelProperty("接口名")
-    @Column( name="name")
-    private String name;
+    @ApiModelProperty("接口code")
+    @Column( name="code")
+    private String code;
+
+    @ApiModelProperty("接口组id")
+    @Column( name="group_id")
+    private Integer groupId;
 
     @ApiModelProperty("数据提供单位编码")
     @Column( name="data_resource_code")

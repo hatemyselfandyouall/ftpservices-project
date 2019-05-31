@@ -44,6 +44,10 @@ public class OpenapiUser implements Serializable{
     @Column( name="open_id")
     private String openId;
 
+    @ApiModelProperty("联系人名")
+    @Column( name="contact_name")
+    private String contactName;
+
     @ApiModelProperty("1超级管理员，2普通机构用户")
     @Column( name="user_type")
     private String userType;

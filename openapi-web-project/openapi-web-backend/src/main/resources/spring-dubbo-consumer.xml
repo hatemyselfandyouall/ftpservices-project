@@ -20,4 +20,8 @@
 	<!--用户模块-->
 	<dubbo:reference id="openapiUserFacade" interface="com.insigma.facade.openapi.facade.OpenapiUserFacade"
 					 version="1.0.1.gzd" />
+
+	<!--yingy模块-->
+	<dubbo:reference id="openapiAppFacade" interface="com.insigma.facade.openapi.facade.OpenapiAppFacade"
+					 version="1.0.1.gzd" />
 </beans>

@@ -28,6 +28,10 @@ public class OpenapiUserDetailShowVO implements Serializable {
     @Column( name="display_name")
     private String displayName;
 
+    @ApiModelProperty("联系人名")
+    @Column( name="contact_name")
+    private String contactName;
+
     @ApiModelProperty("openId")
     @Column( name="open_id")
     private String openId;
@@ -35,6 +39,15 @@ public class OpenapiUserDetailShowVO implements Serializable {
     @ApiModelProperty("1超级管理员，2普通机构用户")
     @Column( name="user_type")
     private String userType;
+
+    @ApiModelProperty("联系电话")
+    @Column( name="tel")
+    private String tel;
+
+
+    @ApiModelProperty("电子邮箱")
+    @Column( name="email")
+    private String email;
 
     OpenapiFtpAccount openapiFtpAccount;
 }

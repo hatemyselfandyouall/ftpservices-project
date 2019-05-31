@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insigma.mapper.OpenapiUserMapper">
+
+    <resultMap id="openapiUser" type="com.insigma.facade.openapi.po.OpenapiUser">
+                <result property="id" column="id" />
+        <result property="logonName" column="logon_name" />
+        <result property="passwd" column="passwd" />
+        <result property="displayName" column="display_name" />
+        <result property="openId" column="open_id" />
+        <result property="contactName" column="contact_name" />
+        <result property="userType" column="user_type" />
+        <result property="cardType" column="card_type" />
+        <result property="cardId" column="card_id" />
+        <result property="tel" column="tel" />
+        <result property="mobile" column="mobile" />
+        <result property="email" column="email" />
+        <result property="userAddr" column="user_addr" />
+        <result property="remark" column="remark" />
+        <result property="creatorId" column="creator_id" />
+        <result property="createIp" column="create_ip" />
+        <result property="lockTime" column="lock_time" />
+        <result property="unlockTime" column="unlock_time" />
+        <result property="lockReason" column="lock_reason" />
+        <result property="userExpireDate" column="user_expire_date" />
+        <result property="failNum" column="fail_num" />
+        <result property="pwExpireType" column="pw_expire_type" />
+        <result property="pwExpireDate" column="pw_expire_date" />
+        <result property="pwEditDate" column="pw_edit_date" />
+        <result property="signsTate" column="signs_tate" />
+        <result property="isDelete" column="is_delete" />
+        <result property="createTime" column="create_time" />
+        <result property="modifyTime" column="modify_time" />
+        <result property="prseno" column="prseno" />
+
+    </resultMap>
+    <select id="getOpenapiUserList" parameterType="com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserListVO"
+            resultMap="openapiUser">
+    SELECT * FROM
+    openapi_user
+    <where>
+    1=1
+    <if test="param.name!=null and param.name!=''">
+      and
+        ( display_name like CONCAT('%',#{param.name},'%')
+      or id like CONCAT('%',#{param.name},'%')
+      or contact_name like CONCAT('%',#{param.name},'%')
+        )
+    </if>
+    </where>
+    order by create_time desc
+    </select>
+    <!--<insert id="insert" parameterType="com.insigma.facade.openapi.po.OpenapiUser">-->
+    <!--INSERT INTO openapi_user ( -->
+    <!--logon_name,passwd,display_name,open_id,contact_name,user_type,card_type,card_id,tel,mobile,email,user_addr,remark,creator_id,create_ip,lock_time,unlock_time,lock_reason,user_expire_date,fail_num,pw_expire_type,pw_expire_date,pw_edit_date,signs_tate,is_delete,create_time,modify_time,prseno			-->
+    <!--) VALUES (-->
+    <!--#{logonName},#{passwd},#{displayName},#{openId},#{contactName},#{userType},#{cardType},#{cardId},#{tel},#{mobile},#{email},#{userAddr},#{remark},#{creatorId},#{createIp},#{lockTime},#{unlockTime},#{lockReason},#{userExpireDate},#{failNum},#{pwExpireType},#{pwExpireDate},#{pwEditDate},#{signsTate},#{isDelete},#{createTime},#{modifyTime},#{prseno}		-->
+    <!--)   -->
+    <!--<selectKey resultType="Integer" keyProperty="id">    -->
+    <!--SELECT LAST_INSERT_ID()     -->
+    <!--</selectKey> -->
+    <!--</insert>-->
+    <!---->
+    <!--<update id="update" parameterType="com.insigma.facade.openapi.po.OpenapiUser" >-->
+    <!--UPDATE-->
+    <!--openapi_user-->
+    <!--SET-->
+    <!--            <if test="id!=null"> id = #{id} </if>
+            <if test="logonName!=null">, logon_name = #{logonName} </if>
+            <if test="passwd!=null">, passwd = #{passwd} </if>
+            <if test="displayName!=null">, display_name = #{displayName} </if>
+            <if test="openId!=null">, open_id = #{openId} </if>
+            <if test="contactName!=null">, contact_name = #{contactName} </if>
+            <if test="userType!=null">, user_type = #{userType} </if>
+            <if test="cardType!=null">, card_type = #{cardType} </if>
+            <if test="cardId!=null">, card_id = #{cardId} </if>
+            <if test="tel!=null">, tel = #{tel} </if>
+            <if test="mobile!=null">, mobile = #{mobile} </if>
+            <if test="email!=null">, email = #{email} </if>
+            <if test="userAddr!=null">, user_addr = #{userAddr} </if>
+            <if test="remark!=null">, remark = #{remark} </if>
+            <if test="creatorId!=null">, creator_id = #{creatorId} </if>
+            <if test="createIp!=null">, create_ip = #{createIp} </if>
+            <if test="lockTime!=null">, lock_time = #{lockTime} </if>
+            <if test="unlockTime!=null">, unlock_time = #{unlockTime} </if>
+            <if test="lockReason!=null">, lock_reason = #{lockReason} </if>
+            <if test="userExpireDate!=null">, user_expire_date = #{userExpireDate} </if>
+            <if test="failNum!=null">, fail_num = #{failNum} </if>
+            <if test="pwExpireType!=null">, pw_expire_type = #{pwExpireType} </if>
+            <if test="pwExpireDate!=null">, pw_expire_date = #{pwExpireDate} </if>
+            <if test="pwEditDate!=null">, pw_edit_date = #{pwEditDate} </if>
+            <if test="signsTate!=null">, signs_tate = #{signsTate} </if>
+            <if test="isDelete!=null">, is_delete = #{isDelete} </if>
+            <if test="createTime!=null">, create_time = #{createTime} </if>
+            <if test="modifyTime!=null">, modify_time = #{modifyTime} </if>
+            <if test="prseno!=null">, prseno = #{prseno} </if>
+-->
+    <!--<where>-->
+    <!--id = #{id}-->
+    <!--</where>-->
+    <!--</update>-->
+    <!---->
+    <!---->
+    <!--<select id="getByKey" resultMap="BASE-RESULT">-->
+    <!--SELECT * FROM-->
+    <!--openapi_user-->
+    <!--<where>-->
+    <!--id = #{key}-->
+    <!--</where>-->
+    <!--</select>-->
+    <!---->
+    <!--<delete id="deleteByKey">-->
+    <!--DELETE FROM-->
+    <!--openapi_user-->
+    <!--<where>-->
+    <!--id = #{key}-->
+    <!--</where>-->
+    <!--</delete>-->
+    <!---->
+
+
+
+    <!--<select id="getEntitysCount" parameterType="map" resultType="int">-->
+    <!--SELECT count(*) FROM-->
+    <!--openapi_user-->
+    <!--<where>-->
+    <!--<include refid="compareParamColumns" />-->
+    <!--</where>-->
+    <!--</select>-->
+    <!---->
+    <!--<sql id="compareParamColumns">-->
+    <!--1-->
+    <!--        <if test="param.id!=null">
+            AND  id = #{param.id}
+        </if>
+        <if test="param.logonName!=null">
+            AND  logon_name = #{param.logonName}
+        </if>
+        <if test="param.passwd!=null">
+            AND  passwd = #{param.passwd}
+        </if>
+        <if test="param.displayName!=null">
+            AND  display_name = #{param.displayName}
+        </if>
+        <if test="param.openId!=null">
+            AND  open_id = #{param.openId}
+        </if>
+        <if test="param.contactName!=null">
+            AND  contact_name = #{param.contactName}
+        </if>
+        <if test="param.userType!=null">
+            AND  user_type = #{param.userType}
+        </if>
+        <if test="param.cardType!=null">
+            AND  card_type = #{param.cardType}
+        </if>
+        <if test="param.cardId!=null">
+            AND  card_id = #{param.cardId}
+        </if>
+        <if test="param.tel!=null">
+            AND  tel = #{param.tel}
+        </if>
+        <if test="param.mobile!=null">
+            AND  mobile = #{param.mobile}
+        </if>
+        <if test="param.email!=null">
+            AND  email = #{param.email}
+        </if>
+        <if test="param.userAddr!=null">
+            AND  user_addr = #{param.userAddr}
+        </if>
+        <if test="param.remark!=null">
+            AND  remark = #{param.remark}
+        </if>
+        <if test="param.creatorId!=null">
+            AND  creator_id = #{param.creatorId}
+        </if>
+        <if test="param.createIp!=null">
+            AND  create_ip = #{param.createIp}
+        </if>
+        <if test="param.lockTime!=null">
+            AND  lock_time = #{param.lockTime}
+        </if>
+        <if test="param.unlockTime!=null">
+            AND  unlock_time = #{param.unlockTime}
+        </if>
+        <if test="param.lockReason!=null">
+            AND  lock_reason = #{param.lockReason}
+        </if>
+        <if test="param.userExpireDate!=null">
+            AND  user_expire_date = #{param.userExpireDate}
+        </if>
+        <if test="param.failNum!=null">
+            AND  fail_num = #{param.failNum}
+        </if>
+        <if test="param.pwExpireType!=null">
+            AND  pw_expire_type = #{param.pwExpireType}
+        </if>
+        <if test="param.pwExpireDate!=null">
+            AND  pw_expire_date = #{param.pwExpireDate}
+        </if>
+        <if test="param.pwEditDate!=null">
+            AND  pw_edit_date = #{param.pwEditDate}
+        </if>
+        <if test="param.signsTate!=null">
+            AND  signs_tate = #{param.signsTate}
+        </if>
+        <if test="param.isDelete!=null">
+            AND  is_delete = #{param.isDelete}
+        </if>
+        <if test="param.createTime!=null">
+            AND  create_time = #{param.createTime}
+        </if>
+        <if test="param.modifyTime!=null">
+            AND  modify_time = #{param.modifyTime}
+        </if>
+        <if test="param.prseno!=null">
+            AND  prseno = #{param.prseno}
+        </if>
+-->
+    <!--</sql>-->
+
+</mapper>

@@ -62,7 +62,11 @@
  				 <artifactId>openapi-lib-base</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
-			
+			<dependency>
+				<groupId>insigma.openapi.libs.sign</groupId>
+				<artifactId>openapi-lib-sign</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
 			
 			<!-- fineopenapi bgn -->
 			<dependency>

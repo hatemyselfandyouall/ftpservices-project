@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.util.ExceptionUtil;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDetailVO;
@@ -43,8 +44,8 @@ public class OpenapiInterfaceGroupController extends BasicController {
                 resultVo.setResultDes("分页数据缺失");
             }
         }catch (Exception e){
-            resultVo.setResultDes("获取接口组列表异常，原因为:"+e);
-            log.error("获取接口组列表异常",e);
+            resultVo.setResultDes("获取接口组列表异常");
+            log.error("获取接口组列表异常，esg={}", ExceptionUtil.getMessage(e));
         }
         return resultVo;
     }
