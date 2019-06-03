@@ -1,9 +1,10 @@
-package com.insigma.web.interfaceManager;
+package com.insigma.web.backGround.interfaceManager;
 
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade;
 import com.insigma.facade.openapi.po.OpenapiInterfaceGroup;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.*;
 import com.insigma.web.BasicController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,10 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import star.util.ExceptionUtil;
 import star.vo.result.ResultVo;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupListVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupSaveVO;
 
 
 @RestController
@@ -32,12 +29,12 @@ public class OpenapiInterfaceGroupController extends BasicController {
 
     @ApiOperation(value = "接口组列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiInterfaceGroup> getOpenapiInterfaceGroupList(@RequestBody OpenapiInterfaceGroupListVO OpenapiInterfaceGroupListVO){
+    public ResultVo<OpenapiInterfaceGroupDetailShowVO> getOpenapiInterfaceGroupList(@RequestBody OpenapiInterfaceGroupListVO OpenapiInterfaceGroupListVO){
         ResultVo resultVo=new ResultVo();
         try {
-            PageInfo<OpenapiInterfaceGroup> OpenapiInterfaceGroupList=openapiInterfaceGroupFacade.getOpenapiInterfaceGroupList(OpenapiInterfaceGroupListVO);
+            PageInfo<OpenapiInterfaceGroupDetailShowVO> OpenapiInterfaceGroupList=openapiInterfaceGroupFacade.getOpenapiInterfaceGroupList(OpenapiInterfaceGroupListVO);
             if(OpenapiInterfaceGroupList!=null){
-                DataListResultDto<OpenapiInterfaceGroup> dataListResultDto=new DataListResultDto<>(OpenapiInterfaceGroupList.getList(),(int)OpenapiInterfaceGroupList.getTotal());
+                DataListResultDto<OpenapiInterfaceGroupDetailShowVO> dataListResultDto=new DataListResultDto<>(OpenapiInterfaceGroupList.getList(),(int)OpenapiInterfaceGroupList.getTotal());
                 resultVo.setResult(dataListResultDto);
                 resultVo.setSuccess(true);
             }else {

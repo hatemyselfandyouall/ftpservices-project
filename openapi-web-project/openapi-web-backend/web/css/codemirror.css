@@ -144,5 +144,5 @@ div.CodeMirror-dragcursors{visibility:visible;}
 /* See issue #2901 */
 .cm-tab-wrap-hack:after{content:'';}
 
-/* Help users use markselection to safely style text background */
+/* Help users use markselection to safely style text backGround */
 span.CodeMirror-selectedtext{background:none;}

@@ -5,8 +5,12 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.constant.DataConstant;
 import com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade;
 import com.insigma.facade.openapi.po.OpenapiFtpAccount;
+import com.insigma.facade.openapi.po.OpenapiInterface;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.*;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceShowVO;
 import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserDetailShowVO;
 import com.insigma.mapper.OpenapiInterfaceGroupMapper;
+import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
@@ -14,12 +18,9 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.insigma.facade.openapi.po.OpenapiInterfaceGroup;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupListVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupSaveVO;
 
 public class OpenapiInterfaceGroupServiceImpl implements OpenapiInterfaceGroupFacade {
 
@@ -27,8 +28,10 @@ public class OpenapiInterfaceGroupServiceImpl implements OpenapiInterfaceGroupFa
     @Autowired
     OpenapiInterfaceGroupMapper openapiInterfaceGroupMapper;
 
+    @Autowired
+    OpenapiInterfaceMapper openapiInterfaceMapper;
     @Override
-    public PageInfo<OpenapiInterfaceGroup> getOpenapiInterfaceGroupList(OpenapiInterfaceGroupListVO openapiInterfaceGroupListVO) {
+    public PageInfo<OpenapiInterfaceGroupDetailShowVO> getOpenapiInterfaceGroupList(OpenapiInterfaceGroupListVO openapiInterfaceGroupListVO) {
         if (openapiInterfaceGroupListVO==null||openapiInterfaceGroupListVO.getPageNum()==null||openapiInterfaceGroupListVO.getPageSize()==null) {
             return null;
         }
@@ -36,7 +39,15 @@ public class OpenapiInterfaceGroupServiceImpl implements OpenapiInterfaceGroupFa
         OpenapiInterfaceGroup exampleObeject=new OpenapiInterfaceGroup();
         exampleObeject.setIsDelete(DataConstant.NO_DELETE);
         List<OpenapiInterfaceGroup> openapiInterfaceGroupList=openapiInterfaceGroupMapper.select(exampleObeject);
-        PageInfo<OpenapiInterfaceGroup> openapiInterfaceGroupPageInfo=new PageInfo<>(openapiInterfaceGroupList);
+        List<OpenapiInterfaceGroupDetailShowVO> openapiInterfaceGroupDetailShowVOS=openapiInterfaceGroupList.stream().map(i->{
+            OpenapiInterfaceGroupDetailShowVO openapiInterfaceGroupDetailShowVO=JSONUtil.convert(i, OpenapiInterfaceGroupDetailShowVO.class);
+            Example example=new Example(OpenapiInterface.class);
+            example.createCriteria().andEqualTo("groupId",i.getId())
+            .andEqualTo("isDelete",DataConstant.NO_DELETE);
+            openapiInterfaceGroupDetailShowVO.setInterfaces(openapiInterfaceMapper.selectByExample(example));
+            return openapiInterfaceGroupDetailShowVO;
+        }).collect(Collectors.toList());
+        PageInfo<OpenapiInterfaceGroupDetailShowVO> openapiInterfaceGroupPageInfo=new PageInfo<>(openapiInterfaceGroupDetailShowVOS);
         return openapiInterfaceGroupPageInfo;
     }
 

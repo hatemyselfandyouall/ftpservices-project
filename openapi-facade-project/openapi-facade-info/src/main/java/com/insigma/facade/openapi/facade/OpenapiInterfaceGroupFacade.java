@@ -3,15 +3,12 @@ package com.insigma.facade.openapi.facade;
 
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.po.OpenapiInterfaceGroup;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupListVO;
-import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.OpenapiInterfaceGroupSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.*;
 
 
 public interface OpenapiInterfaceGroupFacade{
 
-	PageInfo<OpenapiInterfaceGroup> getOpenapiInterfaceGroupList(OpenapiInterfaceGroupListVO listVO);
+	PageInfo<OpenapiInterfaceGroupDetailShowVO> getOpenapiInterfaceGroupList(OpenapiInterfaceGroupListVO listVO);
 
     OpenapiInterfaceGroup getOpenapiInterfaceGroupDetail(OpenapiInterfaceGroupDetailVO detailVO);
 

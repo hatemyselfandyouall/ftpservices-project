@@ -1,4 +1,4 @@
-package com.insigma.web.interfaceManager;
+package com.insigma.web.backGround.interfaceManager;
 
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
