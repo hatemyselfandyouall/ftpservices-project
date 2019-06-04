@@ -5,11 +5,20 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class OpenapiInterfaceRequestParamSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty("id")
+    @Column( name="id")
+    private String id;
+
+    @ApiModelProperty("父参数id")
+    @Column( name="parent_id")
+    private String parentId;
 
     @ApiModelProperty("参数所属接口id")
     @Column( name="interface_id")
@@ -22,4 +31,7 @@ public class OpenapiInterfaceRequestParamSaveVO implements Serializable {
     @ApiModelProperty("参数描述")
     @Column( name="description")
     private String description;
+
+
+    List<OpenapiInterfaceRequestParamSaveVO> children;
 }

@@ -81,7 +81,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
     }
 
     @Override
-    public OpenapiAppShowDetailVO getAppByAppId(String appKey) {
+    public OpenapiAppShowDetailVO getAppByAppKey(String appKey) {
         OpenapiApp example=new OpenapiApp();
         example.setAppKey(appKey);
         example.setIsDelete(DataConstant.NO_DELETE);

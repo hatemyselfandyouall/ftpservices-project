@@ -35,6 +35,14 @@ public class OpenapiInterfaceGroup implements Serializable{
     @Column( name="code")
     private String code;
 
+    @ApiModelProperty("1检查数据2检查数据3缴费数据")
+    @Column( name="business_type")
+    private Integer businessType;
+
+    @ApiModelProperty("1测试环境2正式环境")
+    @Column( name="interface_environment")
+    private Integer interfaceEnvironment;
+
     @ApiModelProperty("0未删除1已删除")
     @Column( name="is_delete")
     private Integer isDelete;

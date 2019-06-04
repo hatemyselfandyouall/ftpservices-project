@@ -53,7 +53,7 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             String appKey=params.getString("appKey");
-            OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppId(appKey);
+            OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppKey(appKey);
             if (openapiApp==null){
                 resultVo.setResultDes("应用不存在或已删除！");
                 return resultVo;

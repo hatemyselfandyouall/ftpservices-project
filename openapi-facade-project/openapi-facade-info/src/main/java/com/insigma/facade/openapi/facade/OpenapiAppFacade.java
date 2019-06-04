@@ -17,7 +17,7 @@ public interface OpenapiAppFacade{
     Integer deleteOpenapiApp(OpenapiAppDeleteVO deleteVO);
 
 
-    OpenapiAppShowDetailVO getAppByAppId(String appId);
+    OpenapiAppShowDetailVO getAppByAppKey(String appId);
 }
 
  

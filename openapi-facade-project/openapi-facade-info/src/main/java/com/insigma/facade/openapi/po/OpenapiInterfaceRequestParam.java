@@ -24,7 +24,7 @@ public class OpenapiInterfaceRequestParam implements Serializable{
 
     @ApiModelProperty("接口入参表")
     @Column( name="id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty("参数所属接口id")
     @Column( name="interface_id")
@@ -37,6 +37,11 @@ public class OpenapiInterfaceRequestParam implements Serializable{
     @ApiModelProperty("参数描述")
     @Column( name="description")
     private String description;
+
+
+    @ApiModelProperty("父参数id")
+    @Column( name="parent_id")
+    private String parentId;
 
     @ApiModelProperty("0未删除1已删除")
     @Column( name="is_delete")

@@ -56,7 +56,10 @@
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>insigma.openapi.libs.sign</groupId>
+			<artifactId>openapi-lib-sign</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<profiles>

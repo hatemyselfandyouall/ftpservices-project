@@ -38,6 +38,7 @@ public class OpenapiInterfaceGroupServiceImpl implements OpenapiInterfaceGroupFa
         PageHelper.startPage(openapiInterfaceGroupListVO.getPageNum().intValue(),openapiInterfaceGroupListVO.getPageSize().intValue());
         OpenapiInterfaceGroup exampleObeject=new OpenapiInterfaceGroup();
         exampleObeject.setIsDelete(DataConstant.NO_DELETE);
+        exampleObeject.setInterfaceEnvironment(openapiInterfaceGroupListVO.getInterfaceEnvironment());
         List<OpenapiInterfaceGroup> openapiInterfaceGroupList=openapiInterfaceGroupMapper.select(exampleObeject);
         List<OpenapiInterfaceGroupDetailShowVO> openapiInterfaceGroupDetailShowVOS=openapiInterfaceGroupList.stream().map(i->{
             OpenapiInterfaceGroupDetailShowVO openapiInterfaceGroupDetailShowVO=JSONUtil.convert(i, OpenapiInterfaceGroupDetailShowVO.class);
