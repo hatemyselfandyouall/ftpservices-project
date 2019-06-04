@@ -193,7 +193,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (CollectionUtils.isEmpty(openapiInterfaceResponseParamSaveVOList)) {
             return;
         }
-        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = responseParamTreeToList(interfaceId,null,openapiInterfaceResponseParamSaveVOList)
+        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = responseParamTreeToList(interfaceId,null,openapiInterfaceResponseParamSaveVOList);
         openapiInterfaceResponseParamMapper.insertList(openapiInterfaceResponseParams);
     }
 
