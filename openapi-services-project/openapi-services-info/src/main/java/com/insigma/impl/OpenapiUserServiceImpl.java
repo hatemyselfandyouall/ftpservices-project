@@ -48,6 +48,9 @@ public class OpenapiUserServiceImpl implements OpenapiUserFacade {
             return null;
         };
         OpenapiUser OpenapiUser=openapiUserMapper.selectByPrimaryKey(openapiUserDetailVO.getId());
+        if (OpenapiUser==null){
+            return null;
+        }
         OpenapiUserDetailShowVO openapiUserDetailShowVO=JSONUtil.convert(OpenapiUser,OpenapiUserDetailShowVO.class);
         OpenapiFtpAccount example=new OpenapiFtpAccount();
         example.setIsDelete(DataConstant.NO_DELETE);

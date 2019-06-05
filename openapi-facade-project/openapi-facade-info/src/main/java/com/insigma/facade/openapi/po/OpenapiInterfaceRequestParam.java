@@ -56,6 +56,7 @@ public class OpenapiInterfaceRequestParam implements Serializable{
     private Date modifyTime;
 
 
+    List<OpenapiInterfaceRequestParam> children;
 
 
 }

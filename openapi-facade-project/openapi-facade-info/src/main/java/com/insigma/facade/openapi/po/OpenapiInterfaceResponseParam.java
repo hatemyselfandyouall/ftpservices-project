@@ -54,7 +54,7 @@ public class OpenapiInterfaceResponseParam implements Serializable{
     @Column( name="modify_time")
     private Date modifyTime;
 
-
+    List<OpenapiInterfaceResponseParam> children;
 
 
 }

@@ -61,21 +61,14 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (openapiInterfaceDetailVO == null || openapiInterfaceDetailVO.getId() == null) {
             return null;
         }
-        ;
         OpenapiInterface openapiInterface = openapiInterfaceMapper.selectByPrimaryKey(openapiInterfaceDetailVO.getId());
         if (openapiInterface == null) {
             return null;
         }
         OpenapiInterfaceShowVO openapiInterfaceShowVO = new OpenapiInterfaceShowVO();
         openapiInterfaceShowVO.setOpenapiInterface(openapiInterface);
-        Example example = new Example(OpenapiInterfaceResponseParam.class);
-        example.createCriteria().andEqualTo("interfaceId", openapiInterface.getId())
-                .andEqualTo("isDelete", DataConstant.NO_DELETE);
-        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = openapiInterfaceResponseParamMapper.selectByExample(example);
-        example = new Example(OpenapiInterfaceRequestParam.class);
-        example.createCriteria().andEqualTo("interfaceId", openapiInterface.getId())
-                .andEqualTo("isDelete", DataConstant.NO_DELETE);
-        List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams = openapiInterfaceRequestParamMapper.selectByExample(example);
+        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = openapiInterfaceResponseParamMapper.selectParamterTree(openapiInterface.getId());
+        List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams = openapiInterfaceRequestParamMapper.selectParamterTree(openapiInterface.getId());
         openapiInterfaceShowVO.setOpenapiInterfaceRequestParams(openapiInterfaceRequestParams);
         openapiInterfaceShowVO.setOpenapiInterfaceResponseParams(openapiInterfaceResponseParams);
         return openapiInterfaceShowVO;
@@ -155,6 +148,9 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     private List<OpenapiInterfaceRequestParam> requestParamTreeToList(Long interfaceId,String parentId, List<OpenapiInterfaceRequestParamSaveVO> openapiInterfaceRequestParamSaveVOList) {
         List<OpenapiInterfaceRequestParam> result=new ArrayList<>();
         openapiInterfaceRequestParamSaveVOList.forEach(i->{
+            if(i==null){
+                return;
+            }
             i.setId(UUID.randomUUID().toString());
             i.setInterfaceId(interfaceId);
             i.setParentId(parentId);
@@ -163,7 +159,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
             openapiInterfaceRequestParam.setModifyTime(new Date());
             result.add(openapiInterfaceRequestParam);
-            if (i.getChildren()!=null){
+            if (!CollectionUtils.isEmpty(i.getChildren())){
                 result.addAll(requestParamTreeToList(interfaceId,i.getId(),i.getChildren()));
             }
         });
@@ -173,6 +169,9 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     private List<OpenapiInterfaceResponseParam> responseParamTreeToList(Long interfaceId,String parentId, List<OpenapiInterfaceResponseParamSaveVO> openapiInterfaceRequestParamSaveVOList) {
         List<OpenapiInterfaceResponseParam> result=new ArrayList<>();
         openapiInterfaceRequestParamSaveVOList.forEach(i->{
+            if(i==null){
+                return;
+            }
             i.setId(UUID.randomUUID().toString());
             i.setInterfaceId(interfaceId);
             i.setParentId(parentId);
@@ -181,7 +180,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
             openapiInterfaceRequestParam.setModifyTime(new Date());
             result.add(openapiInterfaceRequestParam);
-            if (i.getChildren()!=null){
+            if (!CollectionUtils.isEmpty(i.getChildren())){
                 result.addAll(responseParamTreeToList(interfaceId,i.getId(),i.getChildren()));
             }
         });

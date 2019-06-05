@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.insigma.facade.openapi.po.dao.OpenapiInterfaceResponseParamDao">
+<mapper namespace="com.insigma.mapper.OpenapiInterfaceResponseParamMapper">
 
-    <resultMap id="BASE-RESULT" type="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam">
+    <resultMap id="openapiInterfaceResponseParam" type="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam">
                 <result property="id" column="id" />
         <result property="interfaceId" column="interface_id" />
         <result property="typeCode" column="type_code" />
@@ -13,9 +13,29 @@
         <result property="parentId" column="parent_id" />
         <result property="createTime" column="create_time" />
         <result property="modifyTime" column="modify_time" />
-
+        <collection property="children" column="id"
+                    ofType="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam"
+                    select="selectNode"/>
     </resultMap>
 
+    <select id="selectParamterTree" parameterType="map" resultMap="openapiInterfaceResponseParam">
+        SELECT * FROM
+        openapi_interface_response_param
+        <where>
+            is_delete =0
+            and interface_id=#{id}
+            and parent_id is null
+        </where>
+    </select>
+
+    <select id="selectNode"  resultMap="openapiInterfaceResponseParam">
+        SELECT * FROM
+        openapi_interface_response_param
+        <where>
+            parent_id=#{id}
+        </where>
+    </select>
+    
     <!--<insert id="insert" parameterType="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam">-->
     <!--INSERT INTO openapi_interface_response_param ( -->
     <!--interface_id,type_code,description,is_delete,parent_id,create_time,modify_time			-->
