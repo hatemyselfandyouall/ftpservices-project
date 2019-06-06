@@ -141,6 +141,8 @@ public class OpenapiUser implements Serializable{
     private String prseno;
 
 
-
+    @ApiModelProperty("机构编码")
+    @Column( name="org_no")
+    private String orgNo;
 
 }

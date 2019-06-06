@@ -19,4 +19,7 @@ public interface InterfaceFacade {
     OpenapiInterface getInterfaceByCode(String code);
 
     JSONObject checkSignVaild(JSONObject param);
+
+    String getAppKeyListByCommandCodeAndOrgNO(String commandCode,String orgNO) throws Exception;
 }
+

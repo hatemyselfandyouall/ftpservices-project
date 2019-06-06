@@ -6,9 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.constant.DataConstant;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
-import com.insigma.facade.openapi.po.OpenapiInterface;
-import com.insigma.facade.openapi.po.OpenapiInterfaceRequestParam;
-import com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam;
+import com.insigma.facade.openapi.po.*;
 import com.insigma.facade.openapi.vo.*;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceRequestParam.OpenapiInterfaceRequestParamSaveVO;
@@ -16,6 +14,7 @@ import com.insigma.facade.openapi.vo.OpenapiInterfaceResponseParam.OpenapiInterf
 import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.mapper.OpenapiInterfaceRequestParamMapper;
 import com.insigma.mapper.OpenapiInterfaceResponseParamMapper;
+import com.insigma.mapper.OpenapiUserMapper;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.SignUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,6 +38,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     OpenapiInterfaceRequestParamMapper openapiInterfaceRequestParamMapper;
     @Autowired
     OpenapiAppFacade openapiAppFacade;
+    @Autowired
+    OpenapiUserMapper openapiUserMapper;
 
     @Override
     public PageInfo<OpenapiInterface> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
@@ -252,5 +250,30 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             result.put("msg", "接口参数校验异常！");
             return result;
         }
+    }
+
+    @Override
+    public String getAppKeyListByCommandCodeAndOrgNO(String commandCode, String orgNO) throws Exception{
+        OpenapiUser examUser=new OpenapiUser();
+        examUser.setOrgNo(orgNO);
+        examUser.setIsDelete(DataConstant.NO_DELETE);
+        OpenapiUser openapiUser=openapiUserMapper.selectOne(examUser);
+        if (openapiUser==null){
+            throw new Exception("机构不存在或已删除");
+        }
+        List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs = openapiAppFacade.getAppsByUserId(openapiUser.getId());
+        String resultString="";
+        for (OpenapiAppShowDetailVO temp:openapiAppShowDetailVOs){
+            if (temp!=null&&!CollectionUtils.isEmpty(temp.getOpenapiInterfaces())) {
+                Set<String> orgNos = temp.getOpenapiInterfaces().stream().map(i->i.getCommandCode()).collect(Collectors.toSet());
+                if (orgNos.contains(orgNO)){
+                    resultString+=temp.getAppKey()+"|";
+                }
+            }
+        }
+        if (!StringUtils.isEmpty(resultString)){
+            resultString=resultString.substring(0,resultString.length()-1);
+        }
+        return resultString;
     }
 }

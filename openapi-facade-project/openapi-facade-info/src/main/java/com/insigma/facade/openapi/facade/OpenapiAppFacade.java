@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.vo.OpenapiApp.*;
 
+import java.util.List;
+
 
 public interface OpenapiAppFacade{
 
@@ -18,6 +20,8 @@ public interface OpenapiAppFacade{
 
 
     OpenapiAppShowDetailVO getAppByAppKey(String appId);
+
+    List<OpenapiAppShowDetailVO> getAppsByUserId(Long id);
 }
 
  

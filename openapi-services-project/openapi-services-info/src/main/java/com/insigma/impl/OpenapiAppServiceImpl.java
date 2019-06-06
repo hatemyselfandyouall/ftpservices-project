@@ -104,4 +104,32 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         }
         return openapiAppShowDetailVO;
     }
+
+    @Override
+    public List<OpenapiAppShowDetailVO> getAppsByUserId(Long id) {
+        OpenapiApp example=new OpenapiApp();
+        example.setUserId(id);
+        example.setIsDelete(DataConstant.NO_DELETE);
+        List<OpenapiApp> openapiApp=openapiAppMapper.select(example);
+        if (openapiApp==null){
+            return null;
+        }
+        List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs=openapiApp.stream().map(i-> {
+            OpenapiAppShowDetailVO openapiAppShowDetailVO=JSONUtil.convert(openapiApp, OpenapiAppShowDetailVO.class);
+            OpenapiAppInterface exampleAppInterface = new OpenapiAppInterface();
+            exampleAppInterface.setAppId(i.getId());
+            exampleAppInterface.setIsDelete(DataConstant.NO_DELETE);
+            exampleAppInterface.setIsAudit(DataConstant.IS_AUDITED);
+            List<OpenapiAppInterface> openapiAppInterfaces = openapiAppInterfaceMapper.select(exampleAppInterface);
+            if (!CollectionUtils.isEmpty(openapiAppInterfaces)) {
+                List<OpenapiInterface> openapiInterfaces = openapiAppInterfaces.stream().map(j -> {
+                    OpenapiInterface openapiInterface = openapiInterfaceMapper.selectByPrimaryKey(j.getInterfaceId());
+                    return openapiInterface;
+                }).collect(Collectors.toList());
+                openapiAppShowDetailVO.setOpenapiInterfaces(openapiInterfaces);
+            }
+            return openapiAppShowDetailVO;
+        }).collect(Collectors.toList());
+        return openapiAppShowDetailVOs;
+    }
 }
