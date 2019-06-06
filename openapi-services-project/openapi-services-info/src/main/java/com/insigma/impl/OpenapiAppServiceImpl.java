@@ -115,7 +115,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             return null;
         }
         List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs=openapiApp.stream().map(i-> {
-            OpenapiAppShowDetailVO openapiAppShowDetailVO=JSONUtil.convert(openapiApp, OpenapiAppShowDetailVO.class);
+            OpenapiAppShowDetailVO openapiAppShowDetailVO=JSONUtil.convert(i, OpenapiAppShowDetailVO.class);
             OpenapiAppInterface exampleAppInterface = new OpenapiAppInterface();
             exampleAppInterface.setAppId(i.getId());
             exampleAppInterface.setIsDelete(DataConstant.NO_DELETE);
