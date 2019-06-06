@@ -266,7 +266,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         for (OpenapiAppShowDetailVO temp:openapiAppShowDetailVOs){
             if (temp!=null&&!CollectionUtils.isEmpty(temp.getOpenapiInterfaces())) {
                 Set<String> orgNos = temp.getOpenapiInterfaces().stream().map(i->i.getCommandCode()).collect(Collectors.toSet());
-                if (orgNos.contains(orgNO)){
+                if (orgNos.contains(commandCode)){
                     resultString+=temp.getAppKey()+"|";
                 }
             }
