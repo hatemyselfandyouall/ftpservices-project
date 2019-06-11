@@ -14,6 +14,7 @@ import com.insigma.web.BasicController;
 import com.insigma.webtool.util.RestTemplateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.aspectj.weaver.SignatureUtils;
@@ -23,8 +24,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import star.bizbase.util.StringUtils;
+import star.util.DateUtil;
 import star.vo.result.ResultVo;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -44,15 +47,22 @@ public class InterfaceController extends BasicController {
     @ApiOperation(value = "接口转发")
     @RequestMapping(value = "/interface/{code}",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public Object getOpenapiInterfaceList(
-            @PathVariable String code,
+            @PathVariable@ApiParam("code") String code,
+            @RequestHeader("appKey")@ApiParam("appKey") String appKey,
+            @RequestHeader("signature")@ApiParam("根据参数及appSecret生成的签名") String signature,
+            @RequestHeader("nonceStr")@ApiParam("32位随机字符串") String nonceStr,
+            @RequestHeader("time")@ApiParam("时间戳格式yyyyMMdd HH:mm:ss") String time,
             @RequestBody JSONObject params){
         ResultVo resultVo=new ResultVo();
         try {
-            if (StringUtils.isEmpty(params.getString("appKey"))){
+            params.put("signature",signature);
+            params.put("nonceStr",nonceStr);
+            params.put("time", time);
+            params.put("appKey",appKey);
+            if (StringUtils.isEmpty(appKey)){
                 resultVo.setResultDes("appKey未提供");
                 return resultVo;
             }
-            String appKey=params.getString("appKey");
             OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppKey(appKey);
             if (openapiApp==null){
                 resultVo.setResultDes("应用不存在或已删除！");
@@ -81,7 +91,7 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             String innerUrl=openapiInterface.getInnerUrl();
-            params=SignUtil.getParamWithoutSignParam(params);
+            params=SignUtil.getParamWithoutsignatureParam(params);
             ResponseEntity<JSONObject> result= RestTemplateUtil.postByMap(innerUrl,params,JSONObject.class);
             if (result==null||result.getStatusCode()!= HttpStatus.OK){
                 resultVo.setResultDes("接口转发异常");
