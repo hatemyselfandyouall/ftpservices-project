@@ -11,12 +11,12 @@ public class SignUtil {
 
 
     /**
-     * 根据参数及appkey生成签名
+     * 根据参数及appSecret生成签名
      * @param parameters
-     * @param appKey
+     * @param appSecret
      * @return
      */
-    public static String createSign(SortedMap<String,Object> parameters,String  appKey){
+    public static String createSign(SortedMap<String,Object> parameters,String  appSecret){
         StringBuffer sb = new StringBuffer();
         Set es = parameters.entrySet();
         Iterator it = es.iterator();
@@ -29,7 +29,7 @@ public class SignUtil {
                 sb.append(k + "=" + v + "&");
             }
         }
-        sb.append("key=" + appKey);//最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
+        sb.append("secret=" + appSecret);//最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
         String result=sb.toString();
         System.out.println(result);
         String signature = MD5Util.md5Password(result).toUpperCase();
@@ -37,11 +37,11 @@ public class SignUtil {
     }
 
     /**
-     * 根据参数及appkey验证签名
-     * @param appKey
+     * 根据参数及appSecret验证签名
+     * @param appSecret
      * @return
      */
-    public static JSONObject checkSign(JSONObject params,String appKey){
+    public static JSONObject checkSign(JSONObject params,String appSecret){
         JSONObject result = new JSONObject();
         try {
             JSONObject checkParamResult = checkParamsVaild(params);
@@ -68,7 +68,7 @@ public class SignUtil {
                     sb.append(k + "=" + v + "&");
                 }
             }
-            sb.append("key=" + appKey);//最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
+            sb.append("secret=" + appSecret);//最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
             String finalString = sb.toString();
             if (!signature.equals(MD5Util.md5Password(finalString).toUpperCase())) {
                 result.put("msg", "参数与生成规则不符");
@@ -115,7 +115,7 @@ public class SignUtil {
         param.put("nonceStr", UUID.randomUUID().toString().replaceAll("-",""));//随机字符串
         param.put("AAC002","3");
         param.put("trade","7300");
-        String signature = createSign(param,testKey);
+        String signature = createSign(param,testSecret);
         param.put("signature",signature);
         JSONObject paramJson=new JSONObject(param);
         System.out.println(paramJson.toJSONString());
