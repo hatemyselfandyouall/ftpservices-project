@@ -1,7 +1,10 @@
 package com.insigma.web.backGround.user;
 
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.hisdata.FtpManageFacade;
+import com.insigma.facade.openapi.dto.CreateFtpUserDTO;
 import com.insigma.facade.openapi.dto.DataListResultDto;
+import com.insigma.facade.openapi.dto.UpdateFtpUserDTO;
 import com.insigma.facade.openapi.facade.OpenapiUserFacade;
 import com.insigma.facade.openapi.po.OpenapiUser;
 import com.insigma.facade.openapi.vo.OpenapiUser.*;
@@ -27,6 +30,9 @@ public class OpenapiUserController extends BasicController {
     @Autowired
     OpenapiUserFacade openapiUserFacade;
 
+    @Autowired
+    FtpManageFacade ftpManageFacade;
+
     @ApiOperation(value = "用户列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiUser> getOpenapiUserList(@RequestBody OpenapiUserListVO OpenapiUserListVO){
@@ -41,7 +47,7 @@ public class OpenapiUserController extends BasicController {
                 resultVo.setResultDes("分页数据缺失");
             }
         }catch (Exception e){
-            resultVo.setResultDes("获取用户列表异常，原因为:"+e);
+            resultVo.setResultDes("获取用户列表异常，");
             log.error("获取用户列表异常",e);
         }
         return resultVo;
@@ -60,7 +66,7 @@ public class OpenapiUserController extends BasicController {
             resultVo.setResultDes("获取详情失败");
         }
         } catch (Exception e){
-        resultVo.setResultDes("获取用户详情异常，原因为:"+e);
+        resultVo.setResultDes("获取用户详情异常，");
         log.error("获取用户详情异常",e);
     }
         return resultVo;
@@ -79,11 +85,51 @@ public class OpenapiUserController extends BasicController {
                 resultVo.setResultDes("用户保存失败,原因为："+saveUserBackVO.getMsg());
             }
         }catch (Exception e){
-                resultVo.setResultDes("接口保存异常，原因为:"+e);
+                resultVo.setResultDes("接口保存异常，");
                 log.error("用户保存异常",e);
             }
         return resultVo;
     }
+
+    @ApiOperation(value = "创建ftp用户")
+    @RequestMapping(value = "/createFtpUser",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiUser> createFtpUser(@RequestBody CreateFtpUserDTO createFtpUserDTO){
+        ResultVo resultVo=new ResultVo();
+        try {
+                resultVo = ftpManageFacade.RegisterFtp(createFtpUserDTO.getUserName(),createFtpUserDTO.getPassWord(),createFtpUserDTO.getIsWork());
+//            if (saveUserBackVO!=null&&1 == saveUserBackVO.getFlag()) {
+//                resultVo.setResultDes("用户保存成功");
+//                resultVo.setSuccess(true);
+//            } else {
+//                resultVo.setResultDes("用户保存失败,原因为："+saveUserBackVO.getMsg());
+//            }
+        }catch (Exception e){
+            resultVo.setResultDes("接口保存异常，");
+            log.error("用户保存异常",e);
+        }
+        return resultVo;
+    }
+
+
+    @ApiOperation(value = "修改ftp用户")
+    @RequestMapping(value = "/updateFtpUser",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiUser> createFtpUser(@RequestBody UpdateFtpUserDTO updateFtpUserDTO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            resultVo = ftpManageFacade.UpdateFtpAccount(updateFtpUserDTO.getUserName(),updateFtpUserDTO.getPassWord());
+//            if (saveUserBackVO!=null&&1 == saveUserBackVO.getFlag()) {
+//                resultVo.setResultDes("用户保存成功");
+//                resultVo.setSuccess(true);
+//            } else {
+//                resultVo.setResultDes("用户保存失败,原因为："+saveUserBackVO.getMsg());
+//            }
+        }catch (Exception e){
+            resultVo.setResultDes("接口保存异常，");
+            log.error("用户保存异常",e);
+        }
+        return resultVo;
+    }
+
 
     @ApiOperation(value = "用户删除")
     @RequestMapping(value = "/delete",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -98,7 +144,7 @@ public class OpenapiUserController extends BasicController {
                 resultVo.setResultDes("用户删除失败");
             }
         }catch (Exception e){
-            resultVo.setResultDes("用户删除异常，原因为:"+e);
+            resultVo.setResultDes("用户删除异常，");
             log.error("用户删除异常",e);
         }
         return resultVo;

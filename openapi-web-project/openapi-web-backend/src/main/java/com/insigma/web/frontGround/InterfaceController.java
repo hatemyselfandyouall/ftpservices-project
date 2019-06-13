@@ -29,6 +29,8 @@ import star.vo.result.ResultVo;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -55,6 +57,8 @@ public class InterfaceController extends BasicController {
             @RequestBody JSONObject params){
         ResultVo resultVo=new ResultVo();
         try {
+            SortedMap testMap= new ConcurrentSkipListMap(params);
+            params=new JSONObject(testMap);
             params.put("signature",signature);
             params.put("nonceStr",nonceStr);
             params.put("time", time);
@@ -92,15 +96,15 @@ public class InterfaceController extends BasicController {
             }
             String innerUrl=openapiInterface.getInnerUrl();
             params=SignUtil.getParamWithoutsignatureParam(params);
-            ResponseEntity<JSONObject> result= RestTemplateUtil.postByMap(innerUrl,params,JSONObject.class);
+            ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,params,Object.class);
             if (result==null||result.getStatusCode()!= HttpStatus.OK){
-                resultVo.setResultDes("接口转发异常");
+                resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
                 return resultVo;
             }else {
-                return result.getBody();
+                return result;
             }
         }catch (Exception e){
-            resultVo.setResultDes("接口转发功能异常");
+            resultVo.setResultDes("接口转发功能异常!原因为:"+e.getMessage());
             log.error("获取接口列表异常",e);
         }
         return resultVo;

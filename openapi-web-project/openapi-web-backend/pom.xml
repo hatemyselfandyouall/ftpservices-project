@@ -74,6 +74,10 @@
 			<groupId>insigma.archive.facade.info</groupId>
 			  <artifactId>archive-facade-info</artifactId>
 		</dependency>
+	  <dependency>
+		  <groupId>insigma.hisdata.facade.info</groupId>
+		  <artifactId>hisdata-facade-info</artifactId>
+	  </dependency>
     </dependencies>
 
 	<build>

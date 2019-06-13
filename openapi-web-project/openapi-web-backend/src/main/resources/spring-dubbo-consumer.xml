@@ -21,7 +21,11 @@
 	<dubbo:reference id="openapiUserFacade" interface="com.insigma.facade.openapi.facade.OpenapiUserFacade"
 					 version="1.0.1.gzd" />
 
-	<!--yingy模块-->
+	<!--应用模块-->
 	<dubbo:reference id="openapiAppFacade" interface="com.insigma.facade.openapi.facade.OpenapiAppFacade"
 					 version="1.0.1.gzd" />
+
+	<!--yingy模块-->
+	<dubbo:reference id="ftpManageFacade" interface="com.insigma.facade.hisdata.FtpManageFacade"
+					 version="1.0.1" />
 </beans>

@@ -25,16 +25,28 @@
 			<artifactId>insigma-common-framework</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
+
+	  <dependency>
+		  <groupId>insigma.common</groupId>
+		  <artifactId>insigma-common-framework-web</artifactId>
+	  </dependency>
+
 		 <!-- insigma-lib-bizbase -->
 		<dependency>
 			<groupId>insigma.common.lib.bizbase</groupId>
   			<artifactId>insigma-lib-bizbase</artifactId>
 		</dependency>
-		
-		
-	
-    </dependencies>
+      <dependency>
+          <groupId>insigma.common</groupId>
+          <artifactId>insigma-common-framework-web</artifactId>
+      </dependency>
+	  <dependency>
+		  <groupId>insigma.common</groupId>
+		  <artifactId>insigma-common-framework-web</artifactId>
+	  </dependency>
+
+
+  </dependencies>
     
     
     
