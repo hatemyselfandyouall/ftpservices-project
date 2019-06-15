@@ -9,21 +9,21 @@
 	
 	<!-- openapi -->
 	<dubbo:reference id="projectFacade" interface="com.insigma.facade.openapi.ProjectFacade"
-		version="1.0.1.gzd" />
+		version="1.0.1" />
 
 	<dubbo:reference id="interfaceFacade" interface="com.insigma.facade.openapi.facade.InterfaceFacade"
-					 version="1.0.1.gzd" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiInterfaceGroupFacade" interface="com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade"
-					 version="1.0.1.gzd" />
+					 version="1.0.1" />
 
 	<!--用户模块-->
 	<dubbo:reference id="openapiUserFacade" interface="com.insigma.facade.openapi.facade.OpenapiUserFacade"
-					 version="1.0.1.gzd" />
+					 version="1.0.1" />
 
 	<!--应用模块-->
 	<dubbo:reference id="openapiAppFacade" interface="com.insigma.facade.openapi.facade.OpenapiAppFacade"
-					 version="1.0.1.gzd" />
+					 version="1.0.1" />
 
 	<!--yingy模块-->
 	<dubbo:reference id="ftpManageFacade" interface="com.insigma.facade.hisdata.FtpManageFacade"
