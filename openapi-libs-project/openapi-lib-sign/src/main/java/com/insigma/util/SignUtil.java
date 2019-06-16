@@ -88,7 +88,7 @@ public class SignUtil {
         }catch (Exception e){
             result.put("flag",0);
             result.put("msg","验证参数异常！");
-            log.info("验证参数异常"+e);
+            log.error("验证参数异常"+e);
         }
         return result;
     }
