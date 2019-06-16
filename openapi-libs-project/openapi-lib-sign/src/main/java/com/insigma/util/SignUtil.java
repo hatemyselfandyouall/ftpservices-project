@@ -48,7 +48,7 @@ public class SignUtil {
      */
     public static JSONObject checkSign(JSONObject params,String appSecret){
         JSONObject result = new JSONObject();
-        System.out.println(params);
+        try {
             JSONObject checkParamResult = checkParamsVaild(params);
             if (checkParamResult.getInteger("flag") != 1) {
                 return checkParamResult;
@@ -84,6 +84,11 @@ public class SignUtil {
                 result.put("msg", "验证通过");
                 result.put("flag", 1);
             }
+        }catch (Exception e){
+            result.put("flag",0);
+            result.put("msg","验证参数异常！");
+            log.error("验证参数异常"+e);
+        }
         return result;
     }
 
@@ -115,8 +120,8 @@ public class SignUtil {
         String testKey="test";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
-        haeder.put("time", "20180919");
-        haeder.put("nonceStr", UUID.randomUUID().toString().replaceAll("-",""));//随机字符串
+        haeder.put("time", "20180919 11:00:00");
+        haeder.put("nonceStr", "b319b62bb7b34c60953257d546ab468e");//随机字符串
         JSONObject param=jsonObjectMapper.readValue(paramString,JSONObject.class);
         param.putAll(haeder);
         SortedMap testMap= new ConcurrentSkipListMap(param);
@@ -128,8 +133,8 @@ public class SignUtil {
     }
 
     private static String paramString="{\n" +
-            "\t\"trade\":\"7102\",\n" +
-            "\t\"AGA001\":\"1\"\n" +
+            "\t\"pageNum\":\"1\",\n" +
+            "\t\"pageSize\":\"1\"\n" +
             "}";
 
 
