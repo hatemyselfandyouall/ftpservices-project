@@ -49,7 +49,6 @@ public class SignUtil {
     public static JSONObject checkSign(JSONObject params,String appSecret){
         JSONObject result = new JSONObject();
         System.out.println(params);
-        try {
             JSONObject checkParamResult = checkParamsVaild(params);
             if (checkParamResult.getInteger("flag") != 1) {
                 return checkParamResult;
@@ -85,11 +84,6 @@ public class SignUtil {
                 result.put("msg", "验证通过");
                 result.put("flag", 1);
             }
-        }catch (Exception e){
-            result.put("flag",0);
-            result.put("msg","验证参数异常！");
-            log.error("验证参数异常"+e);
-        }
         return result;
     }
 
