@@ -63,6 +63,7 @@ public class InterfaceController extends BasicController {
             params.put("nonceStr",nonceStr);
             params.put("time", time);
             params.put("appKey",appKey);
+            log.info("入参"+params);
             if (StringUtils.isEmpty(appKey)){
                 resultVo.setResultDes("appKey未提供");
                 return resultVo;
