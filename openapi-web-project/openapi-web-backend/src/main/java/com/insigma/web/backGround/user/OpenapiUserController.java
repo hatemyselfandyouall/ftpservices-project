@@ -1,7 +1,7 @@
 package com.insigma.web.backGround.user;
 
 import com.github.pagehelper.PageInfo;
-import com.insigma.facade.hisdata.FtpManageFacade;
+import com.insigma.facade.ftp.FtpManageFacade;
 import com.insigma.facade.openapi.dto.CreateFtpUserDTO;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.dto.UpdateFtpUserDTO;
