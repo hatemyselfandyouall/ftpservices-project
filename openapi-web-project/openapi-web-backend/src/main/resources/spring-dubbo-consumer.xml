@@ -26,6 +26,6 @@
 					 version="1.0.1" />
 
 	<!--yingy模块-->
-	<dubbo:reference id="ftpManageFacade" interface="com.insigma.facade.hisdata.FtpManageFacade"
+	<dubbo:reference id="ftpManageFacade" interface="com.insigma.facade.ftp.FtpManageFacade"
 					 version="1.0.1" />
 </beans>

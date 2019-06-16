@@ -133,8 +133,13 @@ public class SignUtil {
     }
 
     private static String paramString="{\n" +
-            "\t\"pageNum\":\"1\",\n" +
-            "\t\"pageSize\":\"1\"\n" +
+            "\t\"AAB301\": \"12221\",\n" +
+            "\t\"AAE011\": \"山\",\n" +
+            "\t\"AAE036\": \"2019-06-16\",\n" +
+            "\t\"AGA002\": \"CeShi-00512-001\",\n" +
+            "\t\"BKE556\": \"9\",\n" +
+            "\t\"BOD008\": \"基本医疗保险参保人员异地就医备案\",\n" +
+            "\t\"trade\": \"7301\"\n" +
             "}";
 
 
