@@ -1,6 +1,7 @@
 package com.insigma.util;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
 import star.fw.web.mapper.JsonObjectMapper;
 import star.util.StringUtil;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+@Slf4j
 public class SignUtil {
 
 
@@ -86,6 +88,7 @@ public class SignUtil {
         }catch (Exception e){
             result.put("flag",0);
             result.put("msg","验证参数异常！");
+            log.info("验证参数异常"+e);
         }
         return result;
     }
