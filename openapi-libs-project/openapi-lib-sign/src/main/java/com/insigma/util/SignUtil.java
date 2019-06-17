@@ -3,6 +3,11 @@ package com.insigma.util;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import star.fw.web.mapper.JsonObjectMapper;
 import star.util.StringUtil;
 
@@ -130,16 +135,33 @@ public class SignUtil {
         JSONObject paramJson=new JSONObject(testMap);
         System.out.println(paramJson.toJSONString());
         System.out.println(checkSign(paramJson,testSecret));
+        paramJson=getParamWithoutsignatureParam(param);
+        haeder.put("signature",signature);
+        String testUrl="http://localhost:10500/frontInterface/interface/testUser";
+        postTest(haeder,paramJson,testUrl);
     }
 
+    private static void postTest(JSONObject haeder, JSONObject paramJson,String testUrl) {
+        RestTemplate restTemplate=new RestTemplate();
+        HttpHeaders requestHeaders = new HttpHeaders();
+        haeder.keySet().forEach(
+                i->{
+                    requestHeaders.add(i,haeder.get(i).toString()!=null?haeder.get(i).toString():"");
+                }
+        );
+        requestHeaders.add("Content-Type", "application/json");
+        //body
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap();
+        //HttpEntity
+        HttpEntity<MultiValueMap> requestEntity = new HttpEntity(paramJson, requestHeaders);
+        Object result= restTemplate.postForEntity(testUrl,requestEntity,Object.class);
+        System.out.println(result.toString());
+    }
+
+
     private static String paramString="{\n" +
-            "\t\"AAB301\": \"12221\",\n" +
-            "\t\"AAE011\": \"山\",\n" +
-            "\t\"AAE036\": \"2019-06-16\",\n" +
-            "\t\"AGA002\": \"CeShi-00512-001\",\n" +
-            "\t\"BKE556\": \"9\",\n" +
-            "\t\"BOD008\": \"基本医疗保险参保人员异地就医备案\",\n" +
-            "\t\"trade\": \"7301\"\n" +
+            "\t\"pageSize\": \"1\",\n" +
+            "\t\"pageNum\": \"1\"\n" +
             "}";
 
 

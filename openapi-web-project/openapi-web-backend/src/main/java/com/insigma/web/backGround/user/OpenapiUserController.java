@@ -35,11 +35,7 @@ public class OpenapiUserController extends BasicController {
 
     @ApiOperation(value = "用户列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiUser> getOpenapiUserList(){
-//        @RequestBody OpenapiUserListVO OpenapiUserListVO
-        OpenapiUserListVO OpenapiUserListVO=new OpenapiUserListVO();
-        OpenapiUserListVO.setPageNum(1l);
-        OpenapiUserListVO.setPageSize(1l);
+    public ResultVo<OpenapiUser> getOpenapiUserList(@RequestBody OpenapiUserListVO OpenapiUserListVO){
         ResultVo resultVo=new ResultVo();
         try {
             PageInfo<OpenapiUser> OpenapiUserList=openapiUserFacade.getOpenapiUserList(OpenapiUserListVO);

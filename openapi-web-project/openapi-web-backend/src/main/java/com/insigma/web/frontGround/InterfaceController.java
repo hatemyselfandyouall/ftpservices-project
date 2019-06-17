@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.aspectj.weaver.SignatureUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,9 @@ import star.bizbase.util.StringUtils;
 import star.util.DateUtil;
 import star.vo.result.ResultVo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -50,20 +53,21 @@ public class InterfaceController extends BasicController {
     @RequestMapping(value = "/interface/{code}",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public Object getOpenapiInterfaceList(
             @PathVariable@ApiParam("code") String code,
-            @RequestHeader("appKey")@ApiParam("appKey") String appKey,
-            @RequestHeader("signature")@ApiParam("根据参数及appSecret生成的签名") String signature,
-            @RequestHeader("nonceStr")@ApiParam("32位随机字符串") String nonceStr,
-            @RequestHeader("time")@ApiParam("时间戳格式yyyyMMdd HH:mm:ss") String time,
-            @RequestBody JSONObject params){
+            @RequestBody JSONObject params, HttpServletRequest httpServletRequest){
         ResultVo resultVo=new ResultVo();
         try {
-            SortedMap testMap= new ConcurrentSkipListMap(params);
-            params=new JSONObject(testMap);
-            params.put("signature",signature);
-            params.put("nonceStr",nonceStr);
-            params.put("time", time);
-            params.put("appKey",appKey);
+            Enumeration<String> headerNames=httpServletRequest.getHeaderNames();
+            log.info("请求头为");
+            while (headerNames.hasMoreElements()){
+                String headerName=headerNames.nextElement();
+                log.info("请求头："+headerName);
+            }
             log.info("入参"+params);
+            params.put("signature",httpServletRequest.getHeader("signature"));
+            params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));
+            params.put("time", httpServletRequest.getHeader("time"));
+            params.put("appKey",httpServletRequest.getHeader("appKey"));
+            String appKey=httpServletRequest.getHeader("appKey");
             if (StringUtils.isEmpty(appKey)){
                 resultVo.setResultDes("appKey未提供");
                 return resultVo;
