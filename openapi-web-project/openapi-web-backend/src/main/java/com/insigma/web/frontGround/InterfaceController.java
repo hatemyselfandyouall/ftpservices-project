@@ -109,13 +109,14 @@ public class InterfaceController extends BasicController {
             params=SignUtil.getParamWithoutsignatureParam(params);
             log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+params);
             ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,params,String.class);
-            log.info("开始进行接口转发，返回值为"+result);
-            if (result==null||result.getStatusCode()!= HttpStatus.OK){
-                resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
-                return resultVo;
-            }else {
-                return params;
-            }
+            log.info("开始进行接口转发，返回值为"+params);
+//            if (result==null||result.getStatusCode()!= HttpStatus.OK){
+//                resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
+//                return resultVo;
+//            }else {
+//                return result;
+//            }
+            return params;
         }catch (Exception e){
             resultVo.setResultDes("接口转发功能异常!原因为:"+e.getMessage());
             log.error("获取接口列表异常",e);
