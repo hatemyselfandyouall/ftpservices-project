@@ -137,7 +137,7 @@ public class SignUtil {
         System.out.println(checkSign(paramJson,testSecret));
         paramJson=getParamWithoutsignatureParam(param);
         haeder.put("signature",signature);
-        String testUrl="http://localhost:10500/frontInterface/interface/testUser";
+        String testUrl="http://192.168.1.8:10500/frontInterface/interface/testUser";
         postTest(haeder,paramJson,testUrl);
     }
 
@@ -160,8 +160,33 @@ public class SignUtil {
 
 
     private static String paramString="{\n" +
-            "\t\"pageSize\": \"1\",\n" +
-            "\t\"pageNum\": \"1\"\n" +
+            "\t\"AGA001\": \"\",\n" +
+            "\t\"AAC003\": \"常瑞\",\n" +
+            "\t\"AAE006\": \"\",\n" +
+            "\t\"AAB301\": \"\",\n" +
+            "\t\"AAE005\": \"\",\n" +
+            "\t\"AAE004\": \"\",\n" +
+            "\t\"AAC002\": \"\",\n" +
+            "\t\"AAE036\": {\n" +
+            "\t\t\"date\": 17,\n" +
+            "\t\t\"hours\": 22,\n" +
+            "\t\t\"seconds\": 20,\n" +
+            "\t\t\"month\": 5,\n" +
+            "\t\t\"timezoneOffset\": -480,\n" +
+            "\t\t\"year\": 119,\n" +
+            "\t\t\"minutes\": 1,\n" +
+            "\t\t\"time\": 1560780080679,\n" +
+            "\t\t\"day\": 1\n" +
+            "\t},\n" +
+            "\t\"AAE135\": \"330622197407215513\",\n" +
+            "\t\"AAZ267\": 0,\n" +
+            "\t\"AAE100\": \"\",\n" +
+            "\t\"trade\": \"7206\",\n" +
+            "\t\"AAE011\": \"admin\",\n" +
+            "\t\"AAE031\": 20190817,\n" +
+            "\t\"AKE258\": \"03\",\n" +
+            "\t\"AAE030\": 20190717,\n" +
+            "\t\"AKC030\": \"\"\n" +
             "}";
 
 

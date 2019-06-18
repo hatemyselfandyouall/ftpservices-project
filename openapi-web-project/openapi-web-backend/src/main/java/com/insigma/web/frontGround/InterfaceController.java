@@ -69,12 +69,12 @@ public class InterfaceController extends BasicController {
             params.put("appKey",httpServletRequest.getHeader("appKey"));
             String appKey=httpServletRequest.getHeader("appKey");
             if (StringUtils.isEmpty(appKey)){
-                resultVo.setResultDes("appKey未提供");
+                log.info("appKey未提供,参数"+params);
                 return resultVo;
             }
             OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppKey(appKey);
             if (openapiApp==null){
-                resultVo.setResultDes("应用不存在或已删除！");
+                log.info("appKey未提供,参数"+params);
                 return resultVo;
             }
             if (CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
@@ -114,6 +114,7 @@ public class InterfaceController extends BasicController {
             resultVo.setResultDes("接口转发功能异常!原因为:"+e.getMessage());
             log.error("获取接口列表异常",e);
         }
+        log.info("返回参数为"+resultVo);
         return resultVo;
     }
 
