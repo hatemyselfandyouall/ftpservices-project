@@ -70,21 +70,25 @@ public class InterfaceController extends BasicController {
             String appKey=httpServletRequest.getHeader("appKey");
             if (StringUtils.isEmpty(appKey)){
                 log.info("appKey未提供,参数"+params);
+                resultVo.setResultDes("appKey未提供！");
                 return resultVo;
             }
             OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppKey(appKey);
             if (openapiApp==null){
-                log.info("appKey未提供,参数"+params);
+                log.info("openapiApp不存在"+params);
+                resultVo.setResultDes("openapiApp不存在！");
                 return resultVo;
             }
             if (CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
                 resultVo.setResultDes("接口不存在！");
+                log.info("接口不存在"+params);
                 return resultVo;
             }
             Map<String,OpenapiInterface> openapiInterfaceMap=openapiApp.getOpenapiInterfaces().stream().collect(Collectors.toMap(i->i.getCode(),i->i));
             OpenapiInterface openapiInterface;
             if (openapiInterfaceMap.get(code)==null){
                 resultVo.setResultDes("应用无此接口权限！");
+                log.info("应用无此接口权限"+params);
                 return resultVo;
             }else {
                 openapiInterface=openapiInterfaceMap.get(code);
@@ -93,10 +97,12 @@ public class InterfaceController extends BasicController {
             JSONObject checkSignResult= SignUtil.checkSign(params,appSecret);
             if(checkSignResult.getInteger("flag")!=1){
                 resultVo.setResultDes(checkSignResult.getString("msg"));
+                log.info(checkSignResult.getString("msg")+params);
                 return resultVo;
             }
             if (openapiInterface==null){
                 resultVo.setResultDes("接口不存在！");
+                log.info("接口不存在"+params);
                 return resultVo;
             }
             String innerUrl=openapiInterface.getInnerUrl();
@@ -108,7 +114,7 @@ public class InterfaceController extends BasicController {
                 resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
                 return resultVo;
             }else {
-                return result;
+                return params;
             }
         }catch (Exception e){
             resultVo.setResultDes("接口转发功能异常!原因为:"+e.getMessage());
