@@ -116,7 +116,9 @@ public class InterfaceController extends BasicController {
 //            }else {
 //                return result;
 //            }
-            return params;
+            resultVo.setResult(params);
+            resultVo.setSuccess(true);
+            return resultVo;
         }catch (Exception e){
             resultVo.setResultDes("接口转发功能异常!原因为:"+e.getMessage());
             log.error("获取接口列表异常",e);
