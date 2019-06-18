@@ -109,7 +109,7 @@ public class InterfaceController extends BasicController {
             params=SignUtil.getParamWithoutsignatureParam(params);
             log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+params);
             ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,params,String.class);
-            log.info("开始进行接口转发，返回值为"+params);
+            log.info("开始进行接口转发，返回值为"+result);
             if (result==null||!HttpStatus.OK.equals(result.getStatusCode())){
                 resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
                 resultVo.setResult("获得了异常的返回码！返回信息为："+params);
@@ -127,15 +127,18 @@ public class InterfaceController extends BasicController {
         return resultVo;
     }
 
-    private boolean checkInterfaceCanBeUse(OpenapiAppShowDetailVO openapiApp,String code) {
-        if (openapiApp==null|| CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
-            return false;
+    @ApiOperation(value = "接口转发")
+    @RequestMapping(value = "/checkSignVaild",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo getOpenapiInterfaceList(@RequestBody JSONObject params) {
+        ResultVo resultVo=new ResultVo();
+        try {
+            JSONObject resultParam=interfaceFacade.checkSignVaild(params);
+            resultVo.setResult(resultParam);
+            resultVo.setResultDes("");
+        }catch (Exception e){
+            log.error("验签异常",e);
+            resultVo.setResultDes("验签过程异常");
         }
-        Map<String,OpenapiInterface> openapiInterfaceMap=openapiApp.getOpenapiInterfaces().stream().collect(Collectors.toMap(i->i.getCode(),i->i));
-        if (openapiInterfaceMap.get(code)==null){
-            return false;
-        }else {
-            return true;
-        }
+        return resultVo;
     }
 }

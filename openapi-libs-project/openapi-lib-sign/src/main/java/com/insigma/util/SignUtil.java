@@ -137,7 +137,7 @@ public class SignUtil {
         System.out.println(checkSign(paramJson,testSecret));
         paramJson=getParamWithoutsignatureParam(param);
         haeder.put("signature",signature);
-        String testUrl="http://192.168.1.8:10500/frontInterface/interface/testUser";
+        String testUrl="http://192.168.1.8:10500/frontInterface/interface/transerService";
         postTest(haeder,paramJson,testUrl);
     }
 
