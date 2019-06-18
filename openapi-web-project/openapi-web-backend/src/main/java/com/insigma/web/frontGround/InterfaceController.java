@@ -108,7 +108,7 @@ public class InterfaceController extends BasicController {
             String innerUrl=openapiInterface.getInnerUrl();
             params=SignUtil.getParamWithoutsignatureParam(params);
             log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+params);
-            ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,params,String.class);
+//            ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,params,String.class);
             log.info("开始进行接口转发，返回值为"+params);
 //            if (result==null||result.getStatusCode()!= HttpStatus.OK){
 //                resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
