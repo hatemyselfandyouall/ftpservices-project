@@ -2,7 +2,6 @@ package com.insigma.util;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -92,7 +91,7 @@ public class SignUtil {
         }catch (Exception e){
             result.put("flag",0);
             result.put("msg","验证参数异常！");
-            log.error("验证参数异常"+e);
+            log.error("验证参数异常",e);
         }
         return result;
     }
@@ -121,8 +120,8 @@ public class SignUtil {
     }
 
     public static void main(String[] args) throws IOException {
+        String testKey="test3";
         String testSecret="test";
-        String testKey="test";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
         haeder.put("time", "20180919 11:00:00");
@@ -137,7 +136,7 @@ public class SignUtil {
         System.out.println(checkSign(paramJson,testSecret));
         paramJson=getParamWithoutsignatureParam(param);
         haeder.put("signature",signature);
-        String testUrl="http://192.168.1.8:10500/frontInterface/interface/transerService";
+        String testUrl="http://10.85.159.203:10420/mutual/partsCenter/serviceEntrance";
         postTest(haeder,paramJson,testUrl);
     }
 
@@ -154,39 +153,13 @@ public class SignUtil {
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap();
         //HttpEntity
         HttpEntity<MultiValueMap> requestEntity = new HttpEntity(paramJson, requestHeaders);
-        Object result= restTemplate.postForEntity(testUrl,requestEntity,Object.class);
+        Object result= restTemplate.postForEntity(testUrl,requestEntity,String.class);
         System.out.println(result.toString());
     }
 
 
     private static String paramString="{\n" +
-            "\t\"AGA001\": \"\",\n" +
-            "\t\"AAC003\": \"常瑞\",\n" +
-            "\t\"AAE006\": \"\",\n" +
-            "\t\"AAB301\": \"\",\n" +
-            "\t\"AAE005\": \"\",\n" +
-            "\t\"AAE004\": \"\",\n" +
-            "\t\"AAC002\": \"\",\n" +
-            "\t\"AAE036\": {\n" +
-            "\t\t\"date\": 17,\n" +
-            "\t\t\"hours\": 22,\n" +
-            "\t\t\"seconds\": 20,\n" +
-            "\t\t\"month\": 5,\n" +
-            "\t\t\"timezoneOffset\": -480,\n" +
-            "\t\t\"year\": 119,\n" +
-            "\t\t\"minutes\": 1,\n" +
-            "\t\t\"time\": 1560780080679,\n" +
-            "\t\t\"day\": 1\n" +
-            "\t},\n" +
-            "\t\"AAE135\": \"330622197407215513\",\n" +
-            "\t\"AAZ267\": 0,\n" +
-            "\t\"AAE100\": \"\",\n" +
-            "\t\"trade\": \"7206\",\n" +
-            "\t\"AAE011\": \"admin\",\n" +
-            "\t\"AAE031\": 20190817,\n" +
-            "\t\"AKE258\": \"03\",\n" +
-            "\t\"AAE030\": 20190717,\n" +
-            "\t\"AKC030\": \"\"\n" +
+            "\t\"md5\": \"11111111111\"" +
             "}";
 
 
