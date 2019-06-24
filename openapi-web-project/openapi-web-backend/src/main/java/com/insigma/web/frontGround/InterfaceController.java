@@ -136,6 +136,8 @@ public class InterfaceController extends BasicController {
             if (resultParam!=null&&resultParam.getInteger("flag")==1){
                 resultVo.setSuccess(true);
                 resultVo.setResult(resultParam);
+            }else {
+                resultVo.setResult(resultParam);
             }
         }catch (Exception e){
             log.error("验签异常",e);
