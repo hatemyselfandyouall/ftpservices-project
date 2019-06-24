@@ -133,8 +133,10 @@ public class InterfaceController extends BasicController {
         ResultVo resultVo=new ResultVo();
         try {
             JSONObject resultParam=interfaceFacade.checkSignVaild(params);
-            resultVo.setResult(resultParam);
-            resultVo.setResultDes("");
+            if (resultParam!=null&&resultParam.getInteger("flag")==1){
+                resultVo.setSuccess(true);
+                resultVo.setResult(resultParam);
+            }
         }catch (Exception e){
             log.error("验签异常",e);
             resultVo.setResultDes("验签过程异常");
