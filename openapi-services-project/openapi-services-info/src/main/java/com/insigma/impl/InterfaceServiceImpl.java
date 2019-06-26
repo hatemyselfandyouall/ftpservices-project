@@ -254,6 +254,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
 
     @Override
     public String getAppKeyListByCommandCodeAndOrgNO(String commandCode, String orgNO) throws Exception{
+        log.info("开始调用AppKeyListByCommandCodeAndOrgNO方法,commandCode+"+commandCode+",orgNO="+orgNO);
         OpenapiUser examUser=new OpenapiUser();
         examUser.setOrgNo(orgNO);
         examUser.setIsDelete(DataConstant.NO_DELETE);
@@ -274,6 +275,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (!StringUtils.isEmpty(resultString)){
             resultString=resultString.substring(0,resultString.length()-1);
         }
+        log.info("结束调用AppKeyListByCommandCodeAndOrgNO方法,resultString="+resultString);
         return resultString;
     }
 }

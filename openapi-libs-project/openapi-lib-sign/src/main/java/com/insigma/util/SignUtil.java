@@ -120,8 +120,8 @@ public class SignUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        String testKey="test3";
-        String testSecret="test";
+        String testKey="dba93607e34641e184c70c7a04ab91bd";
+        String testSecret="5cf7bfa05c72443a88aa3f7c53793570";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
         haeder.put("time", "20180919 11:00:00");
@@ -136,7 +136,7 @@ public class SignUtil {
         System.out.println(checkSign(paramJson,testSecret));
         paramJson=getParamWithoutsignatureParam(param);
         haeder.put("signature",signature);
-        String testUrl="http://10.85.159.203:10420/mutual/partsCenter/serviceEntrance";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7010";
         postTest(haeder,paramJson,testUrl);
     }
 
@@ -158,9 +158,7 @@ public class SignUtil {
     }
 
 
-    private static String paramString="{\n" +
-            "\t\"md5\": \"11111111111\"" +
-            "}";
+    private static String paramString="";
 
 
     public static JSONObject getParamWithoutsignatureParam(JSONObject params) {
@@ -171,4 +169,7 @@ public class SignUtil {
         params.remove("signature");
         return params;
     }
+
+
+
 }

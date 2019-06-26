@@ -45,6 +45,10 @@
 		  <artifactId>insigma-common-framework-web</artifactId>
 	  </dependency>
 
+	  <dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+	  </dependency>
 
   </dependencies>
     
