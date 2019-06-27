@@ -14,7 +14,7 @@ if [ -d $BASE/conf ];then
 	LOG_PATH="$BASE/../logs/${BASE##*/}"
 else
 	CONF_PATH=$BASE/target/conf
-	LOG_PATH="$BASE/logs"
+	LOG_PATH="/data/logs"
 fi
 
 HTTPPID=$BASE/logs/pids.log/httpd.pid
