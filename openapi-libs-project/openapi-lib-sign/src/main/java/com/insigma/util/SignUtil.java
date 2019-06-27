@@ -116,29 +116,24 @@ public class SignUtil {
 
 
     public static void main(String[] args) throws IOException {
-        String testKey="dba93607e34641e184c70c7a04ab91bd";
-        String testSecret="5cf7bfa05c72443a88aa3f7c53793570";
+        String testSecret="test";
+        String testKey="test";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
-        haeder.put("time", "20180919 11:00:00");
-        haeder.put("nonceStr", "b319b62bb7b34c60953257d546ab468e");//随机字符串
+        haeder.put("time", "20190627");
+        haeder.put("nonceStr", "498b1bed85024615ac3ad2303857ba2c");//随机字符串
         JSONObject param=jsonObjectMapper.readValue(paramString,JSONObject.class);
         param.putAll(haeder);
-        SortedMap<String,Object> testMap=new ConcurrentSkipListMap<>(param);
-        String signature=createSign(param,testSecret);
-        param.put("signature",signature);
-        System.out.println(checkSign(param,testSecret));
-//        signature=createSign(testMap,testSecret);
-//        testMap.put("signature",signature);
-//        JSONObject paramJson=new JSONObject(testMap);
-//        System.out.println(checkSign(paramJson,testSecret));
-
-//        String signature = createSign(testMap,testSecret);
-//        System.out.println(paramJson.toJSONString());
-        param=getParamWithoutsignatureParam(param);
+        SortedMap testMap= new ConcurrentSkipListMap(param);
+        String signature = createSign(testMap,testSecret);
+        testMap.put("signature",signature);
+        JSONObject paramJson=new JSONObject(testMap);
+        System.out.println(paramJson.toJSONString());
+        System.out.println(checkSign(paramJson,testSecret));
+        paramJson=getParamWithoutsignatureParam(param);
         haeder.put("signature",signature);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7010";
-        postTest(haeder,param,testUrl);
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/transerService-7102";
+        postTest(haeder,paramJson,testUrl);
     }
 
     private static void postTest(JSONObject haeder, JSONObject paramJson,String testUrl) {
@@ -159,10 +154,7 @@ public class SignUtil {
     }
 
 
-    private static String paramString="{\n" +
-            "\t\"test\": \"123\",\n" +
-            "\t\"tradeNO\": \"123\"\n" +
-            "}";
+    private static String paramString="{\"input\":{\"AGA001\":\"1\"},\"ver\":\"V1.0\",\"orgName\":\"浙江省省本级\",\"trade\":\"7102\",\"orgNo\":\"330000\"}";
 
 
     public static JSONObject getParamWithoutsignatureParam(JSONObject params) {
