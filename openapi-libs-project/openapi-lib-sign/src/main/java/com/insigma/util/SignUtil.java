@@ -26,8 +26,16 @@ public class SignUtil {
      * @return
      */
     public static String createSign(SortedMap<String,Object> parameters,String  appSecret){
+        return getSignByEntry(appSecret, parameters.entrySet());
+    }
+
+    public static String createSign(JSONObject parameters,String  appSecret){
+        return getSignByEntry(appSecret, parameters.entrySet());
+    }
+
+    private static String getSignByEntry(String appSecret, Set<Map.Entry<String, Object>> entries) {
         StringBuffer sb = new StringBuffer();
-        Set es = parameters.entrySet();
+        Set es = entries;
         Iterator it = es.iterator();
         while(it.hasNext()) {
             Map.Entry entry = (Map.Entry)it.next();
@@ -64,25 +72,10 @@ public class SignUtil {
             } else {
                 params.remove("signature");
             }
-            SortedMap parameters = new ConcurrentSkipListMap(params);
-            StringBuffer sb = new StringBuffer();
-            Set es = parameters.entrySet();
-            Iterator it = es.iterator();
-            while (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
-                String k = (String) entry.getKey();
-                Object v = entry.getValue();
-                if (null != v && !"".equals(v)
-                        && !"signature".equals(k) && !"secret".equals(k)) {
-                    sb.append(k + "=" + v + "&");
-                }
-            }
-            sb.append("secret=" + appSecret);//最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
-            String finalString = sb.toString();
-            String sign=MD5Util.md5Password(finalString).toUpperCase();
-            parameters.put("signature",sign);//todo testValue
-            System.out.println(parameters);//todo testValue
-            if (!signature.equals(sign)) {
+            String signModel=createSign(params,appSecret);
+            params.put("signature",signModel);//todo testValue
+            System.out.println(params);//todo testValue
+            if (!signature.equals(signModel)) {
                 result.put("msg", "参数与生成规则不符");
             } else {
                 result.put("msg", "验证通过");
@@ -119,6 +112,9 @@ public class SignUtil {
         return result;
     }
 
+
+
+
     public static void main(String[] args) throws IOException {
         String testKey="dba93607e34641e184c70c7a04ab91bd";
         String testSecret="5cf7bfa05c72443a88aa3f7c53793570";
@@ -128,16 +124,21 @@ public class SignUtil {
         haeder.put("nonceStr", "b319b62bb7b34c60953257d546ab468e");//随机字符串
         JSONObject param=jsonObjectMapper.readValue(paramString,JSONObject.class);
         param.putAll(haeder);
-        SortedMap testMap= new ConcurrentSkipListMap(param);
-        String signature = createSign(testMap,testSecret);
+        SortedMap<String,Object> testMap=new ConcurrentSkipListMap<>(param);
+        String signature=createSign(param,testSecret);
+        param.put("signature",signature);
+        System.out.println(checkSign(param,testSecret));
+        signature=createSign(testMap,testSecret);
         testMap.put("signature",signature);
         JSONObject paramJson=new JSONObject(testMap);
-        System.out.println(paramJson.toJSONString());
         System.out.println(checkSign(paramJson,testSecret));
-        paramJson=getParamWithoutsignatureParam(param);
-        haeder.put("signature",signature);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7010";
-        postTest(haeder,paramJson,testUrl);
+
+//        String signature = createSign(testMap,testSecret);
+//        System.out.println(paramJson.toJSONString());
+//        paramJson=getParamWithoutsignatureParam(param);
+//        haeder.put("signature",signature);
+//        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7010";
+//        postTest(haeder,paramJson,testUrl);
     }
 
     private static void postTest(JSONObject haeder, JSONObject paramJson,String testUrl) {
@@ -158,7 +159,10 @@ public class SignUtil {
     }
 
 
-    private static String paramString="";
+    private static String paramString="{\n" +
+            "\t\"test\": \"123\",\n" +
+            "\t\"tradeNO\": \"123\"\n" +
+            "}";
 
 
     public static JSONObject getParamWithoutsignatureParam(JSONObject params) {
