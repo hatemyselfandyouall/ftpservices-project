@@ -73,9 +73,11 @@ public class SignUtil {
                 params.remove("signature");
             }
             String signModel=createSign(params,appSecret);
+            SortedMap testMap= new ConcurrentSkipListMap(params);
+            String signOld=createSign(testMap,appSecret);
             params.put("signature",signModel);//todo testValue
             System.out.println(params);//todo testValue
-            if (!signature.equals(signModel)) {
+            if (!signature.equals(signModel)&&!signature.equals(signOld)) {
                 result.put("msg", "参数与生成规则不符");
             } else {
                 result.put("msg", "验证通过");
@@ -132,7 +134,7 @@ public class SignUtil {
         System.out.println(checkSign(paramJson,testSecret));
         paramJson=getParamWithoutsignatureParam(param);
         haeder.put("signature",signature);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/transerService-7102";
+        String testUrl="http://localhost:10500/frontInterface/interface/transerService-7102";
         postTest(haeder,paramJson,testUrl);
     }
 
