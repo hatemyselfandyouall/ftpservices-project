@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
   <name>openapi-libs-project</name>
   <modules>
-  	
-  	<module>openapi-lib-base</module>
+    <module>openapi-lib-sign</module>
+    <module>openapi-lib-base</module>
   </modules>
 </project>
