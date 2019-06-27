@@ -134,11 +134,11 @@ public class SignUtil {
         System.out.println(checkSign(paramJson,testSecret));
 
 //        String signature = createSign(testMap,testSecret);
-//        System.out.println(paramJson.toJSONString());
-//        paramJson=getParamWithoutsignatureParam(param);
-//        haeder.put("signature",signature);
-//        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7010";
-//        postTest(haeder,paramJson,testUrl);
+        System.out.println(paramJson.toJSONString());
+        paramJson=getParamWithoutsignatureParam(param);
+        haeder.put("signature",signature);
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7010";
+        postTest(haeder,paramJson,testUrl);
     }
 
     private static void postTest(JSONObject haeder, JSONObject paramJson,String testUrl) {
