@@ -7,12 +7,12 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         ">
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<dubbo:application name="report-web-backend" organization="${dubbo.organization}" />
+	<dubbo:application name="openapi-web-backend" organization="${dubbo.organization}" />
 	<!-- 使用定制的loadbalance -->
     <dubbo:provider loadbalance="${dubbo.loadbalance}" />
 	<dubbo:consumer loadbalance="${dubbo.loadbalance}" cluster="${dubbo.consumer.cluster}" check="false" timeout="6000"/>
 	<!-- 使用per暴露服务地址 -->
-	<dubbo:registry id="servicesRegistry" group="dubbo" protocol="zookeeper" address="${zookeeper.list}" file="tmp/report-web-backend/dubbo.cache" />
+	<dubbo:registry id="servicesRegistry" group="dubbo" protocol="zookeeper" address="${zookeeper.list}" file="tmp/openapi-web-backend/dubbo.cache" />
 
 
 </beans>

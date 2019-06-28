@@ -36,11 +36,11 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
           class="com.taobao.diamond.extend.ExtendPropertiesFactoryBean">
         <property name="configs">
             <list>
-                <value>report, filter</value>
-                <value>report, dubboconfig</value>
-                <value>report-web-backend, baseconfig</value>
-                <value>report-web-backend, logconfig</value>
-                <value>report-web-backend, freemarker</value>
+                <value>openapi, filter</value>
+                <value>openapi, dubboconfig</value>
+                <value>openapi-web-backend, baseconfig</value>
+                <value>openapi-web-backend, logconfig</value>
+                <value>openapi-web-backend, freemarker</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
