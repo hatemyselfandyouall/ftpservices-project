@@ -20,7 +20,7 @@ export LC_ALL=zh_CN.UTF-8
 
 fi
 
-export JAVA_HOME=/usr/java/default
+export JAVA_HOME=/usr/local/java
 
 confPath=$BASE/conf
 BASEROOT="$BASE/../"
