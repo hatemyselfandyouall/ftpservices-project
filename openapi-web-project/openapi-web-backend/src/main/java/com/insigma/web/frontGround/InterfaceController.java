@@ -1,6 +1,7 @@
 package com.insigma.web.frontGround;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
@@ -53,20 +54,21 @@ public class InterfaceController extends BasicController {
     @RequestMapping(value = "/interface/{code}",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public Object getOpenapiInterfaceList(
             @PathVariable@ApiParam("code") String code,
-            @RequestBody JSONObject params, HttpServletRequest httpServletRequest){
+            @RequestBody String paramString, HttpServletRequest httpServletRequest){
         ResultVo resultVo=new ResultVo();
         try {
             Enumeration<String> headerNames=httpServletRequest.getHeaderNames();
             log.info("请求头为");
             while (headerNames.hasMoreElements()){
                 String headerName=headerNames.nextElement();
-                log.info("请求头："+headerName);
+                log.info("请求头："+headerName+"value:"+httpServletRequest.getHeader(headerName));
             }
-            log.info("入参"+params);
-            params.put("signature",httpServletRequest.getHeader("signature"));
-            params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));
-            params.put("time", httpServletRequest.getHeader("time"));
+            log.info("入参"+paramString);
+            JSONObject params=JSONObject.parseObject(paramString, Feature.OrderedField);
             params.put("appKey",httpServletRequest.getHeader("appKey"));
+            params.put("time", httpServletRequest.getHeader("time"));
+            params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));
+            params.put("signature",httpServletRequest.getHeader("signature"));
             String appKey=httpServletRequest.getHeader("appKey");
             if (StringUtils.isEmpty(appKey)){
                 log.info("appKey未提供,参数"+params);
