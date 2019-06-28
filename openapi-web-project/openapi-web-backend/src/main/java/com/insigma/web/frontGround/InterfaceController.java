@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import star.bizbase.util.StringUtils;
+import star.fw.web.mapper.JsonObjectMapper;
 import star.util.DateUtil;
 import star.vo.result.ResultVo;
 
@@ -48,13 +49,15 @@ public class InterfaceController extends BasicController {
     InterfaceFacade interfaceFacade;
     @Autowired
     OpenapiAppFacade openapiAppFacade;
+    @Autowired
+    JsonObjectMapper jacksonObjectMapper;
 
 
     @ApiOperation(value = "接口转发")
     @RequestMapping(value = "/interface/{code}",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public Object getOpenapiInterfaceList(
             @PathVariable@ApiParam("code") String code,
-            @RequestBody String paramString, HttpServletRequest httpServletRequest){
+            @RequestBody Object paramString, HttpServletRequest httpServletRequest){
         ResultVo resultVo=new ResultVo();
         try {
             Enumeration<String> headerNames=httpServletRequest.getHeaderNames();
@@ -63,8 +66,9 @@ public class InterfaceController extends BasicController {
                 String headerName=headerNames.nextElement();
                 log.info("请求头："+headerName+"value:"+httpServletRequest.getHeader(headerName));
             }
-            log.info("入参"+paramString);
-            JSONObject params=JSONObject.parseObject(paramString, Feature.OrderedField);
+            log.info("入参"+paramString+"目标code为"+code);
+            String temp=JSONObject.toJSONString(paramString);
+            JSONObject params=JSONObject.parseObject(temp, Feature.OrderedField);
             params.put("appKey",httpServletRequest.getHeader("appKey"));
             params.put("time", httpServletRequest.getHeader("time"));
             params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));

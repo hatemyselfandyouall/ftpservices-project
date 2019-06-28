@@ -128,8 +128,8 @@ public class SignUtil {
         String testKey="dba93607e34641e184c70c7a04ab91bd";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
-        haeder.put("time", "20190628 09:53:14");
-        haeder.put("nonceStr", "4fc7ef5b6e8e4e83ad44f916515965a6");//随机字符串
+        haeder.put("time", "20190628 11:44:07");
+        haeder.put("nonceStr", "7dbdc3b29a7f42948ab820bb42dec8b0");//随机字符串
         JSONObject param=JSONObject.parseObject(paramString, Feature.OrderedField);
         param.putAll(haeder);
         String signature = createSign(param,testSecret);

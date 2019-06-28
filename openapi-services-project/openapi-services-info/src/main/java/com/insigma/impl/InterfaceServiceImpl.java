@@ -230,6 +230,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
 
     @Override
     public JSONObject checkSignVaild(JSONObject param) {
+        log.info("开始验证参数合法性param"+param);
         JSONObject result = new JSONObject();
         result.put("flag", 0);
         try {
@@ -243,7 +244,9 @@ public class InterfaceServiceImpl implements InterfaceFacade {
                 result.put("msg", "appKey不存在或错误！");
                 return result;
             }
+            log.info("开始调用验证参数合法性方法param"+param);
             result = SignUtil.checkSign(param, openapiAppShowDetailVO.getAppSecret());
+            log.info("开始调用验证参数合法性方法返回"+result);
             return result;
         } catch (Exception e) {
             log.error("接口参数校验异常", e);
