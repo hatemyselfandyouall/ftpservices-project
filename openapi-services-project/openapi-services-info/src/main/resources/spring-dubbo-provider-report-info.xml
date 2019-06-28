@@ -18,9 +18,9 @@
 	<dubbo:service interface="com.insigma.facade.openapi.facade.InterfaceFacade" ref="interfaceServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
 	
-	<bean id="openapiInterfaceGroupServiceImpl" class="com.insigma.impl.OpenapiInterfaceGroupServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade" ref="openapiInterfaceGroupServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+	<!--<bean id="openapiInterfaceGroupServiceImpl" class="com.insigma.impl.OpenapiInterfaceGroupServiceImpl" />-->
+	<!--<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade" ref="openapiInterfaceGroupServiceImpl"-->
+				   <!--version="1.0.1" delay="-1" retries="0"  />-->
 
 	<bean id="openapiAppServiceImpl" class="com.insigma.impl.OpenapiAppServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppFacade" ref="openapiAppServiceImpl"
