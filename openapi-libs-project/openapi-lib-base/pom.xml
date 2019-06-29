@@ -31,8 +31,11 @@
 			<groupId>insigma.common.lib.bizbase</groupId>
   			<artifactId>insigma-lib-bizbase</artifactId>
 		</dependency>
-		
-		
+
+	  <dependency>
+		  <groupId>insigma.common</groupId>
+		  <artifactId>insigma-common-cache</artifactId>
+	  </dependency>
 	
     </dependencies>
     

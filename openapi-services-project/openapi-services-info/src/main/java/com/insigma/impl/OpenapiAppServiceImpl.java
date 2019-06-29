@@ -3,6 +3,7 @@ package com.insigma.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.constant.DataConstant;
+import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.po.OpenapiAppInterface;
 import com.insigma.facade.openapi.po.OpenapiInterface;
@@ -13,6 +14,11 @@ import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import star.bizbase.util.constant.SysCacheTimeDMO;
+import star.modules.cache.CacheKeyLock;
+import star.modules.cache.CachesKeyService;
+import star.modules.cache.CachesService;
+import star.modules.cache.enumerate.BaseCacheEnum;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.po.OpenapiApp;
 
@@ -29,6 +35,10 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
     OpenapiAppInterfaceMapper openapiAppInterfaceMapper;
     @Autowired
     OpenapiInterfaceMapper openapiInterfaceMapper;
+    @Autowired
+    CachesKeyService cachesKeyService;
+
+
 
     @Override
     public PageInfo<OpenapiApp> getOpenapiAppList(OpenapiAppListVO openapiAppListVO) {
@@ -82,54 +92,67 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
 
     @Override
     public OpenapiAppShowDetailVO getAppByAppKey(String appKey) {
-        OpenapiApp example=new OpenapiApp();
-        example.setAppKey(appKey);
-        example.setIsDelete(DataConstant.NO_DELETE);
-        OpenapiApp openapiApp=openapiAppMapper.selectOne(example);
-        if (openapiApp==null){
-            return null;
-        }
-        OpenapiAppShowDetailVO openapiAppShowDetailVO=JSONUtil.convert(openapiApp,OpenapiAppShowDetailVO.class);
-        OpenapiAppInterface exampleAppInterface=new OpenapiAppInterface();
-        exampleAppInterface.setAppId(openapiApp.getId());
-        exampleAppInterface.setIsDelete(DataConstant.NO_DELETE);
-        exampleAppInterface.setIsAudit(DataConstant.IS_AUDITED);
-        List<OpenapiAppInterface> openapiAppInterfaces=openapiAppInterfaceMapper.select(exampleAppInterface);
-        if (!CollectionUtils.isEmpty(openapiAppInterfaces)){
-            List<OpenapiInterface> openapiInterfaces=openapiAppInterfaces.stream().map(i->{
-                OpenapiInterface openapiInterface=openapiInterfaceMapper.selectByPrimaryKey(i.getInterfaceId());
-                return openapiInterface;
-            }).collect(Collectors.toList());
-            openapiAppShowDetailVO.setOpenapiInterfaces(openapiInterfaces);
-        }
-        return openapiAppShowDetailVO;
+        String cacheKey=appKey;
+        return new CacheKeyLock(cachesKeyService, SysCacheTimeDMO.CACHETIMEOUT_30M){
+            @Override
+            protected Object doGetList(BaseCacheEnum type, String key){
+                OpenapiApp example=new OpenapiApp();
+                example.setAppKey(appKey);
+                example.setIsDelete(DataConstant.NO_DELETE);
+                OpenapiApp openapiApp=openapiAppMapper.selectOne(example);
+                if (openapiApp==null){
+                    return null;
+                }
+                OpenapiAppShowDetailVO openapiAppShowDetailVO=JSONUtil.convert(openapiApp,OpenapiAppShowDetailVO.class);
+                OpenapiAppInterface exampleAppInterface=new OpenapiAppInterface();
+                exampleAppInterface.setAppId(openapiApp.getId());
+                exampleAppInterface.setIsDelete(DataConstant.NO_DELETE);
+                exampleAppInterface.setIsAudit(DataConstant.IS_AUDITED);
+                List<OpenapiAppInterface> openapiAppInterfaces=openapiAppInterfaceMapper.select(exampleAppInterface);
+                if (!CollectionUtils.isEmpty(openapiAppInterfaces)){
+                    List<OpenapiInterface> openapiInterfaces=openapiAppInterfaces.stream().map(i->{
+                        OpenapiInterface openapiInterface=openapiInterfaceMapper.selectByPrimaryKey(i.getInterfaceId());
+                        return openapiInterface;
+                    }).collect(Collectors.toList());
+                    openapiAppShowDetailVO.setOpenapiInterfaces(openapiInterfaces);
+                }
+                return openapiAppShowDetailVO;
+            }
+        }.getCache(OpenapiCacheEnum.OPENAPI_BY_APPKEY, cacheKey);
     }
 
     @Override
     public List<OpenapiAppShowDetailVO> getAppsByUserId(Long id) {
-        OpenapiApp example=new OpenapiApp();
-        example.setUserId(id);
-        example.setIsDelete(DataConstant.NO_DELETE);
-        List<OpenapiApp> openapiApp=openapiAppMapper.select(example);
-        if (openapiApp==null){
-            return null;
-        }
-        List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs=openapiApp.stream().map(i-> {
-            OpenapiAppShowDetailVO openapiAppShowDetailVO=JSONUtil.convert(i, OpenapiAppShowDetailVO.class);
-            OpenapiAppInterface exampleAppInterface = new OpenapiAppInterface();
-            exampleAppInterface.setAppId(i.getId());
-            exampleAppInterface.setIsDelete(DataConstant.NO_DELETE);
-            exampleAppInterface.setIsAudit(DataConstant.IS_AUDITED);
-            List<OpenapiAppInterface> openapiAppInterfaces = openapiAppInterfaceMapper.select(exampleAppInterface);
-            if (!CollectionUtils.isEmpty(openapiAppInterfaces)) {
-                List<OpenapiInterface> openapiInterfaces = openapiAppInterfaces.stream().map(j -> {
-                    OpenapiInterface openapiInterface = openapiInterfaceMapper.selectByPrimaryKey(j.getInterfaceId());
-                    return openapiInterface;
+        String cacheKey = id.toString();
+        return new CacheKeyLock(cachesKeyService, SysCacheTimeDMO.CACHETIMEOUT_30M) {
+            @Override
+            protected Object doGetList(BaseCacheEnum type, String key) {
+                OpenapiApp example = new OpenapiApp();
+                example.setUserId(id);
+                example.setIsDelete(DataConstant.NO_DELETE);
+                List<OpenapiApp> openapiApp = openapiAppMapper.select(example);
+                if (openapiApp == null) {
+                    return null;
+                }
+                List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs = openapiApp.stream().map(i -> {
+                    OpenapiAppShowDetailVO openapiAppShowDetailVO = JSONUtil.convert(i, OpenapiAppShowDetailVO.class);
+                    OpenapiAppInterface exampleAppInterface = new OpenapiAppInterface();
+                    exampleAppInterface.setAppId(i.getId());
+                    exampleAppInterface.setIsDelete(DataConstant.NO_DELETE);
+                    exampleAppInterface.setIsAudit(DataConstant.IS_AUDITED);
+                    List<OpenapiAppInterface> openapiAppInterfaces = openapiAppInterfaceMapper.select(exampleAppInterface);
+                    if (!CollectionUtils.isEmpty(openapiAppInterfaces)) {
+                        List<OpenapiInterface> openapiInterfaces = openapiAppInterfaces.stream().map(j -> {
+                            OpenapiInterface openapiInterface = openapiInterfaceMapper.selectByPrimaryKey(j.getInterfaceId());
+                            return openapiInterface;
+                        }).collect(Collectors.toList());
+                        openapiAppShowDetailVO.setOpenapiInterfaces(openapiInterfaces);
+                    }
+                    return openapiAppShowDetailVO;
                 }).collect(Collectors.toList());
-                openapiAppShowDetailVO.setOpenapiInterfaces(openapiInterfaces);
+                return openapiAppShowDetailVOs;
             }
-            return openapiAppShowDetailVO;
-        }).collect(Collectors.toList());
-        return openapiAppShowDetailVOs;
+        }.getCache(OpenapiCacheEnum.OPENAPI_BY_APPID, cacheKey);
     }
+
 }

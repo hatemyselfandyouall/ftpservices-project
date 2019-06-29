@@ -60,6 +60,14 @@
 			<groupId>insigma.openapi.libs.sign</groupId>
 			<artifactId>openapi-lib-sign</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-cache</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>insigma.openapi.libs.base</groupId>
+			<artifactId>openapi-lib-base</artifactId>
+        </dependency>
 	</dependencies>
 	
 	<profiles>
