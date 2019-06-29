@@ -11,7 +11,7 @@ PROJECT_PATH=$BASE
 #AGENT_LOAD_SCRIPT="/usr/local/pinpoint-agent/apm/pinpoint.sh"
 #.  $AGENT_LOAD_SCRIPT
 JAVA_CONF="$JAVA_CONF $AGENT_CONF"
-
+echo "xxh-3-isrun =$ISRUN"
 if [ "$ISRUN" != "1" ]; then
 	if [ ! -d "$BASE/logs/pids.log" ] ; then
 		mkdir -p $BASE/logs/pids.log
@@ -27,8 +27,10 @@ if [ "$ISRUN" != "1" ]; then
 		echo -e ".\c"
 		sleep 2
 	done
+	sleep 20
 	# start httpd
 	nohup bash $BASE/bin/httpd.sh start > /dev/null 2>&1 &
 else
+	echo "xxh-4-isrun =$ISRUN"
 	echo "${PROJECT} is running."
 fi
