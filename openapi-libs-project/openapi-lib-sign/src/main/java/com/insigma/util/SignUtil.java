@@ -148,8 +148,8 @@ public class SignUtil {
 //        paramJson=getParamWithoutsignatureParam(param);
 //        haeder.put("signature",signature);
 //        String testUrl="http://10.87.0.68/api/frontInterface/interface/transerService-7102";
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/transerService-7104";
-        postTest(haeder,param,testUrl);
+        String testUrl="http://localhost:10500/frontInterface/interface/transerService-7104";
+        postTest(new JSONObject(),param,testUrl);
     }
 
     private static void postTest(JSONObject haeder, JSONObject paramJson,String testUrl) {

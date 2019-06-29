@@ -52,8 +52,7 @@ public class InterfaceController extends BasicController {
     OpenapiAppFacade openapiAppFacade;
     @Autowired
     JsonObjectMapper jacksonObjectMapper;
-    @Autowired
-    OpenapiAppInterfaceFacade openapiAppInterfaceFacade;
+
 
     @ApiOperation(value = "接口转发")
     @RequestMapping(value = "/interface/{code}",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
