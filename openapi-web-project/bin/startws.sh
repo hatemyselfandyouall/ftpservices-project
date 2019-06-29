@@ -27,7 +27,6 @@ if [ "$ISRUN" != "1" ]; then
 		echo -e ".\c"
 		sleep 2
 	done
-	sleep 20
 	# start httpd
 	nohup bash $BASE/bin/httpd.sh start > /dev/null 2>&1 &
 else
