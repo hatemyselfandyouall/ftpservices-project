@@ -18,7 +18,7 @@ export LC_ALL=zh_CN.UTF-8
 
 fi
 
-export JAVA_HOME=/usr/java/default
+export JAVA_HOME=/usr/local/java
 
 export SERVICE_NAME=${BASE##*/}
 
