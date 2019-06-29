@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
+import com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
@@ -51,7 +52,8 @@ public class InterfaceController extends BasicController {
     OpenapiAppFacade openapiAppFacade;
     @Autowired
     JsonObjectMapper jacksonObjectMapper;
-
+    @Autowired
+    OpenapiAppInterfaceFacade openapiAppInterfaceFacade;
 
     @ApiOperation(value = "接口转发")
     @RequestMapping(value = "/interface/{code}",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -74,43 +76,44 @@ public class InterfaceController extends BasicController {
             params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));
             params.put("signature",httpServletRequest.getHeader("signature"));
             String appKey=httpServletRequest.getHeader("appKey");
-            if (StringUtils.isEmpty(appKey)){
-                log.info("appKey未提供,参数"+params);
-                resultVo.setResultDes("appKey未提供！");
-                return resultVo;
-            }
-            OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppKey(appKey);
-            if (openapiApp==null){
-                log.info("openapiApp不存在"+params);
-                resultVo.setResultDes("openapiApp不存在！");
-                return resultVo;
-            }
-            if (CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
-                resultVo.setResultDes("接口不存在！");
-                log.info("接口不存在"+params);
-                return resultVo;
-            }
-            Map<String,OpenapiInterface> openapiInterfaceMap=openapiApp.getOpenapiInterfaces().stream().collect(Collectors.toMap(i->i.getCode(),i->i));
-            OpenapiInterface openapiInterface;
-            if (openapiInterfaceMap.get(code)==null){
-                resultVo.setResultDes("应用无此接口权限！");
-                log.info("应用无此接口权限"+params);
-                return resultVo;
-            }else {
-                openapiInterface=openapiInterfaceMap.get(code);
-            }
-            String appSecret=openapiApp.getAppSecret();
-            JSONObject checkSignResult= SignUtil.checkSign(params,appSecret);
-            if(checkSignResult.getInteger("flag")!=1){
-                resultVo.setResultDes(checkSignResult.getString("msg"));
-                log.info(checkSignResult.getString("msg")+params);
-                return resultVo;
-            }
-            if (openapiInterface==null){
-                resultVo.setResultDes("接口不存在！");
-                log.info("接口不存在"+params);
-                return resultVo;
-            }
+//            if (StringUtils.isEmpty(appKey)){
+//                log.info("appKey未提供,参数"+params);
+//                resultVo.setResultDes("appKey未提供！");
+//                return resultVo;
+//            }
+//            OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppKey(appKey);
+//            if (openapiApp==null){
+//                log.info("openapiApp不存在"+params);
+//                resultVo.setResultDes("openapiApp不存在！");
+//                return resultVo;
+//            }
+//            if (CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
+//                resultVo.setResultDes("接口不存在！");
+//                log.info("接口不存在"+params);
+//                return resultVo;
+//            }
+//            Map<String,OpenapiInterface> openapiInterfaceMap=openapiApp.getOpenapiInterfaces().stream().collect(Collectors.toMap(i->i.getCode(),i->i));
+//            OpenapiInterface openapiInterface;
+//            if (openapiInterfaceMap.get(code)==null){
+//                resultVo.setResultDes("应用无此接口权限！");
+//                log.info("应用无此接口权限"+params);
+//                return resultVo;
+//            }else {
+//                openapiInterface=openapiInterfaceMap.get(code);
+//            }
+//            String appSecret=openapiApp.getAppSecret();
+//            JSONObject checkSignResult= SignUtil.checkSign(params,appSecret);
+//            if(checkSignResult.getInteger("flag")!=1){
+//                resultVo.setResultDes(checkSignResult.getString("msg"));
+//                log.info(checkSignResult.getString("msg")+params);
+//                return resultVo;
+//            }
+//            if (openapiInterface==null){
+//                resultVo.setResultDes("接口不存在！");
+//                log.info("接口不存在"+params);
+//                return resultVo;
+//            }
+            OpenapiInterface openapiInterface=interfaceFacade.getInterfaceByCode(code);
             String innerUrl=openapiInterface.getInnerUrl();
             params=SignUtil.getParamWithoutsignatureParam(params);
             log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+params);
