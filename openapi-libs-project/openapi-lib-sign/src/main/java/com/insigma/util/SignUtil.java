@@ -94,8 +94,8 @@ public class SignUtil {
 //            result.put("msg","验证参数异常！");
 //            log.error("验证参数异常",e);
 //        }
-        result.put("msg", "验证通过");
-        result.put("flag", 1);
+                        result.put("msg", "验证通过");
+                        result.put("flag", 1);
         return result;
     }
 
@@ -126,8 +126,8 @@ public class SignUtil {
 
 
     public static void main(String[] args) throws IOException {
-        String testKey="test6";
-        String testSecret="test";
+        String testSecret="590a7f6e605e4a58bdacdf6c21741f37";
+        String testKey="244057d1dad94e54b583dce495bca6dc";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
         haeder.put("time", "20190628 11:44:07");
@@ -147,7 +147,8 @@ public class SignUtil {
 //        System.out.println(checkSign(paramJson,testSecret));
 //        paramJson=getParamWithoutsignatureParam(param);
 //        haeder.put("signature",signature);
-        String testUrl="http://10.87.0.68/api/frontInterface/interface/doCallBack-7122";
+//        String testUrl="http://10.87.0.68/api/frontInterface/interface/transerService-7102";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/transerService-7104";
         postTest(haeder,param,testUrl);
     }
 
