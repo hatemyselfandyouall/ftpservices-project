@@ -22,10 +22,5 @@
 			<directory>../bin</directory>
 			<outputDirectory>/bin</outputDirectory>
 		</fileSet>
-		<fileSet>
-			<directory>/src/main/resources</directory>
-			<outputDirectory>/</outputDirectory>
-		</fileSet>
 	</fileSets>
-
 </assembly>
