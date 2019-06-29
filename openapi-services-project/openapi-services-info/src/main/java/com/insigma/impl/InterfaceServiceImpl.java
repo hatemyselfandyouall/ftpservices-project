@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.constant.DataConstant;
+import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.po.*;
@@ -22,6 +23,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
+import star.bizbase.util.constant.SysCacheTimeDMO;
+import star.modules.cache.CacheKeyLock;
+import star.modules.cache.CachesKeyService;
+import star.modules.cache.enumerate.BaseCacheEnum;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
@@ -40,6 +45,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     OpenapiAppFacade openapiAppFacade;
     @Autowired
     OpenapiUserMapper openapiUserMapper;
+    @Autowired
+    CachesKeyService cachesKeyService;
 
     @Override
     public PageInfo<OpenapiInterface> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
@@ -221,11 +228,17 @@ public class InterfaceServiceImpl implements InterfaceFacade {
 
     @Override
     public OpenapiInterface getInterfaceByCode(String code) {
-        OpenapiInterface example = new OpenapiInterface();
-        example.setCode(code);
-        example.setIsDelete(DataConstant.NO_DELETE);
-        OpenapiInterface openapiInterface = openapiInterfaceMapper.selectOne(example);
-        return openapiInterface;
+        String cacheKey=code;
+        return new CacheKeyLock(cachesKeyService, SysCacheTimeDMO.CACHETIMEOUT_30M) {
+            @Override
+            protected Object doGetList(BaseCacheEnum type, String key) {
+                OpenapiInterface example = new OpenapiInterface();
+                example.setCode(code);
+                example.setIsDelete(DataConstant.NO_DELETE);
+                OpenapiInterface openapiInterface = openapiInterfaceMapper.selectOne(example);
+                return openapiInterface;
+            }
+        }.getCache(OpenapiCacheEnum.INTERFACE_BY_CODE, cacheKey);
     }
 
     @Override

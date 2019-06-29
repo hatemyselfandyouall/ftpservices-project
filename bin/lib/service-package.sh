@@ -26,6 +26,7 @@ if [ "x${serviceConf}x" != "xx" ]; then
 	if [ "x${serviceProfile}x" != "xx" ];then
 		otherProfile="-P${serviceProfile}"
 	fi
-	
+
+	echo mvn -U -am clean install -pl $PL $otherProfile,publish -Dgit.version=${gitVersion}
 	mvn -U -am clean install -pl $PL $otherProfile,publish -Dgit.version=${gitVersion}
 fi
