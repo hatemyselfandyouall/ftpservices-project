@@ -68,10 +68,10 @@ do
 		$SYSTEM_ROOT/nginx/sbin/nginx -c $CONF_PATH/httpd.conf -p $BASE/
 	;;
 	stop)
-		#if [ $RUNNING -eq 0 ]; then
+		if [ $RUNNING -eq 0 ]; then
 		    echo "$0 $ARG: $STATUS---RUNNING=$RUNNING"
-		#    continue
-		#fi
+		    continue
+		fi
 		
 		echo "Stop HTTPD..."
 		$SYSTEM_ROOT/nginx/sbin/nginx -c $CONF_PATH/httpd.conf -p $BASE/ -s stop
