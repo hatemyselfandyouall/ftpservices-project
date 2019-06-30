@@ -69,7 +69,7 @@ do
 	;;
 	stop)
 		if [ $RUNNING -eq 0 ]; then
-		    echo "$0 $ARG: $STATUS---RUNNING=$RUNNING"
+		    echo "$0 $ARG: $STATUS"
 		    continue
 		fi
 		
