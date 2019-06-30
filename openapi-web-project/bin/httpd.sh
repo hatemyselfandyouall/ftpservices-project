@@ -48,7 +48,7 @@ do
 		STATUS="httpd (no pid file) not running"
 		RUNNING=0
 	fi
-	echo "xxh-222222222222---"
+	#echo "xxh-RUNNING=$RUNNING..."
 	case $ARG in
 	start)
 		if [ $RUNNING -eq 1 ]; then
@@ -69,7 +69,7 @@ do
 	;;
 	stop)
 		if [ $RUNNING -eq 0 ]; then
-		    echo "$0 $ARG: $STATUS"
+		    echo "$0 $ARG: $STATUS---RUNNING=$RUNNING"
 		    continue
 		fi
 		

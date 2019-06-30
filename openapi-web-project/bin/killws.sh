@@ -8,7 +8,7 @@ PROJECT_PATH=$BASE
 . "$BASE/bin/setenv.sh"
 
 # top httpd
-echo "------------99isrun =$ISRUN"
+echo "isrun =$ISRUN is activing, to stop... "
 bash $BASE/bin/httpd.sh stop
 
 if [ "$ISRUN" == "1" ]; then
