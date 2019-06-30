@@ -25,7 +25,7 @@ if [ "x${cmdType}x" != "xx" ];then
 		startCmd=$(echo $serviceConf |awk -F';' '{print $2}')
 		
 		bash $BASE/bin/lib/${cmdType}-${cmd}.sh $service $serverName
-		#echo "xxh---$BASE--${cmdType}-${cmd}.sh $service $serverName --startCmd=$startCmd"
+		echo "xxh---$BASE--${cmdType}-${cmd}.sh $service $serverName --startCmd=$startCmd"
 		if [ "x${startCmd}x" != "xx" ];then
 			TESTOK="0"
 			while [ "$TESTOK" == "0" ]; do

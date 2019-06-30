@@ -51,8 +51,9 @@ if [ "service" == "$type" ]; then
 				bash $BASE/bin/test-cmd.sh $serverName ${value} package
 				hasPackageService="1"
 			fi
-			
+			#xxh publish and so on..for...
 			for service in $(echo $serviceList|awk -F, '{for (num=1;num<=NF;num++)print $num}'); do
+			   echo "xxh num=$num ,value=$value,service=$service,cmd=$cmd,serverName=$serverName"
 				if [ "$value" == "$service" ];then
 					bash $BASE/bin/test-cmd.sh $serverName $service $cmd
 				fi

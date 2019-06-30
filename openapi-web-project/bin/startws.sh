@@ -33,4 +33,5 @@ if [ "$ISRUN" != "1" ]; then
 	nohup bash $BASE/bin/httpd.sh start > /dev/null 2>&1 &
 else
 	echo "${PROJECT} is running."
+	
 fi
