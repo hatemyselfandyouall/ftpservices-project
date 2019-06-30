@@ -22,13 +22,16 @@ if [ "$ISRUN" != "1" ]; then
 	nohup $JAVA_HOME/bin/java -Xbootclasspath/p:$BOOTLIB -server $JAVA_CONF -jar $libPath/jetty-runner-*.jar --stop-port ${STOPPORT} --stop-key ${PROJECT} $JettyConf $BASE/web > $STDOUTFILE 2>&1 &
 	while
 		tmpport=$(netstat -tnlp 2>&1|grep "$RUNPORT"|wc -l)
-		[ "$tmpport" == "0" ]
+		 [ "$tmpport" == "0" ]
+		 
 	do
 		echo -e ".\c"
 		sleep 2
+		
 	done
 	# start httpd
 	nohup bash $BASE/bin/httpd.sh start > /dev/null 2>&1 &
 else
 	echo "${PROJECT} is running."
+	
 fi

@@ -23,13 +23,13 @@ if [ "x${cmdType}x" != "xx" ];then
 		testCmd=$(echo $serviceConf |awk -F';' '{print $3}')
 		testResult=$(echo $serviceConf |awk -F';' '{print $4}')
 		startCmd=$(echo $serviceConf |awk -F';' '{print $2}')
-		
+		#xxh--publish cmd...
 		bash $BASE/bin/lib/${cmdType}-${cmd}.sh $service $serverName
-		
+		#echo "xxh---test.publish cmd..--$BASE--${cmdType}-${cmd}.sh $service $serverName --startCmd=$startCmd"
 		if [ "x${startCmd}x" != "xx" ];then
 			TESTOK="0"
 			while [ "$TESTOK" == "0" ]; do
-				sleep 4
+				sleep 5
 				. $BASE/bin/test-run.sh "$serverName" "$testCmd" "$testResult" 
 				echo -e ".\c"
 			done

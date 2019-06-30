@@ -8,6 +8,7 @@ PROJECT_PATH=$BASE
 . "$BASE/bin/setenv.sh"
 
 # top httpd
+#echo "killws.sh isrun =$ISRUN is activing, to stop... "
 bash $BASE/bin/httpd.sh stop
 
 if [ "$ISRUN" == "1" ]; then
