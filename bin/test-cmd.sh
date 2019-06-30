@@ -23,7 +23,7 @@ if [ "x${cmdType}x" != "xx" ];then
 		testCmd=$(echo $serviceConf |awk -F';' '{print $3}')
 		testResult=$(echo $serviceConf |awk -F';' '{print $4}')
 		startCmd=$(echo $serviceConf |awk -F';' '{print $2}')
-		
+		#xxh--publish cmd...
 		bash $BASE/bin/lib/${cmdType}-${cmd}.sh $service $serverName
 		echo "xxh---$BASE--${cmdType}-${cmd}.sh $service $serverName --startCmd=$startCmd"
 		if [ "x${startCmd}x" != "xx" ];then

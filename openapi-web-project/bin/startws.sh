@@ -23,7 +23,7 @@ if [ "$ISRUN" != "1" ]; then
 	while
 		tmpport=$(netstat -tnlp 2>&1|grep "$RUNPORT"|wc -l)
 		 [ "$tmpport" == "0" ]
-		#echo "xxh--starws.sh--tmpport=$tmpport---tmpport=1,starting success.."  
+		 
 	do
 		echo -e ".\c"
 		sleep 2
