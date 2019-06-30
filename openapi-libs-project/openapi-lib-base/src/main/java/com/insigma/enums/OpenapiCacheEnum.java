@@ -13,17 +13,17 @@ public enum OpenapiCacheEnum implements BaseCacheEnum {
 	/**
 	 * APPkey对应的接口列表
 	 */
-    OPENAPI_BY_APPKEY("openapi_by_appkey"),
+    OPENAPI_BY_APPKEY("work_openapi_by_appkey"),
 
 	/**
 	 * APPid对应的接口列表
 	 */
-	OPENAPI_BY_APPID("openapi_by_appid"),
+	OPENAPI_BY_APPID("work_openapi_by_appid"),
 
     /**
      * APPid对应的接口列表
      */
-    INTERFACE_BY_CODE("interface_by_code");
+    INTERFACE_BY_CODE("work_interface_by_code");
 	private String type;
 
     OpenapiCacheEnum(String type) {
