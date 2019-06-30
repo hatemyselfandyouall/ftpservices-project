@@ -16,6 +16,7 @@ testResult=$3
 
 sshPort=$(grep -i "^ssh-port\s*=" $CONF_PATH/system.properties | cut -d= -f 2| sed 's/^\s*//;s/\s*$//')
 
+echo "xxh-test-run testCmd=$testCmd --TESTOK=$TESTOK"
 if [ "x${testCmd}x" != "xx" ]; then 
 	TESTOK=$(ssh -p $sshPort $testHost "$testCmd"|grep "$testResult" |wc -l)
 else

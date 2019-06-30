@@ -22,13 +22,8 @@ if [ "$ISRUN" != "1" ]; then
 	nohup $JAVA_HOME/bin/java -Xbootclasspath/p:$BOOTLIB -server $JAVA_CONF -jar $libPath/jetty-runner-*.jar --stop-port ${STOPPORT} --stop-key ${PROJECT} $JettyConf $BASE/web > $STDOUTFILE 2>&1 &
 	while
 		tmpport=$(netstat -tnlp 2>&1|grep "$RUNPORT"|wc -l)
-		
-		echo "xxh--starws.sh--tmpport=$tmpport"
 		 [ "$tmpport" == "0" ]
-	   # echo "xxh-tmpport=$tmpport"
-		#if [ "$tmpport" == "0" ];then
-		#	break
-		#fi
+		#echo "xxh--starws.sh--tmpport=$tmpport---tmpport=1,starting success.."  
 	do
 		echo -e ".\c"
 		sleep 2
