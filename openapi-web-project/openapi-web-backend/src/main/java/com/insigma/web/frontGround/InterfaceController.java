@@ -54,9 +54,9 @@ public class InterfaceController extends BasicController {
 
 
     @ApiOperation(value = "接口转发")
-    @RequestMapping(value = "/interface/{code}",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = {"/interface/{code}"},method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public Object getOpenapiInterfaceList(
-            @PathVariable@ApiParam("code") String code,
+            @PathVariable String code,
             @RequestBody Object paramString, HttpServletRequest httpServletRequest){
         ResultVo resultVo=new ResultVo();
         try {
@@ -113,6 +113,9 @@ public class InterfaceController extends BasicController {
             }
             String innerUrl=openapiInterface.getInnerUrl();
             params=SignUtil.getParamWithoutsignatureParam(params);
+//            if (!StringUtils.isEmpty(tradeNo)){
+//                innerUrl=innerUrl+"/"+tradeNo;
+//            }
             log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+params);
             ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,params,String.class);
             log.info("开始进行接口转发，返回值为"+result);
@@ -139,6 +142,25 @@ public class InterfaceController extends BasicController {
         ResultVo resultVo=new ResultVo();
         try {
             JSONObject resultParam=interfaceFacade.checkSignVaild(params);
+            if (resultParam!=null&&resultParam.getInteger("flag")==1){
+                resultVo.setSuccess(true);
+                resultVo.setResult(resultParam);
+            }else {
+                resultVo.setResult(resultParam);
+            }
+        }catch (Exception e){
+            log.error("验签异常",e);
+            resultVo.setResultDes("验签过程异常");
+        }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "接口转发")
+    @RequestMapping(value = "/insertMatters",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo insertMatters() {
+        ResultVo resultVo=new ResultVo();
+        try {
+            JSONObject resultParam=interfaceFacade.insertMatters();
             if (resultParam!=null&&resultParam.getInteger("flag")==1){
                 resultVo.setSuccess(true);
                 resultVo.setResult(resultParam);

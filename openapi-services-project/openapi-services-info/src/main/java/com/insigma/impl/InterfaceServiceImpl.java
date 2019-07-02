@@ -1,6 +1,7 @@
 package com.insigma.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.constant.DataConstant;
@@ -12,10 +13,7 @@ import com.insigma.facade.openapi.vo.*;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceRequestParam.OpenapiInterfaceRequestParamSaveVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceResponseParam.OpenapiInterfaceResponseParamSaveVO;
-import com.insigma.mapper.OpenapiInterfaceMapper;
-import com.insigma.mapper.OpenapiInterfaceRequestParamMapper;
-import com.insigma.mapper.OpenapiInterfaceResponseParamMapper;
-import com.insigma.mapper.OpenapiUserMapper;
+import com.insigma.mapper.*;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.SignUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +45,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     OpenapiUserMapper openapiUserMapper;
     @Autowired
     CachesKeyService cachesKeyService;
+    @Autowired
+    OpenapiAppInterfaceMapper openapiAppInterfaceMapper;
 
     @Override
     public PageInfo<OpenapiInterface> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
@@ -269,6 +269,12 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     @Override
+    public JSONObject checkSignVaild(String param) {
+        JSONObject paramJSON=JSONObject.parseObject(param, Feature.OrderedField);
+        return checkSignVaild(paramJSON);
+    }
+
+    @Override
     public String getAppKeyListByCommandCodeAndOrgNO(String commandCode, String orgNO) throws Exception{
         log.info("开始调用AppKeyListByCommandCodeAndOrgNO方法,commandCode+"+commandCode+",orgNO="+orgNO);
         OpenapiUser examUser=new OpenapiUser();
@@ -293,5 +299,32 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         log.info("结束调用AppKeyListByCommandCodeAndOrgNO方法,resultString="+resultString);
         return resultString;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public JSONObject insertMatters() {
+        String  inString="8001,8002,8003,8004,8005,8006,8007,8008,8009,8010,8011,8012,9012,9013,8203,8205,8207,8021,8022,8023,8024,8025,8026,8027,8028,9016,9017,9018,9019,8041,7207,7208";
+        String[] codes=inString.split(",");
+        for (String code:codes) {
+            OpenapiInterface openapiInterface=new OpenapiInterface();
+            openapiInterface.setCode("matters-" +code);
+            openapiInterface.setCommandCode(code);
+            openapiInterface.setGroupId(Integer.valueOf(code));
+            openapiInterface.setInnerUrl("http://10.85.159.204:13110/matters/mattersService/"+code);
+            openapiInterface.setOutParamType(0);
+            openapiInterface.setInnerParamType(0);
+            openapiInterfaceMapper.insert(openapiInterface);
+            List<Long> appCodes=new ArrayList<>();
+            appCodes.add(5l);appCodes.add(6l);appCodes.add(7l);appCodes.add(9l);appCodes.add(10l);
+            appCodes.forEach(i->{
+                OpenapiAppInterface openapiAppInterface=new OpenapiAppInterface();
+                openapiAppInterface.setAppId(i);
+                openapiAppInterface.setInterfaceId(openapiInterface.getId());
+                openapiAppInterface.setIsAudit(1);
+                openapiAppInterfaceMapper.insert(openapiAppInterface);
+            });
+        }
+        return new JSONObject();
     }
 }

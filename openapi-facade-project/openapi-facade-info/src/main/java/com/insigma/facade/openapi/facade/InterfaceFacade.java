@@ -20,6 +20,10 @@ public interface InterfaceFacade {
 
     JSONObject checkSignVaild(JSONObject param);
 
+    JSONObject checkSignVaild(String param);
+
     String getAppKeyListByCommandCodeAndOrgNO(String commandCode,String orgNO) throws Exception;
+
+    JSONObject insertMatters();
 }
 
