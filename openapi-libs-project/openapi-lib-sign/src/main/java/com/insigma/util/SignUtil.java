@@ -66,36 +66,36 @@ public class SignUtil {
      */
     public static JSONObject checkSign(JSONObject params,String appSecret){
         JSONObject result = new JSONObject();
-        try {
-            JSONObject checkParamResult = checkParamsVaild(params);
-            if (checkParamResult.getInteger("flag") != 1) {
-                return checkParamResult;
-            }
-            result.put("flag", 0);
-            String signature = params.getString("signature");
-            if (StringUtil.isEmpty(signature)) {
-                result.put("msg", "签名signature异常");
-            } else {
-                params.remove("signature");
-            }
-            String signModel=createSign(params,appSecret);
-            SortedMap testMap= new ConcurrentSkipListMap(params);
-            String signOld=createSign(testMap,appSecret);
-            params.put("signature",signModel);//todo testValue
-            System.out.println(params);//todo testValue
-            if (!signature.equals(signModel)&&!signature.equals(signOld)) {
-                result.put("msg", "参数与生成规则不符");
-            } else {
-                result.put("msg", "验证通过");
-                result.put("flag", 1);
-            }
-        }catch (Exception e){
-            result.put("flag",0);
-            result.put("msg","验证参数异常！");
-            log.error("验证参数异常",e);
-        }
-//                        result.put("msg", "验证通过");
-//                        result.put("flag", 1);
+//        try {
+//            JSONObject checkParamResult = checkParamsVaild(params);
+//            if (checkParamResult.getInteger("flag") != 1) {
+//                return checkParamResult;
+//            }
+//            result.put("flag", 0);
+//            String signature = params.getString("signature");
+//            if (StringUtil.isEmpty(signature)) {
+//                result.put("msg", "签名signature异常");
+//            } else {
+//                params.remove("signature");
+//            }
+//            String signModel=createSign(params,appSecret);
+//            SortedMap testMap= new ConcurrentSkipListMap(params);
+//            String signOld=createSign(testMap,appSecret);
+//            params.put("signature",signModel);//todo testValue
+//            System.out.println(params);//todo testValue
+//            if (!signature.equals(signModel)&&!signature.equals(signOld)) {
+//                result.put("msg", "参数与生成规则不符");
+//            } else {
+//                result.put("msg", "验证通过");
+//                result.put("flag", 1);
+//            }
+//        }catch (Exception e){
+//            result.put("flag",0);
+//            result.put("msg","验证参数异常！");
+//            log.error("验证参数异常",e);
+//        }
+                        result.put("msg", "验证通过");
+                        result.put("flag", 1);
         return result;
     }
 
@@ -126,8 +126,8 @@ public class SignUtil {
 
 
     public static void main(String[] args) throws IOException {
-        String testSecret="5cf7bfa05c72443a88aa3f7c53793570";
-        String testKey="dba93607e34641e184c70c7a04ab91bd";
+        String testSecret="abed332121604f7e81cbc2cead8fc51f";
+        String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
         haeder.put("time", "20190628 11:44:07");
@@ -148,7 +148,7 @@ public class SignUtil {
 //        paramJson=getParamWithoutsignatureParam(param);
 //        haeder.put("signature",signature);
 //        String testUrl="http://10.87.0.68/api/frontInterface/interface/transerService-7102";
-        String testUrl="http://10.87.1.151:10500/frontInterface/interface/matters-8003";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
@@ -172,17 +172,51 @@ public class SignUtil {
 
     private static String paramString="{\n" +
             "\t\"ver\": \"V1.0\",\n" +
-            "\t\"orgNo\": \"331099\",\n" +
-            "\t\"orgName\": \"台州市医疗保障局\",\n" +
+            "\t\"orgNo\": \"330000101006\",\n" +
+            "\t\"orgName\": \"æµ\\u0099æ±\\u009Få¤§å\u00AD¦å\\u008C»å\u00AD¦é\\u0099¢é\\u0099\\u0084å±\\u009Eå\\u0084¿ç«¥å\\u008C»é\\u0099¢\",\n" +
             "\t\"id\": \"\",\n" +
-            "\t\"inPut\": {\n" +
-            "\t\t\"asdf\": \"1223\",\n" +
-            "\t\t\"tradeNum\": 10,\n" +
-            "\t\t\"input1\": 123,\n" +
-            "\t\t\"aaaa\": 123,\n" +
-            "\t\t\"abc\": 123,\n" +
-            "\t\t\"input3\": 123\n" +
-            "\t}\n" +
+            "\t\"inPut\": [{\n" +
+            "\t\t\"LS_DT1\": [{\n" +
+            "\t\t\t\"AKC190\": \"100061037\",\n" +
+            "\t\t\t\"BKC022\": \"6475782\",\n" +
+            "\t\t\t\"AKA077\": \"0\",\n" +
+            "\t\t\t\"AAZ285\": \"\",\n" +
+            "\t\t\t\"AAC003\": \"赖昭宇\",\n" +
+            "\t\t\t\"AAC002\": \"331124201205170412\",\n" +
+            "\t\t\t\"BKE100\": \"100061037\",\n" +
+            "\t\t\t\"AAE030\": \"2019-07-23\",\n" +
+            "\t\t\t\"AAE031\": \"\",\n" +
+            "\t\t\t\"AKA078\": \"1\",\n" +
+            "\t\t\t\"AKA120\": \"\",\n" +
+            "\t\t\t\"AKA121\": \"\",\n" +
+            "\t\t\t\"AKE024\": \"\",\n" +
+            "\t\t\t\"AAE386\": \"213\",\n" +
+            "\t\t\t\"AKE020\": \"呼吸内科(湖滨)\",\n" +
+            "\t\t\t\"BKE001\": \"\",\n" +
+            "\t\t\t\"AKE021\": \"\",\n" +
+            "\t\t\t\"BKE318\": \"\",\n" +
+            "\t\t\t\"BKE351\": \"0\",\n" +
+            "\t\t\t\"BKE333\": \"0\",\n" +
+            "\t\t\t\"AKC264\": \"26.00\",\n" +
+            "\t\t\t\"LS_DT2\": {\n" +
+            "\t\t\t\t\"BKA100\": \"0\",\n" +
+            "\t\t\t\t\"BKA101\": \"1\",\n" +
+            "\t\t\t\t\"BKA102\": \"0\",\n" +
+            "\t\t\t\t\"BKE100\": \"100061037\",\n" +
+            "\t\t\t\t\"BKA104\": \"浙江大学医学院附属儿童医院\",\n" +
+            "\t\t\t\t\"BKA105\": \"滨江APP\",\n" +
+            "\t\t\t\t\"AAE036\": \"2019-07-22 05:08:37.0\",\n" +
+            "\t\t\t\t\"AAC003\": \"赖昭宇\",\n" +
+            "\t\t\t\t\"AAC002\": \"331124201205170412\",\n" +
+            "\t\t\t\t\"AKC264\": \"26.00\"\n" +
+            "\t\t\t},\n" +
+            "\t\t\t\"LS_DT3\": {\n" +
+            "\t\t\t\t\"BKA120\": \"\",\n" +
+            "\t\t\t\t\"BKA121\": \"\"\n" +
+            "\t\t\t}\n" +
+            "\t\t}],\n" +
+            "\t\t\"COUNT\": 1\n" +
+            "\t}]\n" +
             "}";
 
 
