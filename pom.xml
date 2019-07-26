@@ -44,7 +44,7 @@
 			<dependency>
 				<groupId>insigma.common</groupId>
 				<artifactId>insigma-common-cache</artifactId>
-				<version>1.0.17</version>
+				<version>1.0.18-SNAPSHOT</version>
 			</dependency>
 			 <dependency>
 				<groupId>insigma.common</groupId>
@@ -187,11 +187,7 @@
 				<artifactId>gson</artifactId>
 				<version>2.3.1</version>
 			</dependency>
-			<dependency>
-				<groupId>insigma.common</groupId>
-				<artifactId>insigma-common-cache</artifactId>
-				<version>1.0.17</version>
-			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 	

@@ -32,5 +32,5 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 		<constructor-arg index="0" value="${redis.platform}" />
 		<constructor-arg index="1" ref="jedisPoolConfig" />
 		<constructor-arg index="2" value="${redis.pool.list}" />
-	</bean>
+    </bean>
 </beans>
