@@ -130,8 +130,8 @@ public class SignUtil {
         String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
-        haeder.put("time", "20190628 11:44:07");
-        haeder.put("nonceStr", "7dbdc3b29a7f42948ab820bb42dec8b0");//随机字符串
+        haeder.put("time", "20190726 17:30:51");
+        haeder.put("nonceStr", "OH15OS89BMFY054L3HKEPX6YYR8BWYZG");//随机字符串
         JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
         //        SortedMap testMap= new ConcurrentSkipListMap(param);
         param.putAll(haeder);
@@ -148,7 +148,7 @@ public class SignUtil {
 //        paramJson=getParamWithoutsignatureParam(param);
 //        haeder.put("signature",signature);
 //        String testUrl="http://10.87.0.68/api/frontInterface/interface/transerService-7102";
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
@@ -171,52 +171,15 @@ public class SignUtil {
 
 
     private static String paramString="{\n" +
-            "\t\"ver\": \"V1.0\",\n" +
-            "\t\"orgNo\": \"330000101006\",\n" +
-            "\t\"orgName\": \"æµ\\u0099æ±\\u009Få¤§å\u00AD¦å\\u008C»å\u00AD¦é\\u0099¢é\\u0099\\u0084å±\\u009Eå\\u0084¿ç«¥å\\u008C»é\\u0099¢\",\n" +
-            "\t\"id\": \"\",\n" +
-            "\t\"inPut\": [{\n" +
-            "\t\t\"LS_DT1\": [{\n" +
-            "\t\t\t\"AKC190\": \"100061037\",\n" +
-            "\t\t\t\"BKC022\": \"6475782\",\n" +
-            "\t\t\t\"AKA077\": \"0\",\n" +
-            "\t\t\t\"AAZ285\": \"\",\n" +
-            "\t\t\t\"AAC003\": \"赖昭宇\",\n" +
-            "\t\t\t\"AAC002\": \"331124201205170412\",\n" +
-            "\t\t\t\"BKE100\": \"100061037\",\n" +
-            "\t\t\t\"AAE030\": \"2019-07-23\",\n" +
-            "\t\t\t\"AAE031\": \"\",\n" +
-            "\t\t\t\"AKA078\": \"1\",\n" +
-            "\t\t\t\"AKA120\": \"\",\n" +
-            "\t\t\t\"AKA121\": \"\",\n" +
-            "\t\t\t\"AKE024\": \"\",\n" +
-            "\t\t\t\"AAE386\": \"213\",\n" +
-            "\t\t\t\"AKE020\": \"呼吸内科(湖滨)\",\n" +
-            "\t\t\t\"BKE001\": \"\",\n" +
-            "\t\t\t\"AKE021\": \"\",\n" +
-            "\t\t\t\"BKE318\": \"\",\n" +
-            "\t\t\t\"BKE351\": \"0\",\n" +
-            "\t\t\t\"BKE333\": \"0\",\n" +
-            "\t\t\t\"AKC264\": \"26.00\",\n" +
-            "\t\t\t\"LS_DT2\": {\n" +
-            "\t\t\t\t\"BKA100\": \"0\",\n" +
-            "\t\t\t\t\"BKA101\": \"1\",\n" +
-            "\t\t\t\t\"BKA102\": \"0\",\n" +
-            "\t\t\t\t\"BKE100\": \"100061037\",\n" +
-            "\t\t\t\t\"BKA104\": \"浙江大学医学院附属儿童医院\",\n" +
-            "\t\t\t\t\"BKA105\": \"滨江APP\",\n" +
-            "\t\t\t\t\"AAE036\": \"2019-07-22 05:08:37.0\",\n" +
-            "\t\t\t\t\"AAC003\": \"赖昭宇\",\n" +
-            "\t\t\t\t\"AAC002\": \"331124201205170412\",\n" +
-            "\t\t\t\t\"AKC264\": \"26.00\"\n" +
-            "\t\t\t},\n" +
-            "\t\t\t\"LS_DT3\": {\n" +
-            "\t\t\t\t\"BKA120\": \"\",\n" +
-            "\t\t\t\t\"BKA121\": \"\"\n" +
-            "\t\t\t}\n" +
-            "\t\t}],\n" +
-            "\t\t\"COUNT\": 1\n" +
-            "\t}]\n" +
+            "  \"ver\": \"V1.0\",\n" +
+            "  \"orgNo\": \"330000101011\",\n" +
+            "  \"orgName\": \"浙江省立同德医院\",\n" +
+            "  \"id\": \"\",\n" +
+            "  \"inPut\": [\n" +
+            "    {\n" +
+            "      \"tradeNum\": \"\"\n" +
+            "    }\n" +
+            "  ]\n" +
             "}";
 
 
