@@ -8,12 +8,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import star.common.open.utils.AesUtil;
 import star.fw.web.mapper.JsonObjectMapper;
 import star.util.StringUtil;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
+
+import static com.insigma.util.MD5Util.MD5TO16;
 
 @Slf4j
 public class SignUtil {
@@ -66,36 +69,36 @@ public class SignUtil {
      */
     public static JSONObject checkSign(JSONObject params,String appSecret){
         JSONObject result = new JSONObject();
-//        try {
-//            JSONObject checkParamResult = checkParamsVaild(params);
-//            if (checkParamResult.getInteger("flag") != 1) {
-//                return checkParamResult;
-//            }
-//            result.put("flag", 0);
-//            String signature = params.getString("signature");
-//            if (StringUtil.isEmpty(signature)) {
-//                result.put("msg", "签名signature异常");
-//            } else {
-//                params.remove("signature");
-//            }
-//            String signModel=createSign(params,appSecret);
-//            SortedMap testMap= new ConcurrentSkipListMap(params);
-//            String signOld=createSign(testMap,appSecret);
-//            params.put("signature",signModel);//todo testValue
-//            System.out.println(params);//todo testValue
-//            if (!signature.equals(signModel)&&!signature.equals(signOld)) {
-//                result.put("msg", "参数与生成规则不符");
-//            } else {
-//                result.put("msg", "验证通过");
-//                result.put("flag", 1);
-//            }
-//        }catch (Exception e){
-//            result.put("flag",0);
-//            result.put("msg","验证参数异常！");
-//            log.error("验证参数异常",e);
-//        }
-        result.put("msg", "验证通过");
-        result.put("flag", 1);
+        try {
+            JSONObject checkParamResult = checkParamsVaild(params);
+            if (checkParamResult.getInteger("flag") != 1) {
+                return checkParamResult;
+            }
+            result.put("flag", 0);
+            String signature = params.getString("signature");
+            if (StringUtil.isEmpty(signature)) {
+                result.put("msg", "签名signature异常");
+            } else {
+                params.remove("signature");
+            }
+            String signModel=createSign(params,appSecret);
+            SortedMap testMap= new ConcurrentSkipListMap(params);
+            String signOld=createSign(testMap,appSecret);
+            params.put("signature",signModel);//todo testValue
+            System.out.println(params);//todo testValue
+            if (!signature.equals(signModel)&&!signature.equals(signOld)) {
+                result.put("msg", "参数与生成规则不符");
+            } else {
+                result.put("msg", "验证通过");
+                result.put("flag", 1);
+            }
+        }catch (Exception e){
+            result.put("flag",0);
+            result.put("msg","验证参数异常！");
+            log.error("验证参数异常",e);
+        }
+//        result.put("msg", "验证通过");
+//        result.put("flag", 1);
         return result;
     }
 
@@ -123,36 +126,60 @@ public class SignUtil {
     }
 
 
+    public static String HeaderSign(JSONObject header,String appSecret){
+        String signature = createSign(header,appSecret);
+        return signature;
+    }
+
 
 
     public static void main(String[] args) throws IOException {
+        testMethod2();
+    }
+
+    private static void testMethod1(){
         String testSecret="abed332121604f7e81cbc2cead8fc51f";
-        String testKey="12321";
+        String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
         haeder.put("time", "20190726 17:30:51");
         haeder.put("nonceStr", "OH15OS89BMFY054L3HKEPX6YYR8BWYZG");//随机字符串
         JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
-        //        SortedMap testMap= new ConcurrentSkipListMap(param);
         param.putAll(haeder);
         String signature = createSign(param,testSecret);
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-//        param.putAll(haeder);
-//        String signature = createSign(testMap,testSecret);
-//        testMap.put("signature",signature);
-//        JSONObject paramJson=new JSONObject(testMap);
-//        System.out.println(paramJson.toJSONString());
-//        System.out.println(checkSign(paramJson,testSecret));
-//        paramJson=getParamWithoutsignatureParam(param);
-//        haeder.put("signature",signature);
-//        String testUrl="http://10.87.0.68/api/frontInterface/interface/transerService-7102";
         String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
-    private static void postTest(JSONObject haeder, JSONObject paramJson,String testUrl) {
+    private static void testMethod2(){
+        String testSecret="abed332121604f7e81cbc2cead8fc51f";
+        String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
+        JSONObject haeder=new JSONObject();
+        haeder.put("appKey",testKey);
+        haeder.put("time", "20190726 17:30:51");
+        haeder.put("nonceStr", "OH15OS89BMFY054L3HKEPX6YYR8BWYZG");//随机字符串
+        String signature = createSign(haeder,testSecret);
+        System.out.println(signature);
+        haeder.put("signature",signature);
+        JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
+        param=getParamWithoutsignatureParam(param);
+        String prarmEncodString=AESEncode(param,testSecret);
+        String testUrl="http://localhost:10500/frontInterface/interface1/medicalPaid-7011";
+        param =new JSONObject();
+        param.put("body",prarmEncodString);
+        postTest(haeder,param,testUrl);
+    }
+
+    public static String AESEncode(JSONObject param,String testSecret) {
+        String key=MD5TO16(testSecret);
+        String temp= AesUtil.encrypt(param.toJSONString(),key);
+        return temp;
+    }
+
+    private static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();
         haeder.keySet().forEach(
@@ -162,12 +189,12 @@ public class SignUtil {
         );
         requestHeaders.add("Content-Type", "application/json");
         //body
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap();
         //HttpEntity
         HttpEntity<MultiValueMap> requestEntity = new HttpEntity(paramJson, requestHeaders);
         Object result= restTemplate.postForEntity(testUrl,requestEntity,String.class);
         System.out.println(result.toString());
     }
+
 
 
     private static String paramString="{\n" +

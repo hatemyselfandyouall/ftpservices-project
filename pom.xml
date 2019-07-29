@@ -188,6 +188,12 @@
 				<version>2.3.1</version>
 			</dependency>
 
+			<dependency>
+				<groupId>insigma.common.libs.open</groupId>
+				<artifactId>common-lib-open</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 	

@@ -41,8 +41,9 @@ public class MD5Util {
         return resultString;
     }
 
-    private static final String hexDigits[] = { "0", "1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
+    private static final String hexDigits[] = {"0", "1", "2", "3", "4", "5",
+            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+
     public static String md5Password(String password) {
 
         try {
@@ -67,16 +68,25 @@ public class MD5Util {
             e.printStackTrace();
             return "";
         }
+    }
 
+    /**
+     * 16位MD5加密
+     *
+     * @param s
+     * @return
+     */
+    public final static String MD5TO16(String s) {
+       return md5Password(s).substring(8,24);
     }
 
     public static void main(String[] args) {
-        String temp1="jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
-        String temp2="jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
+        String temp1 = "jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
+        String temp2 = "jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
         System.out.println(md5Password(temp2));
-        for (int i=0;i<temp1.length();i++){
-            if (temp1.charAt(i)!=temp2.charAt(i)){
-                System.out.println(i+" "+temp1.charAt(i)+" "+temp2.charAt(i));
+        for (int i = 0; i < temp1.length(); i++) {
+            if (temp1.charAt(i) != temp2.charAt(i)) {
+                System.out.println(i + " " + temp1.charAt(i) + " " + temp2.charAt(i));
             }
         }
     }
