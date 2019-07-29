@@ -12,6 +12,7 @@ import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceListVO;
 import com.insigma.util.MD5Util;
 import com.insigma.util.SignUtil;
+import com.insigma.util.StringUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.util.RestTemplateUtil;
 import io.swagger.annotations.Api;
@@ -70,11 +71,15 @@ public class InterfaceController extends BasicController {
             }
             log.info("入参"+paramString+"目标code为"+code);
             String temp=JSONObject.toJSONString(paramString);
-            JSONObject params=JSONObject.parseObject(temp, Feature.OrderedField);
-            params.put("appKey",httpServletRequest.getHeader("appKey"));
-            params.put("time", httpServletRequest.getHeader("time"));
-            params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));
-            params.put("signature",httpServletRequest.getHeader("signature"));
+//            JSONObject params=JSONObject.parseObject(temp, Feature.OrderedField);
+//            params.put("appKey",httpServletRequest.getHeader("appKey"));
+//            params.put("time", httpServletRequest.getHeader("time"));
+//            params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));
+//            params.put("signature",httpServletRequest.getHeader("signature"));
+            String params= StringUtil.StingPut(temp,"appKey",httpServletRequest.getHeader("appKey"));
+            params= StringUtil.StingPut(temp,"time",httpServletRequest.getHeader("time"));
+            params= StringUtil.StingPut(temp,"nonceStr",httpServletRequest.getHeader("nonceStr"));
+            String signature=httpServletRequest.getHeader("signature");
             String appKey=httpServletRequest.getHeader("appKey");
             if (StringUtils.isEmpty(appKey)){
                 log.info("appKey未提供,参数"+params);
@@ -102,7 +107,7 @@ public class InterfaceController extends BasicController {
                 openapiInterface=openapiInterfaceMap.get(code);
             }
             String appSecret=openapiApp.getAppSecret();
-            JSONObject checkSignResult= SignUtil.checkSign(params,appSecret);
+            JSONObject checkSignResult= SignUtil.checkSign(params,appSecret,signature);
             if(checkSignResult.getInteger("flag")!=1){
                 resultVo.setResultDes(checkSignResult.getString("msg"));
                 log.info(checkSignResult.getString("msg")+params);
@@ -114,16 +119,16 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             String innerUrl=openapiInterface.getInnerUrl();
-            params=SignUtil.getParamWithoutsignatureParam(params);
+            JSONObject paramsJSON=JSONObject.parseObject(temp, Feature.OrderedField);
 //            if (!StringUtils.isEmpty(tradeNo)){
 //                innerUrl=innerUrl+"/"+tradeNo;
 //            }
-            log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+params);
-            ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,params,String.class);
+            log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+paramsJSON);
+            ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,paramsJSON,String.class);
             log.info("开始进行接口转发，返回值为"+result);
             if (result==null||!HttpStatus.OK.equals(result.getStatusCode())){
                 resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
-                resultVo.setResult("获得了异常的返回码！返回信息为："+params);
+                resultVo.setResult("获得了异常的返回码！返回信息为："+result);
                 resultVo.setSuccess(false);
                 return resultVo;
             }else {

@@ -42,6 +42,13 @@ public class SignUtil {
         return signature;
     }
 
+    public static String createSign(String parameters,String  appSecret){
+        String temp=com.insigma.util.StringUtil.StingPut(parameters,"secret",appSecret);
+        String result=temp;
+        System.out.println(result);
+        String signature = MD5Util.md5Password(result).toUpperCase();
+        return signature;
+    }
     private static String getSignByEntry(String appSecret, Set<Map.Entry<String, Object>> entries) {
         StringBuffer sb = new StringBuffer();
         Set es = entries;
@@ -102,6 +109,37 @@ public class SignUtil {
         return result;
     }
 
+    /**
+     * 根据参数及appSecret验证签名
+     * @param appSecret
+     * @return
+     */
+    public static JSONObject checkSign(String params,String appSecret,String sign){
+        JSONObject result = new JSONObject();
+        try {
+            result.put("flag", 0);
+            String signature = sign;
+            if (StringUtil.isEmpty(signature)) {
+                result.put("msg", "签名signature异常");
+            }
+            String signModel=createSign(params,appSecret);
+            System.out.println(params);//todo testValue
+            if (!signature.equals(signModel)) {
+                result.put("msg", "参数与生成规则不符");
+            } else {
+                result.put("msg", "验证通过");
+                result.put("flag", 1);
+            }
+        }catch (Exception e){
+            result.put("flag",0);
+            result.put("msg","验证参数异常！");
+            log.error("验证参数异常",e);
+        }
+        result.put("msg", "验证通过");
+        result.put("flag", 1);
+        return result;
+    }
+
     private static JSONObject checkParamsVaild(JSONObject params) {
         JSONObject result=new JSONObject();
         result.put("flag",0);
@@ -134,7 +172,7 @@ public class SignUtil {
 
 
     public static void main(String[] args) throws IOException {
-        testMethod2();
+        testMethod1();
     }
 
     private static void testMethod1(){
@@ -150,7 +188,7 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
