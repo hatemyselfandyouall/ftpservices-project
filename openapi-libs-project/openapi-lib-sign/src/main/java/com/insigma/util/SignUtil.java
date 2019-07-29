@@ -165,9 +165,8 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
-        param=getParamWithoutsignatureParam(param);
         String prarmEncodString=AESEncode(param,testSecret);
-        String testUrl="http://localhost:10500/frontInterface/interface1/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface1/medicalPaid-7011";
         param =new JSONObject();
         param.put("body",prarmEncodString);
         postTest(haeder,param,testUrl);
