@@ -16,7 +16,7 @@
 	<dubbo:consumer loadbalance="${dubbo.loadbalance}" cluster="${dubbo.consumer.cluster}" />
 
 	<!-- 使用per暴露服务地址 -->
-	<dubbo:registry id="servicesRegistry" group="dubbo-gzd" protocol="zookeeper" address="${zookeeper.list}" file="/tmp/dubbo.${project.name}.cache" />
+	<dubbo:registry id="servicesRegistry" group="dubbo" protocol="zookeeper" address="${zookeeper.list}" file="/tmp/dubbo.${project.name}.cache" />
 
 
 </beans>

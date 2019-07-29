@@ -192,7 +192,7 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
