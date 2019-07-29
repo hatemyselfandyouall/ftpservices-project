@@ -135,8 +135,8 @@ public class SignUtil {
             result.put("msg","验证参数异常！");
             log.error("验证参数异常",e);
         }
-        result.put("msg", "验证通过");
-        result.put("flag", 1);
+//        result.put("msg", "验证通过");
+//        result.put("flag", 1);
         return result;
     }
 
@@ -176,7 +176,7 @@ public class SignUtil {
     }
 
     private static void testMethod1(){
-        String testSecret="abed332121604f7e81cbc2cead8fc51f";
+        String testSecret="abed332121604f7e81cbc2cead8fc51f111";
         String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
@@ -188,7 +188,7 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
