@@ -77,8 +77,8 @@ public class InterfaceController extends BasicController {
 //            params.put("nonceStr",httpServletRequest.getHeader("nonceStr"));
 //            params.put("signature",httpServletRequest.getHeader("signature"));
             String params= StringUtil.StingPut(temp,"appKey",httpServletRequest.getHeader("appKey"));
-            params= StringUtil.StingPut(temp,"time",httpServletRequest.getHeader("time"));
-            params= StringUtil.StingPut(temp,"nonceStr",httpServletRequest.getHeader("nonceStr"));
+            params= StringUtil.StingPut(params,"time",httpServletRequest.getHeader("time"));
+            params= StringUtil.StingPut(params,"nonceStr",httpServletRequest.getHeader("nonceStr"));
             String signature=httpServletRequest.getHeader("signature");
             String appKey=httpServletRequest.getHeader("appKey");
             if (StringUtils.isEmpty(appKey)){

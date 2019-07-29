@@ -12,7 +12,7 @@
     <dubbo:provider loadbalance="${dubbo.loadbalance}" />
 	<dubbo:consumer loadbalance="${dubbo.loadbalance}" cluster="${dubbo.consumer.cluster}" check="false" timeout="6000"/>
 	<!-- 使用per暴露服务地址 -->
-	<dubbo:registry id="servicesRegistry" group="dubbo" protocol="zookeeper" address="${zookeeper.list}" file="tmp/openapi-web-backend/dubbo.cache" />
+	<dubbo:registry id="servicesRegistry" group="dubbo-gzd" protocol="zookeeper" address="${zookeeper.list}" file="tmp/openapi-web-backend/dubbo.cache" />
 
 
 </beans>

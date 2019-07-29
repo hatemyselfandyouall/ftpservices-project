@@ -37,6 +37,7 @@ public class SignUtil {
         parameters.put("secret",appSecret);
         String result=parameters.toString();
         System.out.println(result);
+        log.info(result);
         String signature = MD5Util.md5Password(result).toUpperCase();
         parameters.remove("secret");
         return signature;
@@ -46,6 +47,7 @@ public class SignUtil {
         String temp=com.insigma.util.StringUtil.StingPut(parameters,"secret",appSecret);
         String result=temp;
         System.out.println(result);
+        log.info(result);
         String signature = MD5Util.md5Password(result).toUpperCase();
         return signature;
     }
@@ -65,6 +67,7 @@ public class SignUtil {
         sb.append("secret=" + appSecret);//最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
         String result=sb.toString();
         System.out.println(result);
+        log.info(result);
         String signature = MD5Util.md5Password(result).toUpperCase();
         return signature;
     }
@@ -124,6 +127,7 @@ public class SignUtil {
             }
             String signModel=createSign(params,appSecret);
             System.out.println(params);//todo testValue
+            log.info(params);
             if (!signature.equals(signModel)) {
                 result.put("msg", "参数与生成规则不符");
             } else {
@@ -135,8 +139,8 @@ public class SignUtil {
             result.put("msg","验证参数异常！");
             log.error("验证参数异常",e);
         }
-        result.put("msg", "验证通过");
-        result.put("flag", 1);
+//        result.put("msg", "验证通过");
+//        result.put("flag", 1);
         return result;
     }
 
@@ -188,7 +192,7 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
@@ -204,7 +208,7 @@ public class SignUtil {
         haeder.put("signature",signature);
         JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
         String prarmEncodString=AESEncode(param,testSecret);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface1/medicalPaid-7011";
+        String testUrl="http://localhost:10500/frontInterface/interface1/medicalPaid-7011";
         param =new JSONObject();
         param.put("body",prarmEncodString);
         postTest(haeder,param,testUrl);
