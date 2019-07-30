@@ -182,28 +182,50 @@ public class SignUtil {
 
 
     public static void main(String[] args) throws IOException {
-        testMethod1();
+        testMethod3();
     }
 
     private static void testMethod1(){
         String testSecret="abed332121604f7e81cbc2cead8fc51f";
         String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
-        String time="20190729 21:01:35";
-        String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
-        String paramStr="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
-//        JSONObject haeder=new JSONObject();
-//        haeder.put("appKey",testKey);
-//        haeder.put("time", "20190729 21:01:35");
-//        haeder.put("nonceStr", "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1");//随机字符串
-//        JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
-//        param.putAll(haeder);
-        String param = paramStr+testKey+time+nonceStr;
+//        String time="20190729 21:01:35";
+//        String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
+//        String paramStr="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
+        JSONObject haeder=new JSONObject();
+        haeder.put("appKey",testKey);
+        haeder.put("time", "20190729 21:01:35");
+        haeder.put("nonceStr", "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1");//随机字符串
+        JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
+        param.putAll(haeder);
+//        String param = paramStr+testKey+time+nonceStr;
         String signature = createSign(param,testSecret);
         System.out.println(signature);
 //        haeder.put("signature",signature);
 //        param=getParamWithoutsignatureParam(param);
 //        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
 //        postTest(haeder,param,testUrl);
+    }
+
+    private static void testMethod3(){
+        String testSecret="abed332121604f7e81cbc2cead8fc51f";
+        String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
+        String time="20190729 21:01:35";
+        String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
+        String paramStr="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
+        String param = paramStr+testKey+time+nonceStr+testSecret;
+        String signature = MD5Util.md5Password(param).toUpperCase();
+        System.out.println(signature);
+        JSONObject haeder=new JSONObject();
+        haeder.put("appKey",testKey);
+        haeder.put("time", "20190729 21:01:35");
+        haeder.put("nonceStr", "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1");//随机字符串
+        haeder.put("signature",signature);
+        JSONObject paramJson=JSONObject.parseObject(paramStr,Feature.OrderedField);
+//        String prarmEncodString=AESEncode(param,testSecret);
+        String testUrl="http://localhost:10500/frontInterface/interfaceAssemble/medicalPaid-7011";
+//        param =new JSONObject();
+//        param.put("body",prarmEncodString);
+        postTest(haeder,paramJson,testUrl);
     }
 
     private static void testMethod2(){

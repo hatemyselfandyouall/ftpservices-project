@@ -9,9 +9,8 @@ public class TestSignMain {
 	        String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
 	        String paramStr="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
 	        String param = paramStr+testKey+time+nonceStr+testSecret;
-	        String signature = SignUtil.createSignByString(param);
+	        String signature = MD5Util.md5Password(param).toUpperCase();
 	        System.out.println(signature);
-
 	}
 
 }
