@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.insigma.constant.DataConstant;
+import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;

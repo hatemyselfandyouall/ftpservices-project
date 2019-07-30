@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -85,36 +86,36 @@ public class SignUtil {
      */
     public static JSONObject checkSign(JSONObject params,String appSecret){
         JSONObject result = new JSONObject();
-//        try {
-//            JSONObject checkParamResult = checkParamsVaild(params);
-//            if (checkParamResult.getInteger("flag") != 1) {
-//                return checkParamResult;
-//            }
-//            result.put("flag", 0);
-//            String signature = params.getString("signature");
-//            if (StringUtil.isEmpty(signature)) {
-//                result.put("msg", "签名signature异常");
-//            } else {
-//                params.remove("signature");
-//            }
-//            String signModel=createSign(params,appSecret);
-//            SortedMap testMap= new ConcurrentSkipListMap(params);
-//            String signOld=createSign(testMap,appSecret);
-//            params.put("signature",signModel);//todo testValue
-//            System.out.println(params);//todo testValue
-//            if (!signature.equals(signModel)&&!signature.equals(signOld)) {
-//                result.put("msg", "参数与生成规则不符");
-//            } else {
-//                result.put("msg", "验证通过");
-//                result.put("flag", 1);
-//            }
-//        }catch (Exception e){
-//            result.put("flag",0);
-//            result.put("msg","验证参数异常！");
-//            log.error("验证参数异常",e);
-//        }
-        result.put("msg", "验证通过");
-        result.put("flag", 1);
+        try {
+            JSONObject checkParamResult = checkParamsVaild(params);
+            if (checkParamResult.getInteger("flag") != 1) {
+                return checkParamResult;
+            }
+            result.put("flag", 0);
+            String signature = params.getString("signature");
+            if (StringUtil.isEmpty(signature)) {
+                result.put("msg", "签名signature异常");
+            } else {
+                params.remove("signature");
+            }
+            String signModel=createSign(params,appSecret);
+            SortedMap testMap= new ConcurrentSkipListMap(params);
+            String signOld=createSign(testMap,appSecret);
+            params.put("signature",signModel);//todo testValue
+            System.out.println(params);//todo testValue
+            if (!signature.equals(signModel)&&!signature.equals(signOld)) {
+                result.put("msg", "参数与生成规则不符");
+            } else {
+                result.put("msg", "验证通过");
+                result.put("flag", 1);
+            }
+        }catch (Exception e){
+            result.put("flag",0);
+            result.put("msg","验证参数异常！");
+            log.error("验证参数异常",e);
+        }
+//        result.put("msg", "验证通过");
+//        result.put("flag", 1);
         return result;
     }
 
@@ -182,28 +183,25 @@ public class SignUtil {
 
 
     public static void main(String[] args) throws IOException {
+        testMethod1();
         testMethod3();
     }
 
     private static void testMethod1(){
         String testSecret="abed332121604f7e81cbc2cead8fc51f";
         String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
-//        String time="20190729 21:01:35";
-//        String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
-//        String paramStr="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
         haeder.put("nonceStr", "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1");//随机字符串
         JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
         param.putAll(haeder);
-//        String param = paramStr+testKey+time+nonceStr;
         String signature = createSign(param,testSecret);
         System.out.println(signature);
-//        haeder.put("signature",signature);
-//        param=getParamWithoutsignatureParam(param);
-//        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
-//        postTest(haeder,param,testUrl);
+        haeder.put("signature",signature);
+        param=getParamWithoutsignatureParam(param);
+        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        postTest(haeder,param,testUrl);
     }
 
     private static void testMethod3(){
@@ -217,14 +215,12 @@ public class SignUtil {
         System.out.println(signature);
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
-        haeder.put("time", "20190729 21:01:35");
-        haeder.put("nonceStr", "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1");//随机字符串
+        haeder.put("time", time);
+        haeder.put("nonceStr", nonceStr);//随机字符串
         haeder.put("signature",signature);
+        haeder.put("encodeType","1");
         JSONObject paramJson=JSONObject.parseObject(paramStr,Feature.OrderedField);
-//        String prarmEncodString=AESEncode(param,testSecret);
-        String testUrl="http://localhost:10500/frontInterface/interfaceAssemble/medicalPaid-7011";
-//        param =new JSONObject();
-//        param.put("body",prarmEncodString);
+        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,paramJson,testUrl);
     }
 

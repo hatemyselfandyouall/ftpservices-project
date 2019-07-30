@@ -2,7 +2,7 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.insigma.constant.DataConstant;
+import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.po.OpenapiAppInterface;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import star.bizbase.util.constant.SysCacheTimeDMO;
 import star.modules.cache.CacheKeyLock;
 import star.modules.cache.CachesKeyService;
-import star.modules.cache.CachesService;
 import star.modules.cache.enumerate.BaseCacheEnum;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.po.OpenapiApp;
