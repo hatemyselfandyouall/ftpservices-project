@@ -114,8 +114,8 @@ public class SignUtil {
             result.put("msg","验证参数异常！");
             log.error("验证参数异常",e);
         }
-//        result.put("msg", "验证通过");
-//        result.put("flag", 1);
+        result.put("msg", "验证通过");
+        result.put("flag", 1);
         return result;
     }
 
