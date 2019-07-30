@@ -1,22 +1,25 @@
 package com.insigma.util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.Feature;
-import lombok.extern.slf4j.Slf4j;
+import static com.insigma.util.MD5Util.MD5TO16;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
+
+import lombok.extern.slf4j.Slf4j;
 import star.common.open.utils.AesUtil;
 import star.fw.web.mapper.JsonObjectMapper;
 import star.util.StringUtil;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ConcurrentSkipListMap;
-
-import static com.insigma.util.MD5Util.MD5TO16;
 
 @Slf4j
 public class SignUtil {
@@ -31,6 +34,9 @@ public class SignUtil {
      */
     public static String createSign(SortedMap<String,Object> parameters,String  appSecret){
         return getSignByEntry(appSecret, parameters.entrySet());
+    }
+    public static String createSignByString(String parameters,String  appSecret){
+        return MD5Util.md5Password(parameters+"secret=" + appSecret).toUpperCase();
     }
 
     public static String createSign(JSONObject parameters,String  appSecret){
@@ -182,18 +188,22 @@ public class SignUtil {
     private static void testMethod1(){
         String testSecret="abed332121604f7e81cbc2cead8fc51f";
         String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
-        JSONObject haeder=new JSONObject();
-        haeder.put("appKey",testKey);
-        haeder.put("time", "20190726 17:30:51");
-        haeder.put("nonceStr", "OH15OS89BMFY054L3HKEPX6YYR8BWYZG");//随机字符串
-        JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
-        param.putAll(haeder);
+        String time="20190729 21:01:35";
+        String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
+        String paramStr="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
+//        JSONObject haeder=new JSONObject();
+//        haeder.put("appKey",testKey);
+//        haeder.put("time", "20190729 21:01:35");
+//        haeder.put("nonceStr", "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1");//随机字符串
+//        JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
+//        param.putAll(haeder);
+        String param = paramStr+testKey+time+nonceStr;
         String signature = createSign(param,testSecret);
         System.out.println(signature);
-        haeder.put("signature",signature);
-        param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
-        postTest(haeder,param,testUrl);
+//        haeder.put("signature",signature);
+//        param=getParamWithoutsignatureParam(param);
+//        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
+//        postTest(haeder,param,testUrl);
     }
 
     private static void testMethod2(){
@@ -238,17 +248,7 @@ public class SignUtil {
 
 
 
-    private static String paramString="{\n" +
-            "  \"ver\": \"V1.0\",\n" +
-            "  \"orgNo\": \"330000101011\",\n" +
-            "  \"orgName\": \"浙江省立同德医院\",\n" +
-            "  \"id\": \"\",\n" +
-            "  \"inPut\": [\n" +
-            "    {\n" +
-            "      \"tradeNum\": \"\"\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
+    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
 
 
     public static JSONObject getParamWithoutsignatureParam(JSONObject params) {
