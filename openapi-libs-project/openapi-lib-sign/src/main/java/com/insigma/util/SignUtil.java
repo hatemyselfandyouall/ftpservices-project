@@ -35,8 +35,8 @@ public class SignUtil {
     public static String createSign(SortedMap<String,Object> parameters,String  appSecret){
         return getSignByEntry(appSecret, parameters.entrySet());
     }
-    public static String createSignByString(String parameters,String  appSecret){
-        return MD5Util.md5Password(parameters+"secret=" + appSecret).toUpperCase();
+    public static String createSignByString(String parameters){
+        return MD5Util.md5Password(parameters).toUpperCase();
     }
 
     public static String createSign(JSONObject parameters,String  appSecret){
