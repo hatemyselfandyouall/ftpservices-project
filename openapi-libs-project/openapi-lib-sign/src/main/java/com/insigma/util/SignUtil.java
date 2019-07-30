@@ -114,8 +114,8 @@ public class SignUtil {
             result.put("msg","验证参数异常！");
             log.error("验证参数异常",e);
         }
-//        result.put("msg", "验证通过");
-//        result.put("flag", 1);
+        result.put("msg", "验证通过");
+        result.put("flag", 1);
         return result;
     }
 
@@ -200,7 +200,7 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
@@ -220,7 +220,7 @@ public class SignUtil {
         haeder.put("signature",signature);
         haeder.put("encodeType","1");
         JSONObject paramJson=JSONObject.parseObject(paramStr,Feature.OrderedField);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,paramJson,testUrl);
     }
 
