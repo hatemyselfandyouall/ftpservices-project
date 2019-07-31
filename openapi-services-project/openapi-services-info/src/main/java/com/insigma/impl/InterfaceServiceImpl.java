@@ -275,6 +275,33 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     @Override
+    public JSONObject checkSignVaild(String paramString, String appKey, String time, String nonceStr, String signature, String encodeType) {
+        log.info("开始验证参数合法性param"+paramString);
+        JSONObject result = new JSONObject();
+        result.put("flag", 0);
+        try {
+            if (StringUtils.isEmpty(appKey)) {
+                result.put("msg", "appKey必须存在！");
+                return result;
+            }
+            OpenapiAppShowDetailVO openapiAppShowDetailVO = openapiAppFacade.getAppByAppKey(appKey);
+            if (openapiAppShowDetailVO == null) {
+                result.put("msg", "appKey不存在或错误！");
+                return result;
+            }
+            String appSecret=openapiAppShowDetailVO.getAppSecret();
+            log.info("开始调用验证参数合法性方法param"+paramString);
+            result = SignUtil.checkSign(paramString,appKey,time,nonceStr,signature,encodeType,appSecret);
+            log.info("开始调用验证参数合法性方法返回"+result);
+            return result;
+        } catch (Exception e) {
+            log.error("接口参数校验异常", e);
+            result.put("msg", "接口参数校验异常！");
+            return result;
+        }
+    }
+
+    @Override
     public String getAppKeyListByCommandCodeAndOrgNO(String commandCode, String orgNO) throws Exception{
         log.info("开始调用AppKeyListByCommandCodeAndOrgNO方法,commandCode+"+commandCode+",orgNO="+orgNO);
         OpenapiUser examUser=new OpenapiUser();

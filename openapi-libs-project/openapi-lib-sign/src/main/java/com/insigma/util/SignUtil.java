@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import constant.DataConstant;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
@@ -114,8 +115,8 @@ public class SignUtil {
             result.put("msg","验证参数异常！");
             log.error("验证参数异常",e);
         }
-        result.put("msg", "验证通过");
-        result.put("flag", 1);
+//        result.put("msg", "验证通过");
+//        result.put("flag", 1);
         return result;
     }
 
@@ -187,6 +188,33 @@ public class SignUtil {
         testMethod3();
     }
 
+    public static JSONObject checkSign(String paramString, String appKey, String time, String nonceStr, String signature,String encodeType,String appSecret) {
+        JSONObject resultVo=new JSONObject();
+        if (DataConstant.ENCODE_TYPE_C_SHARP.equals(encodeType)){
+            String param = paramString+appKey+time+nonceStr+appSecret;
+            String checkSignResult = MD5Util.md5Password(param).toUpperCase();
+            log.info("参数 paramString={},testKey={},time={},nonceStr={},appSecret={},sing={},checkSignResult={}",paramString,appKey,time,nonceStr,appSecret,signature,checkSignResult);
+            if (checkSignResult==null||!checkSignResult.equals(signature)){
+                log.info("签名验证错误,入参为"+param);
+                resultVo.put("msg","签名验证错误！");
+                resultVo.put("flag","0");
+                return resultVo;
+            }else {
+                log.info("签名验证成功,入参为"+param);
+                resultVo.put("msg","签名验证成功！");
+                resultVo.put("flag","1");
+                return resultVo;
+            }
+        }else {
+            JSONObject tempJSON=JSONObject.parseObject(paramString, Feature.OrderedField);
+            tempJSON.put("appKey",appKey);
+            tempJSON.put("time",time);
+            tempJSON.put("nonceStr",nonceStr);
+            tempJSON.put("signature",signature);
+            return SignUtil.checkSign(tempJSON,appSecret);
+        }
+    }
+
     private static void testMethod1(){
         String testSecret="abed332121604f7e81cbc2cead8fc51f";
         String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
@@ -200,7 +228,7 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
 
@@ -209,7 +237,7 @@ public class SignUtil {
         String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
         String time="20190729 21:01:35";
         String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
-        String paramStr="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
+        String paramStr="\"{\\\"ver\\\":\\\"V1.0\\\",\\\"orgNo\\\":\\\"330000101010\\\",\\\"orgName\\\":\\\"浙江中医药大学附属第二医院\\\",\\\"id\\\":\\\"\\\",\\\"inPut\\\":[{\\\"AAC002\\\":\\\"330102197501016171\\\"}]}";
         String param = paramStr+testKey+time+nonceStr+testSecret;
         String signature = MD5Util.md5Password(param).toUpperCase();
         System.out.println(signature);
@@ -220,7 +248,7 @@ public class SignUtil {
         haeder.put("signature",signature);
         haeder.put("encodeType","1");
         JSONObject paramJson=JSONObject.parseObject(paramStr,Feature.OrderedField);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,paramJson,testUrl);
     }
 
@@ -266,7 +294,7 @@ public class SignUtil {
 
 
 
-    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330000101011\",\"orgName\":\"浙江省立同德医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
+    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330000101010\",\"orgName\":\"浙江中医药大学附属第二医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
 
 
     public static JSONObject getParamWithoutsignatureParam(JSONObject params) {

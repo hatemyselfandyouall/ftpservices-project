@@ -107,7 +107,7 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             String appSecret=openapiApp.getAppSecret();
-            JSONObject checkSignResult=checkSign(paramString,appKey,time,nonceStr,signature,encodeType,appSecret);
+            JSONObject checkSignResult=SignUtil.checkSign(paramString,appKey,time,nonceStr,signature,encodeType,appSecret);
             if(checkSignResult.getInteger("flag")!=1){
                 resultVo.setResultDes(checkSignResult.getString("msg"));
                 log.info(checkSignResult.getString("msg")+paramString);
@@ -128,32 +128,7 @@ public class InterfaceController extends BasicController {
         return resultVo;
     }
 
-    private JSONObject checkSign(String paramString, String appKey, String time, String nonceStr, String signature,String encodeType,String appSecret) {
-        JSONObject resultVo=new JSONObject();
-        if (DataConstant.ENCODE_TYPE_C_SHARP.equals(encodeType)){
-            String param = paramString+appKey+time+nonceStr+appSecret;
-            String checkSignResult = MD5Util.md5Password(param).toUpperCase();
-            logger.info("参数 paramString={},testKey={},time={},nonceStr={},appSecret={},sing={},checkSignResult={}",paramString,appKey,time,nonceStr,appSecret,signature,checkSignResult);
-            if (checkSignResult==null||!checkSignResult.equals(signature)){
-                logger.info("签名验证错误,入参为"+param);
-                resultVo.put("msg","签名验证错误！");
-                resultVo.put("flag","0");
-                return resultVo;
-            }else {
-                logger.info("签名验证成功,入参为"+param);
-                resultVo.put("msg","签名验证成功！");
-                resultVo.put("flag","1");
-                return resultVo;
-            }
-        }else {
-            JSONObject tempJSON=JSONObject.parseObject(paramString, Feature.OrderedField);
-            tempJSON.put("appKey",appKey);
-            tempJSON.put("time",time);
-            tempJSON.put("nonceStr",nonceStr);
-            tempJSON.put("signature",signature);
-            return SignUtil.checkSign(tempJSON,appSecret);
-        }
-    }
+
 
     private Object sendMessageBack(ResultVo resultVo, ResponseEntity result) {
         if (result==null||!HttpStatus.OK.equals(result.getStatusCode())){
