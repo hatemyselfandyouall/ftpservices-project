@@ -183,10 +183,7 @@ public class SignUtil {
 
 
 
-    public static void main(String[] args) throws IOException {
-        testMethod1();
-        testMethod3();
-    }
+
 
     public static JSONObject checkSign(String paramString, String appKey, String time, String nonceStr, String signature,String encodeType,String appSecret) {
         JSONObject resultVo=new JSONObject();
@@ -214,11 +211,14 @@ public class SignUtil {
             return SignUtil.checkSign(tempJSON,appSecret);
         }
     }
-
+    public static void main(String[] args) throws IOException {
+        testMethod1();
+//        testMethod3();
+    }
     private static void testMethod1(){
         String testKey="915b9bda38854ffda5337bd6534c635e";
         String testSecret="b2566d881482431095a3fe5270756eb0";
-        JSONObject haeder=new JSONObject();
+        JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
         haeder.put("nonceStr", "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1");//随机字符串
@@ -231,6 +231,51 @@ public class SignUtil {
         String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7015";
         postTest(haeder,param,testUrl);
     }
+    private static String paramString="{\n" +
+            "\t\"ver\": \"V1.0\",\n" +
+            "\t\"orgNo\": \"330000101007\",\n" +
+            "\t\"orgName\": \"浙江医院\",\n" +
+            "\t\"trade\": \"7011\",\n" +
+            "\t\"id\": \"\",\n" +
+            "\t\"inPut\": [{\n" +
+            "\n" +
+            "\t\t\"COUNT\": \"1\",\n" +
+            "\t\t\"LS_DT1\": [{\n" +
+            "\t\t\t\"AKC190\": \"2132561\",\n" +
+            "\t\t\t\"BKC022\": \"5010001837\",\n" +
+            "\t\t\t\"AKA077\": \"0\",\n" +
+            "\t\t\t\"AAZ285\": \"1\",\n" +
+            "\t\t\t\"AAC003\": \"叶见青\",\n" +
+            "\t\t\t\"AAC002\": \"330721197307152710\",\n" +
+            "\t\t\t\"BKE100\": \"02-ZZJ041-O0003020\",\n" +
+            "\t\t\t\"AAE030\": \"1\",\n" +
+            "\t\t\t\"BKE318\": \"1\",\n" +
+            "\t\t\t\"AAE031\": \"1\",\n" +
+            "\t\t\t\"AKA078\": \"2\",\n" +
+            "\t\t\t\"AKE024\": \"1\",\n" +
+            "\t\t\t\"AKA120\": \"2\",\n" +
+            "\t\t\t\"AKA121\": \"1\",\n" +
+            "\t\t\t\"AKC264\": \"10\",\n" +
+            "\t\t\t\"LS_DT2\": [{\n" +
+            "\t\t\t\t\"BKE100\": \"02-ZZJ041-O0003020\",\n" +
+            "\t\t\t\t\"BKA100\": \"1\",\n" +
+            "\t\t\t\t\"BKA101\": \"1\",\n" +
+            "\t\t\t\t\"BKA102\": \"1\",\n" +
+            "\t\t\t\t\"BKA104\": \"1\",\n" +
+            "\t\t\t\t\"BKA105\": \"1\",\n" +
+            "\t\t\t\t\"AAE036\": \"2019-07-01\",\n" +
+            "\t\t\t\t\"AAC003\": \"叶见青\",\n" +
+            "\t\t\t\t\"AAC002\": \"330721197307152710\",\n" +
+            "\t\t\t\t\"AKC264\": \"200.22\"\n" +
+            "\t\t\t}],\n" +
+            "\t\t\t\"LS_DT3\": [{\n" +
+            "\t\t\t\t\"BKA120\": \"05522\",\n" +
+            "\t\t\t\t\"BKA121\": \"生病\"\n" +
+            "\t\t\t}]\n" +
+            "\t\t}]\n" +
+            "\t}]\n" +
+            "\n" +
+            "}";
 
     private static void testMethod3(){
         String testKey="915b9bda38854ffda5337bd6534c635e";
@@ -239,6 +284,7 @@ public class SignUtil {
         String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
         String paramStr=paramString;
         String param = paramStr+testKey+time+nonceStr+testSecret;
+        System.out.println(param);
         String signature = MD5Util.md5Password(param).toUpperCase();
         System.out.println(signature);
         JSONObject haeder=new JSONObject();
@@ -248,7 +294,7 @@ public class SignUtil {
         haeder.put("signature",signature);
         haeder.put("encodeType","1");
         JSONObject paramJson=JSONObject.parseObject(paramStr,Feature.OrderedField);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7015";
+        String testUrl="http://10.85.159.203:10480/cmd/getCommand";
         postTest(haeder,paramJson,testUrl);
     }
 
@@ -276,7 +322,7 @@ public class SignUtil {
         return temp;
     }
 
-    private static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
+    public static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();
         haeder.keySet().forEach(
@@ -294,7 +340,7 @@ public class SignUtil {
 
 
 
-    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330000101003\",\"trade\":\"7014\",\"orgName\":\"浙江大学医学院附属邵逸夫医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330125195601041812\",\"BKA103\":\"2120039649\"}]}";
+
 
 
     public static JSONObject getParamWithoutsignatureParam(JSONObject params) {

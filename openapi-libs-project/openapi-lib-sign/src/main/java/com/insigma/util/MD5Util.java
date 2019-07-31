@@ -49,7 +49,7 @@ public class MD5Util {
         try {
             // 得到一个信息摘要器
             MessageDigest digest = MessageDigest.getInstance("md5");
-            byte[] result = digest.digest(password.getBytes());
+            byte[] result = digest.digest(password.getBytes("UTF-8"));
             StringBuffer buffer = new StringBuffer();
             // 把每一个byte 做一个与运算 0xff;
             for (byte b : result) {
@@ -64,7 +64,7 @@ public class MD5Util {
 
             // 标准的md5加密后的结果
             return buffer.toString();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
@@ -81,14 +81,15 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"330000101003\",\"orgName\":\"浙江大学医学院附属邵逸夫医院\",\"id\":\"\",\"inPut\":[{\"AKC190\":\"3009241\",\"BKE100\":\"2120039649\",\"COUNT\":\"24\"}],\"appKey\":\"915b9bda38854ffda5337bd6534c635e\",\"time\":\"20190731\",\"nonceStr\":\"febe268e8db14c24a22de60e966e6849\",\"secret\":\"b2566d881482431095a3fe5270756eb0\"}";
-//        String temp2 = "jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
-        System.out.println(temp1);
+        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"330000101007\",\"orgName\":\"浙江医院\",\"trade\":\"7011\",\"id\":\"\",\"inPut\":[{\"COUNT\":\"1\",\"LS_DT1\":[{\"AKC190\":\"587082\",\"BKC022\":\"3000000327\",\"AKA077\":\"0\",\"AAC003\":\"岑秀飞\",\"AAC002\":\"33032519790707094X\",\"BKE100\":\"02-10086-O0011717\",\"AAE030\":\"2019-06-12\",\"AKA078\":\"1\",\"AKE024\":\"1\",\"AKA120\":\"2\",\"AKA121\":\"1\",\"AKC264\":\"10\",\"LS_DT2\":[{\"BKE100\":\"02-10086-O0011717\",\"BKA100\":\"1\",\"BKA101\":\"1\",\"BKA102\":\"1\",\"BKA104\":\"330000101007\",\"BKA105\":\"10086\",\"AAE036\":\"2019-06-12\",\"AAC003\":\"岑秀飞\",\"AAC002\":\"33032519790707094X\",\"AKC264\":\"10\"}],\"LS_DT3\":[{\"BKA120\":\"05522\",\"BKA121\":\"生病\"}]}]}],\"appKey\":\"22883ff53a7644a2aef0bf0c8a714c63\",\"time\":\"20190731 10:28:30\",\"nonceStr\":\"249a96aaad554bd8bafe818426b7b474\",\"secret\":\"2fc1504ece144c619cf9b1bddd929e8c\"}";
+        String temp2 = "{\"ver\":\"V1.0\",\"orgNo\":\"330000101009\",\"orgName\":\"浙江省中医院\",\"id\":\"\",\"inPut\":[{\"tradeNum\":\"500\"}],\"appKey\":\"c5f57b410fb5495f948da0255f239dce\",\"time\":\"20190731 14:49:45\",\"nonceStr\":\"1fd09993b3764a958847b0987a8849ff\",\"secret\":\"09d835206b3e4ecf94c689d45277dd9d\"}";
+        System.out.println(temp2);
         System.out.println(md5Password(temp1).toUpperCase());
-//        for (int i = 0; i < temp1.length(); i++) {
-//            if (temp1.charAt(i) != temp2.charAt(i)) {
-//                System.out.println(i + " " + temp1.charAt(i) + " " + temp2.charAt(i));
-//            }
-//        }
+        System.out.println(md5Password(temp2).toUpperCase());
+        for (int i = 0; i < temp1.length(); i++) {
+            if (temp1.charAt(i) != temp2.charAt(i)) {
+                System.out.println(i + " " + temp1.charAt(i) + " " + temp2.charAt(i));
+            }
+        }
     }
 }
