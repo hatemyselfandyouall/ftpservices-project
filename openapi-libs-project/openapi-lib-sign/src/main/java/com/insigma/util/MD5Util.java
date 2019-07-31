@@ -81,13 +81,14 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        String temp1 = "jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
-        String temp2 = "jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
-        System.out.println(md5Password(temp2));
-        for (int i = 0; i < temp1.length(); i++) {
-            if (temp1.charAt(i) != temp2.charAt(i)) {
-                System.out.println(i + " " + temp1.charAt(i) + " " + temp2.charAt(i));
-            }
-        }
+        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"330000101003\",\"orgName\":\"浙江大学医学院附属邵逸夫医院\",\"id\":\"\",\"inPut\":[{\"AKC190\":\"3009241\",\"BKE100\":\"2120039649\",\"COUNT\":\"24\"}],\"appKey\":\"915b9bda38854ffda5337bd6534c635e\",\"time\":\"20190731\",\"nonceStr\":\"febe268e8db14c24a22de60e966e6849\",\"secret\":\"b2566d881482431095a3fe5270756eb0\"}";
+//        String temp2 = "jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
+        System.out.println(temp1);
+        System.out.println(md5Password(temp1).toUpperCase());
+//        for (int i = 0; i < temp1.length(); i++) {
+//            if (temp1.charAt(i) != temp2.charAt(i)) {
+//                System.out.println(i + " " + temp1.charAt(i) + " " + temp2.charAt(i));
+//            }
+//        }
     }
 }

@@ -290,7 +290,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
                 return result;
             }
             String appSecret=openapiAppShowDetailVO.getAppSecret();
-            log.info("开始调用验证参数合法性方法param"+paramString);
+            log.info("开始调用验证参数合法性方法param={},sign={}",paramString,signature);
             result = SignUtil.checkSign(paramString,appKey,time,nonceStr,signature,encodeType,appSecret);
             log.info("开始调用验证参数合法性方法返回"+result);
             return result;

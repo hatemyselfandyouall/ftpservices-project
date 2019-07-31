@@ -216,8 +216,8 @@ public class SignUtil {
     }
 
     private static void testMethod1(){
-        String testSecret="abed332121604f7e81cbc2cead8fc51f";
-        String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
+        String testKey="915b9bda38854ffda5337bd6534c635e";
+        String testSecret="b2566d881482431095a3fe5270756eb0";
         JSONObject haeder=new JSONObject();
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -228,16 +228,16 @@ public class SignUtil {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7015";
         postTest(haeder,param,testUrl);
     }
 
     private static void testMethod3(){
-        String testSecret="abed332121604f7e81cbc2cead8fc51f";
-        String testKey="cd4e3d5ff09e4a59ba94ebbb82bafc43";
+        String testKey="915b9bda38854ffda5337bd6534c635e";
+        String testSecret="b2566d881482431095a3fe5270756eb0";
         String time="20190729 21:01:35";
         String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
-        String paramStr="\"{\\\"ver\\\":\\\"V1.0\\\",\\\"orgNo\\\":\\\"330000101010\\\",\\\"orgName\\\":\\\"浙江中医药大学附属第二医院\\\",\\\"id\\\":\\\"\\\",\\\"inPut\\\":[{\\\"AAC002\\\":\\\"330102197501016171\\\"}]}";
+        String paramStr=paramString;
         String param = paramStr+testKey+time+nonceStr+testSecret;
         String signature = MD5Util.md5Password(param).toUpperCase();
         System.out.println(signature);
@@ -248,7 +248,7 @@ public class SignUtil {
         haeder.put("signature",signature);
         haeder.put("encodeType","1");
         JSONObject paramJson=JSONObject.parseObject(paramStr,Feature.OrderedField);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7015";
         postTest(haeder,paramJson,testUrl);
     }
 
@@ -264,7 +264,7 @@ public class SignUtil {
         haeder.put("signature",signature);
         JSONObject param=JSONObject.parseObject(paramString,Feature.OrderedField);
         String prarmEncodString=AESEncode(param,testSecret);
-        String testUrl="http://localhost:10500/frontInterface/interface1/medicalPaid-7011";
+        String testUrl="http://localhost:10500/frontInterface/interface1/medicalPaid-7015";
         param =new JSONObject();
         param.put("body",prarmEncodString);
         postTest(haeder,param,testUrl);
@@ -294,7 +294,7 @@ public class SignUtil {
 
 
 
-    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330000101010\",\"orgName\":\"浙江中医药大学附属第二医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330102197501016171\"}]}";
+    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330000101003\",\"trade\":\"7014\",\"orgName\":\"浙江大学医学院附属邵逸夫医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"330125195601041812\",\"BKA103\":\"2120039649\"}]}";
 
 
     public static JSONObject getParamWithoutsignatureParam(JSONObject params) {
