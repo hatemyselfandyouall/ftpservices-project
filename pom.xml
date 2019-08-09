@@ -194,6 +194,11 @@
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 
+            <dependency>
+                <groupId>insigma.clouddata.facade.info</groupId>
+                <artifactId>clouddata-facade-info</artifactId>
+                <version>1.0.1-SNAPSHOT</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 	

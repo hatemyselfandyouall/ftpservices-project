@@ -3,6 +3,7 @@ package com.insigma.web.frontGround;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.facade.CdGatewayRequestDetailBdFacade;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
@@ -10,6 +11,9 @@ import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceListVO;
+import com.insigma.facade.vo.CdGatewayRequestBodyBd.CdGatewayRequestBodyBdSaveVO;
+import com.insigma.facade.vo.CdGatewayRequestDetailBd.CdGatewayRequestDetailBdSaveVO;
+import com.insigma.facade.vo.CdGatewayRequestDetailBd.CdGatewayRequestVO;
 import com.insigma.util.MD5Util;
 import com.insigma.util.SignUtil;
 import com.insigma.util.StringUtil;
@@ -55,6 +59,8 @@ public class InterfaceController extends BasicController {
     OpenapiAppFacade openapiAppFacade;
     @Autowired
     JsonObjectMapper jacksonObjectMapper;
+    @Autowired
+    CdGatewayRequestDetailBdFacade cdGatewayRequestDetailBdFacade;
 
 
     @ApiOperation(value = "接口转发")
@@ -63,13 +69,21 @@ public class InterfaceController extends BasicController {
             @PathVariable String code,
             @RequestBody String paramString,HttpServletRequest httpServletRequest){
         ResultVo resultVo=new ResultVo();
+        CdGatewayRequestVO cdGatewayRequestVO=new CdGatewayRequestVO(new CdGatewayRequestDetailBdSaveVO(),new CdGatewayRequestBodyBdSaveVO());
         try {
             Enumeration<String> headerNames=httpServletRequest.getHeaderNames();
+            String ip=httpServletRequest.getHeader("X-Real-IP");
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterIp(ip);
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceCode(code);
             log.info("请求头为");
+            JSONObject headerJSON=new JSONObject();
             while (headerNames.hasMoreElements()){
                 String headerName=headerNames.nextElement();
+                headerJSON.put(headerName,httpServletRequest.getHeader(headerName));
                 log.info("请求头："+headerName+"value:"+httpServletRequest.getHeader(headerName));
             }
+            cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setRequestHeader(headerJSON.toJSONString());
+            cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setRequestBody(paramString);
             log.info("入参"+paramString+"目标code为"+code);
             String appKey=httpServletRequest.getHeader("appKey");
             String time=httpServletRequest.getHeader("time");
@@ -79,64 +93,78 @@ public class InterfaceController extends BasicController {
             if (StringUtils.isEmpty(appKey)){
                 log.info("appKey未提供,参数"+paramString);
                 resultVo.setResultDes("appKey未提供！");
+                saveFailRequestLog("appKey未提供",cdGatewayRequestVO);
                 return resultVo;
             }
             OpenapiAppShowDetailVO openapiApp=openapiAppFacade.getAppByAppKey(appKey);
             if (openapiApp==null){
                 log.info("openapiApp不存在"+paramString);
                 resultVo.setResultDes("openapiApp不存在！");
+                saveFailRequestLog("openapiApp不存在",cdGatewayRequestVO);
                 return resultVo;
             }
-            if (CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
-                resultVo.setResultDes("接口不存在！");
-                log.info("接口不存在"+paramString);
-                return resultVo;
-            }
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterName(openapiApp.getName());
             Map<String,OpenapiInterface> openapiInterfaceMap=openapiApp.getOpenapiInterfaces().stream().collect(Collectors.toMap(i->i.getCode(),i->i));
             OpenapiInterface openapiInterface;
             if (openapiInterfaceMap.get(code)==null){
                 resultVo.setResultDes("应用无此接口权限！");
                 log.info("应用无此接口权限"+paramString);
+                saveFailRequestLog("应用无此接口权限",cdGatewayRequestVO);
+
                 return resultVo;
             }else {
                 openapiInterface=openapiInterfaceMap.get(code);
             }
-            if (openapiInterface==null){
-                resultVo.setResultDes("接口不存在！");
-                log.info("接口不存在"+paramString);
-                return resultVo;
-            }
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceProducerName(openapiInterface.getProviderName());
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceProducerType(openapiInterface.getProviderType());
             String appSecret=openapiApp.getAppSecret();
             JSONObject checkSignResult=SignUtil.checkSign(paramString,appKey,time,nonceStr,signature,encodeType,appSecret);
             if(checkSignResult.getInteger("flag")!=1){
                 resultVo.setResultDes(checkSignResult.getString("msg"));
                 log.info(checkSignResult.getString("msg")+paramString);
+                saveFailRequestLog(checkSignResult.getString("msg"),cdGatewayRequestVO);
                 return resultVo;
             }
             String innerUrl=openapiInterface.getInnerUrl();
             JSONObject paramsJSON=JSONObject.parseObject(paramString, Feature.OrderedField);
             log.info("开始进行接口转发，目标url为"+innerUrl+",参数为"+paramsJSON);
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setHasForward(1);
             ResponseEntity result= RestTemplateUtil.postByMap(innerUrl,paramsJSON,String.class);
+            cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setResponseBody(result.toString());
             log.info("开始进行接口转发，返回值为"+result);
-            return sendMessageBack(resultVo, result);
+            return sendMessageBack(resultVo, result,cdGatewayRequestVO);
         }catch (Exception e){
             resultVo.setResultDes("接口转发功能异常!原因为:"+e.getMessage());
             resultVo.setResult("接口转发功能异常!原因为:"+e.getMessage());
             log.error("获取接口列表异常",e);
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(0);
+            cdGatewayRequestDetailBdFacade.saveCdGatewayRequest(cdGatewayRequestVO);
         }
         log.info("返回参数为"+resultVo);
         return resultVo;
     }
 
+    private void saveFailRequestLog(String reason,CdGatewayRequestVO cdGatewayRequestVO){
+        cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(0);
+        cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setHasForward(0);
+        cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setNoForwardReason(reason);
+        cdGatewayRequestDetailBdFacade.saveCdGatewayRequest(cdGatewayRequestVO);
+    }
 
 
-    private Object sendMessageBack(ResultVo resultVo, ResponseEntity result) {
+
+    private Object sendMessageBack(ResultVo resultVo, ResponseEntity result, CdGatewayRequestVO cdGatewayRequestVO) {
+        cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setResultCode(result.getStatusCode().value());
         if (result==null||!HttpStatus.OK.equals(result.getStatusCode())){
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(0);
             resultVo.setResultDes("获得了异常的返回码！返回信息为："+result);
             resultVo.setResult("获得了异常的返回码！返回信息为："+result);
             resultVo.setSuccess(false);
+            cdGatewayRequestDetailBdFacade.saveCdGatewayRequest(cdGatewayRequestVO);
             return resultVo;
         }else {
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(1);
+            cdGatewayRequestDetailBdFacade.saveCdGatewayRequest(cdGatewayRequestVO);
             return result;
         }
     }

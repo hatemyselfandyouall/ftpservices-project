@@ -30,7 +30,13 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @Column( name="summary")
     private String summary;
 
+    @ApiModelProperty("提供者姓名")
+    @Column( name="provider_name")
+    private String providerName;
 
+    @ApiModelProperty("提供者类型")
+    @Column( name="provider_type")
+    private String providerType;
 
     @ApiModelProperty("接口内部url")
     @Column( name="inner_url")

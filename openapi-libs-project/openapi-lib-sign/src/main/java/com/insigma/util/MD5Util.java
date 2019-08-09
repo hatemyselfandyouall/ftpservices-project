@@ -1,5 +1,8 @@
 package com.insigma.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -81,8 +84,8 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"330000101007\",\"orgName\":\"浙江医院\",\"trade\":\"7011\",\"id\":\"\",\"inPut\":[{\"COUNT\":\"1\",\"LS_DT1\":[{\"AKC190\":\"587082\",\"BKC022\":\"3000000327\",\"AKA077\":\"0\",\"AAC003\":\"岑秀飞\",\"AAC002\":\"33032519790707094X\",\"BKE100\":\"02-10086-O0011717\",\"AAE030\":\"2019-06-12\",\"AKA078\":\"1\",\"AKE024\":\"1\",\"AKA120\":\"2\",\"AKA121\":\"1\",\"AKC264\":\"10\",\"LS_DT2\":[{\"BKE100\":\"02-10086-O0011717\",\"BKA100\":\"1\",\"BKA101\":\"1\",\"BKA102\":\"1\",\"BKA104\":\"330000101007\",\"BKA105\":\"10086\",\"AAE036\":\"2019-06-12\",\"AAC003\":\"岑秀飞\",\"AAC002\":\"33032519790707094X\",\"AKC264\":\"10\"}],\"LS_DT3\":[{\"BKA120\":\"05522\",\"BKA121\":\"生病\"}]}]}],\"appKey\":\"22883ff53a7644a2aef0bf0c8a714c63\",\"time\":\"20190731 10:28:30\",\"nonceStr\":\"249a96aaad554bd8bafe818426b7b474\",\"secret\":\"2fc1504ece144c619cf9b1bddd929e8c\"}";
-        String temp2 = "{\"ver\":\"V1.0\",\"orgNo\":\"330000101009\",\"orgName\":\"浙江省中医院\",\"id\":\"\",\"inPut\":[{\"tradeNum\":\"500\"}],\"appKey\":\"c5f57b410fb5495f948da0255f239dce\",\"time\":\"20190731 14:49:45\",\"nonceStr\":\"1fd09993b3764a958847b0987a8849ff\",\"secret\":\"09d835206b3e4ecf94c689d45277dd9d\"}";
+        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"33020116004\",\"orgName\":\"宁波市医疗保险计算机管理系统\",\"id\":\"\",\"inPut\":[{\"tradeNum\":\"10\"}],\"appKey\":\"b0dcb609aa8a475f87f659fc2309980c\",\"time\":\"2019080817:30:10\",\"nonceStr\":\"63B5D2BC288B9D8A5FD06B5A62989CBC\",\"secret\":\"eb5dc42ccac041fca9f841c597056b69\"}";
+        String temp2 = "{\"ver\":\"V1.0\",\"orgNo\":\"33020116004\",\"orgName\":\"宁波市医疗保险计算机管理系统\",\"id\":\"\",\"inPut\":[{\"tradeNum\":\"10\"}],\"appKey\":\"b0dcb609aa8a475f87f659fc2309980c\",\"time\":\"20190808 17:30:10\",\"nonceStr\":\"63B5D2BC288B9D8A5FD06B5A62989CBC\",\"secret\":\"eb5dc42ccac041fca9f841c597056b69\"}";
         System.out.println(temp2);
         System.out.println(md5Password(temp1).toUpperCase());
         System.out.println(md5Password(temp2).toUpperCase());
