@@ -311,12 +311,20 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         Example example=new Example(OpenapiUser.class);
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
-        if (orgNO.length()==6&&orgNO.substring(4,6).equals("00")){
-            criteria.andCondition("length(org_no)=6").andCondition("substr(org_no,1,4)=",orgNO.substring(0,4));
-        }else {
-            criteria.andEqualTo("orgNo",orgNO);
+        List<OpenapiUser> openapiUsers=openapiUserMapper.selectByExample(example);
+        OpenapiUser openapiUser=null;
+        for(OpenapiUser temp:openapiUsers){
+            if (temp.getOrgNo().equals(orgNO)){
+                openapiUser=temp;
+                break;
+            }
+            if(temp.getOrgNo()!=null&&temp.getOrgNo().length()==6&&temp.getOrgNo().substring(4,6).equals("00")&&orgNO.length()==6){
+                if (temp.getOrgNo().substring(0,4).equals(orgNO.substring(0,4))){
+                    openapiUser=temp;
+                    break;
+                }
+            }
         }
-        OpenapiUser openapiUser=openapiUserMapper.selectOneByExample(example);
         if (openapiUser==null){
             throw new Exception("机构不存在或已删除");
         }
