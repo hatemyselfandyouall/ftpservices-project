@@ -304,10 +304,19 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     @Override
     public String getAppKeyListByCommandCodeAndOrgNO(String commandCode, String orgNO) throws Exception{
         log.info("开始调用AppKeyListByCommandCodeAndOrgNO方法,commandCode+"+commandCode+",orgNO="+orgNO);
-        OpenapiUser examUser=new OpenapiUser();
-        examUser.setOrgNo(orgNO);
-        examUser.setIsDelete(DataConstant.NO_DELETE);
-        OpenapiUser openapiUser=openapiUserMapper.selectOne(examUser);
+        if (com.github.pagehelper.StringUtil.isEmpty(orgNO)||com.github.pagehelper.StringUtil.isEmpty(commandCode)){
+            log.info("AppKeyListByCommandCodeAndOrgNO方法参数不全");
+            return null;
+        }
+        Example example=new Example(OpenapiUser.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
+        if (orgNO.length()==6&&orgNO.substring(4,6).equals("00")){
+            criteria.andCondition("length(org_no)=6").andCondition("substr(org_no,1,4)=",orgNO.substring(0,4));
+        }else {
+            criteria.andEqualTo("orgNo",orgNO);
+        }
+        OpenapiUser openapiUser=openapiUserMapper.selectOneByExample(example);
         if (openapiUser==null){
             throw new Exception("机构不存在或已删除");
         }
