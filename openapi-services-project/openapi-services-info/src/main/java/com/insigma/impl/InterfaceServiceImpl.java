@@ -326,6 +326,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             }
         }
         if (openapiUser==null){
+            log.error("未取得用户数据"+openapiUsers);
             throw new Exception("机构不存在或已删除");
         }
         List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs = openapiAppFacade.getAppsByUserId(openapiUser.getId());
@@ -341,7 +342,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (!StringUtils.isEmpty(resultString)){
             resultString=resultString.substring(0,resultString.length()-1);
         }
-        log.info("结束调用AppKeyListByCommandCodeAndOrgNO方法,resultString="+resultString);
+        log.info("结束调用AppKeyListByCommandCodeAndOrgNO方法,resultString="+resultString+openapiAppShowDetailVOs);
         return resultString;
     }
 

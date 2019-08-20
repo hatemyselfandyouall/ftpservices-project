@@ -104,12 +104,12 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterName(openapiApp.getName());
-            Map<String,OpenapiInterface> openapiInterfaceMap=openapiApp.getOpenapiInterfaces().stream().collect(Collectors.toMap(i->i.getCode(),i->i));
+            Map<String,OpenapiInterface> openapiInterfaceMap=openapiApp.getOpenapiInterfaces().stream().filter(i->i!=null&&i.getCode()!=null).collect(Collectors.toMap(i->i.getCode(),i->i));
             OpenapiInterface openapiInterface;
             if (openapiInterfaceMap.get(code)==null){
-                resultVo.setResultDes("应用无此接口权限！");
-                log.info("应用无此接口权限"+paramString);
-                saveFailRequestLog("应用无此接口权限",cdGatewayRequestVO);
+                resultVo.setResultDes("接口code错误或无此接口权限！");
+                log.info("接口code错误或无此接口权限"+paramString);
+                saveFailRequestLog("接口code错误或无此接口权限",cdGatewayRequestVO);
 
                 return resultVo;
             }else {

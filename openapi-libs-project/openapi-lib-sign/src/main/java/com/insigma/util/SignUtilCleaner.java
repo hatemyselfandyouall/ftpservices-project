@@ -31,8 +31,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="6e4ea384aef1499b883a9a5682af6b15";
-        String testSecret="eb6f19609ccc4f348cb88630ba351b3b";
+        String testKey="b0dcb609aa8a475f87f659fc2309980c";
+        String testSecret="eb5dc42ccac041fca9f841c597056b69";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -43,21 +43,10 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10480/cmd/getCommand";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/getSelfPaidTreatment-7209";
         postTest(haeder,param,testUrl);
     }
-    private static String paramString="{\n" +
-            "\t\"ver\": \"V1.0\",\n" +
-            "\t\"orgNo\": \"330800\",\n" +
-            "\t\"orgName\": \"衢州市市本级\",\n" +
-            "\t\"id\": \"\",\n" +
-            "\t\"inPut\": [{\n" +
-            "\n" +
-            "\t\t\"tradeNum\": \"10\"\n" +
-            "\t}]\n" +
-            "\n" +
-            "}";
-
+    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330900\",\"trade\":\"7200\",\"orgName\":\"舟山市医保局\",\"id\":\"339900190625128064373\",\"inPut\":[{\"AGA001\":\"339900190625128064373\"}]}";
 
     public static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
         RestTemplate restTemplate=new RestTemplate();

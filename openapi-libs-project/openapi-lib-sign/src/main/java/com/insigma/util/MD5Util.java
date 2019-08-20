@@ -84,8 +84,13 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"33020116004\",\"orgName\":\"宁波市医疗保险计算机管理系统\",\"id\":\"\",\"inPut\":[{\"tradeNum\":\"10\"}],\"appKey\":\"b0dcb609aa8a475f87f659fc2309980c\",\"time\":\"2019080817:30:10\",\"nonceStr\":\"63B5D2BC288B9D8A5FD06B5A62989CBC\",\"secret\":\"eb5dc42ccac041fca9f841c597056b69\"}";
-        String temp2 = "{\"ver\":\"V1.0\",\"orgNo\":\"33020116004\",\"orgName\":\"宁波市医疗保险计算机管理系统\",\"id\":\"\",\"inPut\":[{\"tradeNum\":\"10\"}],\"appKey\":\"b0dcb609aa8a475f87f659fc2309980c\",\"time\":\"20190808 17:30:10\",\"nonceStr\":\"63B5D2BC288B9D8A5FD06B5A62989CBC\",\"secret\":\"eb5dc42ccac041fca9f841c597056b69\"}";
+        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"330200100014\",\"orgName\":\"宁波市中医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"41018119910601455X\"}]}f750df4aaef0deb5c35a039b403220c220190819 16:49:19CM8YOVBJUBN71WXMWSRX9J5X1TQP9WN43db0b5132dbbf4e958034defaa3162d2";
+        String temp2 = "{\"ver\":\"V1.0\",\n" +
+                "\"orgNo\":\"331000100001\",\n" +
+                "\"orgName\":\"浙江省台州医院\",\n" +
+                "\"id\":\"\",\n" +
+                "\"inPut\":\n" +
+                "[{\"tradeNum\":\"\"}],\"appKey\":\"cffff7a14e21494d837762f3bce4d42e\",\"time\":\"20190820 14:53:09\",\"nonceStr\":\"cr78i3r0giudrd1jmz10cizbglnxaxu0\",\"secret\":\"a8b4718ef5464633b43f8bd09cc489dd\"}";
         System.out.println(temp2);
         System.out.println(md5Password(temp1).toUpperCase());
         System.out.println(md5Password(temp2).toUpperCase());
