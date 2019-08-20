@@ -321,7 +321,6 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             if(temp.getOrgNo()!=null&&temp.getOrgNo().length()==6&&temp.getOrgNo().substring(4,6).equals("00")&&orgNO.length()==6){
                 if (temp.getOrgNo().substring(0,4).equals(orgNO.substring(0,4))){
                     openapiUser=temp;
-                    break;
                 }
             }
         }
