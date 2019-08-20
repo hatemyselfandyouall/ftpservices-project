@@ -156,4 +156,11 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         }.getCache(OpenapiCacheEnum.OPENAPI_BY_APPID, cacheKey);
     }
 
+    @Override
+    public Long getInstitutionCount() {
+        OpenapiApp openapiApp=new OpenapiApp();
+        openapiApp.setIsDelete(DataConstant.NO_DELETE);
+        return (long)openapiAppMapper.selectCount(openapiApp);
+    }
+
 }
