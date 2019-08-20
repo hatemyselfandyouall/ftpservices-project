@@ -330,6 +330,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             throw new Exception("机构不存在或已删除");
         }
         List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs = openapiAppFacade.getAppsByUserId(openapiUser.getId());
+        log.info("获取用户数据"+openapiAppShowDetailVOs);
         String resultString="";
         for (OpenapiAppShowDetailVO temp:openapiAppShowDetailVOs){
             if (temp!=null&&!CollectionUtils.isEmpty(temp.getOpenapiInterfaces())) {

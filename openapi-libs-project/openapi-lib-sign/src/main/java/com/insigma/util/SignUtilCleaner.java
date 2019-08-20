@@ -31,8 +31,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="b0dcb609aa8a475f87f659fc2309980c";
-        String testSecret="eb5dc42ccac041fca9f841c597056b69";
+        String testKey="a04ce7ba268c260a2afc38f2558b0afb";
+        String testSecret="219d27f39a712daa7d1d97f41ad65153";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -43,7 +43,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/getSelfPaidTreatment-7209";
+        String testUrl="http://10.85.159.203:10500/frontInterface/interface/getSelfPaidTreatment-7204";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330900\",\"trade\":\"7200\",\"orgName\":\"舟山市医保局\",\"id\":\"339900190625128064373\",\"inPut\":[{\"AGA001\":\"339900190625128064373\"}]}";

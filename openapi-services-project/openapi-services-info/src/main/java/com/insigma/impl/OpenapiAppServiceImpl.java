@@ -12,6 +12,7 @@ import com.insigma.mapper.OpenapiAppInterfaceMapper;
 import com.insigma.mapper.OpenapiAppMapper;
 import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.bizbase.util.constant.SysCacheTimeDMO;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 public class OpenapiAppServiceImpl implements OpenapiAppFacade {
 
     @Autowired
@@ -122,6 +123,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
 
     @Override
     public List<OpenapiAppShowDetailVO> getAppsByUserId(Long id) {
+        log.info("开始调用AppKeyListByCommandCodeAndOrgNO方法,id+"+id);
         String cacheKey = id.toString();
         return new CacheKeyLock(cachesKeyService, SysCacheTimeDMO.CACHETIMEOUT_30M) {
             @Override
