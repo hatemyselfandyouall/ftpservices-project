@@ -22,6 +22,8 @@ public interface OpenapiAppFacade{
     OpenapiAppShowDetailVO getAppByAppKey(String appId);
 
     List<OpenapiAppShowDetailVO> getAppsByUserId(Long id);
+
+    Long getInstitutionCount();
 }
 
  

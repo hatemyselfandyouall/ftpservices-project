@@ -2,7 +2,7 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.insigma.constant.DataConstant;
+import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.po.OpenapiAppInterface;
@@ -12,12 +12,12 @@ import com.insigma.mapper.OpenapiAppInterfaceMapper;
 import com.insigma.mapper.OpenapiAppMapper;
 import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.bizbase.util.constant.SysCacheTimeDMO;
 import star.modules.cache.CacheKeyLock;
 import star.modules.cache.CachesKeyService;
-import star.modules.cache.CachesService;
 import star.modules.cache.enumerate.BaseCacheEnum;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.po.OpenapiApp;
@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 public class OpenapiAppServiceImpl implements OpenapiAppFacade {
 
     @Autowired
@@ -123,6 +123,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
 
     @Override
     public List<OpenapiAppShowDetailVO> getAppsByUserId(Long id) {
+        log.info("开始调用AppKeyListByCommandCodeAndOrgNO方法,id+"+id);
         String cacheKey = id.toString();
         return new CacheKeyLock(cachesKeyService, SysCacheTimeDMO.CACHETIMEOUT_30M) {
             @Override
@@ -153,6 +154,13 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
                 return openapiAppShowDetailVOs;
             }
         }.getCache(OpenapiCacheEnum.OPENAPI_BY_APPID, cacheKey);
+    }
+
+    @Override
+    public Long getInstitutionCount() {
+        OpenapiApp openapiApp=new OpenapiApp();
+        openapiApp.setIsDelete(DataConstant.NO_DELETE);
+        return (long)openapiAppMapper.selectCount(openapiApp);
     }
 
 }

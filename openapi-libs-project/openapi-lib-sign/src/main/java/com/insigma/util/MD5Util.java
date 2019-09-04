@@ -1,5 +1,8 @@
 package com.insigma.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -41,14 +44,15 @@ public class MD5Util {
         return resultString;
     }
 
-    private static final String hexDigits[] = { "0", "1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
+    private static final String hexDigits[] = {"0", "1", "2", "3", "4", "5",
+            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+
     public static String md5Password(String password) {
 
         try {
             // 得到一个信息摘要器
             MessageDigest digest = MessageDigest.getInstance("md5");
-            byte[] result = digest.digest(password.getBytes());
+            byte[] result = digest.digest(password.getBytes("UTF-8"));
             StringBuffer buffer = new StringBuffer();
             // 把每一个byte 做一个与运算 0xff;
             for (byte b : result) {
@@ -63,20 +67,31 @@ public class MD5Util {
 
             // 标准的md5加密后的结果
             return buffer.toString();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
+    }
 
+    /**
+     * 16位MD5加密
+     *
+     * @param s
+     * @return
+     */
+    public final static String MD5TO16(String s) {
+       return md5Password(s).substring(8,24);
     }
 
     public static void main(String[] args) {
-        String temp1="jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
-        String temp2="jsapi_ticket=HoagFKDcsGMVCIY2vOjf9l2kVwEIPm2O7ZeVt_hX7_gpMgCQCQIJcc8phL6ju29ToQcrG6dngTW1RijoG-MlPQ&noncestr=cf269b4557fc44d19d9dc285e6ec78bd&timestamp=1523027371&url=http://localhost:8080/home/startexam.htm";
-        System.out.println(md5Password(temp2));
-        for (int i=0;i<temp1.length();i++){
-            if (temp1.charAt(i)!=temp2.charAt(i)){
-                System.out.println(i+" "+temp1.charAt(i)+" "+temp2.charAt(i));
+        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"331100100001\",\"orgName\":\"丽水市中心医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"331122201405242318\"}],\"appKey\":\"0173e35c5bbc3168147b4dc91be09834\",\"time\":\"20190821 19:21:52\",\"nonceStr\":\"249a96aaad554bd8bafe818426b7b473\",\"secret\":\"942c4bb1c2ab6d9d6e68cbfdf38ca921\"}";
+        String temp2 = "{\"ver\":\"V1.0\",\"orgNo\":\"331100100001\",\"orgName\":\"丽水市中心医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"331122201405242318\"}],\"appKey\":\"0173e35c5bbc3168147b4dc91be09834\",\"time\":\"20190821 19:21:52\",\"nonceStr\":\"249a96aaad554bd8bafe818426b7b473\",\"secret\":\"942c4bb1c2ab6d9d6e68cbfdf38ca921\"}";
+        System.out.println(temp2);
+        System.out.println(md5Password(temp1).toUpperCase());
+        System.out.println(md5Password(temp2).toUpperCase());
+        for (int i = 0; i < temp1.length(); i++) {
+            if (temp1.charAt(i) != temp2.charAt(i)) {
+                System.out.println(i + " " + temp1.charAt(i) + " " + temp2.charAt(i));
             }
         }
     }

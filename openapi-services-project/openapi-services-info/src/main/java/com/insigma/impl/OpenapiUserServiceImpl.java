@@ -2,7 +2,7 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.insigma.constant.DataConstant;
+import constant.DataConstant;
 import com.insigma.facade.openapi.facade.OpenapiUserFacade;
 import com.insigma.facade.openapi.po.OpenapiFtpAccount;
 import com.insigma.facade.openapi.po.OpenapiUser;
@@ -15,7 +15,6 @@ import com.insigma.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
-import star.util.PasswordUtil;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;

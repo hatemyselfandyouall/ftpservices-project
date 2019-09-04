@@ -76,6 +76,15 @@ public class OpenapiInterface implements Serializable{
     @Column( name="request_example")
     private String requestExample;
 
+    @ApiModelProperty("提供者姓名")
+    @Column( name="provider_name")
+    private String providerName;
+
+    @ApiModelProperty("提供者类型")
+    @Column( name="provider_type")
+    private String providerType;
+
+
     @ApiModelProperty("0未生效1已生效")
     @Column( name="is_avaliable")
     private Integer isAvaliable;

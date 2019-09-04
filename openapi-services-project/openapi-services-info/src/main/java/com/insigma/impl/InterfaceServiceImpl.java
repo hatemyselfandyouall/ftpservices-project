@@ -1,9 +1,10 @@
 package com.insigma.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.insigma.constant.DataConstant;
+import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
@@ -12,10 +13,7 @@ import com.insigma.facade.openapi.vo.*;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceRequestParam.OpenapiInterfaceRequestParamSaveVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceResponseParam.OpenapiInterfaceResponseParamSaveVO;
-import com.insigma.mapper.OpenapiInterfaceMapper;
-import com.insigma.mapper.OpenapiInterfaceRequestParamMapper;
-import com.insigma.mapper.OpenapiInterfaceResponseParamMapper;
-import com.insigma.mapper.OpenapiUserMapper;
+import com.insigma.mapper.*;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.SignUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +45,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     OpenapiUserMapper openapiUserMapper;
     @Autowired
     CachesKeyService cachesKeyService;
+    @Autowired
+    OpenapiAppInterfaceMapper openapiAppInterfaceMapper;
 
     @Override
     public PageInfo<OpenapiInterface> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
@@ -269,20 +269,71 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     @Override
+    public JSONObject checkSignVaild(String param) {
+        JSONObject paramJSON=JSONObject.parseObject(param, Feature.OrderedField);
+        return checkSignVaild(paramJSON);
+    }
+
+    @Override
+    public JSONObject checkSignVaild(String paramString, String appKey, String time, String nonceStr, String signature, String encodeType) {
+        log.info("开始验证参数合法性param"+paramString);
+        JSONObject result = new JSONObject();
+        result.put("flag", 0);
+        try {
+            if (StringUtils.isEmpty(appKey)) {
+                result.put("msg", "appKey必须存在！");
+                return result;
+            }
+            OpenapiAppShowDetailVO openapiAppShowDetailVO = openapiAppFacade.getAppByAppKey(appKey);
+            if (openapiAppShowDetailVO == null) {
+                result.put("msg", "appKey不存在或错误！");
+                return result;
+            }
+            String appSecret=openapiAppShowDetailVO.getAppSecret();
+            log.info("开始调用验证参数合法性方法param={},sign={}",paramString,signature);
+            result = SignUtil.checkSign(paramString,appKey,time,nonceStr,signature,encodeType,appSecret);
+            log.info("开始调用验证参数合法性方法返回"+result);
+            return result;
+        } catch (Exception e) {
+            log.error("接口参数校验异常", e);
+            result.put("msg", "接口参数校验异常！");
+            return result;
+        }
+    }
+
+    @Override
     public String getAppKeyListByCommandCodeAndOrgNO(String commandCode, String orgNO) throws Exception{
-        log.info("开始调用AppKeyListByCommandCodeAndOrgNO方法,commandCode+"+commandCode+",orgNO="+orgNO);
-        OpenapiUser examUser=new OpenapiUser();
-        examUser.setOrgNo(orgNO);
-        examUser.setIsDelete(DataConstant.NO_DELETE);
-        OpenapiUser openapiUser=openapiUserMapper.selectOne(examUser);
+        log.info(":"+commandCode+",orgNO="+orgNO);
+        if (com.github.pagehelper.StringUtil.isEmpty(orgNO)||com.github.pagehelper.StringUtil.isEmpty(commandCode)){
+            log.info("AppKeyListByCommandCodeAndOrgNO方法参数不全");
+            return null;
+        }
+        Example example=new Example(OpenapiUser.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
+        List<OpenapiUser> openapiUsers=openapiUserMapper.selectByExample(example);
+        OpenapiUser openapiUser=null;
+        for(OpenapiUser temp:openapiUsers){
+            if (temp.getOrgNo().equals(orgNO)){
+                openapiUser=temp;
+                break;
+            }
+            if(temp.getOrgNo()!=null&&temp.getOrgNo().length()==6&&temp.getOrgNo().substring(4,6).equals("00")&&orgNO.length()==6){
+                if (temp.getOrgNo().substring(0,4).equals(orgNO.substring(0,4))){
+                    openapiUser=temp;
+                }
+            }
+        }
         if (openapiUser==null){
+            log.error("未取得用户数据"+openapiUsers);
             throw new Exception("机构不存在或已删除");
         }
         List<OpenapiAppShowDetailVO> openapiAppShowDetailVOs = openapiAppFacade.getAppsByUserId(openapiUser.getId());
+        log.info("获取用户数据"+openapiAppShowDetailVOs);
         String resultString="";
         for (OpenapiAppShowDetailVO temp:openapiAppShowDetailVOs){
             if (temp!=null&&!CollectionUtils.isEmpty(temp.getOpenapiInterfaces())) {
-                Set<String> orgNos = temp.getOpenapiInterfaces().stream().map(i->i.getCommandCode()).collect(Collectors.toSet());
+                Set<String> orgNos = temp.getOpenapiInterfaces().stream().filter(i->i!=null).map(i->i.getCommandCode()).collect(Collectors.toSet());
                 if (orgNos.contains(commandCode)){
                     resultString+=temp.getAppKey()+"|";
                 }
@@ -293,5 +344,32 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         log.info("结束调用AppKeyListByCommandCodeAndOrgNO方法,resultString="+resultString);
         return resultString;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public JSONObject insertMatters() {
+        String  inString="8001,8002,8003,8004,8005,8006,8007,8008,8009,8010,8011,8012,9012,9013,8203,8205,8207,8021,8022,8023,8024,8025,8026,8027,8028,9016,9017,9018,9019,8041,7207,7208";
+        String[] codes=inString.split(",");
+        for (String code:codes) {
+            OpenapiInterface openapiInterface=new OpenapiInterface();
+            openapiInterface.setCode("matters-" +code);
+            openapiInterface.setCommandCode(code);
+            openapiInterface.setGroupId(Integer.valueOf(code));
+            openapiInterface.setInnerUrl("http://10.85.159.204:13110/matters/mattersService/"+code);
+            openapiInterface.setOutParamType(0);
+            openapiInterface.setInnerParamType(0);
+            openapiInterfaceMapper.insert(openapiInterface);
+            List<Long> appCodes=new ArrayList<>();
+            appCodes.add(5l);appCodes.add(6l);appCodes.add(7l);appCodes.add(9l);appCodes.add(10l);
+            appCodes.forEach(i->{
+                OpenapiAppInterface openapiAppInterface=new OpenapiAppInterface();
+                openapiAppInterface.setAppId(i);
+                openapiAppInterface.setInterfaceId(openapiInterface.getId());
+                openapiAppInterface.setIsAudit(1);
+                openapiAppInterfaceMapper.insert(openapiAppInterface);
+            });
+        }
+        return new JSONObject();
     }
 }

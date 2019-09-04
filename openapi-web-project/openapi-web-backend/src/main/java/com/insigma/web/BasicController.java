@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -206,4 +207,7 @@ public abstract class BasicController {
         }
 	}
 
+	public static void main(String[] args) {
+		System.out.println(UUID.randomUUID().toString().replaceAll("-",""));
+	}
 }

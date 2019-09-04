@@ -11,4 +11,5 @@
 	<bean id="openapiUserServiceImpl" class="com.insigma.impl.OpenapiUserServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiUserFacade" ref="openapiUserServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
+
 </beans>
