@@ -32,8 +32,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="f10c86cb5804aa0d71c86d6f31f02700";
-        String testSecret="2ac744922a823ef9e3dc47115de2f6f7";
+        String testKey="e8f2348c98f61c63f16dd8da41a8ef1d";
+        String testSecret="de8b42c25ff0c1a8fee48c5bffde5410";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -44,52 +44,10 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.87.0.68:10500/frontInterface/interface/callBackService-7302-lishui-331100-pro";
+        String testUrl="http://10.87.1.152:10500/frontInterface/interface/medicalPaid-7011";
         postTest(haeder,param,testUrl);
     }
-    private static String paramString="{\n" +
-            "    \"ver\": \"V1.0\",\n" +
-            "    \"orgNo\": \"331100100001\",\n" +
-            "    \"orgName\": \"丽水市中心医院\",\n" +
-            "    \"id\": \"\",\n" +
-            "    \"inPut\": [\n" +
-            "        {\n" +
-            "            \"COUNT\": \"1\",\n" +
-            "            \"LS_DT\": [\n" +
-            "                {\n" +
-            "                    \"AKC190\": \"9990328535\",\n" +
-            "                    \"BKE002\": \"1079Y208\",\n" +
-            "                    \"AKC220\": \"1003443754\",\n" +
-            "                    \"AKE003\": \"1\",\n" +
-            "                    \"AKE001\": \"x120400005620005\",\n" +
-            "                    \"AKE006\": \"倍他司汀片(敏使朗)\",\n" +
-            "                    \"AKC225\": \"14.8100\",\n" +
-            "                    \"AKC226\": \"1.0000\",\n" +
-            "                    \"AKE134\": \"1.0000\",\n" +
-            "                    \"AAE019\": \"14.8100\",\n" +
-            "                    \"AKA067\": \"\",\n" +
-            "                    \"AKA074\": \"\",\n" +
-            "                    \"AKA070\": \"\",\n" +
-            "                    \"AKA066\": \"0\",\n" +
-            "                    \"AKE130\": \"\",\n" +
-            "                    \"AKE113\": \"\",\n" +
-            "                    \"AKE116\": \"\",\n" +
-            "                    \"AKE118\": \"\",\n" +
-            "                    \"AKE131\": \"\",\n" +
-            "                    \"AKA072\": \"\",\n" +
-            "                    \"AKA071\": \"\",\n" +
-            "                    \"BKE344\": \"\",\n" +
-            "                    \"AKC229\": \"\",\n" +
-            "                    \"BKE347\": \"\",\n" +
-            "                    \"AKF001\": \"\",\n" +
-            "                    \"AAE386\": \"\",\n" +
-            "                    \"BKE001\": \"\",\n" +
-            "                    \"AKE021\": \"\"\n" +
-            "                }\n" +
-            "            ]\n" +
-            "        }\n" +
-            "    ]\n" +
-            "}";
+    private static String paramString="{\"ver\":\"v1.0\",\"orgNo\":\"330800100002\",\"orgName\":\"衢州市柯城区人民医院\",\"id\":\"\",\"inPut\":[{\"COUNT\":\"1\",LS_DT1:[{\"AKC190\":\"20190904272578\",\"BKC022\":\"12523260\",\"AKA077\":\"0\",\"AAZ285\":\"\",\"AAC003\":\"童逸安\",\"AAC002\":\"330802201807255519\",\"BKE100\":\"20190904272578\",\"AAE030\":\"2019-09-04\",\"AAE031\":\"2019-09-04\",\"AKA078\":\"1\",\"AKA120\":\"Z00.100\",\"AKA121\":\"常规儿童健康检查\",\"AKE024\":\"要求查血\",\"AAE386\":\"\",\"AKE020\":\"\",\"BKE001\":\"\",\"AKE021\":\"方斌豪\",\"BKE318\":\"\",\"BKE351\":\"0\",\"BKE333\":\"0\",\"AKC264\":94.80,LS_DT2:[{\"BKA100\":\"衢州市柯城区人民医院门诊发票\",\"BKA101\":\"1\",\"BKA102\":\"20190904272578\",\"BKE100\":\"20190904272578\",\"BKA104\":\"衢州市柯城区人民医院\",\"BKA105\":\"诊间支付\",\"AAE036\":\"2019-09-04\",\"AAC003\":\"童逸安\",\"AAC002\":\"330802201807255519\",\"AKC264\":94.80}],LS_DT3:[{\"AKA120\":\"Z00.100\",\"BKA121\":\"常规儿童健康检查\"}] }]}]}\n";
     public static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();

@@ -100,8 +100,13 @@ public class SignUtil {
                 params.remove("signature");
             }
             String signModel=createSign(params,appSecret);
-            SortedMap testMap= new ConcurrentSkipListMap(params);
-            String signOld=createSign(testMap,appSecret);
+            String signOld="";
+            try {
+                SortedMap testMap = new ConcurrentSkipListMap(params);
+                signOld = createSign(testMap, appSecret);
+            }catch (Exception e){
+                log.error("参数判空异常");
+            }
             params.put("signature",signModel);//todo testValue
             System.out.println(params);//todo testValue
             if (!signature.equals(signModel)&&!signature.equals(signOld)) {
