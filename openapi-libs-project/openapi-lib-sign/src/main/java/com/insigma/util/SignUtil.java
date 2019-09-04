@@ -108,7 +108,8 @@ public class SignUtil {
                 log.error("参数判空异常");
             }
             params.put("signature",signModel);//todo testValue
-            System.out.println(params);//todo testValue
+            log.info(params+"");//todo testValue
+            log.info("signature={},signModel={},signOld={}",signature,signModel,signOld);
             if (!signature.equals(signModel)&&!signature.equals(signOld)) {
                 result.put("msg", "参数与生成规则不符");
             } else {
