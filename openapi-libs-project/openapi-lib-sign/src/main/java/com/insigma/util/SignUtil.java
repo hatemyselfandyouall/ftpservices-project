@@ -96,6 +96,8 @@ public class SignUtil {
             String signature = params.getString("signature");
             if (StringUtil.isEmpty(signature)) {
                 result.put("msg", "签名signature异常");
+                log.info("签名signature异常");
+                return result;
             } else {
                 params.remove("signature");
             }
