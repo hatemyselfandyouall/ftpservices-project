@@ -14,9 +14,9 @@ public class AsyncConfig {
    此处成员变量应该使用@Value从配置中读取
     */
     private int corePoolSize = 50;
-    private int maxPoolSize = 100;
+    private int maxPoolSize = 50;
     private int queueCapacity = 300;
-    private int keepAliveSeconds= 100;
+    private int keepAliveSeconds= 10000;
 
     @Bean(name = "taskExecutor")
     public Executor taskExecutor() {

@@ -32,8 +32,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="edbd74b4b7112c077611d159509f6057";
-        String testSecret="d5327b00719909e735f309efaa2ca478";
+        String testKey="18b72f00138c91232cb28336c89595bf";
+        String testSecret="2ddcaee0582930ab1836008c4ddddeff";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -44,7 +44,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://localhost:10500/frontInterface/interface/medicalPaid-7011";
+        String testUrl="http://10.87.1.152:10500/frontInterface/interface/serviceEntrance-8301";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\"ver\":\"v1.0\",\"orgNo\":\"330800100002\",\"orgName\":\"衢州市柯城区人民医院\",\"id\":\"\",\"inPut\":[{\"COUNT\":\"1\",LS_DT1:[{\"AKC190\":\"20190904272578\",\"BKC022\":\"12523260\",\"AKA077\":\"0\",\"AAZ285\":\"\",\"AAC003\":\"童逸安\",\"AAC002\":\"330802201807255519\",\"BKE100\":\"20190904272578\",\"AAE030\":\"2019-09-04\",\"AAE031\":\"2019-09-04\",\"AKA078\":\"1\",\"AKA120\":\"Z00.100\",\"AKA121\":\"常规儿童健康检查\",\"AKE024\":\"要求查血\",\"AAE386\":\"\",\"AKE020\":\"\",\"BKE001\":\"\",\"AKE021\":\"方斌豪\",\"BKE318\":\"\",\"BKE351\":\"0\",\"BKE333\":\"0\",\"AKC264\":94.80,LS_DT2:[{\"BKA100\":\"衢州市柯城区人民医院门诊发票\",\"BKA101\":\"1\",\"BKA102\":\"20190904272578\",\"BKE100\":\"20190904272578\",\"BKA104\":\"衢州市柯城区人民医院\",\"BKA105\":\"诊间支付\",\"AAE036\":\"2019-09-04\",\"AAC003\":\"童逸安\",\"AAC002\":\"330802201807255519\",\"AKC264\":94.80}],LS_DT3:[{\"AKA120\":\"Z00.100\",\"BKA121\":\"常规儿童健康检查\"}] }]}]}\n";
