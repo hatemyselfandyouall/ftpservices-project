@@ -142,7 +142,7 @@ public class InterfaceController extends BasicController {
             resultVo.setResult("接口转发功能异常!原因为:" + e.getMessage());
             log.error("获取接口列表异常", e);
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(0);
-            taskExecutor.execute(new SaveLogTask(cdGatewayRequestDetailBdFacade, cdGatewayRequestVO));
+            saveLog(cdGatewayRequestVO);
         }
         log.info("返回参数为" + resultVo);
         return resultVo;
@@ -152,7 +152,7 @@ public class InterfaceController extends BasicController {
         cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(0);
         cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setHasForward(0);
         cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setNoForwardReason(reason);
-        taskExecutor.execute(new SaveLogTask(cdGatewayRequestDetailBdFacade, cdGatewayRequestVO));
+        saveLog(cdGatewayRequestVO);
     }
 
 
@@ -163,15 +163,22 @@ public class InterfaceController extends BasicController {
             resultVo.setResultDes("获得了异常的返回码！返回信息为：" + result);
             resultVo.setResult("获得了异常的返回码！返回信息为：" + result);
             resultVo.setSuccess(false);
-            taskExecutor.execute(new SaveLogTask(cdGatewayRequestDetailBdFacade, cdGatewayRequestVO));
+            saveLog(cdGatewayRequestVO);
             return resultVo;
         } else {
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(1);
-            taskExecutor.execute(new SaveLogTask(cdGatewayRequestDetailBdFacade, cdGatewayRequestVO));
+            saveLog(cdGatewayRequestVO);
             return result;
         }
     }
 
+    private void saveLog(CdGatewayRequestVO cdGatewayRequestVO) {
+        try {
+            taskExecutor.execute(new SaveLogTask(cdGatewayRequestDetailBdFacade, cdGatewayRequestVO));
+        }catch (Exception e){
+            log.error("保存日志功能异常",e);
+        }
+    }
 
     @ApiOperation(value = "接口转发")
     @RequestMapping(value = "/checkSignVaild", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
