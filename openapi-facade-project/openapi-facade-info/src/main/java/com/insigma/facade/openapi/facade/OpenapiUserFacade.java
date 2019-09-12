@@ -16,8 +16,8 @@ public interface OpenapiUserFacade{
 
     Integer deleteOpenapiUser(OpenapiUserDeleteVO deleteVO);
 
-	 
 
+    OpenapiUser getUserById(Long userId);
 }
 
  

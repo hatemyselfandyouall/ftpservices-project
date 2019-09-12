@@ -8,8 +8,10 @@ import com.insigma.facade.facade.CdGatewayRequestDetailBdFacade;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
+import com.insigma.facade.openapi.facade.OpenapiUserFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiInterface;
+import com.insigma.facade.openapi.po.OpenapiUser;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceListVO;
 import com.insigma.facade.vo.CdGatewayRequestBodyBd.CdGatewayRequestBodyBdSaveVO;
@@ -65,6 +67,8 @@ public class InterfaceController extends BasicController {
     CdGatewayRequestDetailBdFacade cdGatewayRequestDetailBdFacade;
     @Autowired
     Executor taskExecutor;
+    @Autowired
+    OpenapiUserFacade openapiUserFacade;
 
 
     @ApiOperation(value = "接口转发")
@@ -108,19 +112,21 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterName(openapiApp.getName());
+            OpenapiUser openapiUser=openapiUserFacade.getUserById(openapiApp.getUserId());
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setOrgNo(openapiUser.getOrgNo());
             Map<String, OpenapiInterface> openapiInterfaceMap = openapiApp.getOpenapiInterfaces().stream().filter(i -> i != null && i.getCode() != null).collect(Collectors.toMap(i -> i.getCode(), i -> i));
             OpenapiInterface openapiInterface;
             if (openapiInterfaceMap.get(code) == null) {
                 resultVo.setResultDes("接口code错误或无此接口权限！");
                 log.info("接口code错误或无此接口权限" + paramString);
                 saveFailRequestLog("接口code错误或无此接口权限", cdGatewayRequestVO);
-
                 return resultVo;
             } else {
                 openapiInterface = openapiInterfaceMap.get(code);
             }
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceProducerName(openapiInterface.getProviderName());
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceProducerType(openapiInterface.getProviderType());
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setTradeNo(openapiInterface.getCommandCode());
             String appSecret = openapiApp.getAppSecret();
             JSONObject checkSignResult = SignUtil.checkSign(paramString, appKey, time, nonceStr, signature, encodeType, appSecret);
             if (checkSignResult.getInteger("flag") != 1) {
