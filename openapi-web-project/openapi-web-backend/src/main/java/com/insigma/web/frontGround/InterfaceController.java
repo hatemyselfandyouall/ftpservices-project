@@ -137,8 +137,8 @@ public class InterfaceController extends BasicController {
             }
             String innerUrl = openapiInterface.getInnerUrl();
             JSONObject paramsJSON = JSONObject.parseObject(paramString, Feature.OrderedField);
-            log.info("开始进行接口转发，目标url为" + innerUrl + ",参数为" + paramsJSON);
-//            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setHasForward(1);
+//            log.info("开始进行接口转发，目标url为" + innerUrl + ",参数为" + paramsJSON);
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setHasForward(1);
             ResponseEntity result = RestTemplateUtil.postByMap(innerUrl, paramsJSON, String.class);
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setResponseBody(result.toString());
 //            log.info("开始进行接口转发，返回值为" + result);
