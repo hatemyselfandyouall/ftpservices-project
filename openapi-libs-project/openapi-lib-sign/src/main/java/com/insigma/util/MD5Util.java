@@ -84,8 +84,8 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"331100100001\",\"orgName\":\"丽水市中心医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"331122201405242318\"}],\"appKey\":\"0173e35c5bbc3168147b4dc91be09834\",\"time\":\"20190821 19:21:52\",\"nonceStr\":\"249a96aaad554bd8bafe818426b7b473\",\"secret\":\"942c4bb1c2ab6d9d6e68cbfdf38ca921\"}";
-        String temp2 = "{\"ver\":\"V1.0\",\"orgNo\":\"331100100001\",\"orgName\":\"丽水市中心医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"331122201405242318\"}],\"appKey\":\"0173e35c5bbc3168147b4dc91be09834\",\"time\":\"20190821 19:21:52\",\"nonceStr\":\"249a96aaad554bd8bafe818426b7b473\",\"secret\":\"942c4bb1c2ab6d9d6e68cbfdf38ca921\"}";
+        String temp1 = "{\"ver\":\"V1.0\",\"orgNo\":\"331099101258\",\"orgName\":\"台州恩泽医疗中心（集团）恩泽医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"33108219970207127X\"}]}64ebfa93a991ca2e9d02adb3ea51658e20190925 09:21:31mcri5m5xfwwpra8ghs31nvmpuodk1vixf16b37700d282f193dcc54fe793e4399";
+        String temp2 = "{\"ver\":\"V1.0\",\"orgNo\":\"331099101258\",\"orgName\":\"台州恩泽医疗中心（集团）恩泽医院\",\"id\":\"\",\"inPut\":[{\"AAC002\":\"33108219970207127X\"}]}64ebfa93a991ca2e9d02adb3ea51658e20190925 09:21:31mcri5m5xfwwpra8ghs31nvmpuodk1vixf16b37700d282f193dcc54fe793e4399";
         System.out.println(temp2);
         System.out.println(md5Password(temp1).toUpperCase());
         System.out.println(md5Password(temp2).toUpperCase());

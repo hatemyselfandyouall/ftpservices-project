@@ -151,4 +151,9 @@ public class OpenapiUserServiceImpl implements OpenapiUserFacade {
         example.createCriteria().andEqualTo("id",OpenapiUserDeleteVO.getId());
         return openapiUserMapper.updateByExampleSelective(OpenapiUser,example);
     }
+
+    @Override
+    public OpenapiUser getUserById(Long userId) {
+        return openapiUserMapper.selectByPrimaryKey(userId);
+    }
 }
