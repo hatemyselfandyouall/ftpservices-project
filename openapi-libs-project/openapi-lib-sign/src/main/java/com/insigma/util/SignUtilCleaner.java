@@ -44,7 +44,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/matters-9017";
+        String testUrl="http://10.85.159.243:10500/frontInterface/interface/matters-9017";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\"matterCode\":\"公共服务-00512-002\",\"projId\":\"190920000023890611489\",\"approveType\":\"01\",\"recvUserName\":\"杨琛\",\"bizType\":\"0\",\"affairType\":\"01\",\"recvDeptName\":\"浙江省医疗保障局\",\"execDeptOrgCode\":\"331099\",\"applyOrigin\":\"1\",\"msgid\":\"99661a5869424abc821420a9be04624d\",\"recvUserType\":\"1\",\"projectNature\":\"99\",\"areaCode\":\"330000\",\"trade\":\"9017\",\"recvDeptCode\":\"001003148\",\"applicantVO\":{\"applyUid\":\"32\",\"applyName\":\"杨琛\",\"applyCardType\":\"31\",\"applyCardNo\":\"32\",\"isAgent\":\"0\",\"contactUid\":\"32\",\"contactName\":\"杨琛\",\"contactCardType\":\"31\",\"contactCardNo\":\"32\",\"contactTelNo\":\"13000000000\",\"address\":\"浙江省\",\"applyType\":\"00\"},\"recvUserId\":\"32\",\"gmtApply\":\"2019-09-20\",\"projectName\":\"基本医疗保险关系接续\",\"deptCode\":\"001003148\"}";
