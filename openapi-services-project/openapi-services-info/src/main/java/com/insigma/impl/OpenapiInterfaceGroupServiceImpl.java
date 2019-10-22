@@ -7,7 +7,7 @@
 //import com.insigma.facade.openapi.po.OpenapiFtpAccount;
 //import com.insigma.facade.openapi.po.OpenapiInterface;
 //import com.insigma.facade.openapi.vo.OpenapiInterfaceGroup.*;
-//import com.insigma.facade.openapi.vo.OpenapiInterfaceShowVO;
+//import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceShowVO;
 //import com.insigma.facade.openapi.vo.OpenapiUser.OpenapiUserDetailShowVO;
 //import com.insigma.mapper.OpenapiInterfaceGroupMapper;
 //import com.insigma.mapper.OpenapiInterfaceMapper;

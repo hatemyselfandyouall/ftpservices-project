@@ -4,8 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.po.OpenapiInterface;
-import com.insigma.facade.openapi.vo.*;
 
+import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
+import com.insigma.facade.openapi.vo.openapiInterface.*;
 import com.insigma.web.BasicController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import star.vo.result.ResultVo;
+
+import java.util.List;
 
 
 @RestController
@@ -29,12 +33,12 @@ public class OpenapiInterfaceController extends BasicController {
 
     @ApiOperation(value = "接口列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiInterface> getOpenapiInterfaceList(@RequestBody OpenapiInterfaceListVO openapiInterfaceListVO){
+    public ResultVo<OpenapiInterfaceDetailShowVO> getOpenapiInterfaceList(@RequestBody OpenapiInterfaceListVO openapiInterfaceListVO){
         ResultVo resultVo=new ResultVo();
         try {
-            PageInfo<OpenapiInterface> openapiInterfaceList=interfaceFacade.getOpenapiInterfaceList(openapiInterfaceListVO);
+            PageInfo<OpenapiInterfaceDetailShowVO> openapiInterfaceList=interfaceFacade.getOpenapiInterfaceList(openapiInterfaceListVO);
             if(openapiInterfaceList!=null){
-                DataListResultDto<OpenapiInterface> dataListResultDto=new DataListResultDto<>(openapiInterfaceList.getList(),(int)openapiInterfaceList.getTotal());
+                DataListResultDto<OpenapiInterfaceDetailShowVO> dataListResultDto=new DataListResultDto<>(openapiInterfaceList.getList(),(int)openapiInterfaceList.getTotal());
                 resultVo.setResult(dataListResultDto);
                 resultVo.setSuccess(true);
             }else {
@@ -47,9 +51,28 @@ public class OpenapiInterfaceController extends BasicController {
         return resultVo;
     }
 
+    @ApiOperation(value = "接口列表树")
+    @RequestMapping(value = "/tree",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiInterfaceTypeTreeVO> getOpenapiInterfaceTree(){
+        ResultVo resultVo=new ResultVo();
+        try {
+            List<OpenapiInterfaceTypeTreeVO> openapiInterfaceList=interfaceFacade.getOpenapiInterfaceTree();
+            if(openapiInterfaceList!=null){
+                resultVo.setResult(openapiInterfaceList);
+                resultVo.setSuccess(true);
+            }else {
+                resultVo.setResultDes("接口列表树获取失败");
+            }
+        }catch (Exception e){
+            resultVo.setResultDes("获取接口列表树异常，原因为:"+e);
+            log.error("获取接口列表树异常",e);
+        }
+        return resultVo;
+    }
+
     @ApiOperation(value = "接口详情")
     @RequestMapping(value = "/detail",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiInterface> getOpenapiInterfaceDetail(@RequestBody OpenapiInterfaceDetailVO openapiInterfaceDetailVO){
+    public ResultVo<OpenapiInterfaceShowVO> getOpenapiInterfaceDetail(@RequestBody OpenapiInterfaceDetailVO openapiInterfaceDetailVO){
         ResultVo resultVo=new ResultVo();
         try {
             OpenapiInterfaceShowVO openapiInterface=interfaceFacade.getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
@@ -92,6 +115,45 @@ public class OpenapiInterfaceController extends BasicController {
         ResultVo resultVo=new ResultVo();
         try {
             Integer flag = interfaceFacade.deleteOpenapiInterface(openapiInterfaceDeleteVO);
+            if (1 == flag) {
+                resultVo.setResultDes("接口删除成功");
+                resultVo.setSuccess(true);
+            } else {
+                resultVo.setResultDes("接口删除失败");
+            }
+        }catch (Exception e){
+            resultVo.setResultDes("接口删除异常，原因为:"+e);
+            log.error("接口删除异常",e);
+        }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "接口发布状态修改")
+    @RequestMapping(value = "/release",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiInterface> releaseOpenapiInterface(@RequestBody OpenapiInterfaceReleaseVO openapiInterfaceDeleteVO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            Integer flag = interfaceFacade.releaseOpenapiInterface(openapiInterfaceDeleteVO);
+            if (flag>0) {
+                resultVo.setResultDes("接口发布成功");
+                resultVo.setSuccess(true);
+            } else {
+                resultVo.setResultDes("接口发布失败");
+            }
+        }catch (Exception e){
+            resultVo.setResultDes("接口发布异常，原因为:"+e);
+            log.error("接口发布异常",e);
+        }
+        return resultVo;
+    }
+
+
+    @ApiOperation(value = "接口生效状态修改")
+    @RequestMapping(value = "/setStatus",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiInterface> setStatusOpenapiInterface(@RequestBody OpenapiInterfaceSetStatusVO openapiInterfaceSetStatusVO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            Integer flag = interfaceFacade.setStatusOpenapiInterface(openapiInterfaceSetStatusVO);
             if (1 == flag) {
                 resultVo.setResultDes("接口删除成功");
                 resultVo.setSuccess(true);

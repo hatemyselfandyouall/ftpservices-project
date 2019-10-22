@@ -1,4 +1,4 @@
-package com.insigma.facade.openapi.vo;
+package com.insigma.facade.openapi.vo.openapiInterface;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

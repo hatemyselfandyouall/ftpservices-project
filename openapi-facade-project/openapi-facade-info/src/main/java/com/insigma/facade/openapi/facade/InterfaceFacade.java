@@ -3,10 +3,14 @@ package com.insigma.facade.openapi.facade;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.po.OpenapiInterface;
-import com.insigma.facade.openapi.vo.*;
+import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
+import com.insigma.facade.openapi.vo.openapiInterface.*;
+
+import java.util.List;
 
 public interface InterfaceFacade {
-    PageInfo<OpenapiInterface> getOpenapiInterfaceList(OpenapiInterfaceListVO buttonListVO);
+    PageInfo<OpenapiInterfaceDetailShowVO> getOpenapiInterfaceList(OpenapiInterfaceListVO buttonListVO);
 
     OpenapiInterfaceShowVO getOpenapiInterfaceDetail(OpenapiInterfaceDetailVO openapiInterfaceDetailVO);
 
@@ -26,6 +30,10 @@ public interface InterfaceFacade {
 
     String getAppKeyListByCommandCodeAndOrgNO(String commandCode,String orgNO) throws Exception;
 
-    JSONObject insertMatters();
+    List<OpenapiInterfaceTypeTreeVO> getOpenapiInterfaceTree();
+
+    Integer releaseOpenapiInterface(OpenapiInterfaceReleaseVO openapiInterfaceDeleteVO);
+
+    Integer setStatusOpenapiInterface(OpenapiInterfaceSetStatusVO openapiInterfaceSetStatusVO);
 }
 

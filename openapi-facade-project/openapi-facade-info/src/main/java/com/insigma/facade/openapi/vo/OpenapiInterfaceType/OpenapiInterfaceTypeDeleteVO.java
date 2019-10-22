@@ -1,4 +1,4 @@
-package com.insigma.facade.openapi.vo;
+package com.insigma.facade.openapi.vo.OpenapiInterfaceType;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import java.io.Serializable;
 
 @Data
-public class OpenapiInterfaceDeleteVO implements Serializable {
+public class OpenapiInterfaceTypeDeleteVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

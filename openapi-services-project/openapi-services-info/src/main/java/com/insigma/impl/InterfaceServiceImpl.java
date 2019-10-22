@@ -2,14 +2,20 @@ package com.insigma.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade;
+import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistorySaveVO;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceInnerUrl.OpenapiInterfaceInnerUrlSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
+import com.insigma.facade.openapi.vo.openapiInterface.*;
 import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.po.*;
-import com.insigma.facade.openapi.vo.*;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceRequestParam.OpenapiInterfaceRequestParamSaveVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceResponseParam.OpenapiInterfaceResponseParamSaveVO;
@@ -18,6 +24,7 @@ import com.insigma.util.JSONUtil;
 import com.insigma.util.SignUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
@@ -47,18 +54,50 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     CachesKeyService cachesKeyService;
     @Autowired
     OpenapiAppInterfaceMapper openapiAppInterfaceMapper;
+    @Autowired
+    OpenapiInterfaceInnerUrlMapper openapiInterfaceInnerUrlMapper;
+    @Autowired
+    OpenapiInterfaceTypeMapper openapiInterfaceTypeMapper;
+    @Autowired
+    OpenapiInterfaceHistoryFacade openapiInterfaceHistoryFacade;
 
     @Override
-    public PageInfo<OpenapiInterface> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
+    public PageInfo<OpenapiInterfaceDetailShowVO> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
         if (openapiInterfaceListVO == null || openapiInterfaceListVO.getPageNum() == null || openapiInterfaceListVO.getPageSize() == null) {
             return null;
         }
+
+        Example example=new Example(OpenapiInterface.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
+        if (openapiInterfaceListVO.getIsAvaliable()!=null){
+            criteria.andEqualTo("isAvaliable",openapiInterfaceListVO.getIsAvaliable());
+        }
+        if (openapiInterfaceListVO.getTypeId()!=null){
+            criteria.andEqualTo("typeId",openapiInterfaceListVO.getTypeId());
+        }
+        if (openapiInterfaceListVO.getIsPublic()!=null){
+            criteria.andEqualTo("isPublic",openapiInterfaceListVO.getIsPublic());
+        }
+        if (openapiInterfaceListVO.getName()!=null){
+            criteria.andCondition("(name like '%"+openapiInterfaceListVO.getName()+"%' or command_code like '%"+openapiInterfaceListVO.getName()+"%' or out_url like '%"+openapiInterfaceListVO.getName()+"%' )");
+        }
         PageHelper.startPage(openapiInterfaceListVO.getPageNum().intValue(), openapiInterfaceListVO.getPageSize().intValue());
-        OpenapiInterface exampleObeject = new OpenapiInterface();
-        exampleObeject.setGroupId(openapiInterfaceListVO.getGroupId());
-        List<OpenapiInterface> openapiInterfaceList = openapiInterfaceMapper.select(exampleObeject);
-        PageInfo<OpenapiInterface> openapiInterfacePageInfo = new PageInfo<>(openapiInterfaceList);
+        Page<OpenapiInterface> openapiInterfaceList = (Page<OpenapiInterface>) openapiInterfaceMapper.selectByExample(example);
+        List<OpenapiInterfaceDetailShowVO> openapiInterfaceDetailShowVOS=openapiInterfaceList.stream().map(i->{
+            OpenapiInterfaceDetailShowVO openapiInterfaceDetailShowVO=JSONUtil.convert(i,OpenapiInterfaceDetailShowVO.class);
+            openapiInterfaceDetailShowVO.setOpenapiInterfaceInnerUrls(getInnerUrlByInterfaceId(i.getId()));
+            return openapiInterfaceDetailShowVO;
+        }).collect(Collectors.toList());
+        PageInfo<OpenapiInterfaceDetailShowVO> openapiInterfacePageInfo = new PageInfo<>(openapiInterfaceDetailShowVOS);
+        openapiInterfacePageInfo.setTotal(openapiInterfaceList.getTotal());
         return openapiInterfacePageInfo;
+    }
+
+    private List<OpenapiInterfaceInnerUrl> getInnerUrlByInterfaceId(Long id) {
+        OpenapiInterfaceInnerUrl openapiInterfaceInnerUrl=new OpenapiInterfaceInnerUrl();
+        openapiInterfaceInnerUrl.setInterfaceId(id);
+        return openapiInterfaceInnerUrlMapper.select(openapiInterfaceInnerUrl);
     }
 
     @Override
@@ -86,7 +125,6 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             return null;
         }
         OpenapiInterface openapiInterface = JSONUtil.convert(openapiInterfaceSaveVO, OpenapiInterface.class);
-        openapiInterface.setVersionNumber(getMaxVersion(openapiInterfaceSaveVO.getGroupId()));
         if (openapiInterface.getId() == null) {
             openapiInterfaceMapper.insertSelective(openapiInterface);
             return getInterfaceDetail(openapiInterfaceSaveVO, openapiInterface);
@@ -113,10 +151,29 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     private OpenapiInterfaceShowVO getInterfaceDetail(OpenapiInterfaceSaveVO openapiInterfaceSaveVO, OpenapiInterface openapiInterface) {
         saveRequestParams(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceRequestParamSaveVOList());
         saveResponseParams(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceResponseParamSaveVOList());
+        saveInnerUrls(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceInnerUrlSaveVOS());
+        saveUpdateHistory(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO());
         OpenapiInterfaceDetailVO openapiInterfaceDetailVO = new OpenapiInterfaceDetailVO();
         openapiInterfaceDetailVO.setId(openapiInterface.getId());
         OpenapiInterfaceShowVO openapiInterfaceShowVO = getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
         return openapiInterfaceShowVO;
+    }
+
+    private void saveUpdateHistory(Long id, OpenapiInterfaceHistorySaveVO openapiInterfaceHistorySaveVO) {
+        openapiInterfaceHistorySaveVO.setInterfaceId(id);
+        openapiInterfaceHistoryFacade.saveOpenapiInterfaceHistory(openapiInterfaceHistorySaveVO);
+    }
+
+    private void saveInnerUrls(Long id, List<OpenapiInterfaceInnerUrlSaveVO> openapiInterfaceInnerUrlSaveVOS) {
+        if (CollectionUtils.isEmpty(openapiInterfaceInnerUrlSaveVOS)) {
+            return;
+        }
+        List<OpenapiInterfaceInnerUrl> openapiInterfaceInnerUrls = openapiInterfaceInnerUrlSaveVOS.stream().map(i->{
+            OpenapiInterfaceInnerUrl openapiInterfaceInnerUrl=JSONUtil.convert(i,OpenapiInterfaceInnerUrl.class);
+            openapiInterfaceInnerUrl.setInterfaceId(id);
+            return openapiInterfaceInnerUrl;
+        }).collect(Collectors.toList());
+        openapiInterfaceInnerUrlMapper.insertList(openapiInterfaceInnerUrls);
     }
 
     private void updateInterface(OpenapiInterface openapiInterface) {
@@ -347,29 +404,45 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public JSONObject insertMatters() {
-        String  inString="8001,8002,8003,8004,8005,8006,8007,8008,8009,8010,8011,8012,9012,9013,8203,8205,8207,8021,8022,8023,8024,8025,8026,8027,8028,9016,9017,9018,9019,8041,7207,7208";
-        String[] codes=inString.split(",");
-        for (String code:codes) {
-            OpenapiInterface openapiInterface=new OpenapiInterface();
-            openapiInterface.setCode("matters-" +code);
-            openapiInterface.setCommandCode(code);
-            openapiInterface.setGroupId(Integer.valueOf(code));
-            openapiInterface.setInnerUrl("http://10.85.159.204:13110/matters/mattersService/"+code);
-            openapiInterface.setOutParamType(0);
-            openapiInterface.setInnerParamType(0);
-            openapiInterfaceMapper.insert(openapiInterface);
-            List<Long> appCodes=new ArrayList<>();
-            appCodes.add(5l);appCodes.add(6l);appCodes.add(7l);appCodes.add(9l);appCodes.add(10l);
-            appCodes.forEach(i->{
-                OpenapiAppInterface openapiAppInterface=new OpenapiAppInterface();
-                openapiAppInterface.setAppId(i);
-                openapiAppInterface.setInterfaceId(openapiInterface.getId());
-                openapiAppInterface.setIsAudit(1);
-                openapiAppInterfaceMapper.insert(openapiAppInterface);
-            });
-        }
-        return new JSONObject();
+    public List<OpenapiInterfaceTypeTreeVO> getOpenapiInterfaceTree() {
+        OpenapiInterfaceType examType=new OpenapiInterfaceType().setType(DataConstant.INTERFACE_TYPE_APPLICATION);
+        List<OpenapiInterfaceType> openapiInterfaceTypes=openapiInterfaceTypeMapper.select(examType);
+        List<OpenapiInterfaceTypeTreeVO> openapiInterfaceTypeTreeVOS=openapiInterfaceTypes.stream().map(i->{
+            OpenapiInterfaceTypeTreeVO openapiInterfaceTypeTree=JSONUtil.convert(i,OpenapiInterfaceTypeTreeVO.class);
+            OpenapiInterfaceType tempExam =new OpenapiInterfaceType().setParentId(i.getId());
+            List<OpenapiInterfaceType> tempList=openapiInterfaceTypeMapper.select(tempExam);
+            openapiInterfaceTypeTree.setChildrenTree( tempList.stream().map(j->{
+                OpenapiInterfaceTypeTreeVO tempTree=JSONUtil.convert(j,OpenapiInterfaceTypeTreeVO.class);
+                OpenapiInterface examInterface=new OpenapiInterface().setTypeId(j.getId());
+                List<OpenapiInterface> openapiInterfaces=openapiInterfaceMapper.select(examInterface);
+                tempTree.setChildrenNode(openapiInterfaces);
+                return tempTree;
+            }).collect(Collectors.toList()));
+            return openapiInterfaceTypeTree;
+        }).collect(Collectors.toList());
+        return openapiInterfaceTypeTreeVOS;
     }
+
+    @Override
+    public Integer releaseOpenapiInterface(OpenapiInterfaceReleaseVO openapiInterfaceDeleteVO) {
+        if (openapiInterfaceDeleteVO==null|| openapiInterfaceDeleteVO.getIds()==null||openapiInterfaceDeleteVO.getIds().isEmpty()){
+            return 0;
+        }
+        Example example=new Example(OpenapiInterface.class);
+        example.createCriteria().andIn("id",openapiInterfaceDeleteVO.getIds());
+        OpenapiInterface openapiInterface=new OpenapiInterface().setIsPublic(openapiInterfaceDeleteVO.getIsPublic());
+        return openapiInterfaceMapper.updateByExampleSelective(openapiInterface,example);
+    }
+
+    @Override
+    public Integer setStatusOpenapiInterface(OpenapiInterfaceSetStatusVO openapiInterfaceSetStatusVO) {
+        if (openapiInterfaceSetStatusVO==null|| openapiInterfaceSetStatusVO.getId()==null){
+            return 0;
+        }
+        Example example=new Example(OpenapiInterface.class);
+        example.createCriteria().andEqualTo("id",openapiInterfaceSetStatusVO.getId());
+        OpenapiInterface openapiInterface=new OpenapiInterface().setIsAvaliable(openapiInterfaceSetStatusVO.getIsAvaliable());
+        return openapiInterfaceMapper.updateByExampleSelective(openapiInterface,example);
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.insigma.facade.openapi.vo;
+package com.insigma.facade.openapi.vo.openapiInterface;
 
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.po.OpenapiInterfaceRequestParam;

@@ -3,6 +3,7 @@ package com.insigma.facade.openapi.po;
 
 import java.io.Serializable;
 
+import lombok.experimental.Accessors;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -17,24 +18,37 @@ import java.util.List;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiInterface implements Serializable{
 
 
 	//========== properties ==========
 
 	@Id
-    @GeneratedValue(generator="JDBC")
+	@GeneratedValue(generator="JDBC")
     @ApiModelProperty("接口id")
     @Column( name="id")
     private Long id;
 
-    @ApiModelProperty("接口code")
+    @ApiModelProperty("")
     @Column( name="code")
     private String code;
 
+    @ApiModelProperty("接口名称")
+    @Column( name="name")
+    private String name;
+
     @ApiModelProperty("接口组id")
     @Column( name="group_id")
-    private Integer groupId;
+    private Long groupId;
+
+    @ApiModelProperty("")
+    @Column( name="type_id")
+    private Long typeId;
+
+    @ApiModelProperty("")
+    @Column( name="type_name")
+    private String typeName;
 
     @ApiModelProperty("数据提供单位编码")
     @Column( name="data_resource_code")
@@ -76,15 +90,6 @@ public class OpenapiInterface implements Serializable{
     @Column( name="request_example")
     private String requestExample;
 
-    @ApiModelProperty("提供者姓名")
-    @Column( name="provider_name")
-    private String providerName;
-
-    @ApiModelProperty("提供者类型")
-    @Column( name="provider_type")
-    private String providerType;
-
-
     @ApiModelProperty("0未生效1已生效")
     @Column( name="is_avaliable")
     private Integer isAvaliable;
@@ -93,9 +98,19 @@ public class OpenapiInterface implements Serializable{
     @Column( name="is_public")
     private Integer isPublic;
 
+    @ApiModelProperty("提供者姓名")
+    @Column( name="provider_name")
+    private String providerName;
+
+    @ApiModelProperty("提供者类型")
+    @Column( name="provider_type")
+    private String providerType;
+
     @ApiModelProperty("0未删除1已删除")
     @Column( name="is_delete")
     private Integer isDelete;
+
+
 
     @ApiModelProperty("")
     @Column( name="create_time")
