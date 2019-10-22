@@ -83,6 +83,12 @@
 		  <groupId>insigma.clouddata.facade.info</groupId>
 		  <artifactId>clouddata-facade-info</artifactId>
 	  </dependency>
+
+	  <!-- sysbase -->
+	  <dependency>
+		  <groupId>insigma.sysbase.facade.info</groupId>
+		  <artifactId>sysbase-facade-info</artifactId>
+	  </dependency>
     </dependencies>
 
 	<build>

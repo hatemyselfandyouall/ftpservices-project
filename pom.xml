@@ -199,6 +199,12 @@
                 <artifactId>clouddata-facade-info</artifactId>
                 <version>1.0.1-SNAPSHOT</version>
             </dependency>
+			<!-- sysbase -->
+			<dependency>
+				<groupId>insigma.sysbase.facade.info</groupId>
+				<artifactId>sysbase-facade-info</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	

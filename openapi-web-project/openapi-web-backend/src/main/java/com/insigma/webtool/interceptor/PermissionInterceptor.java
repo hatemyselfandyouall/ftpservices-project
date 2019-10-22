@@ -24,7 +24,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		}
 		
-		int userId = loginComonent.getLoginUserId();
+//		int userId = loginComonent.getLoginUserId();
 //		if (!purviewFacade.getAuthByUrl(userId, uri)) {
 //			throw new PermissionException("权限不足");
 //		}
