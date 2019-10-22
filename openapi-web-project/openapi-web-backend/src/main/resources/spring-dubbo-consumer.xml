@@ -28,6 +28,9 @@
 	<dubbo:reference id="openapiInterfaceTypeFacade" interface="com.insigma.facade.openapi.facade.OpenapiInterfaceTypeFacade"
 					 version="1.0.1.gzd" />
 
+	<dubbo:reference id="openapiInterfaceHistoryFacade" interface="com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade"
+					 version="1.0.1.gzd" />
+
 	<!--yingy模块-->
 	<dubbo:reference id="ftpManageFacade" interface="com.insigma.facade.ftp.FtpManageFacade"
 					 version="1.0.1" />
