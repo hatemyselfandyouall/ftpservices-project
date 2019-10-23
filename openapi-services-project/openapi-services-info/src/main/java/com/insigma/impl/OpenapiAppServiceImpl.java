@@ -1,5 +1,6 @@
 package com.insigma.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import constant.DataConstant;
@@ -41,15 +42,36 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
 
 
     @Override
-    public PageInfo<OpenapiApp> getOpenapiAppList(OpenapiAppListVO openapiAppListVO) {
+    public PageInfo<OpenapiAppListShowVO> getOpenapiAppList(OpenapiAppListVO openapiAppListVO) {
         if (openapiAppListVO==null||openapiAppListVO.getPageNum()==null||openapiAppListVO.getPageSize()==null) {
             return null;
         }
         PageHelper.startPage(openapiAppListVO.getPageNum().intValue(),openapiAppListVO.getPageSize().intValue());
-        OpenapiApp exampleObeject=new OpenapiApp();
-        List<OpenapiApp> openapiAppList=openapiAppMapper.select(exampleObeject);
-        PageInfo<OpenapiApp> openapiAppPageInfo=new PageInfo<>(openapiAppList);
-        return openapiAppPageInfo;
+       Example example=new Example(OpenapiApp.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
+        if (openapiAppListVO.getChannelSource()!=null){
+            criteria.andEqualTo("channelSource",openapiAppListVO.getChannelSource());
+        }
+        if (openapiAppListVO.getOrgName()!=null){
+            criteria.andEqualTo("orgName",openapiAppListVO.getOrgName());
+        }
+        if (openapiAppListVO.getTypeId()!=null){
+            criteria.andEqualTo("typeId",openapiAppListVO.getTypeId());
+        }
+        if (openapiAppListVO.getName()!=null){
+            criteria.andLike("orgName",openapiAppListVO.getOrgName());
+        }
+        Page<OpenapiApp> openapiAppList=(Page<OpenapiApp>)openapiAppMapper.selectByExample(example);;
+        List<OpenapiAppListShowVO> openapiAppListShowVOS=openapiAppList.stream().map(i->{
+            OpenapiAppListShowVO openapiAppListShowVO=JSONUtil.convert(i,OpenapiAppListShowVO.class);
+            OpenapiAppInterface openapiInterface=new OpenapiAppInterface().setIsDelete(DataConstant.NO_DELETE).setAppId(i.getId());
+            openapiAppListShowVO.setInterfaceCount(openapiAppInterfaceMapper.selectCount(openapiInterface));
+            return openapiAppListShowVO;
+        }).collect(Collectors.toList());
+        PageInfo<OpenapiAppListShowVO> openapiAppListShowVOPageInfo=new PageInfo<>(openapiAppListShowVOS);
+        openapiAppListShowVOPageInfo.setTotal(openapiAppList.getTotal());
+        return openapiAppListShowVOPageInfo;
     }
 
     @Override

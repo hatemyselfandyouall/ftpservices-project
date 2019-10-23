@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OpenapiAppFacade{
 
-	PageInfo<OpenapiApp> getOpenapiAppList(OpenapiAppListVO listVO);
+	PageInfo<OpenapiAppListShowVO> getOpenapiAppList(OpenapiAppListVO listVO);
 
     OpenapiApp getOpenapiAppDetail(OpenapiAppDetailVO detailVO);
 

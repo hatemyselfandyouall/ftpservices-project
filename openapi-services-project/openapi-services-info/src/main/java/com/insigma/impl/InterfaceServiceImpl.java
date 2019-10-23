@@ -405,19 +405,25 @@ public class InterfaceServiceImpl implements InterfaceFacade {
 
     @Override
     public List<OpenapiInterfaceTypeTreeVO> getOpenapiInterfaceTree() {
-        OpenapiInterfaceType examType=new OpenapiInterfaceType().setType(DataConstant.INTERFACE_TYPE_APPLICATION);
+        OpenapiInterfaceType examType=new OpenapiInterfaceType().setType(DataConstant.INTERFACE_TYPE_APPLICATION).setIsDelete(DataConstant.NO_DELETE);
         List<OpenapiInterfaceType> openapiInterfaceTypes=openapiInterfaceTypeMapper.select(examType);
         List<OpenapiInterfaceTypeTreeVO> openapiInterfaceTypeTreeVOS=openapiInterfaceTypes.stream().map(i->{
             OpenapiInterfaceTypeTreeVO openapiInterfaceTypeTree=JSONUtil.convert(i,OpenapiInterfaceTypeTreeVO.class);
-            OpenapiInterfaceType tempExam =new OpenapiInterfaceType().setParentId(i.getId());
+            OpenapiInterfaceType tempExam =new OpenapiInterfaceType().setParentId(i.getId()).setIsDelete(DataConstant.NO_DELETE);
             List<OpenapiInterfaceType> tempList=openapiInterfaceTypeMapper.select(tempExam);
             openapiInterfaceTypeTree.setChildrenTree( tempList.stream().map(j->{
                 OpenapiInterfaceTypeTreeVO tempTree=JSONUtil.convert(j,OpenapiInterfaceTypeTreeVO.class);
-                OpenapiInterface examInterface=new OpenapiInterface().setTypeId(j.getId());
+                OpenapiInterface examInterface=new OpenapiInterface().setTypeId(j.getId()).setIsDelete(DataConstant.NO_DELETE);
                 List<OpenapiInterface> openapiInterfaces=openapiInterfaceMapper.select(examInterface);
                 tempTree.setChildrenNode(openapiInterfaces);
+                List<JSONObject> temp=openapiInterfaces.stream().map(k->JSONObject.parseObject(JSONObject.toJSONString(k))).collect(Collectors.toList());
+                tempTree.setTempChildren(temp);
                 return tempTree;
             }).collect(Collectors.toList()));
+            if(openapiInterfaceTypeTree.getChildrenTree()!=null&&!openapiInterfaceTypeTree.getChildrenTree().isEmpty()) {
+                List<JSONObject> temp = openapiInterfaceTypeTree.getChildrenTree().stream().map(j -> JSONObject.parseObject(JSONObject.toJSONString(j))).collect(Collectors.toList());
+                openapiInterfaceTypeTree.setTempChildren(temp);
+            }
             return openapiInterfaceTypeTree;
         }).collect(Collectors.toList());
         return openapiInterfaceTypeTreeVOS;

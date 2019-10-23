@@ -3,6 +3,7 @@ package com.insigma.facade.openapi.po;
 
 import java.io.Serializable;
 
+import lombok.experimental.Accessors;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiAppInterface implements Serializable{
 
 

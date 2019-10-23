@@ -25,6 +25,14 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @Column( name="name")
     private String name;
 
+    @ApiModelProperty("0不是回调1是回调")
+    @Column( name="is_callback")
+    private Integer isCallback;
+
+    @ApiModelProperty("接口描述")
+    @Column( name="distribution")
+    private String distribution;
+
     @ApiModelProperty("接口组id")
     @Column( name="group_id")
     private Long groupId;

@@ -92,6 +92,10 @@ public class OpenapiInterfaceTypeController extends BasicController {
     public ResultVo<OpenapiInterfaceType> deleteOpenapiInterfaceType(@RequestBody OpenapiInterfaceTypeDeleteVO openapiInterfaceTypeDeleteVO){
         ResultVo resultVo=new ResultVo();
         try {
+            if (openapiInterfaceTypeFacade.hasChildInterface(openapiInterfaceTypeDeleteVO)){
+                resultVo.setResultDes("当前分类下有有效接口，不可删除");
+                return resultVo;
+            }
             Integer flag = openapiInterfaceTypeFacade.deleteOpenapiInterfaceType(openapiInterfaceTypeDeleteVO);
             if (1 == flag) {
                 resultVo.setResultDes("删除成功");

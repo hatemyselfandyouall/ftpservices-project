@@ -3,7 +3,6 @@ package com.insigma.facade.openapi.po;
 
 import java.io.Serializable;
 
-import lombok.experimental.Accessors;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -15,6 +14,7 @@ import java.lang.String;
 import java.lang.Integer;
 import java.util.Date;
 import java.util.List;
+import lombok.experimental.Accessors;
 
 
 @Data
@@ -37,6 +37,14 @@ public class OpenapiInterface implements Serializable{
     @ApiModelProperty("接口名称")
     @Column( name="name")
     private String name;
+
+    @ApiModelProperty("0不是回调1是回调")
+    @Column( name="is_callback")
+    private Integer isCallback;
+
+    @ApiModelProperty("接口描述")
+    @Column( name="distribution")
+    private String distribution;
 
     @ApiModelProperty("接口组id")
     @Column( name="group_id")
@@ -98,6 +106,10 @@ public class OpenapiInterface implements Serializable{
     @Column( name="is_public")
     private Integer isPublic;
 
+    @ApiModelProperty("0未删除1已删除")
+    @Column( name="is_delete")
+    private Integer isDelete;
+
     @ApiModelProperty("提供者姓名")
     @Column( name="provider_name")
     private String providerName;
@@ -105,12 +117,6 @@ public class OpenapiInterface implements Serializable{
     @ApiModelProperty("提供者类型")
     @Column( name="provider_type")
     private String providerType;
-
-    @ApiModelProperty("0未删除1已删除")
-    @Column( name="is_delete")
-    private Integer isDelete;
-
-
 
     @ApiModelProperty("")
     @Column( name="create_time")

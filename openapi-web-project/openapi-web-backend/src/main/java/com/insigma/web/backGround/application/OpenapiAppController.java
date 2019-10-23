@@ -3,6 +3,7 @@ package com.insigma.web.backGround.application;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
+import com.insigma.facade.openapi.vo.OpenapiApp.*;
 import com.insigma.web.BasicController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,10 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.po.OpenapiApp;
-import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppListVO;
-import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppSaveVO;
 
 
 @RestController
@@ -30,13 +27,13 @@ public class OpenapiAppController extends BasicController {
     OpenapiAppFacade openapiAppFacade;
 
     @ApiOperation(value = "开放平台应用列表")
-    @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiApp> getOpenapiAppList(@RequestBody OpenapiAppListVO OpenapiAppListVO){
+    @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiAppListShowVO> getOpenapiAppList(@RequestBody OpenapiAppListVO OpenapiAppListVO){
         ResultVo resultVo=new ResultVo();
         try {
-            PageInfo<OpenapiApp> OpenapiAppList=openapiAppFacade.getOpenapiAppList(OpenapiAppListVO);
+            PageInfo<OpenapiAppListShowVO> OpenapiAppList=openapiAppFacade.getOpenapiAppList(OpenapiAppListVO);
             if(OpenapiAppList!=null){
-                DataListResultDto<OpenapiApp> dataListResultDto=new DataListResultDto<>(OpenapiAppList.getList(),(int)OpenapiAppList.getTotal());
+                DataListResultDto<OpenapiAppListShowVO> dataListResultDto=new DataListResultDto<>(OpenapiAppList.getList(),(int)OpenapiAppList.getTotal());
                 resultVo.setResult(dataListResultDto);
                 resultVo.setSuccess(true);
             }else {

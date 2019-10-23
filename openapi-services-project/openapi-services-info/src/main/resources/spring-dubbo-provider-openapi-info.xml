@@ -33,4 +33,9 @@
 	<bean id="openapiInterfaceHistoryServiceImpl" class="com.insigma.impl.OpenapiInterfaceHistoryServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade" ref="openapiInterfaceHistoryServiceImpl"
 				   version="1.0.1.gzd" delay="-1" retries="0"  />
+
+	<bean id="openapiAppTypeServiceImpl" class="com.insigma.impl.OpenapiAppTypeServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppTypeFacade" ref="openapiAppTypeServiceImpl"
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
+
 </beans>

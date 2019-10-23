@@ -1,5 +1,6 @@
 package com.insigma.facade.openapi.vo.OpenapiInterfaceType;
 
+import com.alibaba.fastjson.JSONObject;
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.po.OpenapiInterfaceType;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,7 +32,7 @@ public class OpenapiInterfaceTypeTreeVO implements Serializable {
 
     @ApiModelProperty("使用的应用类型1医保2医院")
     @Column( name="app_type")
-    private Integer appType;
+    private String appType;
 
     @ApiModelProperty("备注")
     @Column( name="remark")
@@ -57,4 +58,5 @@ public class OpenapiInterfaceTypeTreeVO implements Serializable {
 
     List<OpenapiInterface> childrenNode;
 
+    List<JSONObject> tempChildren;
 }
