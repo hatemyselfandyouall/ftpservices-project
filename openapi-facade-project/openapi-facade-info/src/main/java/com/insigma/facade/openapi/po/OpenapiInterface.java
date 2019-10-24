@@ -118,6 +118,38 @@ public class OpenapiInterface implements Serializable{
     @Column( name="provider_type")
     private String providerType;
 
+    @ApiModelProperty("外部请求方式1GET2POST3POST/GET")
+    @Column( name="out_request_way")
+    private Integer outRequestWay;
+
+    @ApiModelProperty("内部请求方式1GET2POST3POST/GET")
+    @Column( name="inner_request_way")
+    private Integer innerRequestWay;
+
+    @ApiModelProperty("外部支持格式1JSON")
+    @Column( name="out_request_format")
+    private Integer outRequestFormat;
+
+    @ApiModelProperty("内部支持格式1JSON")
+    @Column( name="inner_request_format")
+    private Integer innerRequestFormat;
+
+    @ApiModelProperty("内部请求对象1政务服务2省数据中心3.自定义")
+    @Column( name="inner_request_object")
+    private Integer innerRequestObject;
+
+    @ApiModelProperty("请求参数样例")
+    @Column( name="request_param_example")
+    private String requestParamExample;
+
+    @ApiModelProperty("返回参数样例")
+    @Column( name="response_param_example")
+    private String responseParamExample;
+
+    @ApiModelProperty("接口模式1透传")
+    @Column( name="request_model")
+    private Integer requestModel;
+
     @ApiModelProperty("")
     @Column( name="create_time")
     private Date createTime;

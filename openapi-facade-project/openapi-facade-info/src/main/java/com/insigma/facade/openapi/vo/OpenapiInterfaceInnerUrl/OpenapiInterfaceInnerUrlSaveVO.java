@@ -15,5 +15,13 @@ public class OpenapiInterfaceInnerUrlSaveVO implements Serializable {
     @Column( name="interface_id")
     private Long interfaceId;
 
+    @ApiModelProperty("内部url")
+    @Column( name="inner_url")
+    private String innerUrl;
+
+    @ApiModelProperty("心跳url")
+    @Column( name="heart_url")
+    private String heartUrl;
+
 
 }

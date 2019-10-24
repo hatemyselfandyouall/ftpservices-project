@@ -22,30 +22,39 @@ public class OpenapiInterfaceRequestParam implements Serializable{
 
 	//========== properties ==========
 
+    @Id
+    @GeneratedValue(generator="JDBC")
     @ApiModelProperty("接口入参表")
     @Column( name="id")
     private String id;
+
+    @ApiModelProperty("字段名")
+    @Column( name="name")
+    private String name;
+
+    @ApiModelProperty("是否必填0不是1是")
+    @Column( name="required")
+    private Integer required;
 
     @ApiModelProperty("参数所属接口id")
     @Column( name="interface_id")
     private Long interfaceId;
 
     @ApiModelProperty("参数类型码")
-    @Column( name="type_code")
-    private String typeCode;
+    @Column( name="type")
+    private String type;
 
-    @ApiModelProperty("参数描述")
-    @Column( name="description")
-    private String description;
-
-
-    @ApiModelProperty("父参数id")
-    @Column( name="parent_id")
-    private String parentId;
+    @ApiModelProperty("参数备注")
+    @Column( name="remark")
+    private String remark;
 
     @ApiModelProperty("0未删除1已删除")
     @Column( name="is_delete")
     private Integer isDelete;
+
+    @ApiModelProperty("")
+    @Column( name="parent_id")
+    private String parentId;
 
     @ApiModelProperty("")
     @Column( name="create_time")

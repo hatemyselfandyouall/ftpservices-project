@@ -209,43 +209,39 @@ public class InterfaceServiceImpl implements InterfaceFacade {
 
     private List<OpenapiInterfaceRequestParam> requestParamTreeToList(Long interfaceId,String parentId, List<OpenapiInterfaceRequestParamSaveVO> openapiInterfaceRequestParamSaveVOList) {
         List<OpenapiInterfaceRequestParam> result=new ArrayList<>();
-        openapiInterfaceRequestParamSaveVOList.forEach(i->{
-            if(i==null){
-                return;
-            }
-            i.setId(UUID.randomUUID().toString());
-            i.setInterfaceId(interfaceId);
-            i.setParentId(parentId);
-            OpenapiInterfaceRequestParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceRequestParam.class);
-            openapiInterfaceRequestParam.setCreateTime(new Date());
-            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
-            openapiInterfaceRequestParam.setModifyTime(new Date());
-            result.add(openapiInterfaceRequestParam);
-            if (!CollectionUtils.isEmpty(i.getChildren())){
-                result.addAll(requestParamTreeToList(interfaceId,i.getId(),i.getChildren()));
-            }
-        });
+//        openapiInterfaceRequestParamSaveVOList.forEach(i->{
+//            if(i==null){
+//                return;
+//            }
+//
+//            OpenapiInterfaceRequestParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceRequestParam.class);
+//            openapiInterfaceRequestParam.setCreateTime(new Date());
+//            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
+//            openapiInterfaceRequestParam.setModifyTime(new Date());
+//            result.add(openapiInterfaceRequestParam);
+//            if (!CollectionUtils.isEmpty(i.getChildren())){
+//                result.addAll(requestParamTreeToList(interfaceId,i.getId(),i.getChildren()));
+//            }
+//        });
         return result;
     }
 
     private List<OpenapiInterfaceResponseParam> responseParamTreeToList(Long interfaceId,String parentId, List<OpenapiInterfaceResponseParamSaveVO> openapiInterfaceRequestParamSaveVOList) {
         List<OpenapiInterfaceResponseParam> result=new ArrayList<>();
-        openapiInterfaceRequestParamSaveVOList.forEach(i->{
-            if(i==null){
-                return;
-            }
-            i.setId(UUID.randomUUID().toString());
-            i.setInterfaceId(interfaceId);
-            i.setParentId(parentId);
-            OpenapiInterfaceResponseParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceResponseParam.class);
-            openapiInterfaceRequestParam.setCreateTime(new Date());
-            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
-            openapiInterfaceRequestParam.setModifyTime(new Date());
-            result.add(openapiInterfaceRequestParam);
-            if (!CollectionUtils.isEmpty(i.getChildren())){
-                result.addAll(responseParamTreeToList(interfaceId,i.getId(),i.getChildren()));
-            }
-        });
+//        openapiInterfaceRequestParamSaveVOList.forEach(i->{
+//            if(i==null){
+//                return;
+//            }
+//
+//            OpenapiInterfaceResponseParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceResponseParam.class);
+//            openapiInterfaceRequestParam.setCreateTime(new Date());
+//            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
+//            openapiInterfaceRequestParam.setModifyTime(new Date());
+//            result.add(openapiInterfaceRequestParam);
+//            if (!CollectionUtils.isEmpty(i.getChildren())){
+//                result.addAll(responseParamTreeToList(interfaceId,i.getId(),i.getChildren()));
+//            }
+//        });
         return result;
     }
 
