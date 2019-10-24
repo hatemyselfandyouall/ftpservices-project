@@ -64,4 +64,7 @@
 	<dubbo:reference id="openapiEarlyWarningFacade" interface="com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade"
 					 version="1.0.1" />
 
+	<!--审核管理模块-->
+    <dubbo:reference id="openapiAuditFacade" interface="com.insigma.facade.openapi.facade.OpenapiAuditFacade"
+                     version="1.0.1.zhc" />
 </beans>
