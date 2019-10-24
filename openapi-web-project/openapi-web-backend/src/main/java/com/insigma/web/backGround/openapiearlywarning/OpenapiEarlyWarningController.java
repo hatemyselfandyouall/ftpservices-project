@@ -25,6 +25,7 @@ public class OpenapiEarlyWarningController extends BasicController {
     private OpenapiEarlyWarningFacade openapiEarlyWarningFacade;
 
     @ApiOperation(value = "预警人员列表")
+    @ResponseBody
     @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiEarlyWarning> getOpenapiEarlyWarningList(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "offset") Integer offset,@RequestParam(value = "limit") Integer limit){
         ResultVo resultVo=new ResultVo();
