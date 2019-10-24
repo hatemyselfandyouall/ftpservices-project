@@ -33,4 +33,8 @@
 	<bean id="openapiInterfaceHistoryServiceImpl" class="com.insigma.impl.OpenapiInterfaceHistoryServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade" ref="openapiInterfaceHistoryServiceImpl"
 				   version="1.0.1.gzd" delay="-1" retries="0"  />
+
+	<bean id="openapiEarlyWarningServiceImpl" class="com.insigma.impl.OpenapiEarlyWarningServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade" ref="openapiEarlyWarningServiceImpl"
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 </beans>

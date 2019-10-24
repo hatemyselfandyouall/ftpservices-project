@@ -58,4 +58,8 @@
 	<dubbo:reference id="comOperateLogFacade" interface="com.insigma.facade.ComOperateLogFacade"
 					 version="1.0.1" />
 
+
+	<dubbo:reference id="openapiEarlyWarningFacade" interface="com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade"
+					 version="1.0.1" />
+
 </beans>
