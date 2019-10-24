@@ -26,7 +26,7 @@ public class OpenapiEarlyWarningController extends BasicController {
 
     @ApiOperation(value = "预警人员列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiEarlyWarning> getOpenapiEarlyWarningList(@RequestParam(value = "name") String name,@RequestParam(value = "offset") Integer offset,@RequestParam(value = "limit") Integer limit){
+    public ResultVo<OpenapiEarlyWarning> getOpenapiEarlyWarningList(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "offset") Integer offset,@RequestParam(value = "limit") Integer limit){
         ResultVo resultVo=new ResultVo();
         try {
             PageInfo<OpenapiEarlyWarning> openapiEarlyWarningList=openapiEarlyWarningFacade.getOpenapiEarlyWarningList(name,offset,limit);
@@ -63,7 +63,7 @@ public class OpenapiEarlyWarningController extends BasicController {
         return resultVo;
     }
 
-    @ApiOperation(value = "开放平台应用保存")
+    @ApiOperation(value = "预警人员保存")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiApp> saveOpenapiEarlyWarning(@RequestBody OpenapiEarlyWarningDto openapiEarlyWarningDto){
         ResultVo resultVo=new ResultVo();
@@ -82,7 +82,7 @@ public class OpenapiEarlyWarningController extends BasicController {
         return resultVo;
     }
 
-    @ApiOperation(value = "开放平台应用删除")
+    @ApiOperation(value = "预警人员删除")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiApp> deleteOpenapiEarlyWarning(Long id){
         ResultVo resultVo=new ResultVo();
