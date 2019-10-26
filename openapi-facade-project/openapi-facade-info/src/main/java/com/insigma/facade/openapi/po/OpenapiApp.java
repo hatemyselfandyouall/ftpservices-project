@@ -35,16 +35,24 @@ public class OpenapiApp implements Serializable{
     private String name;
 
     @ApiModelProperty("应用类型id")
-    @Column( name="typeId")
+    @Column( name="type_id")
     private Long typeId;
 
-    @ApiModelProperty("渠道来源1管理系统2开放平台")
+    @ApiModelProperty("应用类型名")
+    @Transient
+    private String typeName;
+
+    @ApiModelProperty("渠道来源1后台管理2开发平台")
     @Column( name="channel_source")
     private Integer channelSource;
 
-    @ApiModelProperty("所属机构")
+    @ApiModelProperty("所属机构名")
     @Column( name="org_name")
     private String orgName;
+
+    @ApiModelProperty("所属机构id")
+    @Column( name="org_id")
+    private Long orgId;
 
     @ApiModelProperty("应用所属的用户id")
     @Column( name="user_id")
@@ -73,6 +81,10 @@ public class OpenapiApp implements Serializable{
     @ApiModelProperty("应用描述")
     @Column( name="distribution")
     private String distribution;
+
+    @ApiModelProperty("0未被黑名单1已被黑名单")
+    @Column( name="is_blacked")
+    private Integer isBlacked;
 
     @ApiModelProperty("0未删除1已删除")
     @Column( name="is_delete")

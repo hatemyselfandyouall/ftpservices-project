@@ -36,7 +36,7 @@ public class OpenapiInterfaceHistory implements Serializable{
 
     @ApiModelProperty("更新描述")
     @Column( name="update_description")
-    private Long updateDescription;
+    private String updateDescription;
 
     @ApiModelProperty("版本号")
     @Column( name="version_number")
@@ -46,6 +46,10 @@ public class OpenapiInterfaceHistory implements Serializable{
     @Column( name="create_time")
     private Date createTime;
 
+    @ApiModelProperty("历史版本描述json")
+    @Column( name="history_json")
+    private String historyJson;
+
     @ApiModelProperty("创建者id")
     @Column( name="creator_id")
     private Long creatorId;
@@ -54,7 +58,8 @@ public class OpenapiInterfaceHistory implements Serializable{
     @Column( name="creator_name")
     private String creatorName;
 
-
+    @Transient
+    private Integer isAvaliable;
 
 
 }

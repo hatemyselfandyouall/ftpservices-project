@@ -3,6 +3,12 @@ package com.insigma.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.facade.InterfaceFacade;
+import com.insigma.facade.openapi.facade.OpenapiAppTypeFacade;
+import com.insigma.facade.openapi.po.OpenapiAppType;
+import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceListVO;
+import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
+import com.insigma.mapper.OpenapiAppTypeMapper;
 import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
@@ -15,16 +21,20 @@ import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.zookeeper.Op;
 import org.springframework.beans.factory.annotation.Autowired;
+import star.bizbase.util.StringUtils;
 import star.bizbase.util.constant.SysCacheTimeDMO;
 import star.modules.cache.CacheKeyLock;
 import star.modules.cache.CachesKeyService;
 import star.modules.cache.enumerate.BaseCacheEnum;
+import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.po.OpenapiApp;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -38,6 +48,10 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
     OpenapiInterfaceMapper openapiInterfaceMapper;
     @Autowired
     CachesKeyService cachesKeyService;
+    @Autowired
+    InterfaceFacade  interfaceFacade;
+    @Autowired
+    OpenapiAppTypeMapper openapiAppTypeMapper;
 
 
 
@@ -47,7 +61,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             return null;
         }
         PageHelper.startPage(openapiAppListVO.getPageNum().intValue(),openapiAppListVO.getPageSize().intValue());
-       Example example=new Example(OpenapiApp.class);
+        Example example=new Example(OpenapiApp.class);
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
         if (openapiAppListVO.getChannelSource()!=null){
@@ -67,6 +81,10 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             OpenapiAppListShowVO openapiAppListShowVO=JSONUtil.convert(i,OpenapiAppListShowVO.class);
             OpenapiAppInterface openapiInterface=new OpenapiAppInterface().setIsDelete(DataConstant.NO_DELETE).setAppId(i.getId());
             openapiAppListShowVO.setInterfaceCount(openapiAppInterfaceMapper.selectCount(openapiInterface));
+            if (openapiAppListShowVO.getTypeId()!=null) {
+                OpenapiAppType openapiAppType = openapiAppTypeMapper.selectByPrimaryKey(openapiAppListShowVO.getTypeId());
+                openapiAppListShowVO.setTypeName(openapiAppType != null ? "0" : openapiAppType.getName());
+            }
             return openapiAppListShowVO;
         }).collect(Collectors.toList());
         PageInfo<OpenapiAppListShowVO> openapiAppListShowVOPageInfo=new PageInfo<>(openapiAppListShowVOS);
@@ -80,6 +98,8 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             return null;
         };
         OpenapiApp openapiApp=openapiAppMapper.selectByPrimaryKey(openapiAppDetailVO.getId());
+        OpenapiAppType openapiAppType=openapiAppTypeMapper.selectByPrimaryKey(openapiApp.getTypeId());
+        openapiApp.setTypeName(openapiAppType!=null?"0":openapiAppType.getName());
         return openapiApp;
     }
 
@@ -183,6 +203,100 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         OpenapiApp openapiApp=new OpenapiApp();
         openapiApp.setIsDelete(DataConstant.NO_DELETE);
         return (long)openapiAppMapper.selectCount(openapiApp);
+    }
+
+    @Override
+    public ResultVo checkSave(OpenapiAppSaveVO openapiAppSaveVO) {
+        ResultVo resultVo=new ResultVo();
+        resultVo.setSuccess(true);
+        return resultVo;
+    }
+
+    @Override
+    public PageInfo<OpenapiAppInterfaceShowVO> getOpenapiAppInterfaceList(OpenapiAppInterfaceListVO openapiAppInterfaceListVO) {
+        if (openapiAppInterfaceListVO==null||openapiAppInterfaceListVO.getPageNum()==null||openapiAppInterfaceListVO.getPageSize()==null) {
+            return null;
+        }
+        PageHelper.startPage(openapiAppInterfaceListVO.getPageNum().intValue(),openapiAppInterfaceListVO.getPageSize().intValue());
+        Page<OpenapiAppInterface> openapiAppInterfaces= (Page<OpenapiAppInterface>) openapiAppInterfaceMapper.getOpenapiAppInterfaceList(openapiAppInterfaceListVO.getKeyword(),openapiAppInterfaceListVO.getSourceType(),openapiAppInterfaceListVO.getAppId());
+        List<OpenapiAppInterfaceShowVO> openapiAppInterfaceShowVOS=openapiAppInterfaces.stream().map(i->{
+            OpenapiAppInterfaceShowVO openapiAppInterfaceShowVO=JSONUtil.convert(i,OpenapiAppInterfaceShowVO.class);
+            openapiAppInterfaceShowVO.setOpenapiInterface(openapiInterfaceMapper.selectByPrimaryKey(i.getInterfaceId()));
+            return openapiAppInterfaceShowVO;
+        }).collect(Collectors.toList());
+        PageInfo<OpenapiAppInterfaceShowVO> openapiAppInterfaceShowVOPageInfo=new PageInfo<>(openapiAppInterfaceShowVOS);
+        openapiAppInterfaceShowVOPageInfo.setTotal(openapiAppInterfaces.getTotal());
+        return openapiAppInterfaceShowVOPageInfo;
+    }
+
+    @Override
+    public ResultVo checkAppInterfaceSave(OpenapiAppInterfaceSaveVO openapiAppSaveVO) {
+        ResultVo resultVo=new ResultVo();
+        if (openapiAppSaveVO==null){
+            resultVo.setResultDes("参数必须传递");
+            return resultVo;
+        }
+        Long appId=openapiAppSaveVO.getAppId();
+        List<Long> interfaceIds=openapiAppSaveVO.getInterfaceIds();
+        if (appId==null||interfaceIds==null||interfaceIds.isEmpty()){
+            resultVo.setResultDes("参数必须传递");
+            return resultVo;
+        }
+        Example example=new Example(OpenapiAppInterface.class);
+        example.createCriteria().andEqualTo("appId",appId).andIn("interfaceId",interfaceIds);
+        if (openapiAppInterfaceMapper.selectCountByExample(example)>0){
+            resultVo.setResultDes("不允许重复授权");
+            return resultVo;
+        }
+        resultVo.setSuccess(true);
+        return resultVo;
+    }
+
+    @Override
+    public Integer saveAppInterface(OpenapiAppInterfaceSaveVO openapiAppSaveVO) {
+        OpenapiAppInterface openapiAppInterface=JSONUtil.convert(openapiAppSaveVO,OpenapiAppInterface.class);
+        List<Long> interrfaceIds=openapiAppSaveVO.getInterfaceIds();
+        interrfaceIds.forEach(i->{
+            openapiAppInterface.setInterfaceId(i);
+            openapiAppInterfaceMapper.insert(openapiAppInterface);
+        });
+        return 1;
+    }
+
+    @Override
+    public Integer changeAppBlackStatus(ChangeAppBlackStatusVO changeAppBlackStatusVO) {
+        if (changeAppBlackStatusVO==null||changeAppBlackStatusVO.getId()==null){
+            return 0;
+        }
+        OpenapiApp openapiApp=new OpenapiApp();
+        openapiApp.setModifyTime(new Date());
+        openapiApp.setIsBlacked(changeAppBlackStatusVO.getIsBlacked());
+        Example example=new Example(OpenapiApp.class);
+        example.createCriteria().andEqualTo("id",changeAppBlackStatusVO.getId());
+        return openapiAppMapper.updateByExampleSelective(openapiApp,example);
+    }
+
+    @Override
+    public OpenapiApp resetAppSecret(ResetAppSecretVO resetAppSecretVO) {
+        if (resetAppSecretVO==null||resetAppSecretVO.getId()==null){
+            return null;
+        }
+        OpenapiApp openapiApp=new OpenapiApp();
+        openapiApp.setModifyTime(new Date());
+        openapiApp.setAppSecret(UUID.randomUUID().toString().replaceAll("-",""));
+        Example example=new Example(OpenapiApp.class);
+        example.createCriteria().andEqualTo("id",resetAppSecretVO.getId());
+        openapiAppMapper.updateByExampleSelective(openapiApp,example);
+        return openapiAppMapper.selectByPrimaryKey(resetAppSecretVO.getId());
+    }
+
+    @Override
+    public List<OpenapiInterface> getUnUsedInterfaceList(UnUsedInterfaceListVO unUsedInterfaceListVO) {
+        List<OpenapiAppInterface> openapiAppInterfaces=openapiAppInterfaceMapper.select(new OpenapiAppInterface().setAppId(unUsedInterfaceListVO.getId()).setIsDelete(DataConstant.NO_DELETE));
+        List<Long> ids=openapiAppInterfaces.stream().map(i->i.getInterfaceId()).collect(Collectors.toList());
+        Example example=new Example(OpenapiInterface.class);
+        example.createCriteria().andEqualTo("isDelete",DataConstant.NO_DELETE).andEqualTo("typeId",unUsedInterfaceListVO.getTypeId()).andNotIn("id",ids);
+        return openapiInterfaceMapper.selectByExample(example);
     }
 
 }

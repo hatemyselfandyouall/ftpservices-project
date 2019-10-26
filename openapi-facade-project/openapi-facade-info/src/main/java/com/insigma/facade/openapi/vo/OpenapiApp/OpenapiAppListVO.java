@@ -25,6 +25,6 @@ public class OpenapiAppListVO extends PageVO implements Serializable {
     private String orgName;
 
     @ApiModelProperty("应用类型id")
-    @Column( name="typeId")
+    @Column( name="type_id")
     private Long typeId;
 }

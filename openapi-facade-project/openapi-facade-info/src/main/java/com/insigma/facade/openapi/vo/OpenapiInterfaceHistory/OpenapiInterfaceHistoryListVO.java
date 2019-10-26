@@ -14,4 +14,11 @@ public class OpenapiInterfaceHistoryListVO extends PageVO implements Serializabl
     @ApiModelProperty("接口id")
     @Column( name="interface_id")
     private Long interfaceId;
+
+    private String keyword;
+
+    @ApiModelProperty("0未生效1已生效")
+    @Column( name="is_avaliable")
+    private Integer isAvaliable;
+
 }

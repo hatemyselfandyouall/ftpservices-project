@@ -1,6 +1,7 @@
 package com.insigma.facade.openapi.vo.openapiInterface;
 
 import com.insigma.facade.openapi.po.OpenapiInterface;
+import com.insigma.facade.openapi.po.OpenapiInterfaceInnerUrl;
 import com.insigma.facade.openapi.po.OpenapiInterfaceRequestParam;
 import com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam;
 import lombok.Data;
@@ -18,5 +19,5 @@ public class OpenapiInterfaceShowVO implements Serializable {
     List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams;
 
     List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams;
-
+    List<OpenapiInterfaceInnerUrl> openapiInterfaceInnerUrls;
 }

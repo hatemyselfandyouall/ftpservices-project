@@ -8,7 +8,10 @@ import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
 import com.insigma.facade.openapi.vo.openapiInterface.*;
+import com.insigma.facade.sysbase.SysOrgFacade;
+import com.insigma.facade.sysbase.vo.SysOrgDTO;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import star.vo.result.ResultVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -30,6 +34,9 @@ public class OpenapiInterfaceController extends BasicController {
 
     @Autowired
     InterfaceFacade interfaceFacade;
+    @Autowired
+    LoginComponent loginComponent;
+
 
     @ApiOperation(value = "接口列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -94,6 +101,14 @@ public class OpenapiInterfaceController extends BasicController {
     public ResultVo<OpenapiInterfaceSaveVO> saveOpenapiInterface(@RequestBody OpenapiInterfaceSaveVO openapiInterfaceSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
+            ResultVo checkResult=interfaceFacade.checkInterfaceSave(openapiInterfaceSaveVO);
+            if (!checkResult.isSuccess()){
+                return checkResult;
+            }
+            Long userId=loginComponent.getLoginUserId();
+            String userName=loginComponent.getLoginUserName();
+            openapiInterfaceSaveVO.setCreatorId(userId);
+            openapiInterfaceSaveVO.setCreatorName(userName);
             OpenapiInterfaceShowVO openapiInterfaceShowVO = interfaceFacade.saveOpenapiInterface(openapiInterfaceSaveVO);
             if (openapiInterfaceShowVO!=null) {
                 resultVo.setResult(openapiInterfaceShowVO);
@@ -166,6 +181,7 @@ public class OpenapiInterfaceController extends BasicController {
         }
         return resultVo;
     }
+
 
 
 }

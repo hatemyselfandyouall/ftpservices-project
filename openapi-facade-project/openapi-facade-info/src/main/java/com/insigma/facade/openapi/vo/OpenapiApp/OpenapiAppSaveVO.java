@@ -24,7 +24,7 @@ public class OpenapiAppSaveVO implements Serializable {
     private String name;
 
     @ApiModelProperty("应用类型id")
-    @Column( name="typeId")
+    @Column( name="type_id")
     private Long typeId;
 
     @ApiModelProperty("渠道来源1管理系统2开放平台")

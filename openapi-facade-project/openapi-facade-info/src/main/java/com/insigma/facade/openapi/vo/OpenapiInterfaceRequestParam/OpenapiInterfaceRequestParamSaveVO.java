@@ -31,6 +31,9 @@ public class OpenapiInterfaceRequestParamSaveVO implements Serializable {
     @Column( name="remark")
     private String remark;
 
+    @ApiModelProperty("前端分层字段")
+    @Column( name="super_level")
+    private Integer superLevel;
 
     List<OpenapiInterfaceRequestParamSaveVO> children;
 }

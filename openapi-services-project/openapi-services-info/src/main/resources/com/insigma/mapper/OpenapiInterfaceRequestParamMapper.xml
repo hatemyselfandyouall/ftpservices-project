@@ -19,7 +19,7 @@
     </resultMap>
 
 
-    <select id="selectParamterTree" parameterType="map" resultMap="openapiInterfaceRequestParam">
+    <select id="selectParamterTree" parameterType="map" resultMap="openapiInterfaceRequestParam" flushCache="true" useCache="false">
     SELECT * FROM
     openapi_interface_request_param
     <where>
@@ -29,7 +29,7 @@
     </where>
     </select>
 
-    <select id="selectNode"  resultMap="openapiInterfaceRequestParam">
+    <select id="selectNode"  resultMap="openapiInterfaceRequestParam" flushCache="true" useCache="false">
         SELECT * FROM
         openapi_interface_request_param
         <where>

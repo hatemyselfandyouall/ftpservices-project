@@ -144,6 +144,14 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @Column( name="request_model")
     private Integer requestModel;
 
+    @ApiModelProperty("创建者姓名")
+    @Column( name="creator_name")
+    private String creatorName;
+
+    @ApiModelProperty("创建者id")
+    @Column( name="creator_id")
+    private Long creatorId;
+
     private List<OpenapiInterfaceRequestParamSaveVO> openapiInterfaceRequestParamSaveVOList;
 
     private List<OpenapiInterfaceResponseParamSaveVO> openapiInterfaceResponseParamSaveVOList;

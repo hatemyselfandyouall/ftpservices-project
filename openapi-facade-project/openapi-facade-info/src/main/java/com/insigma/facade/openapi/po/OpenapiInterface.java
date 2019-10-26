@@ -58,6 +58,9 @@ public class OpenapiInterface implements Serializable{
     @Column( name="type_name")
     private String typeName;
 
+    @Transient
+    private String appTypeNamw;
+
     @ApiModelProperty("数据提供单位编码")
     @Column( name="data_resource_code")
     private String dataResourceCode;
@@ -149,6 +152,14 @@ public class OpenapiInterface implements Serializable{
     @ApiModelProperty("接口模式1透传")
     @Column( name="request_model")
     private Integer requestModel;
+
+    @ApiModelProperty("创建者姓名")
+    @Column( name="creator_name")
+    private String creatorName;
+
+    @ApiModelProperty("创建者id")
+    @Column( name="creator_id")
+    private Long creatorId;
 
     @ApiModelProperty("")
     @Column( name="create_time")

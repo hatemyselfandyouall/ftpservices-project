@@ -4,12 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade;
 import com.insigma.mapper.OpenapiInterfaceHistoryMapper;
+import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.insigma.facade.openapi.po.OpenapiInterfaceHistory;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistoryDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistoryDetailVO;
@@ -21,15 +23,34 @@ public class OpenapiInterfaceHistoryServiceImpl implements OpenapiInterfaceHisto
     @Autowired
     OpenapiInterfaceHistoryMapper openapiInterfaceHistoryMapper;
 
+    @Autowired
+    OpenapiInterfaceMapper openapiInterfaceMapper;
+
     @Override
     public PageInfo<OpenapiInterfaceHistory> getOpenapiInterfaceHistoryList(OpenapiInterfaceHistoryListVO openapiInterfaceHistoryListVO) {
         if (openapiInterfaceHistoryListVO==null||openapiInterfaceHistoryListVO.getPageNum()==null||openapiInterfaceHistoryListVO.getPageSize()==null) {
             return null;
         }
-        PageHelper.startPage(openapiInterfaceHistoryListVO.getPageNum().intValue(),openapiInterfaceHistoryListVO.getPageSize().intValue());
-        OpenapiInterfaceHistory exampleObeject=new OpenapiInterfaceHistory().setInterfaceId(openapiInterfaceHistoryListVO.getInterfaceId());
-        List<OpenapiInterfaceHistory> openapiInterfaceHistoryList=openapiInterfaceHistoryMapper.select(exampleObeject);
+        Example example=new Example(OpenapiInterfaceHistory.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("interfaceId", openapiInterfaceHistoryListVO.getInterfaceId());
+        List<OpenapiInterfaceHistory> openapiInterfaceHistoryList=openapiInterfaceHistoryMapper.selectByExample(example);
+        openapiInterfaceHistoryList.forEach(i->i.setIsAvaliable(openapiInterfaceMapper.selectByPrimaryKey(i.getInterfaceId()).getIsAvaliable()));
+        if (openapiInterfaceHistoryListVO.getIsAvaliable()!=null){
+            openapiInterfaceHistoryList=openapiInterfaceHistoryList.stream().filter(i->i.getIsAvaliable().equals(openapiInterfaceHistoryListVO.getIsAvaliable())).collect(Collectors.toList());
+        }
+        if (openapiInterfaceHistoryListVO.getKeyword()!=null){
+            openapiInterfaceHistoryList=openapiInterfaceHistoryList.stream().filter(i->i.getUpdateDescription().contains(openapiInterfaceHistoryListVO.getKeyword())).collect(Collectors.toList());
+        }
+        Integer total=openapiInterfaceHistoryList.size();
+        int start=(int)((long)(openapiInterfaceHistoryListVO.getPageNum()>0?0:openapiInterfaceHistoryListVO.getPageNum()-1)*openapiInterfaceHistoryListVO.getPageSize());
+        int end=start+(int)((long)openapiInterfaceHistoryListVO.getPageSize());
+        if (end>openapiInterfaceHistoryList.size()){
+        }else {
+            openapiInterfaceHistoryList=openapiInterfaceHistoryList.subList(start,end);
+        }
         PageInfo<OpenapiInterfaceHistory> openapiInterfaceHistoryPageInfo=new PageInfo<>(openapiInterfaceHistoryList);
+        openapiInterfaceHistoryPageInfo.setTotal(total);
         return openapiInterfaceHistoryPageInfo;
     }
 
@@ -37,18 +58,20 @@ public class OpenapiInterfaceHistoryServiceImpl implements OpenapiInterfaceHisto
     public OpenapiInterfaceHistory getOpenapiInterfaceHistoryDetail(OpenapiInterfaceHistoryDetailVO openapiInterfaceHistoryDetailVO) {
         if (openapiInterfaceHistoryDetailVO==null||openapiInterfaceHistoryDetailVO.getId()==null) {
             return null;
-        };
+        }
         OpenapiInterfaceHistory openapiInterfaceHistory=openapiInterfaceHistoryMapper.selectByPrimaryKey(openapiInterfaceHistoryDetailVO.getId());
         return openapiInterfaceHistory;
     }
 
     @Override
-    public Integer saveOpenapiInterfaceHistory(OpenapiInterfaceHistorySaveVO openapiInterfaceHistorySaveVO) {
+    public Integer saveOpenapiInterfaceHistory(OpenapiInterfaceHistorySaveVO openapiInterfaceHistorySaveVO, Long userId, String userName) {
         if (openapiInterfaceHistorySaveVO==null){
             return 0;
         }
         OpenapiInterfaceHistory openapiInterfaceHistory= JSONUtil.convert(openapiInterfaceHistorySaveVO,OpenapiInterfaceHistory.class);
         if (openapiInterfaceHistory.getId()==null){
+            openapiInterfaceHistory.setCreatorId(userId);
+            openapiInterfaceHistory.setCreatorName(userName);
             return openapiInterfaceHistoryMapper.insertSelective(openapiInterfaceHistory);
         }else {
             Example example=new Example(OpenapiInterfaceHistory.class);

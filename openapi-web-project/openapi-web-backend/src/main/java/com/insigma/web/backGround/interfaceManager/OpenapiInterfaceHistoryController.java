@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,9 @@ import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHis
 import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistoryListVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistorySaveVO;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("openapiInterfaceHistory")
@@ -28,6 +32,8 @@ public class OpenapiInterfaceHistoryController extends BasicController {
 
     @Autowired
     OpenapiInterfaceHistoryFacade openapiInterfaceHistoryFacade;
+    @Autowired
+    LoginComponent loginComponent;
 
     @ApiOperation(value = "接口历史列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -73,7 +79,9 @@ public class OpenapiInterfaceHistoryController extends BasicController {
     public ResultVo<OpenapiInterfaceHistory> saveOpenapiInterfaceHistory(@RequestBody OpenapiInterfaceHistorySaveVO openapiInterfaceHistorySaveVO){
         ResultVo resultVo=new ResultVo();
         try {
-            Integer flag = openapiInterfaceHistoryFacade.saveOpenapiInterfaceHistory(openapiInterfaceHistorySaveVO);
+            Long userId=loginComponent.getLoginUserId();
+            String userName=loginComponent.getLoginUserName();
+            Integer flag = openapiInterfaceHistoryFacade.saveOpenapiInterfaceHistory(openapiInterfaceHistorySaveVO,userId,userName);
             if (1 == flag) {
                 resultVo.setResultDes("接口历史保存成功");
                 resultVo.setSuccess(true);
@@ -92,6 +100,7 @@ public class OpenapiInterfaceHistoryController extends BasicController {
     public ResultVo<OpenapiInterfaceHistory> deleteOpenapiInterfaceHistory(@RequestBody OpenapiInterfaceHistoryDeleteVO openapiInterfaceHistoryDeleteVO){
         ResultVo resultVo=new ResultVo();
         try {
+
             Integer flag = openapiInterfaceHistoryFacade.deleteOpenapiInterfaceHistory(openapiInterfaceHistoryDeleteVO);
             if (1 == flag) {
                 resultVo.setResultDes("接口历史删除成功");

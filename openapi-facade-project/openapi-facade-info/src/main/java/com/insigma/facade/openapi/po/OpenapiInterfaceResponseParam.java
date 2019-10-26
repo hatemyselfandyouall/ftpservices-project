@@ -3,6 +3,7 @@ package com.insigma.facade.openapi.po;
 
 import java.io.Serializable;
 
+import lombok.experimental.Accessors;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -17,12 +18,12 @@ import java.util.List;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiInterfaceResponseParam implements Serializable{
 
 
 	//========== properties ==========
 
-    @Id
     @GeneratedValue(generator="JDBC")
     @ApiModelProperty("接口入参表")
     @Column( name="id")
@@ -47,6 +48,10 @@ public class OpenapiInterfaceResponseParam implements Serializable{
     @ApiModelProperty("参数备注")
     @Column( name="remark")
     private String remark;
+
+    @ApiModelProperty("前端分层字段")
+    @Column( name="super_level")
+    private Integer superLevel;
 
     @ApiModelProperty("0未删除1已删除")
     @Column( name="is_delete")

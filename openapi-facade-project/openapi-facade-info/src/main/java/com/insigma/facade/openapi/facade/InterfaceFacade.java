@@ -6,6 +6,7 @@ import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
 import com.insigma.facade.openapi.vo.openapiInterface.*;
+import star.vo.result.ResultVo;
 
 import java.util.List;
 
@@ -35,5 +36,7 @@ public interface InterfaceFacade {
     Integer releaseOpenapiInterface(OpenapiInterfaceReleaseVO openapiInterfaceDeleteVO);
 
     Integer setStatusOpenapiInterface(OpenapiInterfaceSetStatusVO openapiInterfaceSetStatusVO);
+
+    ResultVo checkInterfaceSave(OpenapiInterfaceSaveVO openapiInterfaceSaveVO);
 }
 

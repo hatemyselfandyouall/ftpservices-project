@@ -6,9 +6,11 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade;
+import com.insigma.facade.openapi.facade.OpenapiInterfaceTypeFacade;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistorySaveVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceInnerUrl.OpenapiInterfaceInnerUrlSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeListVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
 import com.insigma.facade.openapi.vo.openapiInterface.*;
 import constant.DataConstant;
@@ -24,7 +26,6 @@ import com.insigma.util.JSONUtil;
 import com.insigma.util.SignUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
@@ -32,6 +33,7 @@ import star.bizbase.util.constant.SysCacheTimeDMO;
 import star.modules.cache.CacheKeyLock;
 import star.modules.cache.CachesKeyService;
 import star.modules.cache.enumerate.BaseCacheEnum;
+import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
@@ -60,6 +62,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     OpenapiInterfaceTypeMapper openapiInterfaceTypeMapper;
     @Autowired
     OpenapiInterfaceHistoryFacade openapiInterfaceHistoryFacade;
+    @Autowired
+    OpenapiInterfaceTypeFacade openapiInterfaceTypeFacade;
 
     @Override
     public PageInfo<OpenapiInterfaceDetailShowVO> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
@@ -82,6 +86,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (openapiInterfaceListVO.getName()!=null){
             criteria.andCondition("(name like '%"+openapiInterfaceListVO.getName()+"%' or command_code like '%"+openapiInterfaceListVO.getName()+"%' or out_url like '%"+openapiInterfaceListVO.getName()+"%' )");
         }
+        example.setOrderByClause("modify_time desc");
         PageHelper.startPage(openapiInterfaceListVO.getPageNum().intValue(), openapiInterfaceListVO.getPageSize().intValue());
         Page<OpenapiInterface> openapiInterfaceList = (Page<OpenapiInterface>) openapiInterfaceMapper.selectByExample(example);
         List<OpenapiInterfaceDetailShowVO> openapiInterfaceDetailShowVOS=openapiInterfaceList.stream().map(i->{
@@ -90,6 +95,14 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             return openapiInterfaceDetailShowVO;
         }).collect(Collectors.toList());
         PageInfo<OpenapiInterfaceDetailShowVO> openapiInterfacePageInfo = new PageInfo<>(openapiInterfaceDetailShowVOS);
+        List<OpenapiInterfaceType> openapiInterfaceTypes=openapiInterfaceTypeFacade
+                .getOpenapiInterfaceTypeList(new OpenapiInterfaceTypeListVO().setType(DataConstant.INTERFACE_TYPE_BUSINESS).setPageNum(1l).setPageSize(9999L)).getList();
+        Map<Long,OpenapiInterfaceType> openapiInterfaceTypeMap=openapiInterfaceTypes.stream().collect(Collectors.toMap(OpenapiInterfaceType::getId,i->i));
+        for (OpenapiInterfaceDetailShowVO openapiInterfaceDetailShowVO:openapiInterfacePageInfo.getList()){
+            if (openapiInterfaceTypeMap.get(openapiInterfaceDetailShowVO.getTypeId())!=null){
+                openapiInterfaceDetailShowVO.setTypeName(openapiInterfaceTypeMap.get(openapiInterfaceDetailShowVO.getTypeId()).getName());
+            }
+        }
         openapiInterfacePageInfo.setTotal(openapiInterfaceList.getTotal());
         return openapiInterfacePageInfo;
     }
@@ -111,29 +124,99 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         OpenapiInterfaceShowVO openapiInterfaceShowVO = new OpenapiInterfaceShowVO();
         openapiInterfaceShowVO.setOpenapiInterface(openapiInterface);
-        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = openapiInterfaceResponseParamMapper.selectParamterTree(openapiInterface.getId());
-        List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams = openapiInterfaceRequestParamMapper.selectParamterTree(openapiInterface.getId());
+        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = getResponseTreesById(openapiInterface.getId());
+        List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams = getRequestTreesById(openapiInterface.getId());
+        openapiInterfaceShowVO.setOpenapiInterfaceInnerUrls(getInnerUrlByInterfaceId(openapiInterface.getId()));
         openapiInterfaceShowVO.setOpenapiInterfaceRequestParams(openapiInterfaceRequestParams);
         openapiInterfaceShowVO.setOpenapiInterfaceResponseParams(openapiInterfaceResponseParams);
+        List<OpenapiInterfaceType> openapiInterfaceTypes=openapiInterfaceTypeFacade
+                .getOpenapiInterfaceTypeList(new OpenapiInterfaceTypeListVO().setPageNum(1l).setPageSize(9999L)).getList();
+        Map<Long,OpenapiInterfaceType> openapiInterfaceTypeMap=openapiInterfaceTypes.stream().collect(Collectors.toMap(OpenapiInterfaceType::getId,i->i));
+        if (openapiInterfaceTypeMap.get(openapiInterfaceShowVO.getOpenapiInterface().getTypeId())!=null){
+            OpenapiInterfaceType openapiInterfaceTyp=openapiInterfaceTypeMap.get(openapiInterfaceShowVO.getOpenapiInterface().getTypeId());
+            openapiInterfaceShowVO.getOpenapiInterface().setTypeName(openapiInterfaceTyp.getName());
+            openapiInterfaceShowVO.getOpenapiInterface().setAppTypeNamw(openapiInterfaceTypeMap.get(openapiInterfaceTyp.getParentId())!=null?openapiInterfaceTypeMap.get(openapiInterfaceTyp.getParentId()).getName():"");
+        }
         return openapiInterfaceShowVO;
+    }
+
+    private List<OpenapiInterfaceResponseParam> getResponseTreesById(Long id) {
+        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams=openapiInterfaceResponseParamMapper.select(new OpenapiInterfaceResponseParam().setIsDelete(DataConstant.NO_DELETE).setInterfaceId(id));
+        openapiInterfaceResponseParams=responseParamList2Tree(openapiInterfaceResponseParams);
+        return openapiInterfaceResponseParams;
+    }
+
+
+    private List<OpenapiInterfaceRequestParam> getRequestTreesById(Long id) {
+        List<OpenapiInterfaceRequestParam> openapiInterfaceResponseParams=openapiInterfaceRequestParamMapper.select(new OpenapiInterfaceRequestParam().setIsDelete(DataConstant.NO_DELETE).setInterfaceId(id));
+        openapiInterfaceResponseParams=requestParamList2Tree(openapiInterfaceResponseParams);
+        return openapiInterfaceResponseParams;
+    }
+
+    private List<OpenapiInterfaceRequestParam> requestParamList2Tree(List<OpenapiInterfaceRequestParam> openapiInterfaceResponseParams) {
+        Map<String,List<OpenapiInterfaceRequestParam>> longListMap=openapiInterfaceResponseParams.stream().collect(Collectors.groupingBy(i->i.getParentId()));
+        List<OpenapiInterfaceRequestParam> roots=longListMap.get(DataConstant.ROOT_PARAM);
+        roots=requestTreeIterate(roots,longListMap);
+        return roots;
+    }
+
+    private List<OpenapiInterfaceRequestParam> requestTreeIterate(List<OpenapiInterfaceRequestParam> roots, Map<String, List<OpenapiInterfaceRequestParam>> longListMap) {
+        if(roots==null){
+            return null;
+        }
+        roots.forEach(i->{
+            List<OpenapiInterfaceRequestParam> children=longListMap.get(i.getId());
+            if (children!=null){
+                requestTreeIterate(children,longListMap);
+                i.setChildren(children);
+            }
+        });
+        return roots;
+    }
+
+    private List<OpenapiInterfaceResponseParam> responseParamList2Tree(List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams) {
+        Map<String,List<OpenapiInterfaceResponseParam>> longListMap=openapiInterfaceResponseParams.stream().collect(Collectors.groupingBy(i->i.getParentId()));
+        List<OpenapiInterfaceResponseParam> roots=longListMap.get(DataConstant.ROOT_PARAM);
+        roots=responseTreeIterate(roots,longListMap);
+        return roots;
+    }
+
+    private List<OpenapiInterfaceResponseParam> responseTreeIterate(List<OpenapiInterfaceResponseParam> roots, Map<String, List<OpenapiInterfaceResponseParam>> longListMap) {
+        if(roots==null){
+            return null;
+        }
+        roots.forEach(i->{
+            List<OpenapiInterfaceResponseParam> children=longListMap.get(i.getId());
+            if (children!=null){
+                responseTreeIterate(children,longListMap);
+                i.setChildren(children);
+            }
+        });
+        return roots;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public OpenapiInterfaceShowVO saveOpenapiInterface(OpenapiInterfaceSaveVO openapiInterfaceSaveVO) {
-        if (openapiInterfaceSaveVO == null || openapiInterfaceSaveVO.getGroupId() == null) {
+        if (openapiInterfaceSaveVO == null) {
             return null;
         }
         OpenapiInterface openapiInterface = JSONUtil.convert(openapiInterfaceSaveVO, OpenapiInterface.class);
         if (openapiInterface.getId() == null) {
+            openapiInterface.setVersionNumber(1);
             openapiInterfaceMapper.insertSelective(openapiInterface);
             return getInterfaceDetail(openapiInterfaceSaveVO, openapiInterface);
         } else {
             updateInterface(openapiInterface);
             deleteRequestParams(openapiInterface.getId());
             deleteResponseParams(openapiInterface.getId());
+            deleteInnerUrls(openapiInterface.getId());
             return getInterfaceDetail(openapiInterfaceSaveVO, openapiInterface);
         }
+    }
+
+    private void deleteInnerUrls(Long id) {
+        openapiInterfaceInnerUrlMapper.delete(new OpenapiInterfaceInnerUrl().setInterfaceId(id));
     }
 
     private Integer getMaxVersion(Integer groupId) {
@@ -152,16 +235,18 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         saveRequestParams(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceRequestParamSaveVOList());
         saveResponseParams(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceResponseParamSaveVOList());
         saveInnerUrls(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceInnerUrlSaveVOS());
-        saveUpdateHistory(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO());
+        saveUpdateHistory(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO(),openapiInterfaceSaveVO.getCreatorId(),openapiInterfaceSaveVO.getCreatorName());
         OpenapiInterfaceDetailVO openapiInterfaceDetailVO = new OpenapiInterfaceDetailVO();
         openapiInterfaceDetailVO.setId(openapiInterface.getId());
         OpenapiInterfaceShowVO openapiInterfaceShowVO = getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
         return openapiInterfaceShowVO;
     }
 
-    private void saveUpdateHistory(Long id, OpenapiInterfaceHistorySaveVO openapiInterfaceHistorySaveVO) {
-        openapiInterfaceHistorySaveVO.setInterfaceId(id);
-        openapiInterfaceHistoryFacade.saveOpenapiInterfaceHistory(openapiInterfaceHistorySaveVO);
+    private void saveUpdateHistory(Long id, OpenapiInterfaceHistorySaveVO openapiInterfaceHistorySaveVO,Long userId,String userName) {
+        if (openapiInterfaceHistorySaveVO!=null) {
+            openapiInterfaceHistorySaveVO.setInterfaceId(id);
+            openapiInterfaceHistoryFacade.saveOpenapiInterfaceHistory(openapiInterfaceHistorySaveVO, userId, userName);
+        }
     }
 
     private void saveInnerUrls(Long id, List<OpenapiInterfaceInnerUrlSaveVO> openapiInterfaceInnerUrlSaveVOS) {
@@ -203,45 +288,51 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (CollectionUtils.isEmpty(openapiInterfaceRequestParamSaveVOList)) {
             return;
         }
-        List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams = requestParamTreeToList(interfaceId,null,openapiInterfaceRequestParamSaveVOList);
+
+        List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams = requestParamTreeToList(interfaceId,DataConstant.ROOT_PARAM,openapiInterfaceRequestParamSaveVOList);
         openapiInterfaceRequestParamMapper.insertList(openapiInterfaceRequestParams);
     }
 
+
     private List<OpenapiInterfaceRequestParam> requestParamTreeToList(Long interfaceId,String parentId, List<OpenapiInterfaceRequestParamSaveVO> openapiInterfaceRequestParamSaveVOList) {
         List<OpenapiInterfaceRequestParam> result=new ArrayList<>();
-//        openapiInterfaceRequestParamSaveVOList.forEach(i->{
-//            if(i==null){
-//                return;
-//            }
-//
-//            OpenapiInterfaceRequestParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceRequestParam.class);
-//            openapiInterfaceRequestParam.setCreateTime(new Date());
-//            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
-//            openapiInterfaceRequestParam.setModifyTime(new Date());
-//            result.add(openapiInterfaceRequestParam);
-//            if (!CollectionUtils.isEmpty(i.getChildren())){
-//                result.addAll(requestParamTreeToList(interfaceId,i.getId(),i.getChildren()));
-//            }
-//        });
+        openapiInterfaceRequestParamSaveVOList.forEach(i->{
+            if(i==null){
+                return;
+            }
+            OpenapiInterfaceRequestParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceRequestParam.class);
+            openapiInterfaceRequestParam.setId(UUID.randomUUID().toString().replaceAll("-",""));
+            openapiInterfaceRequestParam.setInterfaceId(interfaceId);
+            openapiInterfaceRequestParam.setParentId(parentId);
+            openapiInterfaceRequestParam.setCreateTime(new Date());
+            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
+            openapiInterfaceRequestParam.setModifyTime(new Date());
+            result.add(openapiInterfaceRequestParam);
+            if (!CollectionUtils.isEmpty(i.getChildren())){
+                result.addAll(requestParamTreeToList(interfaceId,openapiInterfaceRequestParam.getId(),i.getChildren()));
+            }
+        });
         return result;
     }
 
     private List<OpenapiInterfaceResponseParam> responseParamTreeToList(Long interfaceId,String parentId, List<OpenapiInterfaceResponseParamSaveVO> openapiInterfaceRequestParamSaveVOList) {
         List<OpenapiInterfaceResponseParam> result=new ArrayList<>();
-//        openapiInterfaceRequestParamSaveVOList.forEach(i->{
-//            if(i==null){
-//                return;
-//            }
-//
-//            OpenapiInterfaceResponseParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceResponseParam.class);
-//            openapiInterfaceRequestParam.setCreateTime(new Date());
-//            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
-//            openapiInterfaceRequestParam.setModifyTime(new Date());
-//            result.add(openapiInterfaceRequestParam);
-//            if (!CollectionUtils.isEmpty(i.getChildren())){
-//                result.addAll(responseParamTreeToList(interfaceId,i.getId(),i.getChildren()));
-//            }
-//        });
+        openapiInterfaceRequestParamSaveVOList.forEach(i->{
+            if(i==null){
+                return;
+            }
+            OpenapiInterfaceResponseParam openapiInterfaceRequestParam=JSONUtil.convert(i,OpenapiInterfaceResponseParam.class);
+            openapiInterfaceRequestParam.setId(UUID.randomUUID().toString().replaceAll("-",""));
+            openapiInterfaceRequestParam.setInterfaceId(interfaceId);
+            openapiInterfaceRequestParam.setParentId(parentId);
+            openapiInterfaceRequestParam.setCreateTime(new Date());
+            openapiInterfaceRequestParam.setIsDelete(DataConstant.NO_DELETE);
+            openapiInterfaceRequestParam.setModifyTime(new Date());
+            result.add(openapiInterfaceRequestParam);
+            if (!CollectionUtils.isEmpty(i.getChildren())){
+                result.addAll(responseParamTreeToList(interfaceId,openapiInterfaceRequestParam.getId(),i.getChildren()));
+            }
+        });
         return result;
     }
 
@@ -250,7 +341,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (CollectionUtils.isEmpty(openapiInterfaceResponseParamSaveVOList)) {
             return;
         }
-        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = responseParamTreeToList(interfaceId,null,openapiInterfaceResponseParamSaveVOList);
+        List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams = responseParamTreeToList(interfaceId,DataConstant.ROOT_PARAM,openapiInterfaceResponseParamSaveVOList);
         openapiInterfaceResponseParamMapper.insertList(openapiInterfaceResponseParams);
     }
 
@@ -445,6 +536,28 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         example.createCriteria().andEqualTo("id",openapiInterfaceSetStatusVO.getId());
         OpenapiInterface openapiInterface=new OpenapiInterface().setIsAvaliable(openapiInterfaceSetStatusVO.getIsAvaliable());
         return openapiInterfaceMapper.updateByExampleSelective(openapiInterface,example);
+    }
+
+    @Override
+    public ResultVo checkInterfaceSave(OpenapiInterfaceSaveVO openapiInterfaceSaveVO) {
+        ResultVo resultVo=new ResultVo();
+        if (openapiInterfaceSaveVO==null){
+            resultVo.setResultDes("参数必须传递");
+            return resultVo;
+        }
+        String name=openapiInterfaceSaveVO.getName();
+        if (StringUtils.isEmpty(name)){
+            resultVo.setResultDes("参数必须传递");
+            return resultVo;
+        }
+        if (openapiInterfaceSaveVO.getId()==null) {
+            if (openapiInterfaceMapper.selectCount(new OpenapiInterface().setName(name).setIsDelete(DataConstant.NO_DELETE)) > 0) {
+                resultVo.setResultDes("不允许重名");
+                return resultVo;
+            }
+        }
+        resultVo.setSuccess(true);
+        return resultVo;
     }
 
 }
