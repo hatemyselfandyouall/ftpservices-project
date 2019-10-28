@@ -88,15 +88,15 @@ public class OpenapiAudit implements Serializable{
     @Column( name="audit_status")
     private Integer auditStatus;
 
-    @ApiModelProperty("审核人id")
-    @Column( name="appId")
-    private Long app_id;
+    @ApiModelProperty("应用id")
+    @Column( name="app_id")
+    private Long appId;
 
     @ApiModelProperty("接口id")
-    @Column( name="interfaceId")
-    private Long interface_id;
+    @Column( name="interface_id")
+    private Long interfaceId;
 
     @ApiModelProperty("机构id")
-    @Column( name="orgId")
-    private Long org_id;
+    @Column( name="org_id")
+    private Long orgId;
 }

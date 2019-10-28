@@ -22,11 +22,11 @@ public class OpenapiAuditListVO extends PageVO implements Serializable {
     @ApiModelProperty("关键字查询：接口名称/申请人")
     private String keyWord;
 
-    @ApiModelProperty("使用应用")
-    private String application;
+    @ApiModelProperty("应用id")
+    private Long appId;
 
-    @ApiModelProperty("申请机构")
-    private String organization;
+    @ApiModelProperty("机构id")
+    private Long orgId;
 
     @ApiModelProperty("开始时间")
     private Date startDate;
