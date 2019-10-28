@@ -109,12 +109,13 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
                 for (Integer id : openapiAuditSaveVO.getIds()){
                     if(DataConstant.IS_AUDITED.equals(openapiAuditSaveVO.getAuditStatus()) ){ //审核通过添加到接口应用
                         OpenapiAppInterfaceSaveVO saveVo = new OpenapiAppInterfaceSaveVO();
-                        openapiAudit =  openapiAuditMapper.selectByPrimaryKey(id);
+                        OpenapiAudit openAudit = new OpenapiAudit();
+                        openAudit =  openapiAuditMapper.selectByPrimaryKey(id);
                         OpenapiAppInterface openapiAppInterface = new OpenapiAppInterface();
-                        openapiAppInterface.setAppId(openapiAudit.getAppId());
-                        openapiAppInterface.setInterfaceId(openapiAudit.getInterfaceId());
+                        openapiAppInterface.setAppId(openAudit.getAppId());
+                        openapiAppInterface.setInterfaceId(openAudit.getInterfaceId());
                         openapiAppInterface.setSourceType(2);
-                        openapiAppInterface.setUseReason(openapiAudit.getApplication());
+                        openapiAppInterface.setUseReason(openAudit.getApplication());
                         openapiAppInterface.setIsDelete(0);  //未删除
                         openapiAppInterface.setIsAudit(1);   //审核已通过
                         openapiAppInterface.setCreateTime(new Date());
