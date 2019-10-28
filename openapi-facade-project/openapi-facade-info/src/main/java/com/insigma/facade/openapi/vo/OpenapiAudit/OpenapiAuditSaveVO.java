@@ -25,7 +25,7 @@ public class OpenapiAuditSaveVO implements Serializable {
     private String application;
 
     @ApiModelProperty("申请机构")
-    private String organize;
+    private String organization;
 
     @ApiModelProperty("机构类型")
     private String organizeType;
@@ -62,6 +62,15 @@ public class OpenapiAuditSaveVO implements Serializable {
 
     @ApiModelProperty("审核状态0驳回1通过2待审核//不用传")
     private Integer auditStatus;
+
+    @ApiModelProperty("应用id")
+    private Long app_id;
+
+    @ApiModelProperty("接口id")
+    private Long interface_id;
+
+    @ApiModelProperty("机构id")
+    private Long org_id;
 
     @ApiModelProperty("用户Id,前端不用传")
     private Long userId;

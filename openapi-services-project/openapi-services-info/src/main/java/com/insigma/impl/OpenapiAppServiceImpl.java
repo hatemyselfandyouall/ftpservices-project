@@ -9,6 +9,7 @@ import com.insigma.facade.openapi.po.OpenapiAppType;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceListVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
 import com.insigma.mapper.OpenapiAppTypeMapper;
+import com.insigma.util.StringUtil;
 import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
@@ -67,14 +68,14 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         if (openapiAppListVO.getChannelSource()!=null){
             criteria.andEqualTo("channelSource",openapiAppListVO.getChannelSource());
         }
-        if (openapiAppListVO.getOrgName()!=null){
+        if (!StringUtils.isEmpty(openapiAppListVO.getOrgName())){
             criteria.andEqualTo("orgName",openapiAppListVO.getOrgName());
         }
         if (openapiAppListVO.getTypeId()!=null){
             criteria.andEqualTo("typeId",openapiAppListVO.getTypeId());
         }
-        if (openapiAppListVO.getName()!=null){
-            criteria.andLike("orgName",openapiAppListVO.getOrgName());
+        if (!StringUtils.isEmpty(openapiAppListVO.getName())){
+            criteria.andLike("name",openapiAppListVO.getName());
         }
         Page<OpenapiApp> openapiAppList=(Page<OpenapiApp>)openapiAppMapper.selectByExample(example);;
         List<OpenapiAppListShowVO> openapiAppListShowVOS=openapiAppList.stream().map(i->{
