@@ -36,14 +36,22 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
         PageHelper.startPage(openapiAuditListVO.getPageNum().intValue(),openapiAuditListVO.getPageSize().intValue());
         Example example = new Example(OpenapiAudit.class);
         Example.Criteria criteria = example.createCriteria();
-        if (openapiAuditListVO.getAuditStatus() != null){
-            criteria.andEqualTo("auditStatus",openapiAuditListVO.getAuditStatus());
-        }
-        if (!StringUtils.isEmpty(openapiAuditListVO.getOrganize())){
-            criteria.andEqualTo("organize",openapiAuditListVO.getOrganize());
+        if (!StringUtils.isEmpty(openapiAuditListVO.getOrganization())){
+            criteria.andEqualTo("organize",openapiAuditListVO.getOrganization());
         }
         if (!StringUtils.isEmpty(openapiAuditListVO.getApplication())){
             criteria.andEqualTo("application",openapiAuditListVO.getApplication());
+        }
+        if (openapiAuditListVO.getAuditStatus() != null){
+            criteria.andEqualTo("auditStatus",openapiAuditListVO.getAuditStatus());
+        }
+        if(openapiAuditListVO.getOrganization() != null){
+           if(openapiAuditListVO.getPending() == 0){    //待处理
+               criteria.andEqualTo("auditStatus",2);
+           }
+            if(openapiAuditListVO.getPending() == 1){  //已处理
+                criteria.andCondition(" audit_status != 2 ");
+            }
         }
         if (!StringUtils.isEmpty(openapiAuditListVO.getKeyWord())) {
             criteria.andCondition("(interface_name like '%" + openapiAuditListVO.getKeyWord() + "%'" + "or contact like '%"
