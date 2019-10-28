@@ -224,7 +224,7 @@ public class OpenapiAppController extends BasicController {
         ResultVo resultVo=new ResultVo();
         try {
             OpenapiApp openapiApp = openapiAppFacade.resetAppSecret(resetAppSecretVO);
-            if (openapiApp == null) {
+            if (openapiApp != null) {
                 resultVo.setResultDes("开放平台应用重设Appsecret成功");
                 resultVo.setResult(openapiApp);
                 resultVo.setSuccess(true);
