@@ -74,7 +74,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             criteria.andEqualTo("typeId",openapiAppListVO.getTypeId());
         }
         if (openapiAppListVO.getName()!=null){
-            criteria.andLike("orgName",openapiAppListVO.getOrgName());
+            criteria.andLike("name",openapiAppListVO.getName());
         }
         Page<OpenapiApp> openapiAppList=(Page<OpenapiApp>)openapiAppMapper.selectByExample(example);;
         List<OpenapiAppListShowVO> openapiAppListShowVOS=openapiAppList.stream().map(i->{
