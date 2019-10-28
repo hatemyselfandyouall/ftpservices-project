@@ -38,6 +38,11 @@
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade" ref="openapiEarlyWarningServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
 
+
+	<bean id="openapiBlackWhiteServiceImpl" class="com.insigma.impl.OpenapiBlackWhiteServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade" ref="openapiBlackWhiteServiceImpl"
+				   version="1.0.1" delay="-1" retries="0"  />
+
 	<bean id="openapiAuditServiceImpl" class="com.insigma.impl.OpenapiAuditServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAuditFacade" ref="openapiAuditServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
