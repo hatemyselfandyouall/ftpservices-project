@@ -13,6 +13,9 @@ public class OpenapiAuditListVO extends PageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("是否待处理0-待处理1-已处理")
+    private  Integer pending;
+
     @ApiModelProperty("审核状态0驳回1通过2待审核")
     private Integer auditStatus;
 
