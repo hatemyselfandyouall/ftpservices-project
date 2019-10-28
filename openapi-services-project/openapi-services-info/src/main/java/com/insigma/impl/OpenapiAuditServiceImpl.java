@@ -15,6 +15,7 @@ import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditSaveVO;
 import com.insigma.mapper.OpenapiAppInterfaceMapper;
 import com.insigma.mapper.OpenapiAuditMapper;
 import com.insigma.util.JSONUtil;
+import constant.DataConstant;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.vo.result.ResultVo;
@@ -106,7 +107,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
         }else {   //批量审核
             if((openapiAuditSaveVO.getIds() != null) && openapiAuditSaveVO.getIds() .size()>0 ){
                 for (Integer id : openapiAuditSaveVO.getIds()){
-                    if(openapiAuditSaveVO.getAuditStatus() == 1){ //审核通过添加到接口应用
+                    if(DataConstant.IS_AUDITED.equals(openapiAuditSaveVO.getAuditStatus()) ){ //审核通过添加到接口应用
                         OpenapiAppInterfaceSaveVO saveVo = new OpenapiAppInterfaceSaveVO();
                         openapiAudit =  openapiAuditMapper.selectByPrimaryKey(id);
                         OpenapiAppInterface openapiAppInterface = new OpenapiAppInterface();
