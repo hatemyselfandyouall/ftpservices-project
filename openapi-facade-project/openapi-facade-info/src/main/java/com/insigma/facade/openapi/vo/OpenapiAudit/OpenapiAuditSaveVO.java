@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class OpenapiAuditSaveVO implements Serializable {
@@ -16,7 +17,7 @@ public class OpenapiAuditSaveVO implements Serializable {
     @Id
     @GeneratedValue(generator="JDBC")
     @ApiModelProperty("id//新增的时候不传，修改的时候要传")
-    private Long id;
+    private List<Integer> ids;
 
     @ApiModelProperty("申请接口名称")
     private String interfaceName;
@@ -64,13 +65,13 @@ public class OpenapiAuditSaveVO implements Serializable {
     private Integer auditStatus;
 
     @ApiModelProperty("应用id")
-    private Long app_id;
+    private Long appId;
 
     @ApiModelProperty("接口id")
-    private Long interface_id;
+    private Long interfaceId;
 
     @ApiModelProperty("机构id")
-    private Long org_id;
+    private Long orgId;
 
     @ApiModelProperty("用户Id,前端不用传")
     private Long userId;

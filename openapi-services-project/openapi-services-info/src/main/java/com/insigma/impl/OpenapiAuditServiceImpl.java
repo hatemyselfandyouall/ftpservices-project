@@ -3,15 +3,21 @@ package com.insigma.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.facade.OpenapiAuditFacade;
+import com.insigma.facade.openapi.po.OpenapiAppInterface;
 import com.insigma.facade.openapi.po.OpenapiAudit;
+import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditListVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditSaveVO;
+import com.insigma.mapper.OpenapiAppInterfaceMapper;
 import com.insigma.mapper.OpenapiAuditMapper;
 import com.insigma.util.JSONUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
@@ -22,7 +28,10 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
 
     @Autowired
     OpenapiAuditMapper openapiAuditMapper;
-
+    @Autowired
+    OpenapiAppInterfaceMapper openapiAppInterfaceMapper;
+    @Autowired
+    OpenapiAppFacade openapiAppFacade;
     /**
      * 根据条件查询审核信息列表
      * @param openapiAuditListVO
@@ -90,17 +99,40 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
             return 0;
         }
         OpenapiAudit openapiAudit= JSONUtil.convert(openapiAuditSaveVO,OpenapiAudit.class);
-        if (openapiAudit.getId()==null){
+        if (openapiAuditSaveVO.getIds()==null){
             openapiAudit.setATime(new Date());  //申请时间
             openapiAudit.setAuditStatus(2);    //新增时状态为待审核2
             return openapiAuditMapper.insertSelective(openapiAudit);
-        }else {
-            openapiAudit.setAuditTime(new Date());  //审核时间
-            openapiAudit.setAuditId(openapiAuditSaveVO.getUserId());   //审核人id
-            openapiAudit.setAuditor(openapiAuditSaveVO.getUserName());  //审核人
-            Example example=new Example(OpenapiAudit.class);
-            example.createCriteria().andEqualTo("id",openapiAudit.getId());
-            return openapiAuditMapper.updateByExampleSelective(openapiAudit,example);
+        }else {   //批量审核
+            if((openapiAuditSaveVO.getIds() != null) && openapiAuditSaveVO.getIds() .size()>0 ){
+                for (Integer id : openapiAuditSaveVO.getIds()){
+                    if(openapiAuditSaveVO.getAuditStatus() == 1){ //审核通过添加到接口应用
+                        OpenapiAppInterfaceSaveVO saveVo = new OpenapiAppInterfaceSaveVO();
+                        openapiAudit =  openapiAuditMapper.selectByPrimaryKey(id);
+                        OpenapiAppInterface openapiAppInterface = new OpenapiAppInterface();
+                        openapiAppInterface.setAppId(openapiAudit.getAppId());
+                        openapiAppInterface.setInterfaceId(openapiAudit.getInterfaceId());
+                        openapiAppInterface.setSourceType(2);
+                        openapiAppInterface.setUseReason(openapiAudit.getApplication());
+                        openapiAppInterface.setIsDelete(0);  //未删除
+                        openapiAppInterface.setIsAudit(1);   //审核已通过
+                        openapiAppInterface.setCreateTime(new Date());
+                        openapiAppInterface.setModifyTime(new Date());
+                        BeanUtils.copyProperties(openapiAppInterface, saveVo);
+                        ResultVo checkResult = openapiAppFacade.checkAppInterfaceSave(saveVo);
+                        if (checkResult.isSuccess()){
+                            Integer flag = openapiAppFacade.saveAppInterface(saveVo);
+                       }
+                    }
+                }
+                openapiAudit.setAuditTime(new Date());  //审核时间
+                openapiAudit.setAuditId(openapiAuditSaveVO.getUserId());   //审核人id
+                openapiAudit.setAuditor(openapiAuditSaveVO.getUserName());  //审核人
+                Example example=new Example(OpenapiAudit.class);
+                example.createCriteria().andIn("id",openapiAuditSaveVO.getIds());
+                return  openapiAuditMapper.updateByExampleSelective(openapiAudit,example);
+            }
+          return 1;
         }
     }
 

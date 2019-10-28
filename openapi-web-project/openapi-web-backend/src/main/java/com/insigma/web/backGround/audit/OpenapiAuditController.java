@@ -84,7 +84,7 @@ public class OpenapiAuditController extends BasicController {
             openapiAuditSaveVO.setUserId(loginComponent.getLoginUserId());
             openapiAuditSaveVO.setUserName(loginComponent.getLoginUserName());
             Integer flag = openapiAuditFacade.saveOpenapiAudit(openapiAuditSaveVO);
-            if (1 == flag) {
+            if (flag > 2) {
                 resultVo.setResultDes("保存成功");
                 resultVo.setSuccess(true);
             } else {
