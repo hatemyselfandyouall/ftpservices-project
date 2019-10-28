@@ -14,14 +14,18 @@ import java.lang.String;
 import java.lang.Integer;
 import java.util.Date;
 import java.util.List;
+import lombok.experimental.Accessors;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiInterfaceInnerUrl implements Serializable{
 
 
 	//========== properties ==========
 
+	@Id
+	@GeneratedValue(generator="JDBC")
     @ApiModelProperty("")
     @Column( name="id")
     private Long id;
@@ -33,6 +37,10 @@ public class OpenapiInterfaceInnerUrl implements Serializable{
     @ApiModelProperty("内部url")
     @Column( name="inner_url")
     private String innerUrl;
+
+    @ApiModelProperty("心跳url")
+    @Column( name="heart_url")
+    private String heartUrl;
 
 
 

@@ -2,61 +2,55 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.insigma.mapper.OpenapiInterfaceResponseParamMapper">
+<mapper namespace="com.insigma.mapper.OpenapiAppInterfaceMapper">
 
-    <resultMap id="openapiInterfaceResponseParam" type="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam">
+    <resultMap id="BASE-RESULT" type="com.insigma.facade.openapi.po.OpenapiAppInterface">
                 <result property="id" column="id" />
+        <result property="appId" column="app_id" />
         <result property="interfaceId" column="interface_id" />
-        <result property="typeCode" column="type_code" />
-        <result property="description" column="description" />
+        <result property="sourceType" column="source_type" />
+        <result property="useReason" column="use_reason" />
         <result property="isDelete" column="is_delete" />
-        <result property="parentId" column="parent_id" />
+        <result property="isAudit" column="is_audit" />
         <result property="createTime" column="create_time" />
         <result property="modifyTime" column="modify_time" />
-        <collection property="children" column="id"
-                    ofType="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam"
-                    select="selectNode"/>
+
     </resultMap>
-
-    <select id="selectParamterTree" parameterType="map" resultMap="openapiInterfaceResponseParam" flushCache="true" useCache="false">
-        SELECT * FROM
-        openapi_interface_response_param
-        <where>
-            is_delete =0
-            and interface_id=#{id}
-            and parent_id is null
-        </where>
+    <select id="getOpenapiAppInterfaceList" resultMap="BASE-RESULT">
+    SELECT * FROM
+    openapi_app_interface oai left join openapi_interface oi on oai.interface_id=oi.id
+    <where>
+        oai.app_id = #{appId}
+        <if test="sourceType!=null">
+            AND oai.source_type  = #{sourceType}
+        </if>
+        <if test="keyword!=null">
+            AND  (oi.name like CONCAT('%',#{keyword},'%') or oi.out_url like CONCAT('%',#{keyword},'%') or command_code like CONCAT('%',#{keyword},'%'))
+        </if>
+    </where>
     </select>
-
-    <select id="selectNode"  resultMap="openapiInterfaceResponseParam" flushCache="true" useCache="false">
-        SELECT * FROM
-        openapi_interface_response_param
-        <where>
-            parent_id=#{id}
-        </where>
-    </select>
-    
-    <!--<insert id="insert" parameterType="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam">-->
-    <!--INSERT INTO openapi_interface_response_param ( -->
-    <!--interface_id,type_code,description,is_delete,parent_id,create_time,modify_time			-->
+    <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiAppInterface">-->
+    <!--INSERT INTO openapi_app_interface ( -->
+    <!--app_id,interface_id,source_type,use_reason,is_delete,is_audit,create_time,modify_time			-->
     <!--) VALUES (-->
-    <!--#{interfaceId},#{typeCode},#{description},#{isDelete},#{parentId},#{createTime},#{modifyTime}		-->
+    <!--#{appId},#{interfaceId},#{sourceType},#{useReason},#{isDelete},#{isAudit},#{createTime},#{modifyTime}		-->
     <!--)   -->
     <!--<selectKey resultType="Integer" keyProperty="id">    -->
     <!--SELECT LAST_INSERT_ID()     -->
     <!--</selectKey> -->
     <!--</insert>-->
     <!---->
-    <!--<update id="update" parameterType="com.insigma.facade.openapi.po.OpenapiInterfaceResponseParam" >-->
+    <!--<update id="update" parameterType="com.insigma.facade.po.OpenapiAppInterface" >-->
     <!--UPDATE-->
-    <!--openapi_interface_response_param-->
+    <!--openapi_app_interface-->
     <!--SET-->
     <!--            <if test="id!=null"> id = #{id} </if>
+            <if test="appId!=null">, app_id = #{appId} </if>
             <if test="interfaceId!=null">, interface_id = #{interfaceId} </if>
-            <if test="typeCode!=null">, type_code = #{typeCode} </if>
-            <if test="description!=null">, description = #{description} </if>
+            <if test="sourceType!=null">, source_type = #{sourceType} </if>
+            <if test="useReason!=null">, use_reason = #{useReason} </if>
             <if test="isDelete!=null">, is_delete = #{isDelete} </if>
-            <if test="parentId!=null">, parent_id = #{parentId} </if>
+            <if test="isAudit!=null">, is_audit = #{isAudit} </if>
             <if test="createTime!=null">, create_time = #{createTime} </if>
             <if test="modifyTime!=null">, modify_time = #{modifyTime} </if>
 -->
@@ -66,17 +60,11 @@
     <!--</update>-->
     <!---->
     <!---->
-    <!--<select id="getByKey" resultMap="BASE-RESULT">-->
-    <!--SELECT * FROM-->
-    <!--openapi_interface_response_param-->
-    <!--<where>-->
-    <!--id = #{key}-->
-    <!--</where>-->
-    <!--</select>-->
+
     <!---->
     <!--<delete id="deleteByKey">-->
     <!--DELETE FROM-->
-    <!--openapi_interface_response_param-->
+    <!--openapi_app_interface-->
     <!--<where>-->
     <!--id = #{key}-->
     <!--</where>-->
@@ -84,7 +72,7 @@
     <!---->
     <!--<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">-->
     <!--SELECT * FROM-->
-    <!--openapi_interface_response_param-->
+    <!--openapi_app_interface-->
     <!--<where>-->
     <!--<include refid="compareParamColumns" />-->
     <!--</where>-->
@@ -97,7 +85,7 @@
 
     <!--<select id="getEntitysCount" parameterType="map" resultType="int">-->
     <!--SELECT count(*) FROM-->
-    <!--openapi_interface_response_param-->
+    <!--openapi_app_interface-->
     <!--<where>-->
     <!--<include refid="compareParamColumns" />-->
     <!--</where>-->
@@ -108,20 +96,23 @@
     <!--        <if test="param.id!=null">
             AND  id = #{param.id}
         </if>
+        <if test="param.appId!=null">
+            AND  app_id = #{param.appId}
+        </if>
         <if test="param.interfaceId!=null">
             AND  interface_id = #{param.interfaceId}
         </if>
-        <if test="param.typeCode!=null">
-            AND  type_code = #{param.typeCode}
+        <if test="param.sourceType!=null">
+            AND  source_type = #{param.sourceType}
         </if>
-        <if test="param.description!=null">
-            AND  description = #{param.description}
+        <if test="param.useReason!=null">
+            AND  use_reason = #{param.useReason}
         </if>
         <if test="param.isDelete!=null">
             AND  is_delete = #{param.isDelete}
         </if>
-        <if test="param.parentId!=null">
-            AND  parent_id = #{param.parentId}
+        <if test="param.isAudit!=null">
+            AND  is_audit = #{param.isAudit}
         </if>
         <if test="param.createTime!=null">
             AND  create_time = #{param.createTime}

@@ -3,7 +3,6 @@ package com.insigma.facade.openapi.po;
 
 import java.io.Serializable;
 
-import lombok.experimental.Accessors;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -15,6 +14,7 @@ import java.lang.String;
 import java.lang.Integer;
 import java.util.Date;
 import java.util.List;
+import lombok.experimental.Accessors;
 
 
 @Data
@@ -38,6 +38,14 @@ public class OpenapiInterface implements Serializable{
     @Column( name="name")
     private String name;
 
+    @ApiModelProperty("0不是回调1是回调")
+    @Column( name="is_callback")
+    private Integer isCallback;
+
+    @ApiModelProperty("接口描述")
+    @Column( name="distribution")
+    private String distribution;
+
     @ApiModelProperty("接口组id")
     @Column( name="group_id")
     private Long groupId;
@@ -49,6 +57,9 @@ public class OpenapiInterface implements Serializable{
     @ApiModelProperty("")
     @Column( name="type_name")
     private String typeName;
+
+    @Transient
+    private String appTypeNamw;
 
     @ApiModelProperty("数据提供单位编码")
     @Column( name="data_resource_code")
@@ -98,6 +109,10 @@ public class OpenapiInterface implements Serializable{
     @Column( name="is_public")
     private Integer isPublic;
 
+    @ApiModelProperty("0未删除1已删除")
+    @Column( name="is_delete")
+    private Integer isDelete;
+
     @ApiModelProperty("提供者姓名")
     @Column( name="provider_name")
     private String providerName;
@@ -106,11 +121,45 @@ public class OpenapiInterface implements Serializable{
     @Column( name="provider_type")
     private String providerType;
 
-    @ApiModelProperty("0未删除1已删除")
-    @Column( name="is_delete")
-    private Integer isDelete;
+    @ApiModelProperty("外部请求方式1GET2POST3POST/GET")
+    @Column( name="out_request_way")
+    private Integer outRequestWay;
 
+    @ApiModelProperty("内部请求方式1GET2POST3POST/GET")
+    @Column( name="inner_request_way")
+    private Integer innerRequestWay;
 
+    @ApiModelProperty("外部支持格式1JSON")
+    @Column( name="out_request_format")
+    private Integer outRequestFormat;
+
+    @ApiModelProperty("内部支持格式1JSON")
+    @Column( name="inner_request_format")
+    private Integer innerRequestFormat;
+
+    @ApiModelProperty("内部请求对象1政务服务2省数据中心3.自定义")
+    @Column( name="inner_request_object")
+    private Integer innerRequestObject;
+
+    @ApiModelProperty("请求参数样例")
+    @Column( name="request_param_example")
+    private String requestParamExample;
+
+    @ApiModelProperty("返回参数样例")
+    @Column( name="response_param_example")
+    private String responseParamExample;
+
+    @ApiModelProperty("接口模式1透传")
+    @Column( name="request_model")
+    private Integer requestModel;
+
+    @ApiModelProperty("创建者姓名")
+    @Column( name="creator_name")
+    private String creatorName;
+
+    @ApiModelProperty("创建者id")
+    @Column( name="creator_id")
+    private Long creatorId;
 
     @ApiModelProperty("")
     @Column( name="create_time")

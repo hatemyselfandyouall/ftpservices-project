@@ -14,9 +14,11 @@ import java.lang.String;
 import java.lang.Integer;
 import java.util.Date;
 import java.util.List;
+import lombok.experimental.Accessors;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiAppInterface implements Serializable{
 
 
@@ -36,13 +38,23 @@ public class OpenapiAppInterface implements Serializable{
     @Column( name="interface_id")
     private Long interfaceId;
 
-    @ApiModelProperty("0未删除1已删除")
-    @Column( name="is_delete")
-    private Integer isDelete;
+    @ApiModelProperty("1系统分配2自主申请")
+    @Column( name="source_type")
+    private Integer sourceType;
+
+    @ApiModelProperty("调用原因")
+    @Column( name="use_reason")
+    private String useReason;
+
 
     @ApiModelProperty("0审核未通过1审核已通过")
     @Column( name="is_audit")
     private Integer isAudit;
+
+    @ApiModelProperty("0未删除1已删除")
+    @Column( name="is_delete")
+    private Integer isDelete;
+
 
     @ApiModelProperty("")
     @Column( name="create_time")

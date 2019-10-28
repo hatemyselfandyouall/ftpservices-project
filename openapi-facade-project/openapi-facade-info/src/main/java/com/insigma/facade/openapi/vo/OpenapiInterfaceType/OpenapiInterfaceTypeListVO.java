@@ -3,12 +3,14 @@ package com.insigma.facade.openapi.vo.OpenapiInterfaceType;
 import com.insigma.facade.openapi.vo.root.PageVO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import java.io.Serializable;
 
 @Data
-public class OpenapiInterfaceTypeListVO extends PageVO implements Serializable {
+@Accessors(chain = true)
+public class OpenapiInterfaceTypeListVO  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,4 +18,11 @@ public class OpenapiInterfaceTypeListVO extends PageVO implements Serializable {
     @Column( name="type")
     private Integer type;
 
+    @ApiModelProperty("")
+    @Column( name="parent_id")
+    private Long parentId;
+
+    private Long pageSize;
+
+    private Long pageNum;
 }

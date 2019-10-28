@@ -8,7 +8,10 @@ import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
 import com.insigma.facade.openapi.vo.openapiInterface.*;
+import com.insigma.facade.sysbase.SysOrgFacade;
+import com.insigma.facade.sysbase.vo.SysOrgDTO;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import star.vo.result.ResultVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -30,6 +34,9 @@ public class OpenapiInterfaceController extends BasicController {
 
     @Autowired
     InterfaceFacade interfaceFacade;
+    @Autowired
+    LoginComponent loginComponent;
+
 
     @ApiOperation(value = "接口列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -91,9 +98,17 @@ public class OpenapiInterfaceController extends BasicController {
 
     @ApiOperation(value = "接口保存")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiInterface> saveOpenapiInterface(@RequestBody OpenapiInterfaceSaveVO openapiInterfaceSaveVO){
+    public ResultVo<OpenapiInterfaceSaveVO> saveOpenapiInterface(@RequestBody OpenapiInterfaceSaveVO openapiInterfaceSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
+            ResultVo checkResult=interfaceFacade.checkInterfaceSave(openapiInterfaceSaveVO);
+            if (!checkResult.isSuccess()){
+                return checkResult;
+            }
+            Long userId=loginComponent.getLoginUserId();
+            String userName=loginComponent.getLoginUserName();
+            openapiInterfaceSaveVO.setCreatorId(userId);
+            openapiInterfaceSaveVO.setCreatorName(userName);
             OpenapiInterfaceShowVO openapiInterfaceShowVO = interfaceFacade.saveOpenapiInterface(openapiInterfaceSaveVO);
             if (openapiInterfaceShowVO!=null) {
                 resultVo.setResult(openapiInterfaceShowVO);
@@ -119,7 +134,7 @@ public class OpenapiInterfaceController extends BasicController {
                 resultVo.setResultDes("接口删除成功");
                 resultVo.setSuccess(true);
             } else {
-                resultVo.setResultDes("接口删除失败");
+                resultVo.setResultDes("使用的应用类型1医保2医院失败");
             }
         }catch (Exception e){
             resultVo.setResultDes("接口删除异常，原因为:"+e);
@@ -135,10 +150,10 @@ public class OpenapiInterfaceController extends BasicController {
         try {
             Integer flag = interfaceFacade.releaseOpenapiInterface(openapiInterfaceDeleteVO);
             if (flag>0) {
-                resultVo.setResultDes("接口发布成功");
+                resultVo.setResultDes("接口发布状态修改成功");
                 resultVo.setSuccess(true);
             } else {
-                resultVo.setResultDes("接口发布失败");
+                resultVo.setResultDes("接口发布状态修改失败");
             }
         }catch (Exception e){
             resultVo.setResultDes("接口发布异常，原因为:"+e);
@@ -155,17 +170,18 @@ public class OpenapiInterfaceController extends BasicController {
         try {
             Integer flag = interfaceFacade.setStatusOpenapiInterface(openapiInterfaceSetStatusVO);
             if (1 == flag) {
-                resultVo.setResultDes("接口删除成功");
+                resultVo.setResultDes("接口生效状态修改成功");
                 resultVo.setSuccess(true);
             } else {
-                resultVo.setResultDes("接口删除失败");
+                resultVo.setResultDes("接口生效状态修改失败");
             }
         }catch (Exception e){
-            resultVo.setResultDes("接口删除异常，原因为:"+e);
+            resultVo.setResultDes("接口生效状态修改异常，原因为:"+e);
             log.error("接口删除异常",e);
         }
         return resultVo;
     }
+
 
 
 }

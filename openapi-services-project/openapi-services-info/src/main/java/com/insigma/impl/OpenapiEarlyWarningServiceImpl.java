@@ -30,7 +30,7 @@ public class OpenapiEarlyWarningServiceImpl implements OpenapiEarlyWarningFacade
         Example example=new Example(OpenapiEarlyWarning.class);
         Example.Criteria criteria=example.createCriteria();
         if(StringUtils.isNotEmpty(name)) {
-            criteria.andLike("name",name);
+            criteria.andLike("name","%"+name+"%");
         }
         List<OpenapiEarlyWarning> openapiEarlyWarningList=openapiEarlyWarningMapper.selectByExample(example);
         PageInfo<OpenapiEarlyWarning> openapiEarlyWarningPageInfo=new PageInfo<>(openapiEarlyWarningList);

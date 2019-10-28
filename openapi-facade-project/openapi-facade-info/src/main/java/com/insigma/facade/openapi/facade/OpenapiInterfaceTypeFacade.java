@@ -19,8 +19,8 @@ public interface OpenapiInterfaceTypeFacade{
 
     Integer deleteOpenapiInterfaceType(OpenapiInterfaceTypeDeleteVO deleteVO);
 
-	 
 
+    boolean hasChildInterface(OpenapiInterfaceTypeDeleteVO openapiInterfaceTypeDeleteVO);
 }
 
  

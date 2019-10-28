@@ -10,12 +10,19 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.List;
 
 @Data
 public class OpenapiInterfaceSaveVO implements Serializable {
+
+    @Id
+    @GeneratedValue(generator="JDBC")
+    @ApiModelProperty("接口id")
+    @Column( name="id")
+    private Long id;
 
     @ApiModelProperty("")
     @Column( name="code")
@@ -24,6 +31,14 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @ApiModelProperty("接口名称")
     @Column( name="name")
     private String name;
+
+    @ApiModelProperty("0不是回调1是回调")
+    @Column( name="is_callback")
+    private Integer isCallback;
+
+    @ApiModelProperty("接口描述")
+    @Column( name="distribution")
+    private String distribution;
 
     @ApiModelProperty("接口组id")
     @Column( name="group_id")
@@ -85,6 +100,10 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @Column( name="is_public")
     private Integer isPublic;
 
+    @ApiModelProperty("0未删除1已删除")
+    @Column( name="is_delete")
+    private Integer isDelete;
+
     @ApiModelProperty("提供者姓名")
     @Column( name="provider_name")
     private String providerName;
@@ -92,6 +111,46 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @ApiModelProperty("提供者类型")
     @Column( name="provider_type")
     private String providerType;
+
+    @ApiModelProperty("外部请求方式1GET2POST3POST/GET")
+    @Column( name="out_request_way")
+    private Integer outRequestWay;
+
+    @ApiModelProperty("内部请求方式1GET2POST3POST/GET")
+    @Column( name="inner_request_way")
+    private Integer innerRequestWay;
+
+    @ApiModelProperty("外部支持格式1JSON")
+    @Column( name="out_request_format")
+    private Integer outRequestFormat;
+
+    @ApiModelProperty("内部支持格式1JSON")
+    @Column( name="inner_request_format")
+    private Integer innerRequestFormat;
+
+    @ApiModelProperty("内部请求对象1政务服务2省数据中心3.自定义")
+    @Column( name="inner_request_object")
+    private Integer innerRequestObject;
+
+    @ApiModelProperty("请求参数样例")
+    @Column( name="request_param_example")
+    private String requestParamExample;
+
+    @ApiModelProperty("返回参数样例")
+    @Column( name="response_param_example")
+    private String responseParamExample;
+
+    @ApiModelProperty("接口模式1透传")
+    @Column( name="request_model")
+    private Integer requestModel;
+
+    @ApiModelProperty("创建者姓名")
+    @Column( name="creator_name")
+    private String creatorName;
+
+    @ApiModelProperty("创建者id")
+    @Column( name="creator_id")
+    private Long creatorId;
 
     private List<OpenapiInterfaceRequestParamSaveVO> openapiInterfaceRequestParamSaveVOList;
 

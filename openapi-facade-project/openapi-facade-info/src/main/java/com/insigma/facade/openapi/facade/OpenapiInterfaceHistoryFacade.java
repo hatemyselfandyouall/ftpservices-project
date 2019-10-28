@@ -15,7 +15,7 @@ public interface OpenapiInterfaceHistoryFacade{
 
     OpenapiInterfaceHistory getOpenapiInterfaceHistoryDetail(OpenapiInterfaceHistoryDetailVO detailVO);
 
-    Integer saveOpenapiInterfaceHistory(OpenapiInterfaceHistorySaveVO saveVO);
+    Integer saveOpenapiInterfaceHistory(OpenapiInterfaceHistorySaveVO saveVO, Long userId, String userName);
 
     Integer deleteOpenapiInterfaceHistory(OpenapiInterfaceHistoryDeleteVO deleteVO);
 

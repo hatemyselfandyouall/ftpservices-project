@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class OpenapiInterfaceHistory implements Serializable{
+public class OpenapiAppType implements Serializable{
 
 
 	//========== properties ==========
@@ -30,36 +30,35 @@ public class OpenapiInterfaceHistory implements Serializable{
     @Column( name="id")
     private Long id;
 
-    @ApiModelProperty("接口id")
-    @Column( name="interface_id")
-    private Long interfaceId;
+    @ApiModelProperty("")
+    @Column( name="name")
+    private String name;
 
-    @ApiModelProperty("更新描述")
-    @Column( name="update_description")
-    private String updateDescription;
+    @ApiModelProperty("")
+    @Column( name="remark")
+    private String remark;
 
-    @ApiModelProperty("版本号")
-    @Column( name="version_number")
-    private Integer versionNumber;
+    @ApiModelProperty("0未删除1已删除")
+    @Column( name="is_delete")
+    private Integer isDelete;
+
+    @ApiModelProperty("")
+    @Column( name="creator_id")
+    private Long creatorId;
+
+    @ApiModelProperty("")
+    @Column( name="creator_name")
+    private String creatorName;
 
     @ApiModelProperty("")
     @Column( name="create_time")
     private Date createTime;
 
-    @ApiModelProperty("历史版本描述json")
-    @Column( name="history_json")
-    private String historyJson;
+    @ApiModelProperty("")
+    @Column( name="modify_time")
+    private Date modifyTime;
 
-    @ApiModelProperty("创建者id")
-    @Column( name="creator_id")
-    private Long creatorId;
 
-    @ApiModelProperty("创建者姓名")
-    @Column( name="creator_name")
-    private String creatorName;
-
-    @Transient
-    private Integer isAvaliable;
 
 
 }

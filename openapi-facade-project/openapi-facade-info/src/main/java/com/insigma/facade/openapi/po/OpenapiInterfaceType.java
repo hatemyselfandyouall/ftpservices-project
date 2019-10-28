@@ -40,7 +40,7 @@ public class OpenapiInterfaceType implements Serializable{
 
     @ApiModelProperty("使用的应用类型1医保2医院")
     @Column( name="app_type")
-    private Integer appType;
+    private String appType;
 
     @ApiModelProperty("备注")
     @Column( name="remark")

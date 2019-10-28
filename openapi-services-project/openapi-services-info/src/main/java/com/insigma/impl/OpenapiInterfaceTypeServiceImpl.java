@@ -3,6 +3,8 @@ package com.insigma.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiInterfaceTypeFacade;
+import com.insigma.facade.openapi.po.OpenapiInterface;
+import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.mapper.OpenapiInterfaceTypeMapper;
 import com.insigma.util.JSONUtil;
 import constant.DataConstant;
@@ -10,8 +12,11 @@ import org.apache.zookeeper.AsyncCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.insigma.facade.openapi.po.OpenapiInterfaceType;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeDetailVO;
@@ -22,6 +27,8 @@ public class OpenapiInterfaceTypeServiceImpl implements OpenapiInterfaceTypeFaca
 
     @Autowired
     OpenapiInterfaceTypeMapper openapiInterfaceTypeMapper;
+    @Autowired
+    OpenapiInterfaceMapper openapiInterfaceMapper;
 
     @Override
     public PageInfo<OpenapiInterfaceType> getOpenapiInterfaceTypeList(OpenapiInterfaceTypeListVO openapiInterfaceTypeListVO) {
@@ -73,5 +80,32 @@ public class OpenapiInterfaceTypeServiceImpl implements OpenapiInterfaceTypeFaca
         Example example=new Example(OpenapiInterfaceType.class);
         example.createCriteria().andEqualTo("id",openapiInterfaceTypeDeleteVO.getId());
         return openapiInterfaceTypeMapper.updateByExampleSelective(openapiInterfaceType,example);
+    }
+
+    @Override
+    public boolean hasChildInterface(OpenapiInterfaceTypeDeleteVO openapiInterfaceTypeDeleteVO) {
+        if (openapiInterfaceTypeDeleteVO==null||openapiInterfaceTypeDeleteVO.getId()==null){
+            return false;
+        }
+        Long id=openapiInterfaceTypeDeleteVO.getId();
+        OpenapiInterfaceType openapiInterfaceType=openapiInterfaceTypeMapper.selectByPrimaryKey(id);
+        if (openapiInterfaceType==null){
+            return false;
+        }
+        List<Long> ids;
+        if (DataConstant.INTERFACE_TYPE_APPLICATION.equals(openapiInterfaceType.getType())){
+            OpenapiInterfaceType examType=new OpenapiInterfaceType().setParentId(id).setIsDelete(DataConstant.NO_DELETE);
+            List<OpenapiInterfaceType> openapiInterfaceTypes=openapiInterfaceTypeMapper.select(examType);
+            ids=openapiInterfaceTypes.stream().map(OpenapiInterfaceType::getId).collect(Collectors.toList());
+        }else {
+            ids=new ArrayList<>();
+            ids.add(id);
+        }
+        Example example=new Example(OpenapiInterface.class);
+        example.createCriteria().andEqualTo("isDelete",DataConstant.NO_DELETE).andIn("typeId",ids);
+        if (openapiInterfaceMapper.selectCountByExample(example)>0){
+            return true;
+        }
+        return false;
     }
 }
