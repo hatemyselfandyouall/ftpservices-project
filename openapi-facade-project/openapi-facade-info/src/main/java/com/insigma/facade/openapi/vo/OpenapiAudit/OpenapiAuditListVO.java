@@ -26,7 +26,7 @@ public class OpenapiAuditListVO extends PageVO implements Serializable {
     private String application;
 
     @ApiModelProperty("申请机构")
-    private String organize;
+    private String organization;
 
     @ApiModelProperty("开始时间")
     private Date startDate;
