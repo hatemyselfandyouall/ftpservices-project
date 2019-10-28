@@ -36,8 +36,8 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
         PageHelper.startPage(openapiAuditListVO.getPageNum().intValue(),openapiAuditListVO.getPageSize().intValue());
         Example example = new Example(OpenapiAudit.class);
         Example.Criteria criteria = example.createCriteria();
-        if (!StringUtils.isEmpty(openapiAuditListVO.getOrganize())){
-            criteria.andEqualTo("organize",openapiAuditListVO.getOrganize());
+        if (!StringUtils.isEmpty(openapiAuditListVO.getOrganization())){
+            criteria.andEqualTo("organize",openapiAuditListVO.getOrganization());
         }
         if (!StringUtils.isEmpty(openapiAuditListVO.getApplication())){
             criteria.andEqualTo("application",openapiAuditListVO.getApplication());
@@ -45,7 +45,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
         if (openapiAuditListVO.getAuditStatus() != null){
             criteria.andEqualTo("auditStatus",openapiAuditListVO.getAuditStatus());
         }
-        if(openapiAuditListVO.getOrganize() != null){
+        if(openapiAuditListVO.getOrganization() != null){
            if(openapiAuditListVO.getPending() == 0){    //待处理
                criteria.andEqualTo("auditStatus",2);
            }
