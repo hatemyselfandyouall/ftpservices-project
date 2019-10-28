@@ -99,8 +99,10 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             return null;
         };
         OpenapiApp openapiApp=openapiAppMapper.selectByPrimaryKey(openapiAppDetailVO.getId());
-        OpenapiAppType openapiAppType=openapiAppTypeMapper.selectByPrimaryKey(openapiApp.getTypeId());
-        openapiApp.setTypeName(openapiAppType!=null?"0":openapiAppType.getName());
+        if(openapiApp!=null&&openapiApp.getTypeId()!=null) {
+            OpenapiAppType openapiAppType = openapiAppTypeMapper.selectByPrimaryKey(openapiApp.getTypeId());
+            openapiApp.setTypeName(openapiAppType != null ? "0" : openapiAppType.getName());
+        }
         return openapiApp;
     }
 
