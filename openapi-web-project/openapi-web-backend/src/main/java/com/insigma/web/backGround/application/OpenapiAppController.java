@@ -191,6 +191,7 @@ public class OpenapiAppController extends BasicController {
             test.put("type", 1);
             List<SysOrgDTO> sysOrgDTOS = sysOrgFacade.getListByWhere(test);
             resultVo.setResult(sysOrgDTOS);
+            resultVo.setSuccess(true);
         }catch (Exception e){
             resultVo.setResultDes("获取机构列表异常，原因为:"+e);
             log.error("获取机构列表异常",e);
