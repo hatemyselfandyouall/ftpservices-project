@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -109,17 +110,16 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
                 for (Integer id : openapiAuditSaveVO.getIds()){
                     if(DataConstant.IS_AUDITED.equals(openapiAuditSaveVO.getAuditStatus()) ){ //审核通过添加到接口应用
                         OpenapiAppInterfaceSaveVO saveVo = new OpenapiAppInterfaceSaveVO();
-                        openapiAudit =  openapiAuditMapper.selectByPrimaryKey(id);
-                        OpenapiAppInterface openapiAppInterface = new OpenapiAppInterface();
-                        openapiAppInterface.setAppId(openapiAudit.getAppId());
-                        openapiAppInterface.setInterfaceId(openapiAudit.getInterfaceId());
-                        openapiAppInterface.setSourceType(2);
-                        openapiAppInterface.setUseReason(openapiAudit.getApplication());
-                        openapiAppInterface.setIsDelete(0);  //未删除
-                        openapiAppInterface.setIsAudit(1);   //审核已通过
-                        openapiAppInterface.setCreateTime(new Date());
-                        openapiAppInterface.setModifyTime(new Date());
-                        BeanUtils.copyProperties(openapiAppInterface, saveVo);
+                        OpenapiAudit openAudit = new OpenapiAudit();
+                        openAudit =  openapiAuditMapper.selectByPrimaryKey(id);
+                        saveVo.setAppId(openAudit.getAppId());
+                        saveVo.setInterfaceIds(Arrays.asList(openAudit.getInterfaceId()));
+                        saveVo.setSourceType(DataConstant.SOURCE_TYPE_OWN);   //自主申请
+                        saveVo.setUseReason(openAudit.getAReason());
+                        saveVo.setIsAudit(DataConstant.IS_AUDITED);   //审核已通过
+                        saveVo.setIsDelete(DataConstant.NO_DELETE);
+                        saveVo.setCreateTime(new Date());
+                        saveVo.setModifyTime(new Date());
                         ResultVo checkResult = openapiAppFacade.checkAppInterfaceSave(saveVo);
                         if (checkResult.isSuccess()){
                             Integer flag = openapiAppFacade.saveAppInterface(saveVo);

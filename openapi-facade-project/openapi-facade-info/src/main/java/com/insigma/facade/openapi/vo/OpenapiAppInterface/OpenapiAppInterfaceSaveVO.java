@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -35,5 +36,16 @@ public class OpenapiAppInterfaceSaveVO implements Serializable {
 
 
 
+    @ApiModelProperty("0未删除1已删除//前端不用传")
+    @Column( name="is_delete")
+    private Integer isDelete;
+
+    @ApiModelProperty("创建时间//前端不用传")
+    @Column( name="create_time")
+    private Date createTime;
+
+    @ApiModelProperty("修改时间//前端不用传")
+    @Column( name="modify_time")
+    private Date modifyTime;
 
 }

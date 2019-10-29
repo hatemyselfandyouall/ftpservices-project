@@ -85,11 +85,11 @@ public class OpenapiAuditController extends BasicController {
             openapiAuditSaveVO.setUserName(loginComponent.getLoginUserName());
             Integer flag = openapiAuditFacade.saveOpenapiAudit(openapiAuditSaveVO);
             if (flag > 0) {
-                resultVo.setResultDes("保存成功");
+                resultVo.setResultDes("操作成功");
                 resultVo.setSuccess(true);
             } else {
                 resultVo.setSuccess(false);
-                resultVo.setResultDes("保存失败");
+                resultVo.setResultDes("操作失败");
             }
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常");
