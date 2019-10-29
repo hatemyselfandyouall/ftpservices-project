@@ -93,10 +93,14 @@ public class OpenapiBlackWhiteController extends BasicController {
 
     @ApiOperation(value = "黑白名单删除")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiBlackWhite> deleteBlackWhite(Long id){
+    public ResultVo<OpenapiBlackWhite> deleteBlackWhite(@RequestBody OpenapiBlackWhiteDto openapiBlackWhiteDto){
         ResultVo resultVo=new ResultVo();
+        if(openapiBlackWhiteDto==null||openapiBlackWhiteDto.getId()==null){
+            resultVo.setResultDes("参数不能为空");
+            ;
+        }
         try {
-            Integer flag = openapiBlackWhiteFacade.deleteOpenapiBlackWhite(id);
+            Integer flag = openapiBlackWhiteFacade.deleteOpenapiBlackWhite(openapiBlackWhiteDto.getId());
             if (1 == flag) {
                 resultVo.setResultDes("黑白名单删除成功");
                 resultVo.setSuccess(true);
