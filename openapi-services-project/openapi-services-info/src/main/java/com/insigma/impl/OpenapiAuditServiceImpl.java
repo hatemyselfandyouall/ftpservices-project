@@ -116,7 +116,6 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
                         saveVo.setInterfaceIds(Arrays.asList(openAudit.getInterfaceId()));
                         saveVo.setSourceType(DataConstant.SOURCE_TYPE_OWN);   //自主申请
                         saveVo.setUseReason(openAudit.getAReason());
-                        saveVo.setIsAudit(DataConstant.IS_AUDITED);   //审核已通过
                         saveVo.setIsDelete(DataConstant.NO_DELETE);
                         saveVo.setCreateTime(new Date());
                         saveVo.setModifyTime(new Date());
