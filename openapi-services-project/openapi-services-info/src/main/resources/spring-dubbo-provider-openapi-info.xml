@@ -12,31 +12,31 @@
 		
 	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.ProjectFacade" ref="projectImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.InterfaceFacade" ref="interfaceServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 	<!--<bean id="openapiInterfaceGroupServiceImpl" class="com.insigma.impl.OpenapiInterfaceGroupServiceImpl" />-->
 	<!--<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade" ref="openapiInterfaceGroupServiceImpl"-->
-				   <!--version="1.0.1" delay="-1" retries="0"  />-->
+				   <!--version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
 	<bean id="openapiAppServiceImpl" class="com.insigma.impl.OpenapiAppServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppFacade" ref="openapiAppServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 	<bean id="openapiInterfaceTypeServiceImpl" class="com.insigma.impl.OpenapiInterfaceTypeServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceTypeFacade" ref="openapiInterfaceTypeServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 	<bean id="openapiInterfaceHistoryServiceImpl" class="com.insigma.impl.OpenapiInterfaceHistoryServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade" ref="openapiInterfaceHistoryServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 	<bean id="openapiEarlyWarningServiceImpl" class="com.insigma.impl.OpenapiEarlyWarningServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade" ref="openapiEarlyWarningServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 
 	<bean id="openapiBlackWhiteServiceImpl" class="com.insigma.impl.OpenapiBlackWhiteServiceImpl" />
@@ -45,10 +45,14 @@
 
 	<bean id="openapiAuditServiceImpl" class="com.insigma.impl.OpenapiAuditServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAuditFacade" ref="openapiAuditServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 	<bean id="openapiAppTypeServiceImpl" class="com.insigma.impl.OpenapiAppTypeServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppTypeFacade" ref="openapiAppTypeServiceImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
+
+	<bean id="openapiAppInterfaceServiceImpl" class="com.insigma.impl.OpenapiAppInterfaceServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade" ref="openapiAppInterfaceServiceImpl"
+				   version="1.0.1.gzd" delay="-1" retries="0"  />
 
 </beans>

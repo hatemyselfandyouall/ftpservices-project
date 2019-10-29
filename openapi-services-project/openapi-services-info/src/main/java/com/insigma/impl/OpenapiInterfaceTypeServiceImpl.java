@@ -39,6 +39,9 @@ public class OpenapiInterfaceTypeServiceImpl implements OpenapiInterfaceTypeFaca
         OpenapiInterfaceType exampleObeject=new OpenapiInterfaceType();
         exampleObeject.setIsDelete(DataConstant.NO_DELETE);
         exampleObeject.setType(openapiInterfaceTypeListVO.getType());
+        if (openapiInterfaceTypeListVO.getParentId()!=null) {
+            exampleObeject.setParentId(openapiInterfaceTypeListVO.getParentId());
+        }
         List<OpenapiInterfaceType> openapiInterfaceTypeList=openapiInterfaceTypeMapper.select(exampleObeject);
         PageInfo<OpenapiInterfaceType> openapiInterfaceTypePageInfo=new PageInfo<>(openapiInterfaceTypeList);
         return openapiInterfaceTypePageInfo;

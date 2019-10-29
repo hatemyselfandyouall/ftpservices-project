@@ -14,11 +14,7 @@ public class OpenapiAppInterfaceSaveVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(generator="JDBC")
-    @ApiModelProperty("")
-    @Column( name="id")
-    private Long id;
+
 
     @ApiModelProperty("应用id")
     @Column( name="app_id")
@@ -37,9 +33,7 @@ public class OpenapiAppInterfaceSaveVO implements Serializable {
     private String useReason;
 
 
-    @ApiModelProperty("0审核未通过1审核已通过")
-    @Column( name="is_audit")
-    private Integer isAudit;
+
 
 
 }

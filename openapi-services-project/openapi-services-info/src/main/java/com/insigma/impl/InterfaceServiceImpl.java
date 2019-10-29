@@ -64,6 +64,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     OpenapiInterfaceHistoryFacade openapiInterfaceHistoryFacade;
     @Autowired
     OpenapiInterfaceTypeFacade openapiInterfaceTypeFacade;
+    @Autowired
+    OpenapiInterfaceHistoryMapper openapiInterfaceHistoryMapper;
 
     @Override
     public PageInfo<OpenapiInterfaceDetailShowVO> getOpenapiInterfaceList(OpenapiInterfaceListVO openapiInterfaceListVO) {
@@ -205,7 +207,9 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (openapiInterface.getId() == null) {
             openapiInterface.setVersionNumber(1);
             openapiInterfaceMapper.insertSelective(openapiInterface);
-            return getInterfaceDetail(openapiInterfaceSaveVO, openapiInterface);
+            OpenapiInterfaceShowVO openapiInterfaceShowVO=getInterfaceDetail(openapiInterfaceSaveVO, openapiInterface);
+            saveInitHisttory(openapiInterfaceShowVO);
+            return openapiInterfaceShowVO;
         } else {
             updateInterface(openapiInterface);
             deleteRequestParams(openapiInterface.getId());
@@ -215,30 +219,31 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
     }
 
+    private void saveInitHisttory(OpenapiInterfaceShowVO openapiInterfaceShowVO) {
+        OpenapiInterfaceHistory openapiInterfaceHistory=new OpenapiInterfaceHistory()
+                .setHistoryJson(JSONObject.toJSONString(openapiInterfaceShowVO))
+                .setInterfaceId(openapiInterfaceShowVO.getOpenapiInterface().getId())
+                .setCreatorId(openapiInterfaceShowVO.getOpenapiInterface().getCreatorId())
+                .setCreatorName(openapiInterfaceShowVO.getOpenapiInterface().getCreatorName())
+                .setVersionNumber(openapiInterfaceShowVO.getOpenapiInterface().getVersionNumber());
+        openapiInterfaceHistoryMapper.insertSelective(openapiInterfaceHistory);
+    }
+
     private void deleteInnerUrls(Long id) {
         openapiInterfaceInnerUrlMapper.delete(new OpenapiInterfaceInnerUrl().setInterfaceId(id));
     }
 
-    private Integer getMaxVersion(Integer groupId) {
-        Example example = new Example(OpenapiInterface.class);
-        example.createCriteria().andEqualTo("groupId", groupId);
-        example.setOrderByClause("version_number desc");
-        List<OpenapiInterface> openapiInterfaces = openapiInterfaceMapper.selectByExample(example);
-        if (openapiInterfaces != null && !openapiInterfaces.isEmpty()) {
-            return openapiInterfaces.get(0).getVersionNumber() + 1;
-        } else {
-            return 1;
-        }
-    }
+
 
     private OpenapiInterfaceShowVO getInterfaceDetail(OpenapiInterfaceSaveVO openapiInterfaceSaveVO, OpenapiInterface openapiInterface) {
         saveRequestParams(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceRequestParamSaveVOList());
         saveResponseParams(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceResponseParamSaveVOList());
         saveInnerUrls(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceInnerUrlSaveVOS());
-        saveUpdateHistory(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO(),openapiInterfaceSaveVO.getCreatorId(),openapiInterfaceSaveVO.getCreatorName());
         OpenapiInterfaceDetailVO openapiInterfaceDetailVO = new OpenapiInterfaceDetailVO();
         openapiInterfaceDetailVO.setId(openapiInterface.getId());
         OpenapiInterfaceShowVO openapiInterfaceShowVO = getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
+        openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO().setHistoryJson(JSONObject.parseObject(JSONObject.toJSONString(openapiInterfaceShowVO)));
+        saveUpdateHistory(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO(),openapiInterfaceSaveVO.getCreatorId(),openapiInterfaceSaveVO.getCreatorName());
         return openapiInterfaceShowVO;
     }
 

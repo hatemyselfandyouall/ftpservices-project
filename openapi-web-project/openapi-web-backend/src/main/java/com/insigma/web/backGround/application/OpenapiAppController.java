@@ -3,8 +3,11 @@ package com.insigma.web.backGround.application;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
+import com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade;
+import com.insigma.facade.openapi.po.OpenapiAppInterface;
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiApp.*;
+import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceListVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
 import com.insigma.facade.sysbase.SysOrgFacade;
@@ -36,6 +39,8 @@ public class OpenapiAppController extends BasicController {
     OpenapiAppFacade openapiAppFacade;
     @Autowired
     SysOrgFacade sysOrgFacade;
+    @Autowired
+    OpenapiAppInterfaceFacade openapiAppInterfaceFacade;
 
     @ApiOperation(value = "开放平台应用列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -178,6 +183,25 @@ public class OpenapiAppController extends BasicController {
         }catch (Exception e){
             resultVo.setResultDes("开放平台应用删除异常");
             log.error("开放平台应用删除异常",e);
+        }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "开放平台应用-接口删除")
+    @RequestMapping(value = "/deleteInterface",method = RequestMethod.DELETE,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiApp> deleteInterface(@RequestBody OpenapiAppInterfaceDeleteVO openapiAppInterfaceDeleteVO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            Integer flag = openapiAppInterfaceFacade.deleteOpenapiAppInterface(openapiAppInterfaceDeleteVO);
+            if (1 == flag) {
+                resultVo.setResultDes("开放平台应用-接口删除成功");
+                resultVo.setSuccess(true);
+            } else {
+                resultVo.setResultDes("开放平台应用-接口删除失败");
+            }
+        }catch (Exception e){
+            resultVo.setResultDes("开放平台应用-接口删除异常");
+            log.error("开放平台应用-接口删除异常",e);
         }
         return resultVo;
     }
