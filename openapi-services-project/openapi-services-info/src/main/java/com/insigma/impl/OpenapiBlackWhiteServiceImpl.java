@@ -30,6 +30,7 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
         PageHelper.startPage(offset,limit);
         Example example=new Example(OpenapiBlackWhite.class);
         Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",0);
         if(StringUtils.isNotEmpty(name)) {
             criteria.andLike("ipAddress","%"+name+"%");
             criteria.orLike("applicationName","%"+name+"%");
