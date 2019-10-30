@@ -66,8 +66,14 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
                 openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
             }
         }else{
-            OpenapiBlackWhite openapiBlackWhite= JSONUtil.convert(openapiBlackWhiteDto,OpenapiBlackWhite.class);
-            openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
+            List<String> ipAddressList = openapiBlackWhiteDto.getIpAddress();
+            if(ipAddressList!=null&&ipAddressList.size()>0) {
+                for(String ipAddress:ipAddressList) {
+                    OpenapiBlackWhite openapiBlackWhite = JSONUtil.convert(openapiBlackWhiteDto, OpenapiBlackWhite.class);
+                    openapiBlackWhite.setIpAddress(ipAddress);
+                    openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
+                }
+            }
         }
     }
 

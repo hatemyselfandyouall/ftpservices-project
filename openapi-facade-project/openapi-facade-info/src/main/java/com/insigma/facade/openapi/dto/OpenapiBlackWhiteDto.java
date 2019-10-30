@@ -18,8 +18,8 @@ public class OpenapiBlackWhiteDto implements Serializable{
     @ApiModelProperty("")
     private Long id;
 
-    @ApiModelProperty("IP地址")
-    private String ipAddress;
+    @ApiModelProperty("IP地址集合")
+    private List<String> ipAddress;
 
     @ApiModelProperty("应用服务集合")
     private List<ApplicationServiceDto> applicationServiceDtos;
