@@ -35,6 +35,10 @@ public class OpenapiAppSaveVO implements Serializable {
     @Column( name="org_name")
     private String orgName;
 
+    @ApiModelProperty("所属机构id")
+    @Column( name="org_id")
+    private String orgId;
+
     @ApiModelProperty("应用所属的用户id")
     @Column( name="user_id")
     private Long userId;
