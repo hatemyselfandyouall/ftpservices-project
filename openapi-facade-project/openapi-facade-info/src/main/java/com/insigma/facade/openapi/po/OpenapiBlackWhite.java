@@ -27,11 +27,15 @@ public class OpenapiBlackWhite implements Serializable{
     @Column( name="ip_address")
     private String ipAddress;
 
+    @ApiModelProperty("应用id")
+    @Column( name="application_id")
+    private String applicationId;
+
     @ApiModelProperty("应用名称")
     @Column( name="application_name")
     private String applicationName;
 
-    @ApiModelProperty("添加类型")
+    @ApiModelProperty("添加类型，1白名单，2黑名单")
     @Column( name="add_type")
     private Integer addType;
 

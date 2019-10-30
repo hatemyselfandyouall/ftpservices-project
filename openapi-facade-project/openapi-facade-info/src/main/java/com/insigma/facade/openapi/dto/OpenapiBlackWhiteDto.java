@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -17,13 +18,13 @@ public class OpenapiBlackWhiteDto implements Serializable{
     @ApiModelProperty("")
     private Long id;
 
-    @ApiModelProperty("IP地址")
-    private String ipAddress;
+    @ApiModelProperty("IP地址集合")
+    private List<String> ipAddress;
 
-    @ApiModelProperty("应用名称")
-    private String applicationName;
+    @ApiModelProperty("应用服务集合")
+    private List<ApplicationServiceDto> applicationServiceDtos;
 
-    @ApiModelProperty("添加类型")
+    @ApiModelProperty("添加类型，1白名单，2黑名单")
     private Integer addType;
 
     @ApiModelProperty("添加原因")

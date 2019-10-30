@@ -29,6 +29,7 @@ public class OpenapiEarlyWarningServiceImpl implements OpenapiEarlyWarningFacade
         PageHelper.startPage(offset,limit);
         Example example=new Example(OpenapiEarlyWarning.class);
         Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",0);
         if(StringUtils.isNotEmpty(name)) {
             criteria.andLike("name","%"+name+"%");
         }

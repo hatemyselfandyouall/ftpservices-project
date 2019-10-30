@@ -2,6 +2,7 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.dto.ApplicationServiceDto;
 import com.insigma.facade.openapi.dto.OpenapiBlackWhiteDto;
 import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
@@ -29,6 +30,7 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
         PageHelper.startPage(offset,limit);
         Example example=new Example(OpenapiBlackWhite.class);
         Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",0);
         if(StringUtils.isNotEmpty(name)) {
             criteria.andLike("ipAddress","%"+name+"%");
             criteria.orLike("applicationName","%"+name+"%");
@@ -54,18 +56,24 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
     }
 
     @Override
-    public Integer saveOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto) {
-        if (openapiBlackWhiteDto==null){
-            return 0;
-        }
-        OpenapiBlackWhite openapiBlackWhite= JSONUtil.convert(openapiBlackWhiteDto,OpenapiBlackWhite.class);
-        if (openapiBlackWhite.getId()==null){
-            return openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
-        }else {
-            openapiBlackWhite.setModifyTime(new Date());
-            Example example=new Example(OpenapiBlackWhite.class);
-            example.createCriteria().andEqualTo("id",openapiBlackWhite.getId());
-            return openapiBlackWhiteMapper.updateByExampleSelective(openapiBlackWhite,example);
+    public void saveOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto) {
+        List<ApplicationServiceDto> applicationServiceDtos = openapiBlackWhiteDto.getApplicationServiceDtos();
+        if(applicationServiceDtos!=null&&applicationServiceDtos.size()>0) {
+            for (ApplicationServiceDto applicationServiceDto : applicationServiceDtos) {
+                OpenapiBlackWhite openapiBlackWhite= JSONUtil.convert(openapiBlackWhiteDto,OpenapiBlackWhite.class);
+                openapiBlackWhite.setApplicationId(applicationServiceDto.getApplicationId());
+                openapiBlackWhite.setApplicationName(applicationServiceDto.getApplicationName());
+                openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
+            }
+        }else{
+            List<String> ipAddressList = openapiBlackWhiteDto.getIpAddress();
+            if(ipAddressList!=null&&ipAddressList.size()>0) {
+                for(String ipAddress:ipAddressList) {
+                    OpenapiBlackWhite openapiBlackWhite = JSONUtil.convert(openapiBlackWhiteDto, OpenapiBlackWhite.class);
+                    openapiBlackWhite.setIpAddress(ipAddress);
+                    openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
+                }
+            }
         }
     }
 
