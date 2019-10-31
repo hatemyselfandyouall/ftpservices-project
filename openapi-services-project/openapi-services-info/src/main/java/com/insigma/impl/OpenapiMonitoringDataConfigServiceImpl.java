@@ -8,7 +8,6 @@ import com.insigma.facade.openapi.po.OpenapiMonitoringDataConfig;
 import com.insigma.mapper.OpenapiMonitoringDataConfigMapper;
 import com.insigma.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
@@ -28,13 +27,6 @@ public class OpenapiMonitoringDataConfigServiceImpl implements OpenapiMonitoring
             return OpenapiMonitoringDataConfigPageInfo;
         }
         int count=0;
-//        StringBuilder sbu = new StringBuilder();
-//        if(StringUtils.isNotEmpty(name)){
-//            sbu.append("'%");
-//            sbu.append(name);
-//            sbu.append("%'");
-//        }
-//        System.out.println("sbusbusbusbu="+sbu+"");
         List<OpenapiMonitoringDataConfigDto> openapiMonitoringDataConfigDtos  = openapiMonitoringDataConfigMapper.getOpenapiMonitoringDataConfigCount(name);
         if(openapiMonitoringDataConfigDtos!=null){
             count = openapiMonitoringDataConfigDtos.size();
