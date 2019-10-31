@@ -74,4 +74,10 @@
 	<!--审核管理模块-->
 	<dubbo:reference id="openapiAppInterfaceFacade" interface="com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade"
 					 version="1.0.1" />
+
+	<!--审核管理模块-->
+	<dubbo:reference id="openapiMonitoringDataConfigFacade" interface="com.insigma.facade.openapi.facade.OpenapiMonitoringDataConfigFacade"
+					 version="1.0.1" />
+
+
 </beans>

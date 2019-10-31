@@ -55,4 +55,9 @@
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade" ref="openapiAppInterfaceServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
 
+	<bean id="openapiMonitoringDataConfigServiceImpl" class="com.insigma.impl.OpenapiMonitoringDataConfigServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiMonitoringDataConfigFacade" ref="openapiMonitoringDataConfigServiceImpl"
+				   version="1.0.1" delay="-1" retries="0"  />
+
+
 </beans>
