@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insigma.mapper.OpenapiMonitoringDataConfigMapper">
+
+	<select id="getOpenapiMonitoringDataConfigList" resultType="com.insigma.facade.openapi.dto.OpenapiMonitoringDataConfigDto">
+		select a.id as id,a.interface_id as interfaceId,a.average_call_time as averageCallTime,a.single_call_duration as singleCallDuration,
+		a.warning_interval as warningInterval,a.alarm_interval as alarmInterval,a.number_of_failures as numberOfFailures,a.early_warning_method as earlyWarningMethod,
+		a.early_warning_object as earlyWarningObject,b.name as interfaceName,b.code as urlAddress
+		from openapi_monitoring_data_config a,openapi_interface b where a.interface_id=b.id and a.is_delete=0
+		<if test="name!=null and name !=''">
+			and b.name like CONCAT('%',#{name},'%')
+		</if>
+		 limit #{offset} , #{limit}
+	</select>
+
+	<select id="getOpenapiMonitoringDataConfigCount" resultType="com.insigma.facade.openapi.dto.OpenapiMonitoringDataConfigDto">
+		select a.id as id,a.interface_id as interfaceId,a.average_call_time as averageCallTime,a.single_call_duration as singleCallDuration,
+		a.warning_interval as warningInterval,a.alarm_interval as alarmInterval,a.number_of_failures as numberOfFailures,a.early_warning_method as earlyWarningMethod,
+		a.early_warning_object as earlyWarningObject,b.name as interfaceName,b.code as urlAddress
+		from openapi_monitoring_data_config a,openapi_interface b where a.interface_id=b.id and a.is_delete=0
+		<if test="name!=null and name !=''">
+			and b.name like CONCAT('%',#{name},'%')
+		</if>
+	</select>
+
+
+	<select id="getOpenapiMonitoringDataConfigDetail" resultType="com.insigma.facade.openapi.dto.OpenapiMonitoringDataConfigDto">
+		select a.id as id,a.interface_id as interfaceId,a.average_call_time as averageCallTime,a.single_call_duration as singleCallDuration,
+		a.warning_interval as warningInterval,a.alarm_interval as alarmInterval,a.number_of_failures as numberOfFailures,a.early_warning_method as earlyWarningMethod,
+		a.early_warning_object as earlyWarningObject,b.name as interfaceName,b.code as urlAddress
+		from openapi_monitoring_data_config a,openapi_interface b where a.interface_id=b.id and a.id=#{id};
+	</select>
+</mapper>

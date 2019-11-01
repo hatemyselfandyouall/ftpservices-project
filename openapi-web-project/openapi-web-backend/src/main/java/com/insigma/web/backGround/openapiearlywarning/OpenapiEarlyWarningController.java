@@ -85,10 +85,13 @@ public class OpenapiEarlyWarningController extends BasicController {
 
     @ApiOperation(value = "预警人员删除")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE,produces = {"application/json;charset=UTF-8"})
-    public ResultVo<OpenapiApp> deleteOpenapiEarlyWarning(Long id){
+    public ResultVo<OpenapiApp> deleteOpenapiEarlyWarning(@RequestBody OpenapiEarlyWarningDto openapiEarlyWarningDto){
         ResultVo resultVo=new ResultVo();
+        if(openapiEarlyWarningDto==null&&openapiEarlyWarningDto.getId()==null){
+            return null;
+        }
         try {
-            Integer flag = openapiEarlyWarningFacade.deleteOpenapiEarlyWarning(id);
+            Integer flag = openapiEarlyWarningFacade.deleteOpenapiEarlyWarning(openapiEarlyWarningDto.getId());
             if (1 == flag) {
                 resultVo.setResultDes("预警人员删除成功");
                 resultVo.setSuccess(true);
