@@ -10,9 +10,9 @@
         
 	<!-- jxm test eg -->
 		
-	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />
-	<dubbo:service interface="com.insigma.facade.openapi.ProjectFacade" ref="projectImpl"
-				   version="1.0.1" delay="-1" retries="0"  />
+<!--	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.openapi.ProjectFacade" ref="projectImpl"-->
+<!--				   version="1.0.1" delay="-1" retries="0"  />-->
 
 	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.InterfaceFacade" ref="interfaceServiceImpl"
@@ -55,4 +55,7 @@
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade" ref="openapiAppInterfaceServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
 
+	<bean id="openapiDictionaryServiceImpl" class="com.insigma.impl.OpenapiDictionaryServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiDictionaryFacade" ref="openapiDictionaryServiceImpl"
+				   version="1.0.1" delay="-1" retries="0"  />
 </beans>
