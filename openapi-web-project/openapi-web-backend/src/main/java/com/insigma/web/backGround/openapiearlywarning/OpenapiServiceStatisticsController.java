@@ -28,7 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/openapiServiceStatistic")
-@Api(tags ="服务监控分析相关接口")
+@Api(tags ="BI接口转发接口")
 @Slf4j
 public class OpenapiServiceStatisticsController extends BasicController {
 
@@ -38,14 +38,14 @@ public class OpenapiServiceStatisticsController extends BasicController {
     OpenapiDictionaryFacade openapiDictionaryFacade;
 
 
-    @ApiOperation(value = "接口调用趋势")
+    @ApiOperation(value = "BI接口转发接口")
     @ResponseBody
-    @RequestMapping(value = "/InterfaceCallTrend",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/InterfaceCallTrend/{code}",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public ResultVo<String> getInterfaceCallTrend( @RequestParam(value = "pageNum", required = false) Long pageNum,
-                                                     @RequestParam(value = "pageSize", required = false) Long pageSize){
+                                                     @RequestParam(value = "pageSize", required = false) Long pageSize,
+                                                     @PathVariable String code){
         ResultVo resultVo=new ResultVo();
         try {
-            String code= DataConstant.CODE_INTERFACE_CALLTREND;
             String testUrl=openapiDictionaryFacade.getValueByCode(code);
             Map<String,String> stringStringMap=new HashMap<>();
             stringStringMap.put("pageNum",pageNum+"");
