@@ -31,6 +31,7 @@
 	<mvc:resources mapping="/swagger/**" location="/swagger/"/>
 	<bean class="com.insigma.config.SwaggerController" />
 	<bean class="com.insigma.config.AsyncConfig" />
+	<bean class="com.insigma.config.RestTemplateConfig" />
 
 	<mvc:interceptors>
 		

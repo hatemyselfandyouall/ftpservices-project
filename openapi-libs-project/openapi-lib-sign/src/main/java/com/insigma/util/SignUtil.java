@@ -223,8 +223,8 @@ public class SignUtil {
         }
     }
     public static void main(String[] args) throws IOException {
-        testMethod1();
-//        testMethod3();
+//        testMethod1();
+        testMethod3();
     }
     private static void testMethod1(){
         String testKey="915b9bda38854ffda5337bd6534c635e";
@@ -242,57 +242,14 @@ public class SignUtil {
         String testUrl="http://10.85.159.203:10500/frontInterface/interface/medicalPaid-7015";
         postTest(haeder,param,testUrl);
     }
-    private static String paramString="{\n" +
-            "\t\"ver\": \"V1.0\",\n" +
-            "\t\"orgNo\": \"330000101007\",\n" +
-            "\t\"orgName\": \"浙江医院\",\n" +
-            "\t\"trade\": \"7011\",\n" +
-            "\t\"id\": \"\",\n" +
-            "\t\"inPut\": [{\n" +
-            "\n" +
-            "\t\t\"COUNT\": \"1\",\n" +
-            "\t\t\"LS_DT1\": [{\n" +
-            "\t\t\t\"AKC190\": \"2132561\",\n" +
-            "\t\t\t\"BKC022\": \"5010001837\",\n" +
-            "\t\t\t\"AKA077\": \"0\",\n" +
-            "\t\t\t\"AAZ285\": \"1\",\n" +
-            "\t\t\t\"AAC003\": \"叶见青\",\n" +
-            "\t\t\t\"AAC002\": \"330721197307152710\",\n" +
-            "\t\t\t\"BKE100\": \"02-ZZJ041-O0003020\",\n" +
-            "\t\t\t\"AAE030\": \"1\",\n" +
-            "\t\t\t\"BKE318\": \"1\",\n" +
-            "\t\t\t\"AAE031\": \"1\",\n" +
-            "\t\t\t\"AKA078\": \"2\",\n" +
-            "\t\t\t\"AKE024\": \"1\",\n" +
-            "\t\t\t\"AKA120\": \"2\",\n" +
-            "\t\t\t\"AKA121\": \"1\",\n" +
-            "\t\t\t\"AKC264\": \"10\",\n" +
-            "\t\t\t\"LS_DT2\": [{\n" +
-            "\t\t\t\t\"BKE100\": \"02-ZZJ041-O0003020\",\n" +
-            "\t\t\t\t\"BKA100\": \"1\",\n" +
-            "\t\t\t\t\"BKA101\": \"1\",\n" +
-            "\t\t\t\t\"BKA102\": \"1\",\n" +
-            "\t\t\t\t\"BKA104\": \"1\",\n" +
-            "\t\t\t\t\"BKA105\": \"1\",\n" +
-            "\t\t\t\t\"AAE036\": \"2019-07-01\",\n" +
-            "\t\t\t\t\"AAC003\": \"叶见青\",\n" +
-            "\t\t\t\t\"AAC002\": \"330721197307152710\",\n" +
-            "\t\t\t\t\"AKC264\": \"200.22\"\n" +
-            "\t\t\t}],\n" +
-            "\t\t\t\"LS_DT3\": [{\n" +
-            "\t\t\t\t\"BKA120\": \"05522\",\n" +
-            "\t\t\t\t\"BKA121\": \"生病\"\n" +
-            "\t\t\t}]\n" +
-            "\t\t}]\n" +
-            "\t}]\n" +
-            "\n" +
-            "}";
+    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330324\",\"orgName\":\"永嘉县医疗保障局\",\"id\":\"\",\"inPut\":[{\"tradeNum\":10}]}";
+
 
     private static void testMethod3(){
-        String testKey="915b9bda38854ffda5337bd6534c635e";
-        String testSecret="b2566d881482431095a3fe5270756eb0";
+        String testKey="837cff76d2fca4fa0dd47f0d9b3548f1";
+        String testSecret="051a475529a802b060bb8552b82fb496";
         String time="20190729 21:01:35";
-        String nonceStr = "W29FR0D03QIZPN8UU3Z0OY8VR39KKLZ1";
+        String nonceStr = "1460a070bde54b5e8d286ff7175ba6c6";
         String paramStr=paramString;
         String param = paramStr+testKey+time+nonceStr+testSecret;
         System.out.println(param);

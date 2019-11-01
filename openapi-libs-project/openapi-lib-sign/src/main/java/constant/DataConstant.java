@@ -20,4 +20,5 @@ public class DataConstant {
     public static final Integer SOURCE_TYPE_SYS=1;
     public static final Integer SOURCE_TYPE_OWN=2;
 
+    public static final String CODE_INTERFACE_CALLTREND ="code_interface_calltrend" ;
 }
