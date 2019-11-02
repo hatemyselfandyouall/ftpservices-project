@@ -42,14 +42,18 @@ public class OpenapiServiceStatisticsController extends BasicController {
     @ResponseBody
     @RequestMapping(value = "/InterfaceCallTrend/{code}",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
     public ResultVo<String> getInterfaceCallTrend( @RequestParam(value = "pageNum", required = false) Long pageNum,
-                                                     @RequestParam(value = "pageSize", required = false) Long pageSize,
-                                                     @PathVariable String code){
+                                                   @RequestParam(value = "pageSize", required = false) Long pageSize,
+                                                   @RequestParam(value = "whereWord", required = false) String whereWord,
+                                                   @RequestParam(value = "orderByWord", required = false) String orderByWord,
+                                                   @PathVariable String code){
         ResultVo resultVo=new ResultVo();
         try {
             String testUrl=openapiDictionaryFacade.getValueByCode(code);
             Map<String,String> stringStringMap=new HashMap<>();
             stringStringMap.put("pageNum",pageNum+"");
             stringStringMap.put("pageSize",pageSize+"");
+            stringStringMap.put("whereWord",whereWord+"");
+            stringStringMap.put("orderByWord",orderByWord+"");
             ResponseEntity<String> result= RestTemplateConfig.getWithParamterMap(testUrl,stringStringMap,restTemplate);
             if (result.getStatusCode().is2xxSuccessful()){
                 resultVo.setResult(JSONObject.parseObject(result.getBody()));
