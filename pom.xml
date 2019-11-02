@@ -41,6 +41,14 @@
 				<artifactId>insigma-common-util</artifactId>
 				<version>1.0.17</version>
 			</dependency>
+
+			<dependency>
+				<groupId>insigma.openapi.facade.info</groupId>
+				<artifactId>openapi-facade-info</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+
+
 			<dependency>
 				<groupId>insigma.common</groupId>
 				<artifactId>insigma-common-cache</artifactId>

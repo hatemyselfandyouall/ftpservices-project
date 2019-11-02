@@ -89,6 +89,11 @@
 		  <groupId>insigma.sysbase.facade.info</groupId>
 		  <artifactId>sysbase-facade-info</artifactId>
 	  </dependency>
+
+	  <dependency>
+		  <groupId>insigma.openapi.libs.base</groupId>
+		  <artifactId>openapi-lib-base</artifactId>
+	  </dependency>
     </dependencies>
 
 	<build>

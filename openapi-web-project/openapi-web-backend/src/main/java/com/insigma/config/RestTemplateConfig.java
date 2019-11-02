@@ -17,16 +17,6 @@ public class RestTemplateConfig {
         return restTemplate;
     }
 
-    public static ResponseEntity<String> getWithParamterMap(String url, Map<String,String> paramMap,RestTemplate restTemplate){
-        Set<String> keyset= paramMap.keySet();
-        if (!keyset.isEmpty()){
-            url=url+"?";
-            for (String key:keyset){
-                url=url+key+"="+paramMap.get(key)+"&";
-            }
-            url=url.substring(0,url.length()-1);
-        }
-        return restTemplate.getForEntity(url,String.class);
-    }
+
 
 }
