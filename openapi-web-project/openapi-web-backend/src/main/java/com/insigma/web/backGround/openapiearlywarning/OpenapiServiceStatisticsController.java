@@ -10,6 +10,7 @@ import com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiDictionary;
 import com.insigma.facade.openapi.po.OpenapiEarlyWarning;
+import com.insigma.facade.openapi.vo.InterfaceDetailVO;
 import com.insigma.util.BIUtil;
 import com.insigma.util.JSONUtil;
 import com.insigma.web.BasicController;
@@ -41,13 +42,9 @@ public class OpenapiServiceStatisticsController extends BasicController {
 
     @ApiOperation(value = "BI接口转发接口")
     @ResponseBody
-    @RequestMapping(value = "/InterfaceCallTrend/{code}", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
-    public ResultVo<String> getInterfaceCallTrend(@RequestParam(value = "pageNum", required = false) Long pageNum,
-                                                  @RequestParam(value = "pageSize", required = false) Long pageSize,
-                                                  @RequestParam(value = "whereWord", required = false) String whereWord,
-                                                  @RequestParam(value = "orderByWord", required = false) String orderByWord,
-                                                  @PathVariable String code) {
-        return BIUtil.getRequestResult(pageNum, pageSize, whereWord, orderByWord, code, openapiDictionaryFacade, restTemplate);
+    @RequestMapping(value = "/InterfaceCallTrend/{code}", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo<String> getInterfaceCallTrend(@PathVariable String code,@RequestBody InterfaceDetailVO interfaceDetailVO) {
+        return BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), code, openapiDictionaryFacade, restTemplate);
     }
 
 

@@ -14,16 +14,16 @@ import java.util.Set;
 @Slf4j
 public class BIUtil {
 
-    public static ResultVo getRequestResult(Long pageNum, Long pageSize, String whereWord, String orderByWord, String code, OpenapiDictionaryFacade openapiDictionaryFacade, RestTemplate restTemplate) {
+    public static ResultVo getRequestResult(Long pageNum, Long pageSize, Map<String,Object> whereWord, String orderByWord, String code, OpenapiDictionaryFacade openapiDictionaryFacade, RestTemplate restTemplate) {
         ResultVo resultVo = new ResultVo();
         try {
             String testUrl = openapiDictionaryFacade.getValueByCode(code);
-            Map<String, String> stringStringMap = new HashMap<>();
-            stringStringMap.put("pageNum", pageNum + "");
-            stringStringMap.put("pageSize", pageSize + "");
-            stringStringMap.put("whereWord", whereWord + "");
-            stringStringMap.put("orderByWord", orderByWord + "");
-            ResponseEntity<String> result = getWithParamterMap(testUrl, stringStringMap, restTemplate);
+            Map<String, Object> stringStringMap = new HashMap<>();
+            stringStringMap.put("pageNum", pageNum);
+            stringStringMap.put("pageSize", pageSize);
+            stringStringMap.put("whereWord", whereWord);
+            stringStringMap.put("orderByWord", orderByWord);
+            ResponseEntity<String> result = postWithParamterMap(testUrl, stringStringMap, restTemplate);
             if (result.getStatusCode().is2xxSuccessful()) {
                 resultVo.setResult(JSONObject.parseObject(result.getBody()));
             } else {
@@ -46,5 +46,10 @@ public class BIUtil {
             url=url.substring(0,url.length()-1);
         }
         return restTemplate.getForEntity(url,String.class);
+    }
+
+
+    public static ResponseEntity<String> postWithParamterMap(String url, Map<String,Object> paramMap,RestTemplate restTemplate){
+        return restTemplate.postForEntity(url,paramMap,String.class);
     }
 }
