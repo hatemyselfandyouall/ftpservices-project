@@ -19,6 +19,17 @@ public class DataConstant {
     */
     public static final Integer SOURCE_TYPE_SYS=1;
     public static final Integer SOURCE_TYPE_OWN=2;
-
+    /*
+     *openapi_dictionary字典表对应
+     */
     public static final String CODE_INTERFACE_CALLTREND ="code_interface_calltrend" ;
+    //服务监控统计1
+    public static final String SERVER_MONITOR1 ="server_monitor1" ;
+    //服务监控统计2
+    public static final String SERVER_MONITOR2 ="server_monitor2" ;
+    //服务监控统计分页列表
+    public static final String SERVER_MONITOR_LIST ="server_monitor_list" ;
+
+
+
 }
