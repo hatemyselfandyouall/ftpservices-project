@@ -14,7 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import star.vo.result.ResultVo;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -50,9 +52,16 @@ public class OpenapiServerMonitorController extends BasicController {
     @RequestMapping(value = "/getList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
-        interfaceDetailVO.getWhereWord().get("");
+        //where r.interface_name='rrr'
+        if(!interfaceDetailVO.getWhereWord().isEmpty()){
+            Map<String,Object> map = new HashMap();
+            map.put("interface_name","where r.interface_name= " + interfaceDetailVO.getWhereWord().get("interface_name"));
+            interfaceDetailVO.setWhereWord(map);
+        }
         resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_LIST, openapiDictionaryFacade, restTemplate);
-        resultVo.setResult(resultVo);
+        resultVo.setResult(resultVo.getResult());
+        resultVo.setResultDes("调用成功!");
+        resultVo.setSuccess(true);
         return resultVo;
     }
 

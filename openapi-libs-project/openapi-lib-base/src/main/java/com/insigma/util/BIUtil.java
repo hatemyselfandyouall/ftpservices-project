@@ -25,8 +25,11 @@ public class BIUtil {
             stringStringMap.put("orderByWord", orderByWord);
             ResponseEntity<String> result = postWithParamterMap(testUrl, stringStringMap, restTemplate);
             if (result.getStatusCode().is2xxSuccessful()) {
+                resultVo.setSuccess(true);
+                resultVo.setResultDes("调用成功");
                 resultVo.setResult(JSONObject.parseObject(result.getBody()));
             } else {
+                resultVo.setSuccess(false);
                 resultVo.setResultDes(result.getBody());
             }
         } catch (Exception e) {
