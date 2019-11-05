@@ -32,17 +32,28 @@ public class OpenapiServerMonitorController extends BasicController {
     @ApiOperation(value = "服务监控统计接口查询")
     @ResponseBody
     @RequestMapping(value = "/listCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public List<ResultVo> getStatisticCount(@RequestBody InterfaceDetailVO interfaceDetailVO) {
+    public ResultVo getStatisticCount(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
         ResultVo temp1=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR1, openapiDictionaryFacade, restTemplate);
+        if (!temp1.isSuccess()){
+            resultVo=temp1;
+            return resultVo;
+        }
         ResultVo temp2=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR2, openapiDictionaryFacade, restTemplate);
-        return Arrays.asList(temp1,temp2);
+        if (!temp2.isSuccess()){
+            resultVo=temp2;
+            return resultVo;
+        }
+        resultVo.setSuccess(true);
+        resultVo.setResult(Arrays.asList(temp1.getResult(),temp2.getResult()));
+        return resultVo;
     }
     @ApiOperation(value = "服务监控列表查询")
     @ResponseBody
     @RequestMapping(value = "/getList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
+        interfaceDetailVO.getWhereWord().get("");
         resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_LIST, openapiDictionaryFacade, restTemplate);
         resultVo.setResult(resultVo);
         return resultVo;

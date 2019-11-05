@@ -8,6 +8,7 @@ import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
 import com.insigma.mapper.OpenapiBlackWhiteMapper;
 import com.insigma.util.JSONUtil;
+import com.insigma.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,16 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
         Example example=new Example(OpenapiBlackWhite.class);
         example.createCriteria().andEqualTo("id",id);
         return openapiBlackWhiteMapper.updateByExampleSelective(openapiBlackWhite,example);
+    }
+
+    @Override
+    public OpenapiBlackWhite getBlackWhiteByIp(String ipAddress) {
+        if(StringUtils.isNotEmpty(ipAddress)){
+            Example example = new Example(OpenapiBlackWhite.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("ipAddress", ipAddress);
+            return openapiBlackWhiteMapper.selectOneByExample(example);
+        }
+        return null;
     }
 }
