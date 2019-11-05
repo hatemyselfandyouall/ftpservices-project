@@ -36,16 +36,13 @@ public class OpenapiServerMonitorController extends BasicController {
         ResultVo resultVo = new ResultVo();
         ResultVo temp1=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR1, openapiDictionaryFacade, restTemplate);
         if (!temp1.isSuccess()){
-            resultVo=temp1;
-            return resultVo;
+            ResultVo temp2=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR2, openapiDictionaryFacade, restTemplate);
+            if(!temp2.isSuccess()){
+                resultVo.setSuccess(true);
+                resultVo.setResultDes("调用成功！");
+                resultVo.setResult(Arrays.asList(temp1.getResult(),temp2.getResult()));
+            }
         }
-        ResultVo temp2=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR2, openapiDictionaryFacade, restTemplate);
-        if (!temp2.isSuccess()){
-            resultVo=temp2;
-            return resultVo;
-        }
-        resultVo.setSuccess(true);
-        resultVo.setResult(Arrays.asList(temp1.getResult(),temp2.getResult()));
         return resultVo;
     }
     @ApiOperation(value = "服务监控列表查询")
