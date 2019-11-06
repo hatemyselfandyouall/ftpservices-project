@@ -53,15 +53,59 @@ public class OpenapiServerMonitorController extends BasicController {
     public ResultVo getStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
         //where r.interface_name='rrr'
+        //where r.interface_name like '%rr%'
         if(!interfaceDetailVO.getWhereWord().isEmpty()){
             Map<String,Object> map = new HashMap();
-            map.put("interface_name","where r.interface_name= " + interfaceDetailVO.getWhereWord().get("interface_name"));
+            map.put("interface_name","where r.interface_name like '%" + interfaceDetailVO.getWhereWord().get("interface_name")+"%'");
             interfaceDetailVO.setWhereWord(map);
         }
         resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_LIST, openapiDictionaryFacade, restTemplate);
         resultVo.setResult(resultVo.getResult());
         resultVo.setResultDes("调用成功!");
         resultVo.setSuccess(true);
+        return resultVo;
+    }
+    @ApiOperation(value = "接口调用详情")
+    @ResponseBody
+    @RequestMapping(value = "/getDetailbyId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo getDetailById(@RequestBody InterfaceDetailVO interfaceDetailVO) {
+        ResultVo resultVo = new ResultVo();
+        //where r.interface_id='3' and r.requester_name like '%等待%'
+        if(!interfaceDetailVO.getWhereWord().isEmpty()){
+            if(interfaceDetailVO.getWhereWord().get("interface_id") != null){
+                Map<String,Object> map = new HashMap();
+                map.put("condition","where r.interface_id = '" + interfaceDetailVO.getWhereWord().get("interface_id")+"'");
+                interfaceDetailVO.setWhereWord(map);
+            }
+            if(interfaceDetailVO.getWhereWord().get("requester_name") != null){
+                Map<String,Object> map = new HashMap();
+                map.put("condition","where r.requester_name like '%" + interfaceDetailVO.getWhereWord().get("requester_name")+"%'");
+                interfaceDetailVO.setWhereWord(map);
+            }
+            resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.INTERFACE_DETAIL, openapiDictionaryFacade, restTemplate);
+            resultVo.setResult(resultVo.getResult());
+            resultVo.setResultDes("调用成功!");
+            resultVo.setSuccess(true);
+        }
+        return resultVo;
+    }
+    @ApiOperation(value = "应用查看详情")
+    @ResponseBody
+    @RequestMapping(value = "/getDetailbyOrgNo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo getDetailByOrgNo(@RequestBody InterfaceDetailVO interfaceDetailVO) {
+        ResultVo resultVo = new ResultVo();
+        //where t.org_no='330000101007'
+        if(!interfaceDetailVO.getWhereWord().isEmpty()){
+            if(interfaceDetailVO.getWhereWord().get("org_no") != null){
+                Map<String,Object> map = new HashMap();
+                map.put("condition","where t.org_no = '" + interfaceDetailVO.getWhereWord().get("org_no")+"'");
+                interfaceDetailVO.setWhereWord(map);
+            }
+            resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.CALL_DETAIL, openapiDictionaryFacade, restTemplate);
+            resultVo.setResult(resultVo.getResult());
+            resultVo.setResultDes("调用成功!");
+            resultVo.setSuccess(true);
+        }
         return resultVo;
     }
 

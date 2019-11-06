@@ -29,7 +29,10 @@ public class DataConstant {
     public static final String SERVER_MONITOR2 ="server_monitor2" ;
     //服务监控统计分页列表
     public static final String SERVER_MONITOR_LIST ="server_monitor_list" ;
-
+    //接口调用详情
+    public static final String INTERFACE_DETAIL ="interface_detail" ;
+    //调用详情
+    public static final String CALL_DETAIL ="call_detail" ;
 
 
 }
