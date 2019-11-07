@@ -11,6 +11,7 @@ import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiDictionary;
 import com.insigma.facade.openapi.po.OpenapiEarlyWarning;
 import com.insigma.facade.openapi.vo.InterfaceDetailVO;
+import com.insigma.table.TableInfo;
 import com.insigma.util.BIUtil;
 import com.insigma.util.JSONUtil;
 import com.insigma.web.BasicController;
@@ -29,10 +30,10 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/openapiServiceStatistic")
+@RequestMapping("/BITransfers")
 @Api(tags = "BI接口转发接口")
 @Slf4j
-public class OpenapiServiceStatisticsController extends BasicController {
+public class BITransfersController extends BasicController {
 
     @Autowired
     RestTemplate restTemplate;
@@ -43,7 +44,7 @@ public class OpenapiServiceStatisticsController extends BasicController {
     @ApiOperation(value = "BI接口转发接口")
     @ResponseBody
     @RequestMapping(value = "/InterfaceCallTrend/{code}", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public ResultVo<String> getInterfaceCallTrend(@PathVariable String code,@RequestBody InterfaceDetailVO interfaceDetailVO) {
+    public ResultVo<TableInfo> getInterfaceCallTrend(@PathVariable String code, @RequestBody InterfaceDetailVO interfaceDetailVO) {
         return BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), code, openapiDictionaryFacade, restTemplate);
     }
 

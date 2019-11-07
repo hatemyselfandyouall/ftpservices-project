@@ -35,4 +35,5 @@ public class DataConstant {
     public static final String CALL_DETAIL ="call_detail" ;
 
 
+    public static final String TOTAL_USE_COUNT ="total_use_count" ;
 }

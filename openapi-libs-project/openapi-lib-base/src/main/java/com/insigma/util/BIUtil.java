@@ -2,6 +2,7 @@ package com.insigma.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.insigma.facade.openapi.facade.OpenapiDictionaryFacade;
+import com.insigma.table.TableInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Slf4j
 public class BIUtil {
 
-    public static ResultVo getRequestResult(Long pageNum, Long pageSize, Map<String,Object> whereWord, String orderByWord, String code, OpenapiDictionaryFacade openapiDictionaryFacade, RestTemplate restTemplate) {
+    public static ResultVo<TableInfo> getRequestResult(Long pageNum, Long pageSize, Map<String,Object> whereWord, String orderByWord, String code, OpenapiDictionaryFacade openapiDictionaryFacade, RestTemplate restTemplate) {
         ResultVo resultVo = new ResultVo();
         try {
             String testUrl = openapiDictionaryFacade.getValueByCode(code);
@@ -24,10 +25,10 @@ public class BIUtil {
             stringStringMap.put("whereWord", whereWord);
             stringStringMap.put("orderByWord", orderByWord);
             ResponseEntity<String> result = postWithParamterMap(testUrl, stringStringMap, restTemplate);
-            if (result.getStatusCode().is2xxSuccessful()) {
+            if (result.getStatusCode().is2xxSuccessful()&&JSONObject.parseObject(result.getBody()).getBoolean("success")) {
                 resultVo.setSuccess(true);
                 resultVo.setResultDes("调用成功");
-                resultVo.setResult(JSONObject.parseObject(result.getBody()));
+                resultVo.setResult(JSONUtil.convert(JSONObject.parseObject(result.getBody()).getJSONObject("result"),TableInfo.class));
             } else {
                 resultVo.setSuccess(false);
                 resultVo.setResultDes(result.getBody());

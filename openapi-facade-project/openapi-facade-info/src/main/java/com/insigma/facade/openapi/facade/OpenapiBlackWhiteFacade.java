@@ -18,6 +18,7 @@ public interface OpenapiBlackWhiteFacade {
 
     Integer deleteOpenapiBlackWhite(Long id);
 
+    OpenapiBlackWhite getBlackWhiteByIp(String ipAddress);
 }
 
  
