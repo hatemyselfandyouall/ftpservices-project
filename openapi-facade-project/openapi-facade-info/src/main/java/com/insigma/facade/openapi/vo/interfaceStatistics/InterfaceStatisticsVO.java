@@ -16,12 +16,7 @@ public class InterfaceStatisticsVO implements Serializable {
     private Long interfaceId;
 
     @ApiModelProperty("1今日2本周3本月4全年")
-    private Long staticType;
+    private Integer staticType;
 
-    @ApiModelProperty("开始时间")
-    private String startDate;
-
-    @ApiModelProperty("结束时间")
-    private String endDate;
 }
 

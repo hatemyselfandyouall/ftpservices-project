@@ -38,5 +38,19 @@ public class DataConstant {
     //安全管控
     public static final String SAFE_MONITOR ="safe_monitor" ;
 
-    public static final String TOTAL_USE_COUNT ="total_use_count" ;
+    public static final String TOTAL_USE_COUNT_YEAR ="total_use_count_year" ;
+
+    public static final String TOTAL_USE_COUNT_MONTH ="total_use_count_month" ;
+
+    public static final String TOTAL_USE_COUNT_WEEK ="total_use_count_week" ;
+
+    public static final String TOTAL_USE_COUNT_DAY ="total_use_count_day" ;
+
+    public static final String TOTAL_USE_COUNT_YEAR_ORG ="total_use_count_year_org" ;
+
+    public static final String TOTAL_USE_COUNT_MONTH_ORG ="total_use_count_month_org" ;
+
+    public static final String TOTAL_USE_COUNT_WEEK_ORG ="total_use_count_week_org" ;
+
+    public static final String TOTAL_USE_COUNT_DAY_ORG ="total_use_count_day_org" ;
 }
