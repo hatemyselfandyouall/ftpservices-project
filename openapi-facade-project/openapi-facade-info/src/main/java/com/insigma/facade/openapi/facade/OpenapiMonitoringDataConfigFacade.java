@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.OpenapiMonitoringDataConfigDto;
 import com.insigma.facade.openapi.po.OpenapiMonitoringDataConfig;
 
+import java.util.List;
+
 
 public interface OpenapiMonitoringDataConfigFacade {
 
@@ -15,6 +17,8 @@ public interface OpenapiMonitoringDataConfigFacade {
     Integer saveOpenapiMonitoringDataConfig(OpenapiMonitoringDataConfigDto openapiMonitoringDataConfigDto);
 
     Integer deleteOpenapiMonitoringDataConfig(Long id);
+
+    List<OpenapiMonitoringDataConfig> getConfigList();
 
 }
 

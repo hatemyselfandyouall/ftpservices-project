@@ -33,7 +33,10 @@ public class DataConstant {
     public static final String INTERFACE_DETAIL ="interface_detail" ;
     //调用详情
     public static final String CALL_DETAIL ="call_detail" ;
-
+    //安全管控预警信息设置
+    public static final String VISIT_NUM ="visit_num" ;
+    //安全管控
+    public static final String SAFE_MONITOR ="safe_monitor" ;
 
     public static final String TOTAL_USE_COUNT ="total_use_count" ;
 }

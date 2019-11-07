@@ -92,13 +92,8 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
     }
 
     @Override
-    public OpenapiBlackWhite getBlackWhiteByIp(String ipAddress) {
-        if(StringUtils.isNotEmpty(ipAddress)){
-            Example example = new Example(OpenapiBlackWhite.class);
-            Example.Criteria criteria = example.createCriteria();
-            criteria.andEqualTo("ipAddress", ipAddress);
-            return openapiBlackWhiteMapper.selectOneByExample(example);
-        }
-        return null;
+    public List<OpenapiBlackWhite> getBlackWhiteList() {
+        return openapiBlackWhiteMapper.selectAll();
     }
+
 }

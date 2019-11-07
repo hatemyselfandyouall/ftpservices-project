@@ -6,6 +6,7 @@ import com.insigma.facade.openapi.dto.OpenapiBlackWhiteDto;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
 
 import java.util.Date;
+import java.util.List;
 
 
 public interface OpenapiBlackWhiteFacade {
@@ -18,7 +19,11 @@ public interface OpenapiBlackWhiteFacade {
 
     Integer deleteOpenapiBlackWhite(Long id);
 
-    OpenapiBlackWhite getBlackWhiteByIp(String ipAddress);
+    /**
+     *安全监控中用到ip和黑白名单的关联关系
+     * @return
+     */
+    List<OpenapiBlackWhite> getBlackWhiteList();
 }
 
  

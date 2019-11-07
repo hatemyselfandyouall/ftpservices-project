@@ -7,7 +7,9 @@ import com.insigma.facade.openapi.po.OpenapiEarlyWarning;
 import com.insigma.facade.openapi.po.OpenapiMonitoringDataConfig;
 import com.insigma.mapper.OpenapiMonitoringDataConfigMapper;
 import com.insigma.util.JSONUtil;
+import constant.DataConstant;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.zookeeper.AsyncCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
@@ -73,5 +75,10 @@ public class OpenapiMonitoringDataConfigServiceImpl implements OpenapiMonitoring
         Example example=new Example(OpenapiEarlyWarning.class);
         example.createCriteria().andEqualTo("id",id);
         return openapiMonitoringDataConfigMapper.updateByExampleSelective(openapiMonitoringDataConfig,example);
+    }
+
+    @Override
+    public List<OpenapiMonitoringDataConfig> getConfigList() {
+        return openapiMonitoringDataConfigMapper.select(new OpenapiMonitoringDataConfig().setIsDelete(DataConstant.NO_DELETE));
     }
 }

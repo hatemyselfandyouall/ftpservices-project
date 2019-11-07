@@ -3,18 +3,16 @@ package com.insigma.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiDictionaryFacade;
+import com.insigma.facade.openapi.vo.OpenapiDictionary.*;
 import com.insigma.mapper.OpenapiDictionaryMapper;
 import com.insigma.util.JSONUtil;
+import constant.DataConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
 import com.insigma.facade.openapi.po.OpenapiDictionary;
-import com.insigma.facade.openapi.vo.OpenapiDictionary.OpenapiDictionaryDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiDictionary.OpenapiDictionaryDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiDictionary.OpenapiDictionaryListVO;
-import com.insigma.facade.openapi.vo.OpenapiDictionary.OpenapiDictionarySaveVO;
 
 public class OpenapiDictionaryServiceImpl implements OpenapiDictionaryFacade {
 
@@ -65,6 +63,18 @@ public class OpenapiDictionaryServiceImpl implements OpenapiDictionaryFacade {
         OpenapiDictionary openapiDictionary=new OpenapiDictionary();
         Example example=new Example(OpenapiDictionary.class);
         example.createCriteria().andEqualTo("id",openapiDictionaryDeleteVO.getId());
+        return openapiDictionaryMapper.updateByExampleSelective(openapiDictionary,example);
+    }
+
+    @Override
+    public Integer updateOpenapiDictionary(OpenapiDictionaryUpdateVO updateVO) {
+        if (updateVO==null||updateVO.getValue()==null){
+            return 0;
+        }
+        OpenapiDictionary openapiDictionary=new OpenapiDictionary();
+        openapiDictionary.setValue(updateVO.getValue());
+        Example example=new Example(OpenapiDictionary.class);
+        example.createCriteria().andEqualTo("code", DataConstant.VISIT_NUM);
         return openapiDictionaryMapper.updateByExampleSelective(openapiDictionary,example);
     }
 
