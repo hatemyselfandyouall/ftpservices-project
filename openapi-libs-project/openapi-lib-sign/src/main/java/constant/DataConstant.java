@@ -53,4 +53,15 @@ public class DataConstant {
     public static final String TOTAL_USE_COUNT_WEEK_ORG ="total_use_count_week_org" ;
 
     public static final String TOTAL_USE_COUNT_DAY_ORG ="total_use_count_day_org" ;
+
+    public static final String INTERFACE_USE_REAL_TIME = "interface_use_real_time";
+
+
+    public static final String TOTAL_USE_COUNT_MONTH_AREA ="total_use_count_month_area" ;
+
+    public static final String TOTAL_USE_COUNT_WEEK_AREA ="total_use_count_week_area" ;
+
+    public static final String TOTAL_USE_COUNT_DAY_AREA ="total_use_count_day_area" ;
+
+    public static final String TOTAL_USE_COUNT_YEAR_AREA = "total_use_count_year_area";
 }

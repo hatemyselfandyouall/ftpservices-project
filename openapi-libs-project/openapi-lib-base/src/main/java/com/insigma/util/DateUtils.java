@@ -1,4 +1,4 @@
-package com.insigma.webtool.util;
+package com.insigma.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -101,5 +101,13 @@ public class DateUtils {
 	 */
 	public static Long strToLong(String date) throws Exception{
 		return paserStringToDate(date,dateTime).getTime();
+	}
+
+	public static Date getDateBeforeDays(Integer days){
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE,-days);
+		Date date=c.getTime();
+		return date;
 	}
 }

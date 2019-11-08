@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insigma.mapper.OpenapiInterfaceMapper">
+
+<!--    <resultMap id="BASE-RESULT" type="com.insigma.facade.po.OpenapiInterface">-->
+<!--                <result property="id" column="id" />-->
+<!--        <result property="code" column="code" />-->
+<!--        <result property="name" column="name" />-->
+<!--        <result property="isCallback" column="is_callback" />-->
+<!--        <result property="distribution" column="distribution" />-->
+<!--        <result property="groupId" column="group_id" />-->
+<!--        <result property="typeId" column="type_id" />-->
+<!--        <result property="typeName" column="type_name" />-->
+<!--        <result property="dataResourceCode" column="data_resource_code" />-->
+<!--        <result property="summary" column="summary" />-->
+<!--        <result property="versionNumber" column="version_number" />-->
+<!--        <result property="innerUrl" column="inner_url" />-->
+<!--        <result property="outUrl" column="out_url" />-->
+<!--        <result property="requestType" column="request_type" />-->
+<!--        <result property="outParamType" column="out_param_type" />-->
+<!--        <result property="innerParamType" column="inner_param_type" />-->
+<!--        <result property="commandCode" column="command_code" />-->
+<!--        <result property="requestExample" column="request_example" />-->
+<!--        <result property="isAvaliable" column="is_avaliable" />-->
+<!--        <result property="isPublic" column="is_public" />-->
+<!--        <result property="isDelete" column="is_delete" />-->
+<!--        <result property="providerName" column="provider_name" />-->
+<!--        <result property="providerType" column="provider_type" />-->
+<!--        <result property="outRequestWay" column="out_request_way" />-->
+<!--        <result property="innerRequestWay" column="inner_request_way" />-->
+<!--        <result property="outRequestFormat" column="out_request_format" />-->
+<!--        <result property="innerRequestFormat" column="inner_request_format" />-->
+<!--        <result property="innerRequestObject" column="inner_request_object" />-->
+<!--        <result property="requestParamExample" column="request_param_example" />-->
+<!--        <result property="responseParamExample" column="response_param_example" />-->
+<!--        <result property="requestModel" column="request_model" />-->
+<!--        <result property="creatorName" column="creator_name" />-->
+<!--        <result property="creatorId" column="creator_id" />-->
+<!--        <result property="createTime" column="create_time" />-->
+<!--        <result property="modifyTime" column="modify_time" />-->
+
+<!--    </resultMap>-->
+
+    <select id="interfacePublishingTrendByYear" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
+        SELECT COUNT(*)AS totalCount,MONTH(create_time) AS TIME FROM  `openapi_interface`
+     <where>
+        YEAR(create_time)=YEAR(NOW())
+         <if test="param.interfaceId!=null">
+         and id=#{param.interfaceId}
+         </if>
+    </where>
+
+         GROUP BY MONTH(create_time)
+    </select>
+
+    <select id="interfacePublishingTrendByWeek" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
+        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time,'%d') AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
+        <if test="param.interfaceId!=null">
+            and id=#{param.interfaceId}
+        </if>
+        GROUP BY MONTH(create_time)
+    </select>
+
+    <select id="interfacePublishingTrendByMonth" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
+        SELECT COUNT(*) AS totalCount,DAYOFWEEK(create_time) AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
+        <if test="param.interfaceId!=null">
+            and id=#{param.interfaceId}
+        </if>
+        GROUP BY MONTH(create_time)
+    </select>
+
+    <select id="interfacePublishingTrendByDay" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
+        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time, '%H') AS TIME FROM `openapi_interface`  WHERE TO_DAYS(create_time)=TO_DAYS(NOW())
+        <if test="param.interfaceId!=null">
+            and id=#{param.interfaceId}
+        </if>
+        GROUP BY MONTH(create_time)
+    </select>
+    <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiInterface">-->
+    <!--INSERT INTO openapi_interface ( -->
+    <!--code,name,is_callback,distribution,group_id,type_id,type_name,data_resource_code,summary,version_number,inner_url,out_url,request_type,out_param_type,inner_param_type,command_code,request_example,is_avaliable,is_public,is_delete,provider_name,provider_type,out_request_way,inner_request_way,out_request_format,inner_request_format,inner_request_object,request_param_example,response_param_example,request_model,creator_name,creator_id,create_time,modify_time			-->
+    <!--) VALUES (-->
+    <!--#{code},#{name},#{isCallback},#{distribution},#{groupId},#{typeId},#{typeName},#{dataResourceCode},#{summary},#{versionNumber},#{innerUrl},#{outUrl},#{requestType},#{outParamType},#{innerParamType},#{commandCode},#{requestExample},#{isAvaliable},#{isPublic},#{isDelete},#{providerName},#{providerType},#{outRequestWay},#{innerRequestWay},#{outRequestFormat},#{innerRequestFormat},#{innerRequestObject},#{requestParamExample},#{responseParamExample},#{requestModel},#{creatorName},#{creatorId},#{createTime},#{modifyTime}		-->
+    <!--)   -->
+    <!--<selectKey resultType="Integer" keyProperty="id">    -->
+    <!--SELECT LAST_INSERT_ID()     -->
+    <!--</selectKey> -->
+    <!--</insert>-->
+    <!---->
+    <!--<update id="update" parameterType="com.insigma.facade.po.OpenapiInterface" >-->
+    <!--UPDATE-->
+    <!--openapi_interface-->
+    <!--SET-->
+    <!--            <if test="id!=null"> id = #{id} </if>
+            <if test="code!=null">, code = #{code} </if>
+            <if test="name!=null">, name = #{name} </if>
+            <if test="isCallback!=null">, is_callback = #{isCallback} </if>
+            <if test="distribution!=null">, distribution = #{distribution} </if>
+            <if test="groupId!=null">, group_id = #{groupId} </if>
+            <if test="typeId!=null">, type_id = #{typeId} </if>
+            <if test="typeName!=null">, type_name = #{typeName} </if>
+            <if test="dataResourceCode!=null">, data_resource_code = #{dataResourceCode} </if>
+            <if test="summary!=null">, summary = #{summary} </if>
+            <if test="versionNumber!=null">, version_number = #{versionNumber} </if>
+            <if test="innerUrl!=null">, inner_url = #{innerUrl} </if>
+            <if test="outUrl!=null">, out_url = #{outUrl} </if>
+            <if test="requestType!=null">, request_type = #{requestType} </if>
+            <if test="outParamType!=null">, out_param_type = #{outParamType} </if>
+            <if test="innerParamType!=null">, inner_param_type = #{innerParamType} </if>
+            <if test="commandCode!=null">, command_code = #{commandCode} </if>
+            <if test="requestExample!=null">, request_example = #{requestExample} </if>
+            <if test="isAvaliable!=null">, is_avaliable = #{isAvaliable} </if>
+            <if test="isPublic!=null">, is_public = #{isPublic} </if>
+            <if test="isDelete!=null">, is_delete = #{isDelete} </if>
+            <if test="providerName!=null">, provider_name = #{providerName} </if>
+            <if test="providerType!=null">, provider_type = #{providerType} </if>
+            <if test="outRequestWay!=null">, out_request_way = #{outRequestWay} </if>
+            <if test="innerRequestWay!=null">, inner_request_way = #{innerRequestWay} </if>
+            <if test="outRequestFormat!=null">, out_request_format = #{outRequestFormat} </if>
+            <if test="innerRequestFormat!=null">, inner_request_format = #{innerRequestFormat} </if>
+            <if test="innerRequestObject!=null">, inner_request_object = #{innerRequestObject} </if>
+            <if test="requestParamExample!=null">, request_param_example = #{requestParamExample} </if>
+            <if test="responseParamExample!=null">, response_param_example = #{responseParamExample} </if>
+            <if test="requestModel!=null">, request_model = #{requestModel} </if>
+            <if test="creatorName!=null">, creator_name = #{creatorName} </if>
+            <if test="creatorId!=null">, creator_id = #{creatorId} </if>
+            <if test="createTime!=null">, create_time = #{createTime} </if>
+            <if test="modifyTime!=null">, modify_time = #{modifyTime} </if>
+-->
+    <!--<where>-->
+    <!--id = #{id}-->
+    <!--</where>-->
+    <!--</update>-->
+    <!---->
+    <!---->
+
+    <!---->
+    <!--<delete id="deleteByKey">-->
+    <!--DELETE FROM-->
+    <!--openapi_interface-->
+    <!--<where>-->
+    <!--id = #{key}-->
+    <!--</where>-->
+    <!--</delete>-->
+    <!---->
+    <!--<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">-->
+    <!--SELECT * FROM-->
+    <!--openapi_interface-->
+    <!--<where>-->
+    <!--<include refid="compareParamColumns" />-->
+    <!--</where>-->
+    <!--<if test="param.orderByStr!=null">-->
+    <!--order by ${param.orderByStr}-->
+    <!--</if>-->
+    <!--<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>-->
+    <!--</select>-->
+
+
+    <!--<select id="getEntitysCount" parameterType="map" resultType="int">-->
+    <!--SELECT count(*) FROM-->
+    <!--openapi_interface-->
+    <!--<where>-->
+    <!--<include refid="compareParamColumns" />-->
+    <!--</where>-->
+    <!--</select>-->
+    <!---->
+    <!--<sql id="compareParamColumns">-->
+    <!--1-->
+    <!--        <if test="param.id!=null">
+            AND  id = #{param.id}
+        </if>
+        <if test="param.code!=null">
+            AND  code = #{param.code}
+        </if>
+        <if test="param.name!=null">
+            AND  name = #{param.name}
+        </if>
+        <if test="param.isCallback!=null">
+            AND  is_callback = #{param.isCallback}
+        </if>
+        <if test="param.distribution!=null">
+            AND  distribution = #{param.distribution}
+        </if>
+        <if test="param.groupId!=null">
+            AND  group_id = #{param.groupId}
+        </if>
+        <if test="param.typeId!=null">
+            AND  type_id = #{param.typeId}
+        </if>
+        <if test="param.typeName!=null">
+            AND  type_name = #{param.typeName}
+        </if>
+        <if test="param.dataResourceCode!=null">
+            AND  data_resource_code = #{param.dataResourceCode}
+        </if>
+        <if test="param.summary!=null">
+            AND  summary = #{param.summary}
+        </if>
+        <if test="param.versionNumber!=null">
+            AND  version_number = #{param.versionNumber}
+        </if>
+        <if test="param.innerUrl!=null">
+            AND  inner_url = #{param.innerUrl}
+        </if>
+        <if test="param.outUrl!=null">
+            AND  out_url = #{param.outUrl}
+        </if>
+        <if test="param.requestType!=null">
+            AND  request_type = #{param.requestType}
+        </if>
+        <if test="param.outParamType!=null">
+            AND  out_param_type = #{param.outParamType}
+        </if>
+        <if test="param.innerParamType!=null">
+            AND  inner_param_type = #{param.innerParamType}
+        </if>
+        <if test="param.commandCode!=null">
+            AND  command_code = #{param.commandCode}
+        </if>
+        <if test="param.requestExample!=null">
+            AND  request_example = #{param.requestExample}
+        </if>
+        <if test="param.isAvaliable!=null">
+            AND  is_avaliable = #{param.isAvaliable}
+        </if>
+        <if test="param.isPublic!=null">
+            AND  is_public = #{param.isPublic}
+        </if>
+        <if test="param.isDelete!=null">
+            AND  is_delete = #{param.isDelete}
+        </if>
+        <if test="param.providerName!=null">
+            AND  provider_name = #{param.providerName}
+        </if>
+        <if test="param.providerType!=null">
+            AND  provider_type = #{param.providerType}
+        </if>
+        <if test="param.outRequestWay!=null">
+            AND  out_request_way = #{param.outRequestWay}
+        </if>
+        <if test="param.innerRequestWay!=null">
+            AND  inner_request_way = #{param.innerRequestWay}
+        </if>
+        <if test="param.outRequestFormat!=null">
+            AND  out_request_format = #{param.outRequestFormat}
+        </if>
+        <if test="param.innerRequestFormat!=null">
+            AND  inner_request_format = #{param.innerRequestFormat}
+        </if>
+        <if test="param.innerRequestObject!=null">
+            AND  inner_request_object = #{param.innerRequestObject}
+        </if>
+        <if test="param.requestParamExample!=null">
+            AND  request_param_example = #{param.requestParamExample}
+        </if>
+        <if test="param.responseParamExample!=null">
+            AND  response_param_example = #{param.responseParamExample}
+        </if>
+        <if test="param.requestModel!=null">
+            AND  request_model = #{param.requestModel}
+        </if>
+        <if test="param.creatorName!=null">
+            AND  creator_name = #{param.creatorName}
+        </if>
+        <if test="param.creatorId!=null">
+            AND  creator_id = #{param.creatorId}
+        </if>
+        <if test="param.createTime!=null">
+            AND  create_time = #{param.createTime}
+        </if>
+        <if test="param.modifyTime!=null">
+            AND  modify_time = #{param.modifyTime}
+        </if>
+-->
+    <!--</sql>-->
+
+</mapper>

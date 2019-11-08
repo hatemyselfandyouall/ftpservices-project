@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
+import com.insigma.facade.openapi.vo.interfaceStatistics.InterfaceStatisticsVO;
 import com.insigma.facade.openapi.vo.openapiInterface.*;
 import star.vo.result.ResultVo;
 
@@ -38,5 +39,15 @@ public interface InterfaceFacade {
     Integer setStatusOpenapiInterface(OpenapiInterfaceSetStatusVO openapiInterfaceSetStatusVO);
 
     ResultVo checkInterfaceSave(OpenapiInterfaceSaveVO openapiInterfaceSaveVO);
+
+    List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByYear(InterfaceStatisticsVO interfaceStatisticsVO);
+
+    List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByWeek(InterfaceStatisticsVO interfaceStatisticsVO);
+
+    List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByMonth(InterfaceStatisticsVO interfaceStatisticsVO);
+
+    List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByDay(InterfaceStatisticsVO interfaceStatisticsVO);
+
+    OpenapiInterfaceStaaticsVO getTotalInterfaceTrendDetail(Integer staticType);
 }
 

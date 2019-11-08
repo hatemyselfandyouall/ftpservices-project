@@ -2,11 +2,15 @@ package com.insigma.web.backGround.interfaceStatistics;
 
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
+import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.facade.OpenapiDictionaryFacade;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
 import com.insigma.facade.openapi.po.OpenapiDictionary;
 import com.insigma.facade.openapi.vo.interfaceStatistics.InterfaceStatisticsVO;
+import com.insigma.facade.openapi.vo.openapiInterface.InterfaceStatisticsByAreaVO;
+import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO;
+import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsVO;
 import com.insigma.table.TableInfo;
 import com.insigma.util.BIUtil;
 import com.insigma.web.BasicController;
@@ -21,6 +25,7 @@ import star.vo.result.ResultVo;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,6 +38,8 @@ public class InterfaceStatisticsController extends BasicController {
     OpenapiDictionaryFacade openapiDictionaryFacade;
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    InterfaceFacade interfaceFacade;
 
     @ApiOperation(value = "调用总量")
     @ResponseBody
@@ -98,12 +105,130 @@ public class InterfaceStatisticsController extends BasicController {
                     code=DataConstant.TOTAL_USE_COUNT_YEAR_ORG;
             }
             Map<String,Object> whereMap=new HashMap<>();
+            if (interfaceStatisticsVO.getInterfaceId()!=null){
+                whereMap.put("#{interface_id}","where interface_id = "+interfaceStatisticsVO.getInterfaceId());
+            }
             ResultVo<TableInfo> BIResult=BIUtil.getRequestResult(1l,1000l,whereMap,null,code,openapiDictionaryFacade,restTemplate);
             if (BIResult.isSuccess()){
                 resultVo=BIResult;
             }else {
                 resultVo.setResultDes(BIResult.getResultDes());
             }
+        }catch (Exception e){
+            resultVo.setResultDes("获取调用总量-机构排名异常"+e);
+            log.error("获取调用总量-机构排名异常",e);
+        }
+        return resultVo;
+    }
+
+
+    @ApiOperation(value = "接口调用实时情况")
+    @ResponseBody
+    @RequestMapping(value = "/interfaceUseRealTime",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo interfaceUseRealTime(@RequestBody InterfaceStatisticsVO interfaceStatisticsVO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            String code=DataConstant.INTERFACE_USE_REAL_TIME;
+            Map<String,Object> whereMap=new HashMap<>();
+            ResultVo<TableInfo> BIResult=BIUtil.getRequestResult(1l,1000l,whereMap,null,code,openapiDictionaryFacade,restTemplate);
+            if (BIResult.isSuccess()){
+                resultVo=BIResult;
+            }else {
+                resultVo.setResultDes(BIResult.getResultDes());
+            }
+        }catch (Exception e){
+            resultVo.setResultDes("获取调用总量-机构排名异常"+e);
+            log.error("获取调用总量-机构排名异常",e);
+        }
+        return resultVo;
+    }
+
+
+    @ApiOperation(value = "接口发布趋势")
+    @ResponseBody
+    @RequestMapping(value = "/interfacePublishingTrend",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiInterfaceStaaticsVO> interfacePublishingTrend(@RequestBody InterfaceStatisticsVO interfaceStatisticsVO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            List<OpenapiInterfaceStaaticsFieldsVO> openapiInterfaceStaaticsVOS;
+            switch(interfaceStatisticsVO.getStaticType()){
+                case 1:
+                    openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByDay(interfaceStatisticsVO);
+                    break;
+                case 2:
+                    openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByWeek(interfaceStatisticsVO);
+                    break;
+                case 3:
+                    openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByMonth(interfaceStatisticsVO);
+                    break;
+                case 4:
+                    openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByYear(interfaceStatisticsVO);
+                    break;
+                default:
+                    openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByYear(interfaceStatisticsVO);
+            }
+            OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO=interfaceFacade.getTotalInterfaceTrendDetail(interfaceStatisticsVO.getStaticType());
+            openapiInterfaceStaaticsVO.setOpenapiInterfaceStaaticsFieldsVOS(openapiInterfaceStaaticsVOS);
+            resultVo.setResult(openapiInterfaceStaaticsVO);
+            resultVo.setSuccess(true);
+        }catch (Exception e){
+            resultVo.setResultDes("获取调用总量-机构排名异常"+e);
+            log.error("获取调用总量-机构排名异常",e);
+        }
+        return resultVo;
+    }
+
+
+    @ApiOperation(value = "接口调用概况-地区")
+    @ResponseBody
+    @RequestMapping(value = "/interfaceUserTotalCountByArea",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo interfaceUserTotalCountByArea(@RequestBody InterfaceStatisticsByAreaVO interfaceStatisticsByAreaVO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            String code;
+            switch(interfaceStatisticsByAreaVO.getStaticType()){
+                case 1:
+                    code=DataConstant.TOTAL_USE_COUNT_DAY_AREA;
+                    break;
+                case 2:
+                    code=DataConstant.TOTAL_USE_COUNT_WEEK_AREA;
+                    break;
+                case 3:
+                    code=DataConstant.TOTAL_USE_COUNT_MONTH_AREA;
+                    break;
+                case 4:
+                    code=DataConstant.TOTAL_USE_COUNT_YEAR_AREA;
+                    break;
+                default:
+                    code=DataConstant.TOTAL_USE_COUNT_YEAR_AREA;
+            }
+            Map<String,Object> whereMap=new HashMap<>();
+            if (interfaceStatisticsByAreaVO.getInterfaceId()!=null){
+                whereMap.put("#{interface_id}","where interface_id = "+interfaceStatisticsByAreaVO.getInterfaceId());
+            }
+            String countWord;
+            switch(interfaceStatisticsByAreaVO.getType()){
+                case 1:
+                    countWord="";
+                    break;
+                case 2:
+                    countWord="and is_forward_success!=1";
+                    break;
+                case 3:
+                    countWord="and is_overtime=1";
+                    break;
+                default:
+                    countWord="";
+            }
+            whereMap.put("countWord",countWord);
+            ResultVo<TableInfo> BIResult=BIUtil.getRequestResult(1l,1000l,whereMap,null,code,openapiDictionaryFacade,restTemplate);
+            if (BIResult.isSuccess()){
+                resultVo=BIResult;
+            }else {
+                resultVo.setResultDes(BIResult.getResultDes());
+            }
+//            resultVo.setResult(openapiInterfaceStaaticsVO);
+            resultVo.setSuccess(true);
         }catch (Exception e){
             resultVo.setResultDes("获取调用总量-机构排名异常"+e);
             log.error("获取调用总量-机构排名异常",e);

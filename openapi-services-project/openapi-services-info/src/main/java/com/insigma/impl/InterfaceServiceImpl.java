@@ -12,7 +12,9 @@ import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHis
 import com.insigma.facade.openapi.vo.OpenapiInterfaceInnerUrl.OpenapiInterfaceInnerUrlSaveVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeListVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
+import com.insigma.facade.openapi.vo.interfaceStatistics.InterfaceStatisticsVO;
 import com.insigma.facade.openapi.vo.openapiInterface.*;
+import com.insigma.util.DateUtils;
 import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
@@ -563,6 +565,63 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         resultVo.setSuccess(true);
         return resultVo;
+    }
+
+    @Override
+    public List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByYear(InterfaceStatisticsVO interfaceStatisticsVO) {
+        List<OpenapiInterfaceStaaticsFieldsVO> openapiInterfaceStaaticsVO=openapiInterfaceMapper.interfacePublishingTrendByYear(interfaceStatisticsVO);
+        return openapiInterfaceStaaticsVO;
+    }
+
+    @Override
+    public List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByWeek(InterfaceStatisticsVO interfaceStatisticsVO) {
+        return openapiInterfaceMapper.interfacePublishingTrendByWeek(interfaceStatisticsVO);
+    }
+
+    @Override
+    public List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByMonth(InterfaceStatisticsVO interfaceStatisticsVO) {
+        return openapiInterfaceMapper.interfacePublishingTrendByMonth(interfaceStatisticsVO);
+    }
+
+    @Override
+    public List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByDay(InterfaceStatisticsVO interfaceStatisticsVO) {
+        return openapiInterfaceMapper.interfacePublishingTrendByDay(interfaceStatisticsVO);
+    }
+
+    @Override
+    public OpenapiInterfaceStaaticsVO getTotalInterfaceTrendDetail(Integer staticType) {
+        Integer totalCount=openapiInterfaceMapper.selectCount(new OpenapiInterface().setIsDelete(DataConstant.NO_DELETE));
+        Example example=new Example(OpenapiInterface.class);
+        Integer date;
+        switch (staticType){
+            case 1:
+                date=1;
+                break;
+            case 2:
+                date=7;
+                break;
+            case 3:
+                date=30;
+                break;
+            case 4:
+                date=365;
+                break;
+                default:
+                    date=365;
+        }
+        Date newDateStart= DateUtils.getDateBeforeDays(date);
+        Date oldDateStrat=DateUtils.getDateBeforeDays(date*2);
+        example.createCriteria().andGreaterThan("createTime",newDateStart).andEqualTo("isDelete",DataConstant.NO_DELETE);
+        Integer newInterfaceCount=openapiInterfaceMapper.selectCountByExample(example);
+        example.clear();
+        example.createCriteria().andBetween("createTime",newDateStart,oldDateStrat).andEqualTo("isDelete",DataConstant.NO_DELETE);
+        Integer oldInterfaceCount=openapiInterfaceMapper.selectCountByExample(example);
+        OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO=new OpenapiInterfaceStaaticsVO();
+        openapiInterfaceStaaticsVO.setTotaliInterfaceCount(totalCount);
+        openapiInterfaceStaaticsVO.setNewInterfaceCount(newInterfaceCount);
+        openapiInterfaceStaaticsVO.setCompareTotal(Double.valueOf(newInterfaceCount)/Double.valueOf(totalCount));
+        openapiInterfaceStaaticsVO.setCmpareSomeTimesBeford(Double.valueOf(newInterfaceCount)/Double.valueOf(oldInterfaceCount));
+        return openapiInterfaceStaaticsVO;
     }
 
 }
