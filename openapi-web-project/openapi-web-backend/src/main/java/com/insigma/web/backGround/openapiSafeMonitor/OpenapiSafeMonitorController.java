@@ -65,15 +65,15 @@ public class OpenapiSafeMonitorController extends BasicController {
        ResultVo resultVo = new ResultVo();
         //获取所有ip是否为黑白名单
         List<OpenapiBlackWhite> list = openapiBlackWhiteFacade.getBlackWhiteList();
-        List<OpenapiBlackWhite> list1 = new ArrayList<>();
-        list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
         if(!interfaceDetailVO.getWhereWord().isEmpty()){   //根据ip，是否加入黑白名单查询
             Map<String, Object> map = new HashMap();
+            List<OpenapiBlackWhite> list1 = new ArrayList<>();
             //根据ip地址模糊查询
             if(interfaceDetailVO.getWhereWord().get("requester_ip") != null) { //根据ip条件查询
                 //where r.requester_ip='10.85.13.126'
                 map.put("condition", "where r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%'");
                 if (interfaceDetailVO.getWhereWord().get("is_black") != null) { //根据ip条件查询   1白2黑
+                    list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
                     if (!CollectionUtils.isEmpty(list1)) {
                         String ips = list1.stream().map(
                                 i -> {
@@ -87,6 +87,7 @@ public class OpenapiSafeMonitorController extends BasicController {
                 }
             }else{
                 if (interfaceDetailVO.getWhereWord().get("is_black") != null) {
+                    list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
                     if (!CollectionUtils.isEmpty(list1)) {
                         String ips =list1.stream().map(
                                 i -> {
