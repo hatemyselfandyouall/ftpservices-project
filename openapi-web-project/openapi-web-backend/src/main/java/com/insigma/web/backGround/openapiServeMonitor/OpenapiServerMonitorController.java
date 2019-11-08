@@ -135,6 +135,7 @@ public class OpenapiServerMonitorController extends BasicController {
         resultVo = BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_LINE, openapiDictionaryFacade, restTemplate);
         TableInfo tableInfo = (TableInfo) resultVo.getResult();
         List<JSONObject>  list = new ArrayList<>();
+        if(tableInfo != null){
         for (int i = 0; i < 12; i++) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH");
             String nowStr = df.format(calendar.getTime());
@@ -150,6 +151,7 @@ public class OpenapiServerMonitorController extends BasicController {
             }
             calendar.add(Calendar.HOUR_OF_DAY, 1);
             list.add(data);
+         }
         }
         resultVo.setResult(list);
         return resultVo;
@@ -165,25 +167,27 @@ public class OpenapiServerMonitorController extends BasicController {
         resultVo = BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_COLUMNAR, openapiDictionaryFacade, restTemplate);
         TableInfo tableInfo = (TableInfo) resultVo.getResult();
         List<JSONObject>  list = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH");
-            String nowStr = df.format(calendar.getTime());
-            JSONObject data = new JSONObject();
-            data.put("createHour",nowStr);
-            data.put("callInHour",0);
-            for (Object tableData : tableInfo.getTableDatas()) {
-                JSONObject tableDataJson = (JSONObject) tableData;
+        if(tableInfo != null) {
+            for (int i = 0; i < 16; i++) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH");
+                String nowStr = df.format(calendar.getTime());
+                JSONObject data = new JSONObject();
+                data.put("createHour", nowStr);
+                data.put("callInHour", 0);
+                for (Object tableData : tableInfo.getTableDatas()) {
+                    JSONObject tableDataJson = (JSONObject) tableData;
 //                if(!nowStr.equals(tableDataJson.getString("createHour"))){
 //                    tableDataJson.put(nowStr,0);
 //                    break;
 //                }
-                if(nowStr.equals(tableDataJson.getString("createHour"))){
-                    data.put("callInHour",tableDataJson.getInteger("failureInhour"));
-                    break;
+                    if (nowStr.equals(tableDataJson.getString("createHour"))) {
+                        data.put("failureInhour", tableDataJson.getInteger("failureInhour"));
+                        break;
+                    }
                 }
+                calendar.add(Calendar.HOUR_OF_DAY, 1);
+                list.add(data);
             }
-            calendar.add(Calendar.HOUR_OF_DAY, 1);
-            list.add(data);
         }
         resultVo.setResult(list);
         return resultVo;
