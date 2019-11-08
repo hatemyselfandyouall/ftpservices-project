@@ -9,6 +9,7 @@ import com.insigma.facade.openapi.po.OpenapiBlackWhite;
 import com.insigma.mapper.OpenapiBlackWhiteMapper;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.StringUtil;
+import constant.DataConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,7 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
 
     @Override
     public List<OpenapiBlackWhite> getBlackWhiteList() {
-        return openapiBlackWhiteMapper.selectAll();
+        return openapiBlackWhiteMapper.select(new OpenapiBlackWhite().setIsDelete(DataConstant.NO_DELETE));
     }
 
 }

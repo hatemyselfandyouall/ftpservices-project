@@ -29,6 +29,10 @@ public class DataConstant {
     public static final String SERVER_MONITOR2 ="server_monitor2" ;
     //服务监控统计分页列表
     public static final String SERVER_MONITOR_LIST ="server_monitor_list" ;
+    //服务监控折线统计
+    public static final String SERVER_MONITOR_LINE ="server_monitor_line" ;
+    //服务监控柱状统计
+    public static final String SERVER_MONITOR_COLUMNAR ="server_monitor_columnar" ;
     //接口调用详情
     public static final String INTERFACE_DETAIL ="interface_detail" ;
     //调用详情
