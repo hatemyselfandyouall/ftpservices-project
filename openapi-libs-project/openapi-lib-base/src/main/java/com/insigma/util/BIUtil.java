@@ -25,6 +25,7 @@ public class BIUtil {
             stringStringMap.put("whereWord", whereWord);
             stringStringMap.put("orderByWord", orderByWord);
             ResponseEntity<String> result = postWithParamterMap(testUrl, stringStringMap, restTemplate);
+            log.info("BI的请求返回为"+result);
             if (result.getStatusCode().is2xxSuccessful()&&JSONObject.parseObject(result.getBody()).getBoolean("success")) {
                 resultVo.setSuccess(true);
                 resultVo.setResultDes("调用成功");
