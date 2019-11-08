@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import star.vo.result.ResultVo;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -88,7 +86,7 @@ public class OpenapiServerMonitorController extends BasicController {
                 tableDataJson.put("numberOfFailures", openapiMonitoringDataConfig.getNumberOfFailures());   //一小时失败次数大于
             }
         }
-        resultVo.setResult(tableInfo);
+       // resultVo.setResult(tableInfo);
         return resultVo;
     }
     @ApiOperation(value = "接口调用详情")
@@ -124,6 +122,70 @@ public class OpenapiServerMonitorController extends BasicController {
             }
             resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.CALL_DETAIL, openapiDictionaryFacade, restTemplate);
         }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "服务监控折线统计")
+    @ResponseBody
+    @RequestMapping(value = "/getLineStatisticList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo getLineStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
+        ResultVo resultVo = new ResultVo();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY, -11);
+        resultVo = BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_LINE, openapiDictionaryFacade, restTemplate);
+        TableInfo tableInfo = (TableInfo) resultVo.getResult();
+        List<JSONObject>  list = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH");
+            String nowStr = df.format(calendar.getTime());
+            JSONObject data = new JSONObject();
+            data.put("createHour",nowStr);
+            data.put("callInHour",0);
+            for (Object tableData : tableInfo.getTableDatas()) {
+                JSONObject tableDataJson = (JSONObject) tableData;
+                if(nowStr.equals(tableDataJson.getString("createHour"))){
+                    data.put("callInHour",tableDataJson.getInteger("callInHour"));
+                    break;
+                }
+            }
+            calendar.add(Calendar.HOUR_OF_DAY, 1);
+            list.add(data);
+        }
+        resultVo.setResult(list);
+        return resultVo;
+    }
+
+    @ApiOperation(value = "服务监控柱状统计")
+    @ResponseBody
+    @RequestMapping(value = "/getColumnarStatisticList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo getColumnarStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
+        ResultVo resultVo = new ResultVo();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY, -15);
+        resultVo = BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_COLUMNAR, openapiDictionaryFacade, restTemplate);
+        TableInfo tableInfo = (TableInfo) resultVo.getResult();
+        List<JSONObject>  list = new ArrayList<>();
+        for (int i = 0; i < 16; i++) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH");
+            String nowStr = df.format(calendar.getTime());
+            JSONObject data = new JSONObject();
+            data.put("createHour",nowStr);
+            data.put("callInHour",0);
+            for (Object tableData : tableInfo.getTableDatas()) {
+                JSONObject tableDataJson = (JSONObject) tableData;
+//                if(!nowStr.equals(tableDataJson.getString("createHour"))){
+//                    tableDataJson.put(nowStr,0);
+//                    break;
+//                }
+                if(nowStr.equals(tableDataJson.getString("createHour"))){
+                    data.put("callInHour",tableDataJson.getInteger("failureInhour"));
+                    break;
+                }
+            }
+            calendar.add(Calendar.HOUR_OF_DAY, 1);
+            list.add(data);
+        }
+        resultVo.setResult(list);
         return resultVo;
     }
 

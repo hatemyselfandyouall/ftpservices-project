@@ -3,6 +3,7 @@ package com.insigma.facade.openapi.po;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiBlackWhite implements Serializable{
 
 
