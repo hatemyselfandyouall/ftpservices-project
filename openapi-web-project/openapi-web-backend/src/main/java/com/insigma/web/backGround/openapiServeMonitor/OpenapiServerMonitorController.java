@@ -173,7 +173,7 @@ public class OpenapiServerMonitorController extends BasicController {
                 String nowStr = df.format(calendar.getTime());
                 JSONObject data = new JSONObject();
                 data.put("createHour", nowStr);
-                data.put("callInHour", 0);
+                data.put("failureInhour", 0);
                 for (Object tableData : tableInfo.getTableDatas()) {
                     JSONObject tableDataJson = (JSONObject) tableData;
 //                if(!nowStr.equals(tableDataJson.getString("createHour"))){
