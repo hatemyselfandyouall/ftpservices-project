@@ -65,48 +65,52 @@ public class OpenapiSafeMonitorController extends BasicController {
        ResultVo resultVo = new ResultVo();
         //获取所有ip是否为黑白名单
         List<OpenapiBlackWhite> list = openapiBlackWhiteFacade.getBlackWhiteList();
-        if(!interfaceDetailVO.getWhereWord().isEmpty()){   //根据ip，是否加入黑白名单查询
             Map<String, Object> map = new HashMap();
             List<OpenapiBlackWhite> list1 = new ArrayList<>();
-            //根据ip地址模糊查询
+            list1=list.stream().collect(Collectors.toList());
+            String ips="";
+            //    if (interfaceDetailVO.getWhereWord().get("is_black") != null) { //根据ip条件查询   1白2黑
+                    //list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
+                if((list != null && list.size()>0) && (!CollectionUtils.isEmpty(list1))){
+                         ips = list1.stream().map(
+                                i -> {
+                                    return "'" + i.getIpAddress() + "'";
+                                }
+                        ).reduce("", (a, b) -> a + "," + b);
+                        ips = ips.substring(1, ips.length());
+                        //"where r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%'"
+                       // String ipWhere = " where r.requester_ip not in (" + ips + ")";
+                    map.put("condition"," where r.requester_ip not in (" + ips + ")");
+                }
+        if(!interfaceDetailVO.getWhereWord().isEmpty()){
             if(interfaceDetailVO.getWhereWord().get("requester_ip") != null) { //根据ip条件查询
                 //where r.requester_ip='10.85.13.126'
-                map.put("condition", "where r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%'");
-                if (interfaceDetailVO.getWhereWord().get("is_black") != null) { //根据ip条件查询   1白2黑
-                    list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
-                    if (!CollectionUtils.isEmpty(list1)) {
-                        String ips = list1.stream().map(
-                                i -> {
-                                    return "'" + i.getIpAddress() + "'";
-                                }
-                        ).reduce("", (a, b) -> a + "," + b);
-                        ips = ips.substring(1, ips.length());
-                        String ipWhere = " and r.requester_ip in (" + ips + ")";
-                        map.put("condition", "where r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%'" + ipWhere);
-                    }
-                }
-            }else{
-                if (interfaceDetailVO.getWhereWord().get("is_black") != null) {
-                    list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
-                    if (!CollectionUtils.isEmpty(list1)) {
-                        String ips =list1.stream().map(
-                                i -> {
-                                    return "'" + i.getIpAddress() + "'";
-                                }
-                        ).reduce("", (a, b) -> a + "," + b);
-                        ips = ips.substring(1, ips.length());
-                        String ipWhere = "where r.requester_ip in (" + ips + ")";
-                        logger.info("打印："+ipWhere);
-                        // map.put("condition","where r.request_ip in ("+list.stream().filter(i->i.getAddType().equals(interfaceDetailVO.getWhereWord().get("is_black"))).map(  i->{
-                        //  return "'"+i.getIpAddress()+"'";
-                        // }).reduce("",(a,b)->a+","+b)+")");
-                        map.put("condition",ipWhere);
-                    }
+                map.put("condition", " where r.requester_ip not in (" + ips + ") and r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%'");
+            }
+            //    }
 
-                }
+//            else{
+//                if (interfaceDetailVO.getWhereWord().get("is_black") != null) {
+//                    list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
+//                    if (!CollectionUtils.isEmpty(list1)) {
+//                        String ips =list1.stream().map(
+//                                i -> {
+//                                    return "'" + i.getIpAddress() + "'";
+//                                }
+//                        ).reduce("", (a, b) -> a + "," + b);
+//                        ips = ips.substring(1, ips.length());
+//                        String ipWhere = "where r.requester_ip in (" + ips + ")";
+//                        logger.info("打印："+ipWhere);
+//                        // map.put("condition","where r.request_ip in ("+list.stream().filter(i->i.getAddType().equals(interfaceDetailVO.getWhereWord().get("is_black"))).map(  i->{
+//                        //  return "'"+i.getIpAddress()+"'";
+//                        // }).reduce("",(a,b)->a+","+b)+")");
+//                        map.put("condition",ipWhere);
+//                    }
+//
+//                }
+//            }
             }
-             interfaceDetailVO.setWhereWord(map);
-            }
+        interfaceDetailVO.setWhereWord(map);
         //从BI中获取安全管控相关数据
         resultVo=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SAFE_MONITOR, openapiDictionaryFacade, restTemplate);
         //String ipWhere="and request_ip in("+list.stream().filter(i->i.getAddType().equals(2)).map(OpenapiBlackWhite::getIpAddress).reduce("",(a,b)->a+","+b)+")";
@@ -121,13 +125,13 @@ public class OpenapiSafeMonitorController extends BasicController {
             }else{
                 tableDataJson.put("is_abnormal","1");  //没有异常
             }
-            if (StringUtil.isNotEmpty(tableDataJson.getString("requester_ip"))) {
-                for (OpenapiBlackWhite blackWhite : blackWhiteSet) {
-                if (tableDataJson.getString("requester_ip").equals(blackWhite.getIpAddress())) {
-                    tableDataJson.put("is_black",blackWhite.getAddType());   //1白2黑
-                }
-            }
-         }
+//            if (StringUtil.isNotEmpty(tableDataJson.getString("requester_ip"))) {
+//                for (OpenapiBlackWhite blackWhite : blackWhiteSet) {
+//                if (tableDataJson.getString("requester_ip").equals(blackWhite.getIpAddress())) {
+//                    tableDataJson.put("is_black",blackWhite.getAddType());   //1白2黑
+//                }
+//            }
+//         }
         }
         return resultVo;
     }
