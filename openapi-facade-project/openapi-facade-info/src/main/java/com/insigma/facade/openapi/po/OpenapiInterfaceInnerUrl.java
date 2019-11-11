@@ -42,7 +42,8 @@ public class OpenapiInterfaceInnerUrl implements Serializable{
     @Column( name="heart_url")
     private String heartUrl;
 
-
+    @Transient
+    private Integer weight=1;
 
 
 }

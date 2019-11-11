@@ -14,10 +14,11 @@ public class OpenapiInterfaceShowVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    OpenapiInterface openapiInterface;
+    private OpenapiInterface openapiInterface;
 
-    List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams;
+    private List<OpenapiInterfaceRequestParam> openapiInterfaceRequestParams;
 
-    List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams;
-    List<OpenapiInterfaceInnerUrl> openapiInterfaceInnerUrls;
+    private List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams;
+    private List<OpenapiInterfaceInnerUrl> openapiInterfaceInnerUrls;
+
 }

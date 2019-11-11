@@ -68,4 +68,5 @@ public class DataConstant {
     public static final String TOTAL_USE_COUNT_DAY_AREA ="total_use_count_day_area" ;
 
     public static final String TOTAL_USE_COUNT_YEAR_AREA = "total_use_count_year_area";
+    public static final String RANDOM_ALGORITHM = "random_algorithm";
 }
