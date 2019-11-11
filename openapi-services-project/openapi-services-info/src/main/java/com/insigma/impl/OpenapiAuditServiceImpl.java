@@ -3,6 +3,7 @@ package com.insigma.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.facade.OpenapiAuditFacade;
 import com.insigma.facade.openapi.po.OpenapiAppInterface;
@@ -12,6 +13,8 @@ import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditListVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditSaveVO;
+import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceDetailVO;
+import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceShowVO;
 import com.insigma.mapper.OpenapiAppInterfaceMapper;
 import com.insigma.mapper.OpenapiAuditMapper;
 import com.insigma.util.JSONUtil;
@@ -34,6 +37,8 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
     OpenapiAppInterfaceMapper openapiAppInterfaceMapper;
     @Autowired
     OpenapiAppFacade openapiAppFacade;
+    @Autowired
+    InterfaceFacade interfaceFacade;
     /**
      * 根据条件查询审核信息列表
      * @param openapiAuditListVO
@@ -57,8 +62,8 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
             criteria.andEqualTo("auditStatus",openapiAuditListVO.getAuditStatus());
         }
         if(openapiAuditListVO.getPending() != null){
-           if(openapiAuditListVO.getPending() == 0){    //待处理
-               criteria.andEqualTo("auditStatus",2);
+            if(openapiAuditListVO.getPending() == 0){    //待处理
+                criteria.andEqualTo("auditStatus",2);
             }
             if(openapiAuditListVO.getPending() == 1){  //已处理
                 criteria.andCondition(" audit_status != 2 ");
@@ -72,6 +77,12 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
             criteria.andBetween("aTime",openapiAuditListVO.getStartDate(),openapiAuditListVO.getEndDate());
         }
         List<OpenapiAudit> openapiAuditList=openapiAuditMapper.selectByExample(example);
+        OpenapiInterfaceDetailVO openapiInterfaceDetailVO = new OpenapiInterfaceDetailVO ();
+        for(OpenapiAudit audit : openapiAuditList){
+            openapiInterfaceDetailVO.setId(audit.getInterfaceId());
+            OpenapiInterfaceShowVO interfaceShowVO=  interfaceFacade.getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
+            audit.setOpenAccess(interfaceShowVO.getOpenapiInterface().getOpenAccess());
+        }
         PageInfo<OpenapiAudit> openapiAuditPageInfo=new PageInfo<>(openapiAuditList);
         return openapiAuditPageInfo;
     }

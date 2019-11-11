@@ -99,4 +99,9 @@ public class OpenapiAudit implements Serializable{
     @ApiModelProperty("机构id")
     @Column( name="org_id")
     private Long orgId;
+
+    @Transient
+    @ApiModelProperty("开放权限1全部2白名单")
+    private Integer openAccess;
+
 }
