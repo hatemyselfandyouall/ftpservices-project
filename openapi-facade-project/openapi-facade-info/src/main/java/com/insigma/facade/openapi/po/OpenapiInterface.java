@@ -153,6 +153,10 @@ public class OpenapiInterface implements Serializable{
     @Column( name="request_model")
     private Integer requestModel;
 
+    @ApiModelProperty("开放权限1全部2白名单")
+    @Column( name="open_access")
+    private Integer openAccess;
+
     @ApiModelProperty("创建者姓名")
     @Column( name="creator_name")
     private String creatorName;

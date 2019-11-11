@@ -33,9 +33,6 @@ public class OpenapiAppInterfaceSaveVO implements Serializable {
     @Column( name="use_reason")
     private String useReason;
 
-
-
-
     @ApiModelProperty("0未删除1已删除//前端不用传")
     @Column( name="is_delete")
     private Integer isDelete;
@@ -47,5 +44,9 @@ public class OpenapiAppInterfaceSaveVO implements Serializable {
     @ApiModelProperty("修改时间//前端不用传")
     @Column( name="modify_time")
     private Date modifyTime;
+
+    @ApiModelProperty("开放权限1全部2白名单")
+    @Column( name="open_access")
+    private Integer openAccess;
 
 }
