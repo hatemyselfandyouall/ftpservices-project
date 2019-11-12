@@ -299,7 +299,11 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         List<OpenapiAppInterface> openapiAppInterfaces=openapiAppInterfaceMapper.select(new OpenapiAppInterface().setAppId(unUsedInterfaceListVO.getId()).setIsDelete(DataConstant.NO_DELETE));
         List<Long> ids=openapiAppInterfaces.stream().map(i->i.getInterfaceId()).collect(Collectors.toList());
         Example example=new Example(OpenapiInterface.class);
-        example.createCriteria().andEqualTo("isDelete",DataConstant.NO_DELETE).andEqualTo("typeId",unUsedInterfaceListVO.getTypeId()).andNotIn("id",ids);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("isDelete",DataConstant.NO_DELETE).andEqualTo("typeId",unUsedInterfaceListVO.getTypeId());
+        if (!CollectionUtils.isEmpty(ids)){
+            criteria.andNotIn("id",ids);
+        }
         return openapiInterfaceMapper.selectByExample(example);
     }
 
