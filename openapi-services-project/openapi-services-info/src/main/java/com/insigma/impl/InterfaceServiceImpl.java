@@ -555,13 +555,18 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             return resultVo;
         }
         String name=openapiInterfaceSaveVO.getName();
-        if (StringUtils.isEmpty(name)){
+        String code=openapiInterfaceSaveVO.getCode();
+        if (StringUtils.isEmpty(name)||StringUtils.isEmpty(name)){
             resultVo.setResultDes("参数必须传递");
             return resultVo;
         }
         if (openapiInterfaceSaveVO.getId()==null) {
             if (openapiInterfaceMapper.selectCount(new OpenapiInterface().setName(name).setIsDelete(DataConstant.NO_DELETE)) > 0) {
                 resultVo.setResultDes("不允许重名");
+                return resultVo;
+            }
+            if (openapiInterfaceMapper.selectCount(new OpenapiInterface().setCode(code).setIsDelete(DataConstant.NO_DELETE)) > 0) {
+                resultVo.setResultDes("不允许重复code");
                 return resultVo;
             }
         }
