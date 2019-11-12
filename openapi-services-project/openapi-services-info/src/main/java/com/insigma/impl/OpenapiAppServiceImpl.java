@@ -248,7 +248,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             return resultVo;
         }
         Example example=new Example(OpenapiAppInterface.class);
-        example.createCriteria().andEqualTo("appId",appId).andIn("interfaceId",interfaceIds);
+        example.createCriteria().andEqualTo("appId",appId).andEqualTo("isDelete",DataConstant.NO_DELETE).andEqualTo("isAudit",DataConstant.IS_AUDITED).andIn("interfaceId",interfaceIds);
         if (openapiAppInterfaceMapper.selectCountByExample(example)>0){
             resultVo.setResultDes("不允许重复授权");
             return resultVo;
