@@ -113,6 +113,8 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         }
         OpenapiApp openapiApp= JSONUtil.convert(openapiAppSaveVO,OpenapiApp.class);
         if (openapiApp.getId()==null){
+            openapiApp.setAppKey(UUID.randomUUID().toString().replaceAll("-",""));
+            openapiApp.setAppSecret(UUID.randomUUID().toString().replaceAll("-",""));
             return openapiAppMapper.insertSelective(openapiApp);
         }else {
             openapiApp.setModifyTime(new Date());
