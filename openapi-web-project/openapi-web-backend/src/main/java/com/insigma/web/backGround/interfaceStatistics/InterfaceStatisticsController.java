@@ -66,7 +66,7 @@ public class InterfaceStatisticsController extends BasicController {
             }
             Map<String,Object> whereMap=new HashMap<>();
             if (interfaceStatisticsVO.getInterfaceId()!=null){
-                whereMap.put("#{interface_id}","where interface_id = "+interfaceStatisticsVO.getInterfaceId());
+                whereMap.put("#{interface_id}","and interface_id = "+interfaceStatisticsVO.getInterfaceId());
             }
             ResultVo<TableInfo> BIResult=BIUtil.getRequestResult(1l,1000l,whereMap,null,code,openapiDictionaryFacade,restTemplate);
             if (BIResult.isSuccess()){
@@ -106,7 +106,7 @@ public class InterfaceStatisticsController extends BasicController {
             }
             Map<String,Object> whereMap=new HashMap<>();
             if (interfaceStatisticsVO.getInterfaceId()!=null){
-                whereMap.put("#{interface_id}","where interface_id = "+interfaceStatisticsVO.getInterfaceId());
+                whereMap.put("#{interface_id}","and interface_id = "+interfaceStatisticsVO.getInterfaceId());
             }
             ResultVo<TableInfo> BIResult=BIUtil.getRequestResult(1l,1000l,whereMap,null,code,openapiDictionaryFacade,restTemplate);
             if (BIResult.isSuccess()){
@@ -130,6 +130,9 @@ public class InterfaceStatisticsController extends BasicController {
         try {
             String code=DataConstant.INTERFACE_USE_REAL_TIME;
             Map<String,Object> whereMap=new HashMap<>();
+            if (interfaceStatisticsVO.getInterfaceId()!=null){
+                whereMap.put("#{interface_id}","and interface_id = "+interfaceStatisticsVO.getInterfaceId());
+            }
             ResultVo<TableInfo> BIResult=BIUtil.getRequestResult(1l,1000l,whereMap,null,code,openapiDictionaryFacade,restTemplate);
             if (BIResult.isSuccess()){
                 resultVo=BIResult;
@@ -204,7 +207,7 @@ public class InterfaceStatisticsController extends BasicController {
             }
             Map<String,Object> whereMap=new HashMap<>();
             if (interfaceStatisticsByAreaVO.getInterfaceId()!=null){
-                whereMap.put("#{interface_id}","where interface_id = "+interfaceStatisticsByAreaVO.getInterfaceId());
+                whereMap.put("#{interface_id}","and interface_id = "+interfaceStatisticsByAreaVO.getInterfaceId());
             }
             String countWord;
             switch(interfaceStatisticsByAreaVO.getType()){
