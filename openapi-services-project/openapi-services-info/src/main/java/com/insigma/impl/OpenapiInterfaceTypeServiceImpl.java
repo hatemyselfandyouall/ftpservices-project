@@ -10,6 +10,7 @@ import com.insigma.util.JSONUtil;
 import constant.DataConstant;
 import org.apache.zookeeper.AsyncCallback;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -103,6 +104,9 @@ public class OpenapiInterfaceTypeServiceImpl implements OpenapiInterfaceTypeFaca
         }else {
             ids=new ArrayList<>();
             ids.add(id);
+        }
+        if (CollectionUtils.isEmpty(ids)){
+            return false;
         }
         Example example=new Example(OpenapiInterface.class);
         example.createCriteria().andEqualTo("isDelete",DataConstant.NO_DELETE).andIn("typeId",ids);
