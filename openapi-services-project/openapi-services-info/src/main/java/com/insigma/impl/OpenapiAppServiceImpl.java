@@ -263,8 +263,9 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         List<Long> interrfaceIds=openapiAppSaveVO.getInterfaceIds();
         interrfaceIds.forEach(i->{
             openapiAppInterface.setInterfaceId(i);
+            openapiAppInterface.setIsDelete(DataConstant.NO_DELETE);
             openapiAppInterface.setIsAudit(DataConstant.IS_AUDITED);
-            openapiAppInterfaceMapper.insert(openapiAppInterface);
+            openapiAppInterfaceMapper.insertSelective(openapiAppInterface);
         });
         return 1;
     }
