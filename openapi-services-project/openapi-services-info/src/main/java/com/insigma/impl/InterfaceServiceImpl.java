@@ -244,8 +244,10 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         OpenapiInterfaceDetailVO openapiInterfaceDetailVO = new OpenapiInterfaceDetailVO();
         openapiInterfaceDetailVO.setId(openapiInterface.getId());
         OpenapiInterfaceShowVO openapiInterfaceShowVO = getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
-        openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO().setHistoryJson(JSONObject.parseObject(JSONObject.toJSONString(openapiInterfaceShowVO))).setVersionNumber(openapiInterfaceShowVO.getOpenapiInterface().getVersionNumber());
-        saveUpdateHistory(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO(),openapiInterfaceSaveVO.getCreatorId(),openapiInterfaceSaveVO.getCreatorName());
+        if (openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO()!=null) {
+            openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO().setHistoryJson(JSONObject.parseObject(JSONObject.toJSONString(openapiInterfaceShowVO))).setVersionNumber(openapiInterfaceShowVO.getOpenapiInterface().getVersionNumber());
+            saveUpdateHistory(openapiInterface.getId(), openapiInterfaceSaveVO.getOpenapiInterfaceHistorySaveVO(), openapiInterfaceSaveVO.getCreatorId(), openapiInterfaceSaveVO.getCreatorName());
+        }
         return openapiInterfaceShowVO;
     }
 
