@@ -20,7 +20,7 @@
     SELECT * FROM
     openapi_app_interface oai left join openapi_interface oi on oai.interface_id=oi.id
     <where>
-        oai.app_id = #{appId}
+        oai.app_id = #{appId} and oi.is_delete=0 and oai.is_delete=0
         <if test="sourceType!=null">
             AND oai.source_type  = #{sourceType}
         </if>
