@@ -20,6 +20,7 @@ package com.insigma.webtool.component.loadBalance;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.po.OpenapiInterfaceInnerUrl;
 import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceShowVO;
@@ -60,7 +61,8 @@ public class UpstreamCacheManager {
 
     private static final Integer upstreamScheduledTime = 30;
 
-
+    @Autowired
+    InterfaceFacade interfaceFacade;
     /**
      * Find upstream list by selector id list.
      *

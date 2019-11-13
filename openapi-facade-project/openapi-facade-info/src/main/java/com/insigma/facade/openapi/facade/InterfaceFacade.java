@@ -16,6 +16,8 @@ public interface InterfaceFacade {
 
     OpenapiInterfaceShowVO getOpenapiInterfaceDetail(OpenapiInterfaceDetailVO openapiInterfaceDetailVO);
 
+    List<OpenapiInterfaceShowVO> getAllInterfaces();
+
     OpenapiInterfaceShowVO saveOpenapiInterface(OpenapiInterfaceSaveVO openapiInterfaceSaveVO);
 
     Integer deleteOpenapiInterface(OpenapiInterfaceDeleteVO openapiInterfaceDeleteVO);

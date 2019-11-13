@@ -116,8 +116,8 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterName(openapiApp.getName());
-            OpenapiUser openapiUser=openapiUserFacade.getUserById(openapiApp.getUserId());
-            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setOrgNo(openapiUser.getOrgNo());
+//            OpenapiUser openapiUser=openapiUserFacade.getUserById(openapiApp.getUserId());
+//            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setOrgNo(openapiUser.getOrgNo());
             Map<String, OpenapiInterface> openapiInterfaceMap = openapiApp.getOpenapiInterfaces().stream().filter(i -> i != null && i.getCode() != null).collect(Collectors.toMap(i -> i.getCode(), i -> i));
             OpenapiInterface openapiInterface;
             if (openapiInterfaceMap.get(code) == null) {

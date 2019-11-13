@@ -144,6 +144,18 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         return openapiInterfaceShowVO;
     }
 
+    @Override
+    public List<OpenapiInterfaceShowVO> getAllInterfaces() {
+        List<OpenapiInterface> openapiInterfaces=openapiInterfaceMapper.select(new OpenapiInterface().setIsDelete(DataConstant.NO_DELETE));
+        List<OpenapiInterfaceShowVO> openapiInterfaceShowVOS=openapiInterfaces.stream().map(i->{
+            OpenapiInterfaceShowVO openapiInterfaceShowVO=new OpenapiInterfaceShowVO();
+            openapiInterfaceShowVO.setOpenapiInterface(i);
+            openapiInterfaceShowVO.setOpenapiInterfaceInnerUrls(openapiInterfaceInnerUrlMapper.select(new OpenapiInterfaceInnerUrl().setInterfaceId(i.getId())));
+            return openapiInterfaceShowVO;
+        }).collect(Collectors.toList());
+        return openapiInterfaceShowVOS;
+    }
+
     private List<OpenapiInterfaceResponseParam> getResponseTreesById(Long id) {
         List<OpenapiInterfaceResponseParam> openapiInterfaceResponseParams=openapiInterfaceResponseParamMapper.select(new OpenapiInterfaceResponseParam().setIsDelete(DataConstant.NO_DELETE).setInterfaceId(id));
         openapiInterfaceResponseParams=responseParamList2Tree(openapiInterfaceResponseParams);

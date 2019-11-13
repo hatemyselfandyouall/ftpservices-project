@@ -109,7 +109,7 @@ public class OpenapiInterfaceTypeServiceImpl implements OpenapiInterfaceTypeFaca
             return false;
         }
         Example example=new Example(OpenapiInterface.class);
-        example.createCriteria().andEqualTo("isDelete",DataConstant.NO_DELETE).andIn("typeId",ids);
+        example.createCriteria().andEqualTo("isDelete",DataConstant.NO_DELETE).andIn("typeId",ids).andCondition("is_avaliable =1 or is_public=1");
         if (openapiInterfaceMapper.selectCountByExample(example)>0){
             return true;
         }
