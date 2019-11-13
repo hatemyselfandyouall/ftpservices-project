@@ -83,7 +83,32 @@ public class OpenapiInterfaceTypeServiceImpl implements OpenapiInterfaceTypeFaca
         openapiInterfaceType.setIsDelete(openapiInterfaceTypeDeleteVO.getIsDelete());
         Example example=new Example(OpenapiInterfaceType.class);
         example.createCriteria().andEqualTo("id",openapiInterfaceTypeDeleteVO.getId());
-        return openapiInterfaceTypeMapper.updateByExampleSelective(openapiInterfaceType,example);
+        openapiInterfaceTypeMapper.updateByExampleSelective(openapiInterfaceType,example);
+        deleteInterfaceByInterfaceId(openapiInterfaceTypeDeleteVO.getId());
+        return 1;
+    }
+
+    private void deleteInterfaceByInterfaceId(Long id) {
+        OpenapiInterfaceType openapiInterfaceType=openapiInterfaceTypeMapper.selectByPrimaryKey(id);
+        if (openapiInterfaceType==null){
+            return;
+        }
+        List<Long> ids;
+        if (DataConstant.INTERFACE_TYPE_APPLICATION.equals(openapiInterfaceType.getType())){
+            OpenapiInterfaceType examType=new OpenapiInterfaceType().setParentId(id).setIsDelete(DataConstant.NO_DELETE);
+            List<OpenapiInterfaceType> openapiInterfaceTypes=openapiInterfaceTypeMapper.select(examType);
+            ids=openapiInterfaceTypes.stream().map(OpenapiInterfaceType::getId).collect(Collectors.toList());
+        }else {
+            ids=new ArrayList<>();
+            ids.add(id);
+        }
+        if (CollectionUtils.isEmpty(ids)){
+            return ;
+        }
+        Example example=new Example(OpenapiInterface.class);
+        example.createCriteria().andIn("typeId",ids);
+        OpenapiInterface openapiInterface=new OpenapiInterface().setIsDelete(DataConstant.IS_DELETE);
+        openapiInterfaceMapper.updateByExampleSelective(openapiInterface,example);
     }
 
     @Override
