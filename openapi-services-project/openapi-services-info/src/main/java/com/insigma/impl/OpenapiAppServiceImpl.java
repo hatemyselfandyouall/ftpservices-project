@@ -80,8 +80,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         Page<OpenapiApp> openapiAppList=(Page<OpenapiApp>)openapiAppMapper.selectByExample(example);;
         List<OpenapiAppListShowVO> openapiAppListShowVOS=openapiAppList.stream().map(i->{
             OpenapiAppListShowVO openapiAppListShowVO=JSONUtil.convert(i,OpenapiAppListShowVO.class);
-            OpenapiAppInterface openapiInterface=new OpenapiAppInterface().setIsDelete(DataConstant.NO_DELETE).setAppId(i.getId());
-            openapiAppListShowVO.setInterfaceCount(openapiAppInterfaceMapper.selectCount(openapiInterface));
+            openapiAppListShowVO.setInterfaceCount(openapiAppInterfaceMapper.getOpenapiAppInterfaceList(null,null,i.getId()).size());
             if (openapiAppListShowVO.getTypeId()!=null) {
                 OpenapiAppType openapiAppType = openapiAppTypeMapper.selectByPrimaryKey(openapiAppListShowVO.getTypeId());
                 openapiAppListShowVO.setTypeName(openapiAppType != null ? "0" : openapiAppType.getName());
