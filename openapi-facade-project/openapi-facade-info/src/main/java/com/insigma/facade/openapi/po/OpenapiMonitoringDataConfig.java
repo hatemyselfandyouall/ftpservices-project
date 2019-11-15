@@ -55,7 +55,7 @@ public class OpenapiMonitoringDataConfig implements Serializable{
 
     @ApiModelProperty(" 预警对象")
     @Column( name="early_warning_object")
-    private Integer earlyWarningObject;
+    private String earlyWarningObject;
 
     @ApiModelProperty("0未删除1已删除")
     @Column( name="is_delete")
