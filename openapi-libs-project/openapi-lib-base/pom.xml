@@ -48,6 +48,10 @@
 		  <artifactId>spring-web</artifactId>
 	  </dependency>
 
+	  <dependency>
+		  <groupId>commons-httpclient</groupId>
+		  <artifactId>commons-httpclient</artifactId>
+	  </dependency>
   </dependencies>
     
     

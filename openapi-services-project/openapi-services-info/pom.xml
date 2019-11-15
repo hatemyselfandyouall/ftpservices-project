@@ -68,7 +68,12 @@
             <groupId>insigma.openapi.libs.base</groupId>
 			<artifactId>openapi-lib-base</artifactId>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>insigma.openapi.facade.info</groupId>
+            <artifactId>openapi-facade-info</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 	
 	<profiles>
 		<profile>

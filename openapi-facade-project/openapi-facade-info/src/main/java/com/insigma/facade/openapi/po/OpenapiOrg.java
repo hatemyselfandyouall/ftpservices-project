@@ -14,89 +14,97 @@ import java.lang.String;
 import java.lang.Integer;
 import java.util.Date;
 import java.util.List;
+import lombok.experimental.Accessors;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiOrg implements Serializable{
 
 
 	//========== properties ==========
-	
-    @ApiModelProperty("机构id(系统生成,唯一关键字)")
+
+	@Id
+	@GeneratedValue(generator="JDBC")
+    @ApiModelProperty("")
     @Column( name="id")
     private Long id;
 
-    @ApiModelProperty("机构名称")
+    @ApiModelProperty("机构id")
+    @Column( name="org_id")
+    private Long orgId;
+
+    @ApiModelProperty("机构名")
     @Column( name="org_name")
     private String orgName;
 
-    @ApiModelProperty("机构代码(即机构的编号，输入的编号)")
-    @Column( name="orgenter_code")
-    private String orgenterCode;
+    @ApiModelProperty("地区id")
+    @Column( name="area_id")
+    private Long areaId;
 
-    @ApiModelProperty("父机构id")
-    @Column( name="parent_id")
-    private Long parentId;
+    @ApiModelProperty("地区名")
+    @Column( name="area_name")
+    private String areaName;
 
-    @ApiModelProperty("机构简称")
-    @Column( name="short_name")
-    private String shortName;
+    @ApiModelProperty("ip网段")
+    @Column( name="ip_segment")
+    private String ipSegment;
 
-    @ApiModelProperty("行政区划代码")
-    @Column( name="region_code")
-    private String regionCode;
+    @ApiModelProperty("")
+    @Column( name="app_key")
+    private String appKey;
 
-    @ApiModelProperty("机构负责人")
-    @Column( name="leader")
-    private String leader;
+    @ApiModelProperty("")
+    @Column( name="app_secret")
+    private String appSecret;
 
-    @ApiModelProperty("联系人")
-    @Column( name="linkman")
-    private String linkman;
+    @ApiModelProperty("允许访问时间-起")
+    @Column( name="access_time_start")
+    private Date accessTimeStart;
 
-    @ApiModelProperty("联系电话")
-    @Column( name="tel")
-    private String tel;
+    @ApiModelProperty("允许访问时间-止")
+    @Column( name="access_time_final")
+    private Date accessTimeFinal;
 
-    @ApiModelProperty("机构地址")
-    @Column( name="org_addr")
-    private String orgAddr;
+    @ApiModelProperty("限制数量")
+    @Column( name="limit_count")
+    private String limitCount;
 
-    @ApiModelProperty("机构描述")
-    @Column( name="org_desc")
-    private String orgDesc;
+    @ApiModelProperty("证书")
+    @Column( name="certificate")
+    private String certificate;
 
-    @ApiModelProperty("在同一级机构中的序号")
-    @Column( name="org_order")
-    private Integer orgOrder;
+    @ApiModelProperty("证书文件key")
+    @Column( name="certificate_key")
+    private String certificateKey;
 
-    @ApiModelProperty("机构状态,即有效标志：1、有效，0、无效")
-    @Column( name="org_state")
-    private String orgState;
+    @ApiModelProperty("0未删除1已删除")
+    @Column( name="is_delete")
+    private Integer isDelete;
 
-    @ApiModelProperty("主管部门")
-    @Column( name="superdept")
-    private String superdept;
-
-    @ApiModelProperty("系统机构编码（自生成的编号）")
-    @Column( name="orgauto_code")
-    private String orgautoCode;
-
-    @ApiModelProperty("邮编")
-    @Column( name="zip")
-    private String zip;
-
-    @ApiModelProperty("路径")
-    @Column( name="idpath")
-    private String idpath;
-
-    @ApiModelProperty("创建日期")
+    @ApiModelProperty("")
     @Column( name="create_time")
     private Date createTime;
 
-    @ApiModelProperty("修改时间")
+    @ApiModelProperty("")
+    @Column( name="creator_id")
+    private Long creatorId;
+
+    @ApiModelProperty("")
+    @Column( name="creator_name")
+    private String creatorName;
+
+    @ApiModelProperty("")
     @Column( name="modify_time")
     private Date modifyTime;
+
+    @ApiModelProperty("")
+    @Column( name="modify_id")
+    private Long modifyId;
+
+    @ApiModelProperty("")
+    @Column( name="modify_name")
+    private String modifyName;
 
 
 
