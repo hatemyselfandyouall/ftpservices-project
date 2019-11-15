@@ -83,4 +83,8 @@
 
 	<dubbo:reference id="openapiDictionaryFacade" interface="com.insigma.facade.openapi.facade.OpenapiDictionaryFacade"
 					 version="1.0.1" />
+
+
+	<dubbo:reference id="openapiOrgFacade" interface="com.insigma.facade.openapi.facade.OpenapiOrgFacade"
+					 version="1.0.1" />
 </beans>

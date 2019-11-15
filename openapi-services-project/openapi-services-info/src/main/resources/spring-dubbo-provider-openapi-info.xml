@@ -63,4 +63,8 @@
 	<bean id="openapiDictionaryServiceImpl" class="com.insigma.impl.OpenapiDictionaryServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiDictionaryFacade" ref="openapiDictionaryServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
+
+	<bean id="openapiOrgServiceImpl" class="com.insigma.impl.OpenapiOrgServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiOrgFacade" ref="openapiOrgServiceImpl"
+				   version="1.0.1" delay="-1" retries="0"  />
 </beans>
