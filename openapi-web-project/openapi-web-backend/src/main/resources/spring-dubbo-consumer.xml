@@ -87,4 +87,10 @@
 
 	<dubbo:reference id="openapiOrgFacade" interface="com.insigma.facade.openapi.facade.OpenapiOrgFacade"
 					 version="1.0.1" />
+
+	<dubbo:reference id="openapiSelfmachineRequestFacade" interface="com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade"
+					 version="1.0.1" />
+
+	<dubbo:reference id="openapiSelfmachineFacade" interface="com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade"
+					 version="1.0.1" />
 </beans>
