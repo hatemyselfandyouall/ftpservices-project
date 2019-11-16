@@ -47,4 +47,9 @@ public class OpenapiOrgSaveVO implements Serializable {
     @ApiModelProperty("允许访问时间-止")
     @Column( name="access_time_final")
     private Date accessTimeFinal;
+
+    @ApiModelProperty("描述")
+    @Column( name="distribution")
+    private String distribution;
+
 }

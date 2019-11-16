@@ -106,6 +106,9 @@ public class OpenapiOrg implements Serializable{
     @Column( name="modify_name")
     private String modifyName;
 
+    @ApiModelProperty("描述")
+    @Column( name="distribution")
+    private String distribution;
 
 
 

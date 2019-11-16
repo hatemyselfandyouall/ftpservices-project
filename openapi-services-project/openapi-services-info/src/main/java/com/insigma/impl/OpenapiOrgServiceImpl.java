@@ -2,6 +2,7 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.vo.OpenapiApp.ResetAppSecretVO;
@@ -9,6 +10,7 @@ import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgListVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgSaveVO;
+import com.insigma.facade.openapi.vo.root.PageVO;
 import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.util.HttpUtil;
 import com.insigma.util.JSONUtil;
@@ -28,7 +30,7 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
     @Autowired
     OpenapiOrgMapper OpenapiOrgMapper;
 
-    public static final String URL= DynamicProperties.staticProperties.getProperty("http://10.85.94.238:10540/openapiApp/download?directDownload=1&dicFileName=cert.txt&key=");
+    public static final String URL= DynamicProperties.staticProperties.getProperty("oss.download.http.txt.url");
     @Override
     public PageInfo<OpenapiOrg> getOpenapiOrgList(OpenapiOrgListVO OpenapiOrgListVO) {
         if (OpenapiOrgListVO==null||OpenapiOrgListVO.getPageNum()==null||OpenapiOrgListVO.getPageSize()==null) {
@@ -38,7 +40,7 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
         OpenapiOrg exampleObeject=new OpenapiOrg().setOrgId(OpenapiOrgListVO.getOrgId()).setAreaId(OpenapiOrgListVO.getAreaId()).setIsDelete(DataConstant.NO_DELETE);
         List<OpenapiOrg> openapiOrgList=OpenapiOrgMapper.select(exampleObeject);
         openapiOrgList.forEach(i->{
-            i.setCertificateKey(URL+i.getAppKey());
+            i.setCertificateKey(URL+i.getCertificateKey());
         });
         PageInfo<OpenapiOrg> OpenapiOrgPageInfo=new PageInfo<>(openapiOrgList);
         return OpenapiOrgPageInfo;
@@ -92,6 +94,7 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
         }
         OpenapiOrg OpenapiOrg=new OpenapiOrg();
         OpenapiOrg.setModifyTime(new Date());
+        OpenapiOrg.setIsDelete(OpenapiOrgDeleteVO.getIsDelete());
         Example example=new Example(OpenapiOrg.class);
         example.createCriteria().andEqualTo("id",OpenapiOrgDeleteVO.getId());
         return OpenapiOrgMapper.updateByExampleSelective(OpenapiOrg,example);
@@ -109,5 +112,16 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
         example.createCriteria().andEqualTo("id",resetAppSecretVO.getId());
         OpenapiOrgMapper.updateByExampleSelective(openapiOrg,example);
         return OpenapiOrgMapper.selectByPrimaryKey(resetAppSecretVO.getId());
+    }
+
+    @Override
+    public PageInfo<SelfMachineOrgDTO> getSelfMachine(PageVO pageVO) {
+        if (pageVO==null||pageVO.getPageNum()==null||pageVO.getPageSize()==null) {
+            return null;
+        }
+        PageHelper.startPage(pageVO.getPageNum().intValue(),pageVO.getPageSize().intValue());
+        List<SelfMachineOrgDTO> selfMachineOrgDTOS=OpenapiOrgMapper.getSelfMachine();
+        PageInfo<SelfMachineOrgDTO> OpenapiOrgPageInfo=new PageInfo<>(selfMachineOrgDTOS);
+        return OpenapiOrgPageInfo;
     }
 }
