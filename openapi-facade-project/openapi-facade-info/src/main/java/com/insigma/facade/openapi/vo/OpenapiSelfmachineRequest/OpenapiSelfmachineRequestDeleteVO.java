@@ -1,22 +1,26 @@
 package com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest;
 
+import com.insigma.facade.openapi.po.SelfMachineEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
+@Accessors(chain = true)
 public class OpenapiSelfmachineRequestDeleteVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("接口id")
+    @ApiModelProperty("自助机id")
     @Column( name="id")
-    private Long id;
+    private List<Long> ids;
 
-    @ApiModelProperty("0未删除1已删除")
-    @Column( name="is_delete")
-    private Integer isDelete;
+    @ApiModelProperty("校验状态")
+    @Column( name="statu")
+    private SelfMachineEnum statu;
 
 }

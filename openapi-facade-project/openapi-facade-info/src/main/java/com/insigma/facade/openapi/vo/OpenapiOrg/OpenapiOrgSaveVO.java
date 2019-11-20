@@ -52,4 +52,8 @@ public class OpenapiOrgSaveVO implements Serializable {
     @Column( name="distribution")
     private String distribution;
 
+    @ApiModelProperty("字母缩写")
+    @Column( name="abbreviation")
+    private String abbreviation;
+
 }

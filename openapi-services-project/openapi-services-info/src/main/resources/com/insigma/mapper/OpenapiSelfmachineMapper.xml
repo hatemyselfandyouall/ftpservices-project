@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insigma.mapper.OpenapiSelfmachineMapper">
+
+    <resultMap id="BASE-RESULT" type="com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineShowVO">
+        <result property="id" column="id" />
+        <result property="uniqueCode" column="unique_code" />
+        <result property="ip" column="ip" />
+        <result property="macAddress" column="mac_address" />
+        <result property="systemCode" column="system_code" />
+        <result property="orgName" column="org_name" />
+        <result property="orgId" column="org_id" />
+        <result property="statu" column="statu" />
+        <result property="clientVersion" column="client_version" />
+        <result property="machineType" column="machine_type" />
+        <result property="createTime" column="create_time" />
+    </resultMap>
+
+
+    <select id="getOpenapiSelfmachineList" resultMap="BASE-RESULT">
+    SELECT * FROM
+    openapi_selfmachine os left join openapi_selfmachine_request osr on os.unique_code=osr.unique_code
+    <where>
+        1=1
+        <if test="param.orgName!=null and param.orgName!=''">
+            AND  os.org_name = #{param.orgName}
+        </if>
+        <if test="param.machineType!=null and param.machineType!=''">
+            AND  osr.machine_type = #{param.machineType}
+        </if>
+        <if test="param.keyWord!=null and param.keyWord!=''">
+            AND  ( osr.ip like concat('%',#{param.keyWord},'%') or osr.mac_address like concat('%',#{param.keyWord},'%') )
+        </if>
+    </where>
+    </select>
+
+    <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiSelfmachine">-->
+    <!--INSERT INTO openapi_selfmachine ( -->
+    <!--unique_code,ip,mac_address,system_code,org_name,org_id,statu,create_time			-->
+    <!--) VALUES (-->
+    <!--#{uniqueCode},#{ip},#{macAddress},#{systemCode},#{orgName},#{orgId},#{statu},#{createTime}		-->
+    <!--)   -->
+    <!--<selectKey resultType="Integer" keyProperty="id">    -->
+    <!--SELECT LAST_INSERT_ID()     -->
+    <!--</selectKey> -->
+    <!--</insert>-->
+    <!---->
+    <!--<update id="update" parameterType="com.insigma.facade.po.OpenapiSelfmachine" >-->
+    <!--UPDATE-->
+    <!--openapi_selfmachine-->
+    <!--SET-->
+    <!--            <if test="id!=null"> id = #{id} </if>
+            <if test="uniqueCode!=null">, unique_code = #{uniqueCode} </if>
+            <if test="ip!=null">, ip = #{ip} </if>
+            <if test="macAddress!=null">, mac_address = #{macAddress} </if>
+            <if test="systemCode!=null">, system_code = #{systemCode} </if>
+            <if test="orgName!=null">, org_name = #{orgName} </if>
+            <if test="orgId!=null">, org_id = #{orgId} </if>
+            <if test="statu!=null">, statu = #{statu} </if>
+            <if test="createTime!=null">, create_time = #{createTime} </if>
+-->
+    <!--<where>-->
+    <!--id = #{id}-->
+    <!--</where>-->
+    <!--</update>-->
+    <!---->
+    <!---->
+
+    <!---->
+    <!--<delete id="deleteByKey">-->
+    <!--DELETE FROM-->
+    <!--openapi_selfmachine-->
+    <!--<where>-->
+    <!--id = #{key}-->
+    <!--</where>-->
+    <!--</delete>-->
+    <!---->
+    <!--<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">-->
+    <!--SELECT * FROM-->
+    <!--openapi_selfmachine-->
+    <!--<where>-->
+    <!--<include refid="compareParamColumns" />-->
+    <!--</where>-->
+    <!--<if test="param.orderByStr!=null">-->
+    <!--order by ${param.orderByStr}-->
+    <!--</if>-->
+    <!--<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>-->
+    <!--</select>-->
+
+
+    <!--<select id="getEntitysCount" parameterType="map" resultType="int">-->
+    <!--SELECT count(*) FROM-->
+    <!--openapi_selfmachine-->
+    <!--<where>-->
+    <!--<include refid="compareParamColumns" />-->
+    <!--</where>-->
+    <!--</select>-->
+    <!---->
+    <!--<sql id="compareParamColumns">-->
+    <!--1-->
+    <!--        <if test="param.id!=null">
+            AND  id = #{param.id}
+        </if>
+
+        <if test="param.ip!=null">
+            AND  ip = #{param.ip}
+        </if>
+        <if test="param.macAddress!=null">
+            AND  mac_address = #{param.macAddress}
+        </if>
+        <if test="param.systemCode!=null">
+            AND  system_code = #{param.systemCode}
+        </if>
+        <if test="param.orgName!=null">
+            AND  org_name = #{param.orgName}
+        </if>
+        <if test="param.orgId!=null">
+            AND  org_id = #{param.orgId}
+        </if>
+        <if test="param.statu!=null">
+            AND  statu = #{param.statu}
+        </if>
+        <if test="param.createTime!=null">
+            AND  create_time = #{param.createTime}
+        </if>
+-->
+    <!--</sql>-->
+
+</mapper>

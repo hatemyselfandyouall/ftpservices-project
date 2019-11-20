@@ -34,6 +34,16 @@ public class OpenapiSelfmachineRequest implements Serializable{
     @Column( name="unique_code")
     private String uniqueCode;
 
+    @Column( name="org_id")
+    private Long orgId;
+
+    @Column( name="number")
+    private Integer number;
+
+    @ApiModelProperty("机器编码")
+    @Column( name="machine_code")
+    private String machineCode;
+
     @ApiModelProperty("")
     @Column( name="ip")
     private String ip;
@@ -62,7 +72,21 @@ public class OpenapiSelfmachineRequest implements Serializable{
     @Column( name="token")
     private String token;
 
+    @ApiModelProperty("状态")
+    @Column( name="statu")
+    private SelfMachineEnum statu;
 
 
+    @ApiModelProperty("客户端版本")
+    @Column( name="client_version")
+    private String clientVersion;
 
+
+    @ApiModelProperty("机构名")
+    @Column( name="org_name")
+    private String orgName;
+
+    @ApiModelProperty("初步校验结果1正常0异常")
+    @Column( name="preliminary_calibration")
+    private Integer preliminaryCalibration;
 }

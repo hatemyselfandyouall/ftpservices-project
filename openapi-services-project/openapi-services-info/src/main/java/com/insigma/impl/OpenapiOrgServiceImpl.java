@@ -2,14 +2,15 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.dto.GetSelfMachineDTO;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
-import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.vo.OpenapiApp.ResetAppSecretVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgListVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 import com.insigma.facade.openapi.vo.root.PageVO;
 import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.util.HttpUtil;
@@ -115,13 +116,19 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
     }
 
     @Override
-    public PageInfo<SelfMachineOrgDTO> getSelfMachine(PageVO pageVO) {
-        if (pageVO==null||pageVO.getPageNum()==null||pageVO.getPageSize()==null) {
+    public PageInfo<SelfMachineOrgDTO> getSelfMachine(GetSelfMachineDTO getSelfMachineDTO) {
+        if (getSelfMachineDTO==null||getSelfMachineDTO.getPageNum()==null||getSelfMachineDTO.getPageSize()==null) {
             return null;
         }
-        PageHelper.startPage(pageVO.getPageNum().intValue(),pageVO.getPageSize().intValue());
-        List<SelfMachineOrgDTO> selfMachineOrgDTOS=OpenapiOrgMapper.getSelfMachine();
+        PageHelper.startPage(getSelfMachineDTO.getPageNum().intValue(),getSelfMachineDTO.getPageSize().intValue());
+        List<SelfMachineOrgDTO> selfMachineOrgDTOS=OpenapiOrgMapper.getSelfMachine(getSelfMachineDTO.getName());
         PageInfo<SelfMachineOrgDTO> OpenapiOrgPageInfo=new PageInfo<>(selfMachineOrgDTOS);
         return OpenapiOrgPageInfo;
+    }
+
+    @Override
+    public OpenapiOrg checkCertificate(String certificate, OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO) {
+        OpenapiOrg openapiOrg=OpenapiOrgMapper.selectOne(new OpenapiOrg().setCertificate(certificate).setIsDelete(DataConstant.NO_DELETE));
+        return openapiOrg;
     }
 }

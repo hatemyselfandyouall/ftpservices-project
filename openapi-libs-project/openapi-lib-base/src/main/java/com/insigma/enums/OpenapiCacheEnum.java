@@ -23,7 +23,12 @@ public enum OpenapiCacheEnum implements BaseCacheEnum {
     /**
      * APPid对应的接口列表
      */
-    INTERFACE_BY_CODE("work_interface_by_code");
+    INTERFACE_BY_CODE("work_interface_by_code"),
+	/**
+	 * 请求token
+	 */
+	REQUEST_TOKEN("request_token");
+
 	private String type;
 
     OpenapiCacheEnum(String type) {

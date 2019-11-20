@@ -54,15 +54,8 @@ public class OpenapiSelfmachine implements Serializable{
     @Column( name="org_id")
     private Long orgId;
 
-    @ApiModelProperty("")
-    @Column( name="statu")
-    private SelfMachineEnum statu;
-
     @ApiModelProperty("创建时间")
     @Column( name="create_time")
     private Date createTime;
-
-
-
 
 }

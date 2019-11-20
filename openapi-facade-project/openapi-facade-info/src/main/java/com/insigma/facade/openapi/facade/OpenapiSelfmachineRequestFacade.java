@@ -2,6 +2,7 @@
 package com.insigma.facade.openapi.facade;
 
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDetailVO;
@@ -19,8 +20,8 @@ public interface OpenapiSelfmachineRequestFacade{
 
     Integer deleteOpenapiSelfmachineRequest(OpenapiSelfmachineRequestDeleteVO deleteVO);
 
-	 
 
+    OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest uniqueCode, OpenapiOrg openapiOrg);
 }
 
  

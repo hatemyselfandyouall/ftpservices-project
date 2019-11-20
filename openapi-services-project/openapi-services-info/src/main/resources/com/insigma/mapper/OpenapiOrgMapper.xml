@@ -30,7 +30,13 @@
 <!--    </resultMap>-->
 
     <select id="getSelfMachine" resultType="com.insigma.facade.openapi.dto.SelfMachineOrgDTO">
-        SELECT org_id,org_name FROM `openapi_org` GROUP BY org_id
+        SELECT org_id as orgId,org_name as orgName FROM `openapi_org`
+        <where>
+            <if test="name!=null">
+                AND  org_name like concat('%',#{name},'%')
+            </if>
+        </where>
+        GROUP BY org_id
     </select>
 
     <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiOrg">-->
@@ -112,9 +118,7 @@
     <!--        <if test="param.id!=null">
             AND  id = #{param.id}
         </if>
-        <if test="param.orgId!=null">
-            AND  org_id = #{param.orgId}
-        </if>
+
         <if test="param.orgName!=null">
             AND  org_name = #{param.orgName}
         </if>

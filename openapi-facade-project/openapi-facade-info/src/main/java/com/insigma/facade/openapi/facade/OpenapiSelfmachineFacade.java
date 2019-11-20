@@ -3,15 +3,13 @@ package com.insigma.facade.openapi.facade;
 
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.po.OpenapiSelfmachine;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineListVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 
 
 public interface OpenapiSelfmachineFacade{
 
-	PageInfo<OpenapiSelfmachine> getOpenapiSelfmachineList(OpenapiSelfmachineListVO listVO);
+	PageInfo<OpenapiSelfmachineShowVO> getOpenapiSelfmachineList(OpenapiSelfmachineListVO listVO);
 
     OpenapiSelfmachine getOpenapiSelfmachineDetail(OpenapiSelfmachineDetailVO detailVO);
 
@@ -19,8 +17,10 @@ public interface OpenapiSelfmachineFacade{
 
     Integer deleteOpenapiSelfmachine(OpenapiSelfmachineDeleteVO deleteVO);
 
-	 
 
+    void saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO);
+
+    Integer setStatu(OpenapiSelfmachineDeleteVO openapiSelfmachineDeleteVO);
 }
 
  
