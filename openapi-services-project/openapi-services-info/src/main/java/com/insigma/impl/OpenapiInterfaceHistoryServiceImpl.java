@@ -6,7 +6,9 @@ import com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade;
 import com.insigma.mapper.OpenapiInterfaceHistoryMapper;
 import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
+import com.insigma.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class OpenapiInterfaceHistoryServiceImpl implements OpenapiInterfaceHisto
         if (openapiInterfaceHistoryListVO.getIsAvaliable()!=null){
             openapiInterfaceHistoryList=openapiInterfaceHistoryList.stream().filter(i->i.getIsAvaliable().equals(openapiInterfaceHistoryListVO.getIsAvaliable())).collect(Collectors.toList());
         }
-        if (openapiInterfaceHistoryListVO.getKeyword()!=null){
+        if (!StringUtils.isEmpty(openapiInterfaceHistoryListVO.getKeyword())){
             openapiInterfaceHistoryList=openapiInterfaceHistoryList.stream().filter(i->i.getUpdateDescription().contains(openapiInterfaceHistoryListVO.getKeyword())).collect(Collectors.toList());
         }
         Integer total=openapiInterfaceHistoryList.size();
