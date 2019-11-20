@@ -11,11 +11,15 @@ import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceDele
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceListVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
 import com.insigma.facade.sysbase.SysOrgFacade;
+import com.insigma.facade.sysbase.SysUserFacade;
 import com.insigma.facade.sysbase.vo.SysOrgDTO;
+import com.insigma.facade.sysbase.vo.SysUserOrgDTO;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +45,10 @@ public class OpenapiAppController extends BasicController {
     SysOrgFacade sysOrgFacade;
     @Autowired
     OpenapiAppInterfaceFacade openapiAppInterfaceFacade;
+    @Autowired
+    LoginComponent loginComponent;
+    @Autowired
+    SysUserFacade sysUserFacade;
 
     @ApiOperation(value = "开放平台应用列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -127,11 +135,18 @@ public class OpenapiAppController extends BasicController {
     public ResultVo<OpenapiApp> saveOpenapiApp(@RequestBody OpenapiAppSaveVO OpenapiAppSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
+            Long userId=loginComponent.getLoginUserId();
+            String userName=loginComponent.getLoginUserName();
+            List<SysUserOrgDTO> orgList = sysUserFacade.queryUserOrg(userId);
+            String orgName= CollectionUtils.isEmpty(orgList)?"":orgList.get(0).getOrgName();
+            OpenapiAppSaveVO.setUserId(userId);
+            OpenapiAppSaveVO.setUserName(userName);
+            OpenapiAppSaveVO.setOrgName(orgName);
             ResultVo checkResult=openapiAppFacade.checkSave(OpenapiAppSaveVO);
             if (!checkResult.isSuccess()){
                 return checkResult;
             }
-            Integer flag = openapiAppFacade.saveOpenapiApp(OpenapiAppSaveVO);
+            Integer flag = openapiAppFacade.saveOpenapiApp(OpenapiAppSaveVO,userId,userName,orgName);
             if (1 == flag) {
                 resultVo.setResultDes("开放平台应用保存成功");
                 resultVo.setSuccess(true);

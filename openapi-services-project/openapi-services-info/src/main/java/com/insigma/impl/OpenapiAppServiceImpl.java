@@ -4,12 +4,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
-import com.insigma.facade.openapi.facade.OpenapiAppTypeFacade;
 import com.insigma.facade.openapi.po.OpenapiAppType;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceListVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
 import com.insigma.mapper.OpenapiAppTypeMapper;
-import com.insigma.util.StringUtil;
 import constant.DataConstant;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
@@ -22,7 +20,6 @@ import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.zookeeper.Op;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.bizbase.util.StringUtils;
 import star.bizbase.util.constant.SysCacheTimeDMO;
@@ -106,7 +103,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
     }
 
     @Override
-    public Integer saveOpenapiApp(OpenapiAppSaveVO openapiAppSaveVO) {
+    public Integer saveOpenapiApp(OpenapiAppSaveVO openapiAppSaveVO, Long userId, String userName, String orgName) {
         if (openapiAppSaveVO==null){
             return 0;
         }
