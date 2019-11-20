@@ -41,7 +41,7 @@
 		</mvc:interceptor>
 
 		<mvc:interceptor>
-			<mvc:mapping path="no" />
+			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/login*"/> 
 			<mvc:exclude-mapping path="/vcode"/> 
 			<mvc:exclude-mapping path="/doLogin"/>
@@ -54,7 +54,7 @@
 		</mvc:interceptor> 
 		
 		<mvc:interceptor>
-			<mvc:mapping path="/no" />
+			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/login*"/> 
 			<mvc:exclude-mapping path="/vcode"/> 
 			<mvc:exclude-mapping path="/show"/>
@@ -73,7 +73,7 @@
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
-			<mvc:mapping path="/no" />
+			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/doLogin"/> 
 			<bean class="com.insigma.webtool.interceptor.MenuInterceptor" />
 		</mvc:interceptor>
