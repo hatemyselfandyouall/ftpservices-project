@@ -35,7 +35,7 @@ public class OpenapiAppTypeServiceImpl implements OpenapiAppTypeFacade {
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
         if (openapiAppTypeListVO.getKeyWord()!=null){
-            criteria.andLike("name",openapiAppTypeListVO.getKeyWord());
+            criteria.andLike("name",'%'+openapiAppTypeListVO.getKeyWord()+'%');
         }
         Page<OpenapiAppType> openapiAppTypeList= (Page<OpenapiAppType>) openapiAppTypeMapper.selectByExample(example);
         PageInfo<OpenapiAppType> openapiAppTypePageInfo=new PageInfo<>(openapiAppTypeList);
