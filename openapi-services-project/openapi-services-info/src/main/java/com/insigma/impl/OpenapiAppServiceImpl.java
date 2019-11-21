@@ -21,6 +21,7 @@ import com.insigma.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
 import star.bizbase.util.constant.SysCacheTimeDMO;
 import star.modules.cache.CacheKeyLock;
@@ -254,6 +255,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Integer saveAppInterface(OpenapiAppInterfaceSaveVO openapiAppSaveVO) {
         OpenapiAppInterface openapiAppInterface=JSONUtil.convert(openapiAppSaveVO,OpenapiAppInterface.class);
         List<Long> interrfaceIds=openapiAppSaveVO.getInterfaceIds();
