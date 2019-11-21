@@ -72,6 +72,10 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @Column( name="out_url")
     private String outUrl;
 
+    @ApiModelProperty("规则url")
+    @Column( name="role_url")
+    private String roleUrl;
+
     @ApiModelProperty("接口请求类型0get1post")
     @Column( name="request_type")
     private Integer requestType;
