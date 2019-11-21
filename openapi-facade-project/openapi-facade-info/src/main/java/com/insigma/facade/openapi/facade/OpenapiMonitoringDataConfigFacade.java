@@ -14,6 +14,8 @@ public interface OpenapiMonitoringDataConfigFacade {
 
     OpenapiMonitoringDataConfigDto getOpenapiMonitoringDataConfigDetail(Long id);
 
+    OpenapiMonitoringDataConfigDto getOpenapiMonitoringDataConfigInfo(Long interfaceId);
+
     Integer saveOpenapiMonitoringDataConfig(OpenapiMonitoringDataConfigDto openapiMonitoringDataConfigDto);
 
     Integer deleteOpenapiMonitoringDataConfig(Long id);

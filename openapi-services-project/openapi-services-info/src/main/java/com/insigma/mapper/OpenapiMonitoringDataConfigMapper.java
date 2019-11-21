@@ -14,4 +14,5 @@ public interface OpenapiMonitoringDataConfigMapper extends Mapper<OpenapiMonitor
 
     List<OpenapiMonitoringDataConfigDto> getOpenapiMonitoringDataConfigCount(@Param("name") String name);
     OpenapiMonitoringDataConfigDto getOpenapiMonitoringDataConfigDetail(@Param("id") Long id);
+    OpenapiMonitoringDataConfigDto getOpenapiMonitoringDataConfigInfo(@Param("interfaceId") Long interfaceId);
 }

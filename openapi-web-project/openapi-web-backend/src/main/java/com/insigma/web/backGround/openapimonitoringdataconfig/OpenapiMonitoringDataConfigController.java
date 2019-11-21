@@ -67,6 +67,25 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
         return resultVo;
     }
 
+    @ApiOperation(value = "根据接口id查询监控数据配置详情")
+    @RequestMapping(value = "/detailInfo",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiEarlyWarning> getOpenapiMonitoringDataConfigInfo(@RequestParam(value = "interfaceId") Long interfaceId){
+        ResultVo resultVo=new ResultVo();
+        try {
+            OpenapiMonitoringDataConfigDto openapiMonitoringDataConfigDto=openapiMonitoringDataConfigFacade.getOpenapiMonitoringDataConfigInfo(interfaceId);
+            if(openapiMonitoringDataConfigDto!=null){
+                resultVo.setResult(openapiMonitoringDataConfigDto);
+                resultVo.setSuccess(true);
+            }else {
+                resultVo.setResultDes("获取监控数据配置详情失败");
+            }
+        } catch (Exception e){
+            resultVo.setResultDes("获取监控数据配置详情异常");
+            log.error("获取监控数据配置详情异常",e);
+        }
+        return resultVo;
+    }
+
     @ApiOperation(value = "监控数据配置保存")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiApp> saveOpenapiMonitoringDataConfig(@RequestBody OpenapiMonitoringDataConfigDto openapiMonitoringDataConfigDto){
