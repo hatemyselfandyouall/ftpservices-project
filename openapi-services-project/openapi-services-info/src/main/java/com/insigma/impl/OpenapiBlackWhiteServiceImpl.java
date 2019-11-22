@@ -94,7 +94,7 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
 
     @Override
     public List<OpenapiBlackWhite> getBlackWhiteList() {
-        return openapiBlackWhiteMapper.select(new OpenapiBlackWhite().setIsDelete(DataConstant.NO_DELETE));
+        return openapiBlackWhiteMapper.select(new OpenapiBlackWhite().setIsDelete(DataConstant.NO_DELETE).setAddType(1));
     }
 
 }
