@@ -13,12 +13,14 @@ import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachin
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
 import com.insigma.util.JSONUtil;
+import com.insigma.util.StringUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.bizbase.util.StringUtils;
 import star.bizbase.util.constant.SysCacheTimeDMO;
 import star.modules.cache.CacheKeyLock;
 import star.modules.cache.CachesKeyService;
+import star.modules.cache.CachesService;
 import star.modules.cache.enumerate.BaseCacheEnum;
 import tk.mybatis.mapper.entity.Example;
 
@@ -34,6 +36,8 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
     OpenapiSelfmachineRequestMapper openapiSelfmachineRequestMapper;
     @Autowired
     CachesKeyService cachesKeyService;
+    @Autowired
+    CachesService cachesService;
 
     @Override
     public PageInfo<OpenapiSelfmachineRequest> getOpenapiSelfmachineRequestList(OpenapiSelfmachineRequestListVO openapiSelfmachineRequestListVO) {
@@ -111,6 +115,21 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         }.getCache(OpenapiCacheEnum.REQUEST_TOKEN, uniqueCode.getUniqueCode());
     }
 
+    @Override
+    public Boolean checkTokenExit(String token) {
+        Boolean flag=false;
+        if (StringUtils.isEmpty(token)){
+            return flag;
+        }
+        OpenapiSelfmachineRequest openapiSelfmachineRequest=openapiSelfmachineRequestMapper.selectOne(new OpenapiSelfmachineRequest().setToken(token));
+        if (openapiSelfmachineRequest==null){
+            return flag;
+        }
+        if (token.equals(cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode()).toString())){
+            flag=true;
+        }
+        return flag;
+    }
 
 
     private String getInitMachineCode(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg){

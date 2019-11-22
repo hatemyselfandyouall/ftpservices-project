@@ -59,7 +59,6 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         if (openapiAppListVO==null||openapiAppListVO.getPageNum()==null||openapiAppListVO.getPageSize()==null) {
             return null;
         }
-        PageHelper.startPage(openapiAppListVO.getPageNum().intValue(),openapiAppListVO.getPageSize().intValue());
         Example example=new Example(OpenapiApp.class);
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
@@ -75,13 +74,15 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         if (!StringUtils.isEmpty(openapiAppListVO.getName())){
             criteria.andLike("name","%"+openapiAppListVO.getName()+"%");
         }
+        example.setOrderByClause("create_time desc");
+        PageHelper.startPage(openapiAppListVO.getPageNum().intValue(),openapiAppListVO.getPageSize().intValue());
         Page<OpenapiApp> openapiAppList=(Page<OpenapiApp>)openapiAppMapper.selectByExample(example);;
         List<OpenapiAppListShowVO> openapiAppListShowVOS=openapiAppList.stream().map(i->{
             OpenapiAppListShowVO openapiAppListShowVO=JSONUtil.convert(i,OpenapiAppListShowVO.class);
             openapiAppListShowVO.setInterfaceCount(openapiAppInterfaceMapper.getOpenapiAppInterfaceList(null,null,i.getId()).size());
             if (openapiAppListShowVO.getTypeId()!=null) {
                 OpenapiAppType openapiAppType = openapiAppTypeMapper.selectByPrimaryKey(openapiAppListShowVO.getTypeId());
-                openapiAppListShowVO.setTypeName(openapiAppType != null ? "0" : openapiAppType.getName());
+                openapiAppListShowVO.setTypeName(openapiAppType != null ? openapiAppType.getName():"");
             }
             return openapiAppListShowVO;
         }).collect(Collectors.toList());
@@ -98,7 +99,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
         OpenapiApp openapiApp=openapiAppMapper.selectByPrimaryKey(openapiAppDetailVO.getId());
         if(openapiApp!=null&&openapiApp.getTypeId()!=null) {
             OpenapiAppType openapiAppType = openapiAppTypeMapper.selectByPrimaryKey(openapiApp.getTypeId());
-            openapiApp.setTypeName(openapiAppType != null ? "0" : openapiAppType.getName());
+            openapiApp.setTypeName(openapiAppType != null ?openapiAppType.getName():"");
         }
         return openapiApp;
     }

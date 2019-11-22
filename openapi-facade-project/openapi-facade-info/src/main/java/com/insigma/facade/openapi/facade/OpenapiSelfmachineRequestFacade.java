@@ -22,6 +22,8 @@ public interface OpenapiSelfmachineRequestFacade{
 
 
     OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest uniqueCode, OpenapiOrg openapiOrg);
+
+    Boolean checkTokenExit(String token);
 }
 
  
