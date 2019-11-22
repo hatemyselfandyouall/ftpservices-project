@@ -54,16 +54,37 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
         ResultVo resultVo=new ResultVo();
         try {
             OpenapiMonitoringDataConfigDto openapiMonitoringDataConfigDto=openapiMonitoringDataConfigFacade.getOpenapiMonitoringDataConfigDetail(id);
-        if(openapiMonitoringDataConfigDto!=null){
+            resultVo.setCode("00");
             resultVo.setResult(openapiMonitoringDataConfigDto);
             resultVo.setSuccess(true);
-        }else {
-            resultVo.setResultDes("获取监控数据配置详情失败");
-        }
+            resultVo.setResultDes("获取监控数据配置详情成功");
         } catch (Exception e){
-        resultVo.setResultDes("获取监控数据配置详情异常");
-        log.error("获取监控数据配置详情异常",e);
+            resultVo.setCode("400");
+            resultVo.setResult("fail");
+            resultVo.setSuccess(false);
+            resultVo.setResultDes("获取监控数据配置详情异常");
+            log.error("获取监控数据配置详情异常",e);
     }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "根据接口id查询监控数据配置详情")
+    @RequestMapping(value = "/detailInfo",method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiEarlyWarning> getOpenapiMonitoringDataConfigInfo(@RequestParam(value = "interfaceId") Long interfaceId){
+        ResultVo resultVo=new ResultVo();
+        try {
+            OpenapiMonitoringDataConfigDto openapiMonitoringDataConfigDto=openapiMonitoringDataConfigFacade.getOpenapiMonitoringDataConfigInfo(interfaceId);
+            resultVo.setCode("00");
+            resultVo.setResult(openapiMonitoringDataConfigDto);
+            resultVo.setSuccess(true);
+            resultVo.setResultDes("根据接口id获取监控数据配置详情成功");
+        } catch (Exception e){
+            resultVo.setCode("400");
+            resultVo.setSuccess(false);
+            resultVo.setResult("fail");
+            resultVo.setResultDes("根据接口id获取监控数据配置详情异常");
+            log.error("根据接口id获取监控数据配置详情异常",e);
+        }
         return resultVo;
     }
 

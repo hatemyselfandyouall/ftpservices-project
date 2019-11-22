@@ -70,8 +70,7 @@ public class OpenapiServerMonitorController extends BasicController {
         //获取接口中的预警信息
         List<OpenapiMonitoringDataConfig> openapiMonitoringDataConfigs=openapiMonitoringDataConfigFacade.getConfigList();
         //字段转map,key为interfaceId   interface_id : 1
-        Map<Long,OpenapiMonitoringDataConfig> openapiMonitoringDataConfigMap=openapiMonitoringDataConfigs.
-                stream().collect(Collectors.toMap(i->i.getInterfaceId(),i->i));
+        Map<Long,OpenapiMonitoringDataConfig> openapiMonitoringDataConfigMap=openapiMonitoringDataConfigs.stream().collect(Collectors.toMap(i->i.getInterfaceId(),i->i));
         //遍历，在resultVO的json中添加字段
         TableInfo tableInfo = (TableInfo)resultVo.getResult();
         OpenapiMonitoringDataConfig openapiMonitoringDataConfig = new   OpenapiMonitoringDataConfig ();

@@ -44,8 +44,12 @@ public class OpenapiMonitoringDataConfigServiceImpl implements OpenapiMonitoring
         if (id==null) {
             return null;
         }
-        OpenapiMonitoringDataConfigDto openapiMonitoringDataConfigDto=openapiMonitoringDataConfigMapper.getOpenapiMonitoringDataConfigDetail(id);
-        return openapiMonitoringDataConfigDto;
+        return  openapiMonitoringDataConfigMapper.getOpenapiMonitoringDataConfigDetail(id);
+    }
+
+    @Override
+    public OpenapiMonitoringDataConfigDto getOpenapiMonitoringDataConfigInfo(Long interfaceId) {
+        return openapiMonitoringDataConfigMapper.getOpenapiMonitoringDataConfigInfo(interfaceId);
     }
 
     @Override
