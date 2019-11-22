@@ -3,7 +3,10 @@ package com.insigma.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.dto.ApplicationServiceDto;
+import com.insigma.facade.openapi.dto.OpenapiBlackWhiteDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
+import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.po.OpenapiAppType;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceListVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
@@ -31,6 +34,7 @@ import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.po.OpenapiApp;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -51,6 +55,8 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
     InterfaceFacade  interfaceFacade;
     @Autowired
     OpenapiAppTypeMapper openapiAppTypeMapper;
+    @Autowired
+    OpenapiBlackWhiteFacade openapiBlackWhiteFacade;
 
 
 
@@ -105,21 +111,22 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
     }
 
     @Override
-    public Integer saveOpenapiApp(OpenapiAppSaveVO openapiAppSaveVO, Long userId, String userName, String orgName) {
+    public OpenapiApp saveOpenapiApp(OpenapiAppSaveVO openapiAppSaveVO, Long userId, String userName, String orgName) {
         if (openapiAppSaveVO==null){
-            return 0;
+            return null;
         }
         OpenapiApp openapiApp= JSONUtil.convert(openapiAppSaveVO,OpenapiApp.class);
         if (openapiApp.getId()==null){
             openapiApp.setAppKey(UUID.randomUUID().toString().replaceAll("-",""));
             openapiApp.setAppSecret(UUID.randomUUID().toString().replaceAll("-",""));
-            return openapiAppMapper.insertSelective(openapiApp);
+            openapiAppMapper.insertSelective(openapiApp);
         }else {
             openapiApp.setModifyTime(new Date());
             Example example=new Example(OpenapiApp.class);
             example.createCriteria().andEqualTo("id",openapiApp.getId());
-            return openapiAppMapper.updateByExampleSelective(openapiApp,example);
+            openapiAppMapper.updateByExampleSelective(openapiApp,example);
         }
+        return openapiAppMapper.selectByPrimaryKey(openapiApp.getId());
     }
 
     @Override
@@ -267,6 +274,13 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             openapiAppInterface.setIsAudit(DataConstant.IS_AUDITED);
             openapiAppInterfaceMapper.insertSelective(openapiAppInterface);
         });
+        if(!StringUtils.isEmpty(openapiAppSaveVO.getIpAddress())){
+            OpenapiBlackWhiteDto openapiBlackWhiteDto=new OpenapiBlackWhiteDto()
+                    .setIpAddress(Arrays.asList(openapiAppSaveVO.getIpAddress()))
+                    .setIsDelete(DataConstant.NO_DELETE)
+                    .setApplicationServiceDtos(Arrays.asList(new ApplicationServiceDto().setApplicationId(openapiAppSaveVO.getAppId().toString())));
+            openapiBlackWhiteFacade.saveOpenapiBlackWhite(openapiBlackWhiteDto);
+        }
         return 1;
     }
 

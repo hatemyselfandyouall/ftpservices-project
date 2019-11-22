@@ -3,6 +3,7 @@ package com.insigma.facade.openapi.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.List;
 
 
 @Data
+@Accessors(chain = true)
 public class OpenapiBlackWhiteDto implements Serializable{
 
 

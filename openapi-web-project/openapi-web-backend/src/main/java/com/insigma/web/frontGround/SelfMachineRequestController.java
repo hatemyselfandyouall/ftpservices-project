@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import star.bizbase.util.StringUtils;
 import star.vo.result.ResultVo;
 
@@ -93,6 +94,25 @@ public class SelfMachineRequestController {
         return resultVo;
     }
 
+
+    @ApiOperation(value = "自助机请求")
+    @RequestMapping(value = {"/testToken"}, method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo testToken(
+            @RequestParam("token") String token) {
+        ResultVo resultVo=new ResultVo();
+        try {
+            if (openapiSelfmachineRequestFacade.checkTokenExit(token)){
+                resultVo.setSuccess(true);
+                resultVo.setResultDes("token验证通过");
+            }else {
+                resultVo.setResultDes("token验证未通过");
+            }
+        }catch (Exception e){
+            log.error("自助机请求接受异常",e);
+            resultVo.setResultDes("自助机请求接受异常");
+        }
+        return resultVo;
+    }
     private OpenapiOrg checkCertificate(String certificate, OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO) {
         return openapiOrgFacade.checkCertificate(certificate,openapiSelfmachineRequestSaveVO);
     }
@@ -107,5 +127,9 @@ public class SelfMachineRequestController {
         String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
+        RestTemplate restTemplate=new RestTemplate();
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+                null,String.class);
+        System.out.println(responseEntity.getBody());
     }
 }

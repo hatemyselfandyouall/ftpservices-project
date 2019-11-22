@@ -146,8 +146,9 @@ public class OpenapiAppController extends BasicController {
             if (!checkResult.isSuccess()){
                 return checkResult;
             }
-            Integer flag = openapiAppFacade.saveOpenapiApp(OpenapiAppSaveVO,userId,userName,orgName);
-            if (1 == flag) {
+            OpenapiApp openapiApp = openapiAppFacade.saveOpenapiApp(OpenapiAppSaveVO,userId,userName,orgName);
+            if (openapiApp!=null) {
+                resultVo.setResult(openapiApp);
                 resultVo.setResultDes("开放平台应用保存成功");
                 resultVo.setSuccess(true);
             } else {

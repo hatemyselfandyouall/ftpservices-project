@@ -125,7 +125,8 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         if (openapiSelfmachineRequest==null){
             return flag;
         }
-        if (token.equals(cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode()).toString())){
+        OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());
+        if (openapiSelfmachineRequest1!=null&&token.equals(openapiSelfmachineRequest1.getToken())){
             flag=true;
         }
         return flag;

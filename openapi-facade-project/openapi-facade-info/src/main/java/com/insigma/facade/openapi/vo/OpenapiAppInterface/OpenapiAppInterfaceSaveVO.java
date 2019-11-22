@@ -49,4 +49,6 @@ public class OpenapiAppInterfaceSaveVO implements Serializable {
     @Column( name="open_access")
     private Integer openAccess;
 
+    @ApiModelProperty("IP地址")
+    private String ipAddress;
 }

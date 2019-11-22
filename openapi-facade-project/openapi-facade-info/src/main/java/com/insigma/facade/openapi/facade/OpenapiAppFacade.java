@@ -18,7 +18,7 @@ public interface OpenapiAppFacade{
 
     OpenapiApp getOpenapiAppDetail(OpenapiAppDetailVO detailVO);
 
-    Integer saveOpenapiApp(OpenapiAppSaveVO saveVO, Long userId, String userName, String orgName);
+    OpenapiApp saveOpenapiApp(OpenapiAppSaveVO saveVO, Long userId, String userName, String orgName);
 
     Integer deleteOpenapiApp(OpenapiAppDeleteVO deleteVO);
 

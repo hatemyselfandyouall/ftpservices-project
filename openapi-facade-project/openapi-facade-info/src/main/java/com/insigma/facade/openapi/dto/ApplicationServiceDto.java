@@ -3,11 +3,13 @@ package com.insigma.facade.openapi.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 
 @Data
+@Accessors(chain = true)
 public class ApplicationServiceDto implements Serializable{
 
 
