@@ -74,4 +74,8 @@
 	<bean id="openapiSelfmachineRequestServiceImpl" class="com.insigma.impl.OpenapiSelfmachineRequestServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade" ref="openapiSelfmachineRequestServiceImpl"
 				   version="1.0.1" delay="-1" retries="0"  />
+
+	<bean id="openapiOrgShortnameServiceImpl" class="com.insigma.impl.OpenapiOrgShortnameServiceImpl" />
+	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiOrgShortnameFacade" ref="openapiOrgShortnameServiceImpl"
+				   version="1.0.1" delay="-1" retries="0"  />
 </beans>
