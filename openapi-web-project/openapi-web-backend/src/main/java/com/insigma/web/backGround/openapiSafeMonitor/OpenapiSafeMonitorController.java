@@ -84,8 +84,24 @@ public class OpenapiSafeMonitorController extends BasicController {
                 }
         if(!interfaceDetailVO.getWhereWord().isEmpty()){
             if(interfaceDetailVO.getWhereWord().get("requester_ip") != null) { //根据ip条件查询
-                //where r.requester_ip='10.85.13.126'
                 map.put("condition", " where r.requester_ip not in (" + ips + ") and r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%'");
+                if(interfaceDetailVO.getWhereWord().get("is_abnormal") != null) { //是否异常条件查询 0-异常 1-正常
+                    if("0".equals(interfaceDetailVO.getWhereWord().get("is_abnormal"))){   //异常查询  大于等于预警值为异常
+                        map.put("condition", " where r.requester_ip not in (" + ips + ") and r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%' and r.dayCallTimes >= " + Integer.parseInt(openapiDictionaryFacade.getValueByCode(DataConstant.VISIT_NUM)));
+                    }
+                    if("1".equals(interfaceDetailVO.getWhereWord().get("is_abnormal"))){  //正常查询   小于预警值为正常
+                        map.put("condition", " where r.requester_ip not in (" + ips + ") and r.requester_ip like '%" + interfaceDetailVO.getWhereWord().get("requester_ip") + "%' and r.dayCallTimes < " + Integer.parseInt(openapiDictionaryFacade.getValueByCode(DataConstant.VISIT_NUM)));
+                    }
+                }
+            }else{
+                if(interfaceDetailVO.getWhereWord().get("is_abnormal") != null) { //是否异常条件查询 0-异常 1-正常
+                    if("0".equals(interfaceDetailVO.getWhereWord().get("is_abnormal"))){   //异常查询  大于等于预警值为异常
+                        map.put("condition", " where r.requester_ip not in (" + ips + ") and r.dayCallTimes >= " + Integer.parseInt(openapiDictionaryFacade.getValueByCode(DataConstant.VISIT_NUM)));
+                    }
+                    if("1".equals(interfaceDetailVO.getWhereWord().get("is_abnormal"))){  //正常查询   小于预警值为正常
+                        map.put("condition", " where r.requester_ip not in (" + ips + ") and r.dayCallTimes < " + Integer.parseInt(openapiDictionaryFacade.getValueByCode(DataConstant.VISIT_NUM)));
+                    }
+                }
             }
             //    }
 
@@ -123,7 +139,7 @@ public class OpenapiSafeMonitorController extends BasicController {
             if( tableDataJson.getInteger("dayCallTimes") >= Integer.parseInt(openapiDictionaryFacade.getValueByCode(DataConstant.VISIT_NUM))){
                 tableDataJson.put("is_abnormal","0");  //异常
             }else{
-                tableDataJson.put("is_abnormal","1");  //没有异常
+                tableDataJson.put("is_abnormal","1");  //正常
             }
 //            if (StringUtil.isNotEmpty(tableDataJson.getString("requester_ip"))) {
 //                for (OpenapiBlackWhite blackWhite : blackWhiteSet) {
