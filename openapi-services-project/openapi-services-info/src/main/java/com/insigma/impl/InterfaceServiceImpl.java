@@ -177,8 +177,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     private List<OpenapiInterfaceRequestParam> requestTreeIterate(List<OpenapiInterfaceRequestParam> roots, Map<String, List<OpenapiInterfaceRequestParam>> longListMap) {
-        if(roots==null){
-            return null;
+        if(CollectionUtils.isEmpty(roots)){
+            return new ArrayList<>();
         }
         roots.forEach(i->{
             List<OpenapiInterfaceRequestParam> children=longListMap.get(i.getId());
@@ -198,8 +198,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     private List<OpenapiInterfaceResponseParam> responseTreeIterate(List<OpenapiInterfaceResponseParam> roots, Map<String, List<OpenapiInterfaceResponseParam>> longListMap) {
-        if(roots==null){
-            return null;
+        if(CollectionUtils.isEmpty(roots)){
+            return new ArrayList<>();
         }
         roots.forEach(i->{
             List<OpenapiInterfaceResponseParam> children=longListMap.get(i.getId());
@@ -578,7 +578,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
                 return resultVo;
             }
             if (openapiInterfaceMapper.selectCount(new OpenapiInterface().setCode(code).setIsDelete(DataConstant.NO_DELETE)) > 0) {
-                resultVo.setResultDes("不允许重复code");
+                resultVo.setResultDes("不允许重复url");
                 return resultVo;
             }
         }

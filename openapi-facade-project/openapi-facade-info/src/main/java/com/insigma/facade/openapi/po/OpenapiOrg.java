@@ -38,6 +38,10 @@ public class OpenapiOrg implements Serializable{
     @Column( name="org_name")
     private String orgName;
 
+    @ApiModelProperty("")
+    @Column( name="org_code")
+    private String orgCode;
+
     @ApiModelProperty("地区id")
     @Column( name="area_id")
     private Long areaId;
