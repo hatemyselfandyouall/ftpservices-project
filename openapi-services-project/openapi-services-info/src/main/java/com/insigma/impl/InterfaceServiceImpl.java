@@ -182,9 +182,11 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         roots.forEach(i->{
             List<OpenapiInterfaceRequestParam> children=longListMap.get(i.getId());
-            if (children!=null){
+            if (CollectionUtils.isEmpty(children)){
                 requestTreeIterate(children,longListMap);
                 i.setChildren(children);
+            }else {
+                i.setChildren(new ArrayList<>());
             }
         });
         return roots;
@@ -203,9 +205,11 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         roots.forEach(i->{
             List<OpenapiInterfaceResponseParam> children=longListMap.get(i.getId());
-            if (children!=null){
+            if (CollectionUtils.isEmpty(children)){
                 responseTreeIterate(children,longListMap);
                 i.setChildren(children);
+            }else {
+                i.setChildren(new ArrayList<>());
             }
         });
         return roots;
