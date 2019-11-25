@@ -24,6 +24,10 @@ public interface OpenapiBlackWhiteFacade {
      * @return
      */
     List<OpenapiBlackWhite> getBlackWhiteList();
+
+    void updateOpenapiBlackWhite(OpenapiBlackWhite openapiBlackWhite);
+
+    List<String> verificationOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto);
 }
 
  

@@ -8,13 +8,13 @@ import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
 import com.insigma.mapper.OpenapiBlackWhiteMapper;
 import com.insigma.util.JSONUtil;
-import com.insigma.util.StringUtil;
 import constant.DataConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -77,6 +77,30 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
                 }
             }
         }
+    }
+
+    @Override
+    public void updateOpenapiBlackWhite(OpenapiBlackWhite openapiBlackWhite) {
+        openapiBlackWhite.setModifyTime(new Date());
+        Example example=new Example(OpenapiBlackWhite.class);
+        example.createCriteria().andEqualTo("id",openapiBlackWhite.getId());
+        openapiBlackWhiteMapper.updateByExampleSelective(openapiBlackWhite,example);
+    }
+
+    @Override
+    public List<String> verificationOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto) {
+        List<String> ipAddressList = openapiBlackWhiteDto.getIpAddress();
+        List<String> ipAddressListRepeat = new ArrayList<>();
+        for(String ipAddress:ipAddressList){
+            Example example=new Example(OpenapiBlackWhite.class);
+            Example.Criteria criteria=example.createCriteria();
+            criteria.andEqualTo("ipAddress",ipAddress);
+            List<OpenapiBlackWhite> openapiBlackWhiteList= openapiBlackWhiteMapper.selectByExample(example);
+            if(openapiBlackWhiteList!=null&&openapiBlackWhiteList.size()>0){
+                ipAddressListRepeat.add(ipAddress);
+            }
+        }
+        return ipAddressListRepeat;
     }
 
     @Override
