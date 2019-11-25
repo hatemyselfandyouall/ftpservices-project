@@ -72,7 +72,22 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
             if(ipAddressList!=null&&ipAddressList.size()>0) {
                 for(String ipAddress:ipAddressList) {
                     OpenapiBlackWhite openapiBlackWhite = JSONUtil.convert(openapiBlackWhiteDto, OpenapiBlackWhite.class);
+                    Integer addType = openapiBlackWhiteDto.getAddType();
                     openapiBlackWhite.setIpAddress(ipAddress);
+                    //如果当前ip不同类型的名单已存在，必须作废当前条，添加新的。
+                    OpenapiBlackWhite openapiBlackWhiteUpd=new OpenapiBlackWhite();
+                    openapiBlackWhiteUpd.setModifyTime(new Date());
+                    openapiBlackWhiteUpd.setIsDelete(1);
+                    Example example=new Example(OpenapiBlackWhite.class);
+                    Example.Criteria criteria=example.createCriteria();
+                    criteria.andEqualTo("ipAddress",ipAddress);
+                    if(addType==1) {
+                        criteria.andEqualTo("addType",2);
+                    }else{
+                        criteria.andEqualTo("addType",1);
+                    }
+                    criteria.andEqualTo("isDelete",0);
+                    openapiBlackWhiteMapper.updateByExampleSelective(openapiBlackWhiteUpd,example);
                     openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
                 }
             }
@@ -95,6 +110,8 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
             Example example=new Example(OpenapiBlackWhite.class);
             Example.Criteria criteria=example.createCriteria();
             criteria.andEqualTo("ipAddress",ipAddress);
+            criteria.andEqualTo("addType",openapiBlackWhiteDto.getAddType());
+            criteria.andEqualTo("isDelete",0);
             List<OpenapiBlackWhite> openapiBlackWhiteList= openapiBlackWhiteMapper.selectByExample(example);
             if(openapiBlackWhiteList!=null&&openapiBlackWhiteList.size()>0){
                 ipAddressListRepeat.add(ipAddress);
