@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import star.vo.result.ResultVo;
 
 import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -87,6 +88,42 @@ public class OpenapiBlackWhiteController extends BasicController {
         return resultVo;
     }
 
+
+    @ApiOperation(value = "验证黑白名单是否存在")
+    @RequestMapping(value = "/verification",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiApp> verificationOpenapiBlackWhite(@RequestBody OpenapiBlackWhiteDto openapiBlackWhiteDto){
+        ResultVo resultVo=new ResultVo();
+        try {
+            List<String> ipList = openapiBlackWhiteFacade.verificationOpenapiBlackWhite(openapiBlackWhiteDto);
+            resultVo.setCode("00");
+            resultVo.setResult(ipList);
+            resultVo.setResultDes("验证黑白名单是否存在成功");
+            resultVo.setSuccess(true);
+        }catch (Exception e){
+            resultVo.setCode("400");
+            resultVo.setSuccess(false);
+            resultVo.setResult("fail");
+            resultVo.setResultDes("验证黑白名单是否存在异常");
+            log.error("验证黑白名单是否存在异常",e);
+        }
+        return resultVo;
+    }
+
+
+    @ApiOperation(value = "黑白名单修改")
+    @RequestMapping(value = "/update",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiApp> updateOpenapiBlackWhite(@RequestBody OpenapiBlackWhite openapiBlackWhite){
+        ResultVo resultVo=new ResultVo();
+        try {
+            openapiBlackWhiteFacade.updateOpenapiBlackWhite(openapiBlackWhite);
+            resultVo.setResultDes("黑白名单修改成功");
+            resultVo.setSuccess(true);
+        }catch (Exception e){
+            resultVo.setResultDes("黑白名单修改异常");
+            log.error("黑白名单修改异常",e);
+        }
+        return resultVo;
+    }
     @ApiOperation(value = "黑白名单删除")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiBlackWhite> deleteBlackWhite(@RequestBody OpenapiBlackWhiteDto openapiBlackWhiteDto){
