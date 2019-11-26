@@ -29,9 +29,16 @@ public class OpenapiOrgShortnameSaveVO implements Serializable {
     private String orgCode;
 
     @ApiModelProperty("")
+    @Column( name="area_name")
+    private String areaName;
+
+    @ApiModelProperty("")
+    @Column( name="area_code")
+    private String areaCode;
+
+    @ApiModelProperty("")
     @Column( name="short_name")
     private String shortName;
-
 
     @ApiModelProperty("")
     @Column( name="modifier_name")

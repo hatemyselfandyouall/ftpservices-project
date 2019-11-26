@@ -5,14 +5,16 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.GetSelfMachineDTO;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
 import com.insigma.facade.openapi.po.OpenapiOrg;
+import com.insigma.facade.openapi.po.OpenapiSelfmachine;
+import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
+import com.insigma.facade.openapi.po.SelfMachineEnum;
 import com.insigma.facade.openapi.vo.OpenapiApp.ResetAppSecretVO;
-import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgListVO;
-import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiOrg.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 import com.insigma.facade.openapi.vo.root.PageVO;
 import com.insigma.mapper.OpenapiOrgMapper;
+import com.insigma.mapper.OpenapiSelfmachineMapper;
+import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
 import com.insigma.util.HttpUtil;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.MD5Util;
@@ -24,26 +26,34 @@ import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
 
     @Autowired
     OpenapiOrgMapper OpenapiOrgMapper;
+    @Autowired
+    OpenapiSelfmachineMapper openapiSelfmachineMapper;
+    @Autowired
+    OpenapiSelfmachineRequestMapper openapiSelfmachineRequestMapper;
 
     public static final String URL= DynamicProperties.staticProperties.getProperty("oss.download.http.txt.url");
     @Override
-    public PageInfo<OpenapiOrg> getOpenapiOrgList(OpenapiOrgListVO OpenapiOrgListVO) {
+    public PageInfo<OpenapiOrgShowVO> getOpenapiOrgList(OpenapiOrgListVO OpenapiOrgListVO) {
         if (OpenapiOrgListVO==null||OpenapiOrgListVO.getPageNum()==null||OpenapiOrgListVO.getPageSize()==null) {
             return null;
         }
         PageHelper.startPage(OpenapiOrgListVO.getPageNum().intValue(),OpenapiOrgListVO.getPageSize().intValue());
         OpenapiOrg exampleObeject=new OpenapiOrg().setOrgId(OpenapiOrgListVO.getOrgId()).setAreaId(OpenapiOrgListVO.getAreaId()).setIsDelete(DataConstant.NO_DELETE);
         List<OpenapiOrg> openapiOrgList=OpenapiOrgMapper.select(exampleObeject);
-        openapiOrgList.forEach(i->{
-            i.setCertificateKey(URL+i.getCertificateKey());
-        });
-        PageInfo<OpenapiOrg> OpenapiOrgPageInfo=new PageInfo<>(openapiOrgList);
+        List<OpenapiOrgShowVO> openapiOrgShowVOS=openapiOrgList.stream().map(i->{
+            OpenapiOrgShowVO openapiOrgShowVO=JSONUtil.convert(i,OpenapiOrgShowVO.class);
+            openapiOrgShowVO.setCertificateKey(URL+i.getCertificateKey());
+            openapiOrgShowVO.setMachineCount(openapiSelfmachineRequestMapper.selectCount(new OpenapiSelfmachineRequest().setOrgId(i.getId()).setStatu(SelfMachineEnum.WHITE)));
+            return openapiOrgShowVO;
+        }).collect(Collectors.toList());
+        PageInfo<OpenapiOrgShowVO> OpenapiOrgPageInfo=new PageInfo<>(openapiOrgShowVOS);
         return OpenapiOrgPageInfo;
     }
 
@@ -99,6 +109,30 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
         Example example=new Example(OpenapiOrg.class);
         example.createCriteria().andEqualTo("id",OpenapiOrgDeleteVO.getId());
         return OpenapiOrgMapper.updateByExampleSelective(OpenapiOrg,example);
+    }
+
+    @Override
+    public Integer getSelfMachineCountByOrgCode(String orgCode) {
+        List<OpenapiOrg> openapiOrgs= OpenapiOrgMapper.select(new OpenapiOrg().setOrgCode(orgCode).setIsDelete(DataConstant.NO_DELETE));
+        List<Long> ids=openapiOrgs.stream().map(OpenapiOrg::getId).collect(Collectors.toList());
+        if (ids==null||ids.isEmpty()){
+            return 0;
+        }else {
+            Example example=new Example(OpenapiSelfmachine.class);
+            example.createCriteria().andIn("orgId",ids).andEqualTo("idDelete",DataConstant.NO_DELETE);
+            return openapiSelfmachineMapper.selectCountByExample(example);
+        }
+    }
+
+    @Override
+    public OpenapiOrg getOrgByMachineCode(String machineCode) {
+        List<OpenapiSelfmachineRequest> openapiSelfmachineRequest=openapiSelfmachineRequestMapper.select(new OpenapiSelfmachineRequest().setMachineCode(machineCode));
+        if (openapiSelfmachineRequest==null||openapiSelfmachineRequest.isEmpty()) {
+            return null;
+        }
+        Long id=openapiSelfmachineRequest.get(0).getOrgId();
+        OpenapiOrg openapiOrg=OpenapiOrgMapper.selectByPrimaryKey(id);
+        return openapiOrg;
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachin
 
 public interface OpenapiSelfmachineFacade{
 
-	PageInfo<OpenapiSelfmachineShowVO> getOpenapiSelfmachineList(OpenapiSelfmachineListVO listVO);
+	PageInfo<OpenapiSelfmachineShowVO> getOpenapiSelfmachineList(OpenapiSelfmachineListVO listVO, Long userId);
 
     OpenapiSelfmachine getOpenapiSelfmachineDetail(OpenapiSelfmachineDetailVO detailVO);
 
@@ -18,9 +18,13 @@ public interface OpenapiSelfmachineFacade{
     Integer deleteOpenapiSelfmachine(OpenapiSelfmachineDeleteVO deleteVO);
 
 
-    void saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO);
+    void saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, Long id);
 
     Integer setStatu(OpenapiSelfmachineDeleteVO openapiSelfmachineDeleteVO);
+
+    Integer setActiveStatus(OpenapiSelfmachineSetActiveStatusVO openapiSelfmachineSetActiveStatusVO);
+
+    Integer setOrg(OpenapiSelfmachineSetOrgVO openapiSelfmachineSetOrgVO);
 }
 
  

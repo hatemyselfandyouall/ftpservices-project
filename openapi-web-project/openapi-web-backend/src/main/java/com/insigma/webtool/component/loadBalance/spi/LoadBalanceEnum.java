@@ -22,7 +22,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * load balance enum.
+ * load balance enums.
  *
  * @author xiaoyu(Myth)
  */
@@ -31,17 +31,17 @@ import lombok.RequiredArgsConstructor;
 public enum LoadBalanceEnum {
 
     /**
-     * Hash load balance enum.
+     * Hash load balance enums.
      */
     HASH(1, "hash", true),
 
     /**
-     * Random load balance enum.
+     * Random load balance enums.
      */
     RANDOM(2, "random", true),
 
     /**
-     * Round robin load balance enum.
+     * Round robin load balance enums.
      */
     ROUND_ROBIN(3, "roundRobin", true);
 

@@ -24,7 +24,7 @@ import com.insigma.facade.openapi.vo.OpenapiOrgShortname.OpenapiOrgShortnameSave
 
 @RestController
 @RequestMapping("openapiOrgShortname")
-@Api(tags ="管理")
+@Api(tags ="开放平台机构简称管理")
 @Slf4j
 public class OpenapiOrgShortnameController extends BasicController {
 
@@ -94,10 +94,13 @@ public class OpenapiOrgShortnameController extends BasicController {
         try {
             Integer flag = openapiOrgShortnameFacade.checkDelete(openapiOrgShortnameDeleteVO);
             if (1 == flag) {
+                resultVo.setResult(flag);
                 resultVo.setResultDes("可以删除");
                 resultVo.setSuccess(true);
             } else {
+                resultVo.setResult(flag);
                 resultVo.setResultDes("不可删除");
+                resultVo.setSuccess(true);
             }
         }catch (Exception e){
             resultVo.setResultDes("确认删除是否可行异常");

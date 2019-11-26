@@ -33,6 +33,9 @@
         <if test="param.keyWord!=null and param.keyWord!=''">
             AND  ( osr.ip like concat('%',#{param.keyWord},'%') or osr.mac_address like concat('%',#{param.keyWord},'%') )
         </if>
+        <if test="param.orgCode!=null and param.orgCode!=''">
+            AND  ( osr.ip like concat('%',#{param.keyWord},'%') or osr.mac_address like concat('%',#{param.keyWord},'%') )
+        </if>
     </where>
     </select>
 

@@ -78,6 +78,7 @@ public class OpenapiOrg implements Serializable{
     @Column( name="certificate")
     private String certificate;
 
+
     @ApiModelProperty("证书文件key")
     @Column( name="certificate_key")
     private String certificateKey;
@@ -117,5 +118,9 @@ public class OpenapiOrg implements Serializable{
     @ApiModelProperty("字母缩写")
     @Column( name="abbreviation")
     private String abbreviation;
+
+    @ApiModelProperty("证书编号")
+    @Column( name="certificate_code")
+    private String certificateCode;
 
 }

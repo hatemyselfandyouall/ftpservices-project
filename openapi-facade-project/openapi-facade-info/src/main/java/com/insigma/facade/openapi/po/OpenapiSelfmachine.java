@@ -3,6 +3,7 @@ package com.insigma.facade.openapi.po;
 
 import java.io.Serializable;
 
+import com.insigma.facade.openapi.enums.OpenapiSelfmachineEnum;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -53,6 +54,26 @@ public class OpenapiSelfmachine implements Serializable{
     @ApiModelProperty("机构id")
     @Column( name="org_id")
     private Long orgId;
+
+    @ApiModelProperty("自助机类型id")
+    @Column( name="machine_type_id")
+    private Long machineTypeId;
+
+    @ApiModelProperty("自助机地址id")
+    @Column( name="machine_address_id")
+    private Long machineAddressId;
+
+    @ApiModelProperty("自助机实际地址")
+    @Column( name="machine_address")
+    private String machineAddress;
+
+    @ApiModelProperty("备注")
+    @Column( name="remark")
+    private String remark;
+
+    @ApiModelProperty("激活状态")
+    @Column( name="active_statu")
+    private OpenapiSelfmachineEnum activeStatu;
 
     @ApiModelProperty("创建时间")
     @Column( name="create_time")

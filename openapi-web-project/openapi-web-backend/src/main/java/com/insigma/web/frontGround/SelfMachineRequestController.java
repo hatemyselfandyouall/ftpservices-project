@@ -72,7 +72,7 @@ public class SelfMachineRequestController {
             openapiSelfmachineRequestSaveVO.setUniqueCode(MD5Util.MD5Encode(openapiSelfmachineRequestSaveVO.getIp()+openapiSelfmachineRequestSaveVO.getMacAddress(),"UTF-8"));
             OpenapiSelfmachineRequest openapiSelfmachine=openapiSelfmachineRequestFacade.getOpenapiSelfmachineRequestDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachineRequestSaveVO.getUniqueCode()));
             if (openapiSelfmachine==null){
-                openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO);
+                openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg.getId());
                 resultVo.setResultDes("自助机审核中，请等待审核通过");
                 return resultVo;
             }

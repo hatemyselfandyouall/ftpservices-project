@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class OpenapiOrgShortname implements Serializable{
+public class OpenapiSelfmachineAddress implements Serializable{
 
 
 	//========== properties ==========
@@ -31,38 +31,28 @@ public class OpenapiOrgShortname implements Serializable{
     private Long id;
 
     @ApiModelProperty("")
-    @Column( name="org_name")
-    private String orgName;
+    @Column( name="user_id")
+    private Long userId;
 
     @ApiModelProperty("")
-    @Column( name="org_code")
-    private String orgCode;
+    @Column( name="address")
+    private String address;
 
-
-    @ApiModelProperty("")
-    @Column( name="area_name")
-    private String areaName;
-
-    @ApiModelProperty("")
-    @Column( name="area_code")
-    private String areaCode;
-
-
-    @ApiModelProperty("")
-    @Column( name="short_name")
-    private String shortName;
+    @ApiModelProperty("最近一次使用为1，其他0")
+    @Column( name="is_last_used")
+    private Integer isLastUsed;
 
     @ApiModelProperty("")
     @Column( name="create_time")
     private Date createTime;
 
     @ApiModelProperty("")
-    @Column( name="modify_time")
-    private Date modifyTime;
+    @Column( name="creator_name")
+    private String creatorName;
 
-    @ApiModelProperty("")
-    @Column( name="modifier_name")
-    private String modifierName;
+    @ApiModelProperty("删除为1，未删除0")
+    @Column( name="is_delete")
+    private Integer isDelete;
 
 
 

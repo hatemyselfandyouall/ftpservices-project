@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	
+
+
+
+	<!-- 系统用户 -->
+	<dubbo:reference id="sysUserFacade" interface="com.insigma.facade.sysbase.SysUserFacade"
+					 version="1.0.1" />
+	<!-- 系统角色 -->
+	<dubbo:reference id="sysRoleFacade" interface="com.insigma.facade.sysbase.SysRoleFacade"
+					 version="1.0.1" />
+	<!-- 系统功能 -->
+	<dubbo:reference id="sysFunctionFacade" interface="com.insigma.facade.sysbase.SysFunctionFacade"
+					 version="1.0.1" />
+	<!-- 系统机构 -->
+	<dubbo:reference id="sysOrgFacade" interface="com.insigma.facade.sysbase.SysOrgFacade"
+					 version="1.0.1" />
+	<!-- 机构险种 -->
+	<dubbo:reference id="sysOrginstypeFacade" interface="com.insigma.facade.sysbase.SysOrginstypeFacade"
+					 version="1.0.1" />
+
+	<dubbo:reference id="comOperateLogFacade" interface="com.insigma.facade.ComOperateLogFacade"
+					 version="1.0.1" />
+
+</beans>

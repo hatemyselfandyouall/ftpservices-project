@@ -4,11 +4,13 @@ import com.insigma.facade.openapi.po.OpenapiSelfmachine;
 import com.insigma.facade.openapi.po.SelfMachineEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import java.io.Serializable;
 
 @Data
+@Accessors(chain = true)
 public class OpenapiSelfmachineShowVO extends OpenapiSelfmachine implements Serializable {
 
     @ApiModelProperty("状态")
@@ -22,5 +24,10 @@ public class OpenapiSelfmachineShowVO extends OpenapiSelfmachine implements Seri
     @ApiModelProperty("机器型号")
     @Column( name="machine_type")
     private String machineType;
+
+    @ApiModelProperty("自助机类型id")
+    @Column( name="machine_type_id")
+    private Long machineTypeId;
+
 
 }
