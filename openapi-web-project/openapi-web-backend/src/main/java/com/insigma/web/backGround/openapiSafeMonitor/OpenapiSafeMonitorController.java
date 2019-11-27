@@ -136,7 +136,7 @@ public class OpenapiSafeMonitorController extends BasicController {
         TableInfo tableInfo = (TableInfo) resultVo.getResult();
         for (Object tableData : tableInfo.getTableDatas()) {
             JSONObject tableDataJson = (JSONObject) tableData;
-            if( tableDataJson.getInteger("dayCallTimes") >= Integer.parseInt(openapiDictionaryFacade.getValueByCode(DataConstant.VISIT_NUM))){
+            if( tableDataJson.getInteger("dayCallTimes")/24/60 >= Integer.parseInt(openapiDictionaryFacade.getValueByCode(DataConstant.VISIT_NUM))){
                 tableDataJson.put("is_abnormal","0");  //异常
             }else{
                 tableDataJson.put("is_abnormal","1");  //正常
