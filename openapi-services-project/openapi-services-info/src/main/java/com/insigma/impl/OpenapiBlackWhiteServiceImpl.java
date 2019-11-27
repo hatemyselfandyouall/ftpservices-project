@@ -58,7 +58,8 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
     }
 
     @Override
-    public void saveOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto) {
+    public String saveOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto) {
+        StringBuilder sbu = new StringBuilder();
         List<ApplicationServiceDto> applicationServiceDtos = openapiBlackWhiteDto.getApplicationServiceDtos();
         if(applicationServiceDtos!=null&&applicationServiceDtos.size()>0) {
             for (ApplicationServiceDto applicationServiceDto : applicationServiceDtos) {
@@ -78,20 +79,36 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
                     OpenapiBlackWhite openapiBlackWhiteUpd=new OpenapiBlackWhite();
                     openapiBlackWhiteUpd.setModifyTime(new Date());
                     openapiBlackWhiteUpd.setIsDelete(1);
-                    Example example=new Example(OpenapiBlackWhite.class);
-                    Example.Criteria criteria=example.createCriteria();
-                    criteria.andEqualTo("ipAddress",ipAddress);
-                    if(addType==1) {
-                        criteria.andEqualTo("addType",2);
-                    }else{
-                        criteria.andEqualTo("addType",1);
+                    Example exampleQuery=new Example(OpenapiBlackWhite.class);
+                    Example.Criteria criteriaQuery=exampleQuery.createCriteria();
+                    criteriaQuery.andEqualTo("ipAddress",ipAddress);
+                    criteriaQuery.andEqualTo("addType",addType);
+                    criteriaQuery.andEqualTo("isDelete",0);
+                    List<OpenapiBlackWhite> openapiBlackWhiteList = openapiBlackWhiteMapper.selectByExample(exampleQuery);
+                    if(openapiBlackWhiteList!=null&&openapiBlackWhiteList.size()>0){
+                        sbu.append(ipAddress);
+                        sbu.append(",");
+                    }else {
+                        Example example=new Example(OpenapiBlackWhite.class);
+                        Example.Criteria criteria=example.createCriteria();
+                        criteria.andEqualTo("ipAddress",ipAddress);
+                        criteria.andEqualTo("isDelete",0);
+                        if (addType == 1) {
+                            criteria.andEqualTo("addType", 2);
+                        } else {
+                            criteria.andEqualTo("addType", 1);
+                        }
+                        openapiBlackWhiteMapper.updateByExampleSelective(openapiBlackWhiteUpd, example);
+                        openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
                     }
-                    criteria.andEqualTo("isDelete",0);
-                    openapiBlackWhiteMapper.updateByExampleSelective(openapiBlackWhiteUpd,example);
-                    openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
                 }
             }
         }
+        String ipAddressStr = sbu.toString();
+        if(ipAddressStr.indexOf(",")>=0){
+            ipAddressStr = ipAddressStr.substring(0,ipAddressStr.length()-1);
+        }
+        return ipAddressStr;
     }
 
     @Override
@@ -135,7 +152,7 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
 
     @Override
     public List<OpenapiBlackWhite> getBlackWhiteList() {
-        return openapiBlackWhiteMapper.select(new OpenapiBlackWhite().setIsDelete(DataConstant.NO_DELETE).setAddType(2));
+        return openapiBlackWhiteMapper.select(new OpenapiBlackWhite().setIsDelete(DataConstant.NO_DELETE).setAddType(1));
     }
 
 }

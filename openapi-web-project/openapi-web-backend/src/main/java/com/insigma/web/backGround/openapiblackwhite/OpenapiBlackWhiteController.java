@@ -78,12 +78,23 @@ public class OpenapiBlackWhiteController extends BasicController {
     public ResultVo<OpenapiApp> saveOpenapiBlackWhite(@RequestBody OpenapiBlackWhiteDto openapiBlackWhiteDto){
         ResultVo resultVo=new ResultVo();
         try {
-            openapiBlackWhiteFacade.saveOpenapiBlackWhite(openapiBlackWhiteDto);
-            resultVo.setResultDes("黑白名单保存成功");
-            resultVo.setSuccess(true);
+            String ipAddressStr = openapiBlackWhiteFacade.saveOpenapiBlackWhite(openapiBlackWhiteDto);
+            if(ipAddressStr.length()<=0) {
+                resultVo.setCode("00");
+                resultVo.setResultDes("黑白名单保存成功");
+                resultVo.setSuccess(true);
+            }else{
+                resultVo.setCode("400");
+                resultVo.setResult("fail");
+                resultVo.setResultDes(ipAddressStr+"已存在");
+                resultVo.setSuccess(false);
+            }
         }catch (Exception e){
-                resultVo.setResultDes("接口保存异常");
-                log.error("黑白名单保存异常",e);
+            resultVo.setSuccess(false);
+            resultVo.setCode("400");
+            resultVo.setResult("fail");
+            resultVo.setResultDes("接口保存异常");
+            log.error("黑白名单保存异常",e);
         }
         return resultVo;
     }

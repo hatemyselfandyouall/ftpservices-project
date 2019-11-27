@@ -15,7 +15,7 @@ public interface OpenapiBlackWhiteFacade {
 
     OpenapiBlackWhite getOpenapiBlackWhiteDetail(Long id);
 
-    void saveOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto);
+    String saveOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto);
 
     Integer deleteOpenapiBlackWhite(Long id);
 
