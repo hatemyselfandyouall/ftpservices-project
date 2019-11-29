@@ -15,7 +15,7 @@ public interface OpenapiSelfmachineAddressFacade{
 
     OpenapiSelfmachineAddress getOpenapiSelfmachineAddressDetail(OpenapiSelfmachineAddressDetailVO detailVO);
 
-    Integer saveOpenapiSelfmachineAddress(OpenapiSelfmachineAddressSaveVO saveVO, Long userId, String userName);
+    OpenapiSelfmachineAddress saveOpenapiSelfmachineAddress(OpenapiSelfmachineAddressSaveVO saveVO, Long userId, String userName);
 
     Integer deleteOpenapiSelfmachineAddress(OpenapiSelfmachineAddressDeleteVO deleteVO, Long userId);
 

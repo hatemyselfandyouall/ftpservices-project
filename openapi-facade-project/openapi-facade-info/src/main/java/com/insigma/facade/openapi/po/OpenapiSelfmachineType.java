@@ -43,6 +43,10 @@ public class OpenapiSelfmachineType implements Serializable{
     private Long creatorId;
 
     @ApiModelProperty("")
+    @Column( name="org_code")
+    private String orgCode;
+
+    @ApiModelProperty("")
     @Column( name="creator_name")
     private String creatorName;
 

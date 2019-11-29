@@ -3,6 +3,7 @@ package com.insigma.impl;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
+import com.insigma.facade.openapi.po.OpenapiSelfmachineAddress;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
@@ -10,9 +11,11 @@ import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachin
 import com.insigma.facade.sysbase.SysOrgFacade;
 import com.insigma.facade.sysbase.SysUserFacade;
 import com.insigma.facade.sysbase.vo.SysUserOrgDTO;
+import com.insigma.mapper.OpenapiSelfmachineAddressMapper;
 import com.insigma.mapper.OpenapiSelfmachineMapper;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
 import com.insigma.util.JSONUtil;
+import constant.DataConstant;
 import lombok.experimental.Accessors;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
 
     @Autowired
     OpenapiSelfmachineMapper openapiSelfmachineMapper;
+    @Autowired
+    OpenapiSelfmachineAddressMapper openapiSelfmachineAddressMapper;
     @Autowired
     OpenapiSelfmachineRequestMapper openapiSelfmachineRequestMapper;
     @Autowired
@@ -65,18 +70,25 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
     }
 
     @Override
-    public Integer saveOpenapiSelfmachine(OpenapiSelfmachineSaveVO openapiSelfmachineSaveVO) {
+    @Transactional(rollbackFor = Exception.class)
+    public OpenapiSelfmachine saveOpenapiSelfmachine(OpenapiSelfmachineSaveVO openapiSelfmachineSaveVO) {
         if (openapiSelfmachineSaveVO==null){
-            return 0;
+            return null;
         }
         OpenapiSelfmachine openapiSelfmachine= JSONUtil.convert(openapiSelfmachineSaveVO,OpenapiSelfmachine.class);
         if (openapiSelfmachine.getId()==null){
-            return openapiSelfmachineMapper.insertSelective(openapiSelfmachine);
+            openapiSelfmachineMapper.insertSelective(openapiSelfmachine);
         }else {
             Example example=new Example(OpenapiSelfmachine.class);
             example.createCriteria().andEqualTo("id",openapiSelfmachine.getId());
-            return openapiSelfmachineMapper.updateByExampleSelective(openapiSelfmachine,example);
+            openapiSelfmachineMapper.updateByExampleSelective(openapiSelfmachine,example);
         }
+        if (openapiSelfmachine.getMachineAddressId()!=null){
+            Example example=new Example(OpenapiSelfmachineAddress.class);
+            example.createCriteria().andEqualTo("id",openapiSelfmachine.getMachineAddressId());
+            openapiSelfmachineAddressMapper.updateByExample(new OpenapiSelfmachineAddress().setIsLastUsed(DataConstant.IS_LAST_USED),example);
+        }
+        return getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setId(openapiSelfmachine.getId()));
     }
 
     @Override

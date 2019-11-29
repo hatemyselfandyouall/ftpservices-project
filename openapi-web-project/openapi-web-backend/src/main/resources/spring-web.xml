@@ -32,6 +32,7 @@
 	<bean class="com.insigma.config.SwaggerController" />
 	<bean class="com.insigma.config.AsyncConfig" />
 	<bean class="com.insigma.config.RestTemplateConfig" />
+	<bean class="com.insigma.webtool.component.loadBalance.UpstreamCacheManager" />
 
 	<mvc:interceptors>
 		

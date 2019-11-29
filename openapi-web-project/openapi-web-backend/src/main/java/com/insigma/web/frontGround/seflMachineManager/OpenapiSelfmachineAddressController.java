@@ -79,9 +79,10 @@ public class OpenapiSelfmachineAddressController extends BasicController {
         try {
             Long userId=loginComponent.getLoginUserId();
             String userName=loginComponent.getLoginUserName();
-            Integer flag = openapiSelfmachineAddressFacade.saveOpenapiSelfmachineAddress(openapiSelfmachineAddressSaveVO,userId,userName);
-            if (1 == flag) {
+            OpenapiSelfmachineAddress openapiSelfmachineAddress = openapiSelfmachineAddressFacade.saveOpenapiSelfmachineAddress(openapiSelfmachineAddressSaveVO,userId,userName);
+            if (openapiSelfmachineAddress!=null) {
                 resultVo.setResultDes("保存成功");
+                resultVo.setResult(openapiSelfmachineAddress);
                 resultVo.setSuccess(true);
             } else {
                 resultVo.setResultDes("保存失败");

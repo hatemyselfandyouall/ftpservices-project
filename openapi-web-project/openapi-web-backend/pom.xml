@@ -94,6 +94,11 @@
 		  <groupId>insigma.openapi.libs.base</groupId>
 		  <artifactId>openapi-lib-base</artifactId>
 	  </dependency>
+
+	  <dependency>
+		  <groupId>insigma.devops.facade.info</groupId>
+		  <artifactId>devops-facade-info</artifactId>
+	  </dependency>
     </dependencies>
 
 	<build>

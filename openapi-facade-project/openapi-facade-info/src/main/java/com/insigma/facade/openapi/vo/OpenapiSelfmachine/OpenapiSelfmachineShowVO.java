@@ -29,5 +29,11 @@ public class OpenapiSelfmachineShowVO extends OpenapiSelfmachine implements Seri
     @Column( name="machine_type_id")
     private Long machineTypeId;
 
+    @ApiModelProperty("机器编码")
+    @Column( name="machine_code")
+    private String machineCode;
 
+    @ApiModelProperty("证书编号")
+    @Column( name="certificate_code")
+    private String certificateCode;
 }

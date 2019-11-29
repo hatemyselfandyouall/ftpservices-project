@@ -35,6 +35,10 @@ public class OpenapiSelfmachineAddress implements Serializable{
     private Long userId;
 
     @ApiModelProperty("")
+    @Column( name="org_code")
+    private String orgCode;
+
+    @ApiModelProperty("")
     @Column( name="address")
     private String address;
 

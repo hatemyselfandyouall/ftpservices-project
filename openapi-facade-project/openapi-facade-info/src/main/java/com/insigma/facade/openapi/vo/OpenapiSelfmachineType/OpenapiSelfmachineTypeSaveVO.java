@@ -16,4 +16,7 @@ public class OpenapiSelfmachineTypeSaveVO implements Serializable {
     private Long id;
 
 
+    @ApiModelProperty("")
+    @Column( name="name")
+    private String name;
 }

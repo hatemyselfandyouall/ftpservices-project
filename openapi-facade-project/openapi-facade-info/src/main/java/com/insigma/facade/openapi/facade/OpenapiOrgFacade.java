@@ -1,6 +1,7 @@
  
 package com.insigma.facade.openapi.facade;
 
+
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.GetSelfMachineDTO;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
@@ -8,12 +9,11 @@ import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.vo.OpenapiApp.ResetAppSecretVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
-import com.insigma.facade.openapi.vo.root.PageVO;
 
 
 public interface OpenapiOrgFacade {
 
-    PageInfo<OpenapiOrgShowVO> getOpenapiOrgList(OpenapiOrgListVO listVO);
+    PageInfo<OpenapiOrgShowVO> getOpenapiOrgList(OpenapiOrgListVO listVO, Long userId);
 
     OpenapiOrg getOpenapiOrgDetail(OpenapiOrgDetailVO detailVO);
 

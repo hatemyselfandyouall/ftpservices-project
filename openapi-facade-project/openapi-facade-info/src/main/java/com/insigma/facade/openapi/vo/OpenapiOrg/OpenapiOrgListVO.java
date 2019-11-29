@@ -10,9 +10,9 @@ import java.io.Serializable;
 @Data
 public class OpenapiOrgListVO extends PageVO implements Serializable {
 
-    @ApiModelProperty("机构id")
-    @Column( name="org_id")
-    private Long orgId;
+    @ApiModelProperty("机构编码")
+    @Column( name="org_code")
+    private String orgCode;
 
 
     @ApiModelProperty("地区id")

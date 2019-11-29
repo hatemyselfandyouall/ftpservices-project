@@ -52,19 +52,20 @@ public class OpenapiSelfmachineAddressServiceImpl implements OpenapiSelfmachineA
     }
 
     @Override
-    public Integer saveOpenapiSelfmachineAddress(OpenapiSelfmachineAddressSaveVO openapiSelfmachineAddressSaveVO, Long userId, String userName) {
+    public OpenapiSelfmachineAddress saveOpenapiSelfmachineAddress(OpenapiSelfmachineAddressSaveVO openapiSelfmachineAddressSaveVO, Long userId, String userName) {
         if (openapiSelfmachineAddressSaveVO==null){
-            return 0;
+            return null;
         }
         OpenapiSelfmachineAddress openapiSelfmachineAddress= JSONUtil.convert(openapiSelfmachineAddressSaveVO,OpenapiSelfmachineAddress.class);
         if (openapiSelfmachineAddress.getId()==null){
             openapiSelfmachineAddress.setUserId(userId).setCreatorName(userName);
-            return openapiSelfmachineAddressMapper.insertSelective(openapiSelfmachineAddress);
+            openapiSelfmachineAddressMapper.insertSelective(openapiSelfmachineAddress);
         }else {
             Example example=new Example(OpenapiSelfmachineAddress.class);
             example.createCriteria().andEqualTo("id",openapiSelfmachineAddress.getId());
-            return openapiSelfmachineAddressMapper.updateByExampleSelective(openapiSelfmachineAddress,example);
+            openapiSelfmachineAddressMapper.updateByExampleSelective(openapiSelfmachineAddress,example);
         }
+        return openapiSelfmachineAddressMapper.selectByPrimaryKey(openapiSelfmachineAddress.getId());
     }
 
     @Override

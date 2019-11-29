@@ -23,4 +23,12 @@ public class OpenapiSelfmachineListVO extends PageVO implements Serializable {
     private String machineType;
 
     private String orgCode;
+
+    @ApiModelProperty("机构id")
+    @Column( name="org_id")
+    private Long orgId;
+
+    @ApiModelProperty("客户端版本")
+    @Column( name="client_version")
+    private String clientVersion;
 }

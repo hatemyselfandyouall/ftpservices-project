@@ -13,17 +13,22 @@
         <result property="orgName" column="org_name" />
         <result property="orgId" column="org_id" />
         <result property="statu" column="statu" />
+        <result property="activeStatu" column="active_statu" />
         <result property="clientVersion" column="client_version" />
-        <result property="machineType" column="machine_type" />
+        <result property="machineCode" column="machine_code" />
+        <result property="machineAddressId" column="machine_address_id" />
+        <result property="machineAddressId" column="machine_address_id" />
+        <result property="machineAddress" column="machine_address" />
         <result property="createTime" column="create_time" />
+
     </resultMap>
 
 
     <select id="getOpenapiSelfmachineList" resultMap="BASE-RESULT">
     SELECT * FROM
-    openapi_selfmachine os left join openapi_selfmachine_request osr on os.unique_code=osr.unique_code
+    openapi_selfmachine os left join openapi_selfmachine_request osr on os.unique_code=osr.unique_code join openapi_org  oo on oo.id=os.org_id
     <where>
-        1=1
+        oo.is_delete != 1
         <if test="param.orgName!=null and param.orgName!=''">
             AND  os.org_name = #{param.orgName}
         </if>
@@ -34,7 +39,13 @@
             AND  ( osr.ip like concat('%',#{param.keyWord},'%') or osr.mac_address like concat('%',#{param.keyWord},'%') )
         </if>
         <if test="param.orgCode!=null and param.orgCode!=''">
-            AND  ( osr.ip like concat('%',#{param.keyWord},'%') or osr.mac_address like concat('%',#{param.keyWord},'%') )
+            AND  oo.org_code=#{param.orgCode}
+        </if>
+        <if test="param.orgId!=null">
+            AND os.org_id=#{param.orgId}
+        </if>
+        <if test="param.clientVersion!=null and param.clientVersion!=''">
+            AND  os.client_version=#{param.clientVersion}
         </if>
     </where>
     </select>

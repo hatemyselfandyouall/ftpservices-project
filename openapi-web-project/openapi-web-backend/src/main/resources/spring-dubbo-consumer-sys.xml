@@ -35,4 +35,6 @@
 	<dubbo:reference id="comOperateLogFacade" interface="com.insigma.facade.ComOperateLogFacade"
 					 version="1.0.1" />
 
+	<dubbo:reference id="optSelfServiceMachinesSoftFacade" interface="com.insigma.facade.devops.OptSelfServiceMachinesSoftFacade"
+					 version="1.0.1" />
 </beans>

@@ -79,4 +79,7 @@ public class OpenapiSelfmachine implements Serializable{
     @Column( name="create_time")
     private Date createTime;
 
+    @ApiModelProperty("客户端版本")
+    @Column( name="client_version")
+    private String clientVersion;
 }

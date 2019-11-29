@@ -1,9 +1,16 @@
 package com.insigma.web.frontGround.seflMachineManager;
 
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.devops.OptSelfServiceMachinesSoftFacade;
+import com.insigma.facade.devops.vo.OptSelfServiceMachinesSoftVo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
+import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
+import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachine;
+import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDetailVO;
+import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgListVO;
+import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgShowVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
 import com.insigma.facade.sysbase.SysOrgFacade;
 import com.insigma.facade.sysbase.vo.SysUserOrgDTO;
@@ -12,6 +19,7 @@ import com.insigma.webtool.component.LoginComponent;
 import com.insigma.webtool.util.Encrypt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import star.vo.result.ResultVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -37,6 +46,10 @@ public class OpenapiSelfmachineManageController extends BasicController {
 
     @Autowired
     SysOrgFacade sysOrgFacade;
+    @Autowired
+    OpenapiOrgFacade openapiOrgFacade;
+    @Autowired
+    OptSelfServiceMachinesSoftFacade optSelfServiceMachinesSoftFacade;
 
     @ApiOperation(value = "自助机列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -45,6 +58,7 @@ public class OpenapiSelfmachineManageController extends BasicController {
         try {
             Long userId=loginComponent.getLoginUserId();
             PageInfo<OpenapiSelfmachineShowVO> openapiSelfmachineList=openapiSelfmachineFacade.getOpenapiSelfmachineList(openapiSelfmachineListVO,userId);
+            openapiSelfmachineList.getList().forEach(i->i.setCertificateCode(openapiOrgFacade.getOpenapiOrgDetail(new OpenapiOrgDetailVO().setId(i.getOrgId())).getCertificateCode()));
             if(openapiSelfmachineList!=null){
                 DataListResultDto<OpenapiSelfmachineShowVO> dataListResultDto=new DataListResultDto<>(openapiSelfmachineList.getList(),(int)openapiSelfmachineList.getTotal());
                 resultVo.setResult(dataListResultDto);
@@ -59,32 +73,69 @@ public class OpenapiSelfmachineManageController extends BasicController {
         return resultVo;
     }
 
-//    @ApiOperation(value = "自助机详情")
-//    @RequestMapping(value = "/detail",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
-//    public ResultVo<OpenapiSelfmachine> getOpenapiSelfmachineDetail(@RequestBody OpenapiSelfmachineDetailVO openapiSelfmachineDetailVO){
-//        ResultVo resultVo=new ResultVo();
-//        try {
-//        OpenapiSelfmachine openapiSelfmachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(openapiSelfmachineDetailVO);
-//        if(openapiSelfmachine!=null){
-//            resultVo.setResult(openapiSelfmachine);
-//            resultVo.setSuccess(true);
-//        }else {
-//            resultVo.setResultDes("获取详情失败");
-//        }
-//        } catch (Exception e){
-//        resultVo.setResultDes("获取自助机详情异常");
-//        log.error("获取自助机详情异常",e);
-//    }
-//        return resultVo;
-//    }
+    @ApiOperation(value = "证书列表")
+    @RequestMapping(value = "/orgList",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiOrgShowVO> orgList(){
+        ResultVo resultVo=new ResultVo();
+        try {
+            Long userId=loginComponent.getLoginUserId();
+            OpenapiOrgListVO openapiOrgListVO= new OpenapiOrgListVO();
+            openapiOrgListVO.setPageNum(1l);
+            openapiOrgListVO.setPageSize(99999l);
+            PageInfo<OpenapiOrgShowVO> openapiSelfmachineList=openapiOrgFacade.getOpenapiOrgList(openapiOrgListVO,userId);
+            resultVo.setResult(openapiSelfmachineList);
+            resultVo.setSuccess(true);
+        }catch (Exception e){
+            resultVo.setResultDes("获取自助机列表异常");
+            log.error("获取自助机列表异常",e);
+        }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "自助机版本号列表")
+    @RequestMapping(value = "/SelfMachineVersionlist",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiSelfmachineShowVO> SelfMachineVersionlist(){
+        ResultVo resultVo=new ResultVo();
+        try {
+            HashMap<String, Object> searchMap = new HashMap<>();
+            searchMap.put("isValid", 1);
+            List<OptSelfServiceMachinesSoftVo> optSelfServiceMachinesSoftVos=optSelfServiceMachinesSoftFacade.getListByWhere(searchMap);
+                resultVo.setResult(optSelfServiceMachinesSoftVos);
+                resultVo.setSuccess(true);
+        }catch (Exception e){
+            resultVo.setResultDes("自助机版本号列表异常");
+            log.error("自助机版本号列表异常",e);
+        }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "自助机详情")
+    @RequestMapping(value = "/detail",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public ResultVo<OpenapiSelfmachine> getOpenapiSelfmachineDetail(@RequestBody OpenapiSelfmachineDetailVO openapiSelfmachineDetailVO){
+        ResultVo resultVo=new ResultVo();
+        try {
+        OpenapiSelfmachine openapiSelfmachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(openapiSelfmachineDetailVO);
+        if(openapiSelfmachine!=null){
+            resultVo.setResult(openapiSelfmachine);
+            resultVo.setSuccess(true);
+        }else {
+            resultVo.setResultDes("获取详情失败");
+        }
+        } catch (Exception e){
+        resultVo.setResultDes("获取自助机详情异常");
+        log.error("获取自助机详情异常",e);
+    }
+        return resultVo;
+    }
 //
     @ApiOperation(value = "自助机保存")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiSelfmachine> saveOpenapiSelfmachine(@RequestBody OpenapiSelfmachineSaveVO openapiSelfmachineSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
-            Integer flag = openapiSelfmachineFacade.saveOpenapiSelfmachine(openapiSelfmachineSaveVO);
-            if (1 == flag) {
+            OpenapiSelfmachine openapiSelfmachine = openapiSelfmachineFacade.saveOpenapiSelfmachine(openapiSelfmachineSaveVO);
+            if (openapiSelfmachine!=null) {
+                resultVo.setResult(openapiSelfmachine);
                 resultVo.setResultDes("自助机保存成功");
                 resultVo.setSuccess(true);
             } else {
@@ -118,7 +169,7 @@ public class OpenapiSelfmachineManageController extends BasicController {
     }
 
     @ApiOperation(value = "自助机设置机构")
-    @RequestMapping(value = "/setOrg",method = RequestMethod.DELETE,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/setOrg",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiSelfmachine> setOrg(@RequestBody OpenapiSelfmachineSetOrgVO openapiSelfmachineSetOrgVO){
         ResultVo resultVo=new ResultVo();
         try {

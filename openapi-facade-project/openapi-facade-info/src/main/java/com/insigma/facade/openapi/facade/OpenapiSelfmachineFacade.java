@@ -13,7 +13,7 @@ public interface OpenapiSelfmachineFacade{
 
     OpenapiSelfmachine getOpenapiSelfmachineDetail(OpenapiSelfmachineDetailVO detailVO);
 
-    Integer saveOpenapiSelfmachine(OpenapiSelfmachineSaveVO saveVO);
+    OpenapiSelfmachine saveOpenapiSelfmachine(OpenapiSelfmachineSaveVO saveVO);
 
     Integer deleteOpenapiSelfmachine(OpenapiSelfmachineDeleteVO deleteVO);
 

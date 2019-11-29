@@ -219,6 +219,11 @@
 				<artifactId>commons-httpclient</artifactId>
 				<version>3.1</version>
 			</dependency>
+			<dependency>
+				<groupId>insigma.devops.facade.info</groupId>
+				<artifactId>devops-facade-info</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	

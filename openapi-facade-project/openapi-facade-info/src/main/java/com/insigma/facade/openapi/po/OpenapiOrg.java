@@ -30,15 +30,16 @@ public class OpenapiOrg implements Serializable{
     @Column( name="id")
     private Long id;
 
-    @ApiModelProperty("机构id")
-    @Column( name="org_id")
-    private Long orgId;
+    @ApiModelProperty("序列号")
+    @Column( name="sort_number")
+	private Integer sortNumber;
+
 
     @ApiModelProperty("机构名")
     @Column( name="org_name")
     private String orgName;
 
-    @ApiModelProperty("")
+    @ApiModelProperty("机构编码")
     @Column( name="org_code")
     private String orgCode;
 

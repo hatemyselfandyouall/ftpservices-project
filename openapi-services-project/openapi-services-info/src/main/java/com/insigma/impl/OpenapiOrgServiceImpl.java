@@ -11,15 +11,16 @@ import com.insigma.facade.openapi.po.SelfMachineEnum;
 import com.insigma.facade.openapi.vo.OpenapiApp.ResetAppSecretVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
-import com.insigma.facade.openapi.vo.root.PageVO;
+import com.insigma.facade.sysbase.SysOrgFacade;
+import com.insigma.facade.sysbase.SysUserFacade;
+import com.insigma.facade.sysbase.vo.SysUserOrgDTO;
 import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.mapper.OpenapiSelfmachineMapper;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
-import com.insigma.util.HttpUtil;
-import com.insigma.util.JSONUtil;
-import com.insigma.util.MD5Util;
+import com.insigma.util.*;
 import com.taobao.diamond.extend.DynamicProperties;
 import constant.DataConstant;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
@@ -37,15 +38,26 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
     OpenapiSelfmachineMapper openapiSelfmachineMapper;
     @Autowired
     OpenapiSelfmachineRequestMapper openapiSelfmachineRequestMapper;
-
+    @Autowired
+    SysUserFacade sysUserFacade;
+    @Autowired
+    SysOrgFacade sysOrgFacade;
     public static final String URL= DynamicProperties.staticProperties.getProperty("oss.download.http.txt.url");
     @Override
-    public PageInfo<OpenapiOrgShowVO> getOpenapiOrgList(OpenapiOrgListVO OpenapiOrgListVO) {
+    public PageInfo<OpenapiOrgShowVO> getOpenapiOrgList(OpenapiOrgListVO OpenapiOrgListVO, Long userId) {
         if (OpenapiOrgListVO==null||OpenapiOrgListVO.getPageNum()==null||OpenapiOrgListVO.getPageSize()==null) {
             return null;
         }
+        OpenapiOrg exampleObeject=new OpenapiOrg().setAreaId(OpenapiOrgListVO.getAreaId()).setIsDelete(DataConstant.NO_DELETE);
+        String orgCode=null;
+        if (userId!=null){
+            List<SysUserOrgDTO> orgList=sysUserFacade.queryUserOrg(userId);
+            if (orgList!=null&&!orgList.isEmpty()){
+                orgCode=sysOrgFacade.getByPrimaryKey(orgList.get(0).getOrgId()).getOrgenterCode();
+            }
+        }
+        exampleObeject.setOrgCode(orgCode);
         PageHelper.startPage(OpenapiOrgListVO.getPageNum().intValue(),OpenapiOrgListVO.getPageSize().intValue());
-        OpenapiOrg exampleObeject=new OpenapiOrg().setOrgId(OpenapiOrgListVO.getOrgId()).setAreaId(OpenapiOrgListVO.getAreaId()).setIsDelete(DataConstant.NO_DELETE);
         List<OpenapiOrg> openapiOrgList=OpenapiOrgMapper.select(exampleObeject);
         List<OpenapiOrgShowVO> openapiOrgShowVOS=openapiOrgList.stream().map(i->{
             OpenapiOrgShowVO openapiOrgShowVO=JSONUtil.convert(i,OpenapiOrgShowVO.class);
@@ -76,7 +88,7 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
         if (openapiOrg.getId()==null){
             String appKey= UUID.randomUUID().toString().replaceAll("-","");
             String appSecret= UUID.randomUUID().toString().replaceAll("-","");
-            String certificate= MD5Util.MD5Encode(appKey+openapiOrg.getOrgId()+openapiOrg.getCreateTime(),"UTF-8");
+            String certificate= MD5Util.MD5Encode(appKey+openapiOrg.getOrgCode()+openapiOrg.getCreateTime(),"UTF-8");
             String key= HttpUtil.upload(certificate);
             openapiOrg.setCreatorId(userId);
             openapiOrg.setModifyId(userId);
@@ -84,9 +96,10 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
             openapiOrg.setModifyName(userName);
             openapiOrg.setCertificate(certificate);
             openapiOrg.setCertificateKey(key);
-            openapiOrg.setAppKey(key);
             openapiOrg.setAppKey(appKey);
             openapiOrg.setAppSecret(appSecret);
+            openapiOrg.setSortNumber(OpenapiOrgMapper.selectCount(new OpenapiOrg().setOrgCode(openapiOrg.getOrgCode()))+1);
+            openapiOrg.setCertificateCode(openapiOrg.getOrgCode()+ DateUtils.getStringCurrentDate()+ NumbersUtil.getSortNumber(openapiOrg.getSortNumber(),2));
             return OpenapiOrgMapper.insertSelective(openapiOrg);
         }else {
             openapiOrg.setModifyId(userId);
@@ -156,6 +169,19 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
         }
         PageHelper.startPage(getSelfMachineDTO.getPageNum().intValue(),getSelfMachineDTO.getPageSize().intValue());
         List<SelfMachineOrgDTO> selfMachineOrgDTOS=OpenapiOrgMapper.getSelfMachine(getSelfMachineDTO.getName());
+        selfMachineOrgDTOS.forEach(i->{
+          String orgCode=i.getOrgCode();
+          List<Long> ids=OpenapiOrgMapper.select(new OpenapiOrg().setOrgCode(orgCode).setIsDelete(DataConstant.NO_DELETE)).stream().map(OpenapiOrg::getId).collect(Collectors.toList());
+          Integer count;
+          if (CollectionUtils.isEmpty(ids)){
+              count=0;
+          }else {
+              Example example=new Example(OpenapiSelfmachineRequest.class);
+              example.createCriteria().andIn("orgId", ids).andEqualTo("statu", SelfMachineEnum.WHITE);
+              count=openapiSelfmachineRequestMapper.selectCountByExample(example);
+          }
+          i.setCount(count);
+        });
         PageInfo<SelfMachineOrgDTO> OpenapiOrgPageInfo=new PageInfo<>(selfMachineOrgDTOS);
         return OpenapiOrgPageInfo;
     }

@@ -3,7 +3,6 @@ package com.insigma.web.backGround.selfHelpMachine;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
-import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.vo.OpenapiApp.ResetAppSecretVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.*;
 import com.insigma.web.BasicController;
@@ -22,7 +21,7 @@ import com.insigma.facade.openapi.po.OpenapiOrg;
 
 @RestController
 @RequestMapping("openapiOrg")
-@Api(tags ="开放平台机构管理")
+@Api(tags ="开放平台-机构证书管理")
 @Slf4j
 public class OpenapiOrgController extends BasicController {
 
@@ -36,7 +35,7 @@ public class OpenapiOrgController extends BasicController {
     public ResultVo<OpenapiOrgShowVO> getOpenapiOrgList(@RequestBody OpenapiOrgListVO openapiOrgListVO){
         ResultVo resultVo=new ResultVo();
         try {
-            PageInfo<OpenapiOrgShowVO> openapiOrgList=openapiOrgFacade.getOpenapiOrgList(openapiOrgListVO);
+            PageInfo<OpenapiOrgShowVO> openapiOrgList=openapiOrgFacade.getOpenapiOrgList(openapiOrgListVO, null);
             if(openapiOrgList!=null){
                 DataListResultDto<OpenapiOrgShowVO> dataListResultDto=new DataListResultDto<>(openapiOrgList.getList(),(int)openapiOrgList.getTotal());
                 resultVo.setResult(dataListResultDto);

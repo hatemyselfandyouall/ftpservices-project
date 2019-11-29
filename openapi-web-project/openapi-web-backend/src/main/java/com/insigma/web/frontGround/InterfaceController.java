@@ -87,16 +87,13 @@ public class InterfaceController extends BasicController {
             String ip = httpServletRequest.getHeader("X-Real-IP");
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterIp(ip);
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceCode(code);
-//            log.info("请求头为");
             JSONObject headerJSON = new JSONObject();
             while (headerNames.hasMoreElements()) {
                 String headerName = headerNames.nextElement();
                 headerJSON.put(headerName, httpServletRequest.getHeader(headerName));
-//                log.info("请求头：" + headerName + "value:" + httpServletRequest.getHeader(headerName));
             }
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setRequestHeader(headerJSON.toJSONString());
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setRequestBody(paramString);
-//            log.info("入参" + paramString + "目标code为" + code);
             String appKey = httpServletRequest.getHeader("appKey");
             String time = httpServletRequest.getHeader("time");
             String nonceStr = httpServletRequest.getHeader("nonceStr");
@@ -116,8 +113,6 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterName(openapiApp.getName());
-//            OpenapiUser openapiUser=openapiUserFacade.getUserById(openapiApp.getUserId());
-//            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setOrgNo(openapiUser.getOrgNo());
             Map<String, OpenapiInterface> openapiInterfaceMap = openapiApp.getOpenapiInterfaces().stream().filter(i -> i != null && i.getCode() != null).collect(Collectors.toMap(i -> i.getCode(), i -> i));
             OpenapiInterface openapiInterface;
             if (openapiInterfaceMap.get(code) == null) {
