@@ -44,6 +44,7 @@ public class OpenapiServerMonitorController extends BasicController {
     @RequestMapping(value = "/listCount", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getStatisticCount(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
+        try {
         ResultVo temp1=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR1, openapiDictionaryFacade, restTemplate);
         if (temp1.isSuccess()){
             ResultVo temp2=BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR2, openapiDictionaryFacade, restTemplate);
@@ -53,6 +54,11 @@ public class OpenapiServerMonitorController extends BasicController {
                 resultVo.setResult(Arrays.asList(temp1.getResult(),temp2.getResult()));
             }
         }
+        }catch (Exception e){
+            resultVo.setSuccess(false);
+            resultVo.setResultDes("查询异常");
+            log.error("服务监控统计接口查询异常",e);
+        }
         return resultVo;
     }
     @ApiOperation(value = "服务监控列表查询")
@@ -60,7 +66,7 @@ public class OpenapiServerMonitorController extends BasicController {
     @RequestMapping(value = "/getList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
-        //where r.interface_name like '%rr%'
+        try {
         if(!interfaceDetailVO.getWhereWord().isEmpty()){
             Map<String,Object> map = new HashMap();
             map.put("interface_name","where r.interface_name like '%" + interfaceDetailVO.getWhereWord().get("interface_name")+"%'");
@@ -85,7 +91,11 @@ public class OpenapiServerMonitorController extends BasicController {
                 tableDataJson.put("numberOfFailures", openapiMonitoringDataConfig.getNumberOfFailures());   //一小时失败次数大于
             }
         }
-       // resultVo.setResult(tableInfo);
+        }catch (Exception e){
+            resultVo.setSuccess(false);
+            resultVo.setResultDes("查询异常");
+            log.error("服务监控列表查询异常",e);
+        }
         return resultVo;
     }
     @ApiOperation(value = "接口调用详情")
@@ -93,6 +103,7 @@ public class OpenapiServerMonitorController extends BasicController {
     @RequestMapping(value = "/getDetailbyId", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getDetailById(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
+        try{
         //where r.interface_id='3' and r.requester_name like '%等待%'
         if(!interfaceDetailVO.getWhereWord().isEmpty()){
             if(interfaceDetailVO.getWhereWord().get("interface_id") != null){
@@ -105,6 +116,11 @@ public class OpenapiServerMonitorController extends BasicController {
                 resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.INTERFACE_DETAIL, openapiDictionaryFacade, restTemplate);
             }
         }
+        }catch (Exception e){
+            resultVo.setSuccess(false);
+            resultVo.setResultDes("接口调用异常");
+            log.error("接口调用详情异常",e);
+        }
         return resultVo;
     }
     @ApiOperation(value = "应用查看详情")
@@ -112,6 +128,7 @@ public class OpenapiServerMonitorController extends BasicController {
     @RequestMapping(value = "/getDetailbyOrgNo", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getDetailByOrgNo(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
+        try{
         //where t.org_no='330000101007'
         if(!interfaceDetailVO.getWhereWord().isEmpty()){
             if(interfaceDetailVO.getWhereWord().get("org_no") != null){
@@ -121,6 +138,11 @@ public class OpenapiServerMonitorController extends BasicController {
             }
             resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.CALL_DETAIL, openapiDictionaryFacade, restTemplate);
         }
+    }catch (Exception e){
+        resultVo.setSuccess(false);
+        resultVo.setResultDes("应用查看详情异常");
+        log.error("应用查看详情异常",e);
+    }
         return resultVo;
     }
 
@@ -129,6 +151,7 @@ public class OpenapiServerMonitorController extends BasicController {
     @RequestMapping(value = "/getLineStatisticList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getLineStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
+        try{
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR_OF_DAY, -11);
         resultVo = BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_LINE, openapiDictionaryFacade, restTemplate);
@@ -153,6 +176,11 @@ public class OpenapiServerMonitorController extends BasicController {
          }
         }
         resultVo.setResult(list);
+        }catch (Exception e){
+            resultVo.setSuccess(false);
+            resultVo.setResultDes("服务监控折线统计查询异常");
+            log.error("服务监控折线统计查询异常",e);
+        }
         return resultVo;
     }
 
@@ -161,6 +189,7 @@ public class OpenapiServerMonitorController extends BasicController {
     @RequestMapping(value = "/getColumnarStatisticList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getColumnarStatisticList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
         ResultVo resultVo = new ResultVo();
+        try{
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR_OF_DAY, -15);
         resultVo = BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.SERVER_MONITOR_COLUMNAR, openapiDictionaryFacade, restTemplate);
@@ -189,6 +218,11 @@ public class OpenapiServerMonitorController extends BasicController {
             }
         }
         resultVo.setResult(list);
+    }catch (Exception e){
+        resultVo.setSuccess(false);
+        resultVo.setResultDes("服务监控柱状统计查询异常");
+        log.error("服务监控柱状统计查询异常",e);
+    }
         return resultVo;
     }
 
