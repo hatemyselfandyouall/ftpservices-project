@@ -63,6 +63,7 @@ public class OpenapiSafeMonitorController extends BasicController {
     @RequestMapping(value = "/getSafeMonitorList", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public ResultVo getSafeMonitorList(@RequestBody InterfaceDetailVO interfaceDetailVO) {
        ResultVo resultVo = new ResultVo();
+       try{
         //获取所有ip是否为黑白名单
         List<OpenapiBlackWhite> list = openapiBlackWhiteFacade.getBlackWhiteList();
             Map<String, Object> map = new HashMap();
@@ -149,6 +150,10 @@ public class OpenapiSafeMonitorController extends BasicController {
 //            }
 //         }
         }
+    }catch (Exception e) {
+        resultVo.setResultDes("查询异常");
+        log.error("查询异常", e);
+    }
         return resultVo;
     }
 
