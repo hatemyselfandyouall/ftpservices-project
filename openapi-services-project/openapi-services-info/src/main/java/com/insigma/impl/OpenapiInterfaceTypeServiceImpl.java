@@ -7,10 +7,13 @@ import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.mapper.OpenapiInterfaceTypeMapper;
 import com.insigma.util.JSONUtil;
+import com.insigma.util.StringUtil;
 import constant.DataConstant;
 import org.apache.zookeeper.AsyncCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -139,5 +142,31 @@ public class OpenapiInterfaceTypeServiceImpl implements OpenapiInterfaceTypeFaca
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ResultVo checkSave(OpenapiInterfaceTypeSaveVO openapiInterfaceTypeSaveVO) {
+        ResultVo resultVo=new ResultVo();
+        if (openapiInterfaceTypeSaveVO==null|| StringUtils.isEmpty(openapiInterfaceTypeSaveVO.getName())){
+            resultVo.setResultDes("参数不全");
+            return resultVo;
+        }
+        String name=openapiInterfaceTypeSaveVO.getName();
+        List<OpenapiInterfaceType> openapiInterfaceTypes=openapiInterfaceTypeMapper.select(new OpenapiInterfaceType().setName(name));
+        if (!CollectionUtils.isEmpty(openapiInterfaceTypes)){
+            List<String> names=openapiInterfaceTypes.stream().filter(i->{
+                if (openapiInterfaceTypeSaveVO.getParentId()!=null){
+                   return i.getParentId().equals(openapiInterfaceTypeSaveVO.getParentId());
+                }else {
+                   return i.getParentId().equals(0l);
+                }
+            }).map(OpenapiInterfaceType::getName).collect(Collectors.toList());
+            if (!CollectionUtils.isEmpty(names)&&names.contains(name)){
+                resultVo.setResultDes("同层次不能同名");
+                return resultVo;
+            }
+        }
+        resultVo.setSuccess(true);
+        return resultVo;
     }
 }

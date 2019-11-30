@@ -52,13 +52,16 @@ public class OpenapiAppTypeServiceImpl implements OpenapiAppTypeFacade {
         return openapiAppType;
     }
 
+
     @Override
-    public Integer saveOpenapiAppType(OpenapiAppTypeSaveVO openapiAppTypeSaveVO) {
+    public Integer saveOpenapiAppType(OpenapiAppTypeSaveVO openapiAppTypeSaveVO, Long userId, String userName) {
         if (openapiAppTypeSaveVO==null){
             return 0;
         }
         OpenapiAppType openapiAppType= JSONUtil.convert(openapiAppTypeSaveVO,OpenapiAppType.class);
         if (openapiAppType.getId()==null){
+            openapiAppType.setCreatorId(userId);
+            openapiAppType.setCreatorName(userName);
             return openapiAppTypeMapper.insertSelective(openapiAppType);
         }else {
             openapiAppType.setModifyTime(new Date());

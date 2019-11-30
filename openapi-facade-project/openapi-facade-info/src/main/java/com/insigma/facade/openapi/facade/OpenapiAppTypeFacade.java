@@ -15,7 +15,7 @@ public interface OpenapiAppTypeFacade{
 
     OpenapiAppType getOpenapiAppTypeDetail(OpenapiAppTypeDetailVO detailVO);
 
-    Integer saveOpenapiAppType(OpenapiAppTypeSaveVO saveVO);
+    Integer saveOpenapiAppType(OpenapiAppTypeSaveVO saveVO,Long userId,String userName);
 
     Integer deleteOpenapiAppType(OpenapiAppTypeDeleteVO deleteVO);
 

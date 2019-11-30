@@ -4,8 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiAppTypeFacade;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +30,8 @@ public class OpenapiAppTypeController extends BasicController {
 
     @Autowired
     OpenapiAppTypeFacade openapiAppTypeFacade;
+    @Autowired
+    LoginComponent loginComponent;
 
     @ApiOperation(value = "开放平台应用类型列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -73,7 +77,9 @@ public class OpenapiAppTypeController extends BasicController {
     public ResultVo<OpenapiAppType> saveOpenapiAppType(@RequestBody OpenapiAppTypeSaveVO openapiAppTypeSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
-            Integer flag = openapiAppTypeFacade.saveOpenapiAppType(openapiAppTypeSaveVO);
+            String userName=loginComponent.getLoginUserName();
+            Long userId=loginComponent.getLoginUserId();
+            Integer flag = openapiAppTypeFacade.saveOpenapiAppType(openapiAppTypeSaveVO,userId,userName);
             if (1 == flag) {
                 resultVo.setResultDes("开放平台应用类型保存成功");
                 resultVo.setSuccess(true);

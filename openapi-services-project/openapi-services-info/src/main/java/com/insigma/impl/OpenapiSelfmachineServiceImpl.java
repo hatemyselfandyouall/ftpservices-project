@@ -85,8 +85,11 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         }
         if (openapiSelfmachine.getMachineAddressId()!=null){
             Example example=new Example(OpenapiSelfmachineAddress.class);
+            example.createCriteria().andEqualTo("userId",0);
+            openapiSelfmachineAddressMapper.updateByExampleSelective(new OpenapiSelfmachineAddress().setIsLastUsed(DataConstant.NOT_LAST_USED),example);
+            example.clear();
             example.createCriteria().andEqualTo("id",openapiSelfmachine.getMachineAddressId());
-            openapiSelfmachineAddressMapper.updateByExample(new OpenapiSelfmachineAddress().setIsLastUsed(DataConstant.IS_LAST_USED),example);
+            openapiSelfmachineAddressMapper.updateByExampleSelective(new OpenapiSelfmachineAddress().setIsLastUsed(DataConstant.IS_LAST_USED),example);
         }
         return getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setId(openapiSelfmachine.getId()));
     }

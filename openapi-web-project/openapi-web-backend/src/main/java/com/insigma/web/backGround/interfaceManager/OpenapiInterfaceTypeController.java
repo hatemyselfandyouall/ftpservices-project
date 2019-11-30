@@ -73,6 +73,10 @@ public class OpenapiInterfaceTypeController extends BasicController {
     public ResultVo<OpenapiInterfaceType> saveOpenapiInterfaceType(@RequestBody OpenapiInterfaceTypeSaveVO openapiInterfaceTypeSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
+            ResultVo checkResult=openapiInterfaceTypeFacade.checkSave(openapiInterfaceTypeSaveVO);
+            if (!checkResult.isSuccess()){
+                return checkResult;
+            }
             Integer flag = openapiInterfaceTypeFacade.saveOpenapiInterfaceType(openapiInterfaceTypeSaveVO);
             if (1 == flag) {
                 resultVo.setResultDes("保存成功");

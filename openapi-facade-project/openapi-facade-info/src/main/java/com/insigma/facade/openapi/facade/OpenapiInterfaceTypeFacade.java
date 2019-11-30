@@ -7,6 +7,7 @@ import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeDe
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeListVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeSaveVO;
+import star.vo.result.ResultVo;
 
 
 public interface OpenapiInterfaceTypeFacade{
@@ -21,6 +22,8 @@ public interface OpenapiInterfaceTypeFacade{
 
 
     boolean hasChildInterface(OpenapiInterfaceTypeDeleteVO openapiInterfaceTypeDeleteVO);
+
+    ResultVo checkSave(OpenapiInterfaceTypeSaveVO openapiInterfaceTypeSaveVO);
 }
 
  
