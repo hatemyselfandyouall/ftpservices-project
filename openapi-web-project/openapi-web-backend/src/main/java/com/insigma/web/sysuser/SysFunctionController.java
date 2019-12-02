@@ -45,11 +45,11 @@ public class SysFunctionController extends BasicController {
 	public ResultVo<JSONArray> queryFunctionList(String funType) {
 		ResultVo<JSONArray> result = Results.newResultVo();
 		//从缓存获取用户信息
-		Long userId = loginComonent.getLoginUserId();
-		SysUserDTO sysUser = sysUserFacade.getCacheByPrimaryKey(userId);
+//		String userId = loginComonent.getLoginUserId();
+//		SysUserDTO sysUser = sysUserFacade.getCacheByPrimaryKey(userId);
 		List<SysFunctionDTO> functionList = new ArrayList<SysFunctionDTO>();
-		if(null != funType){
-			functionList = sysFunctionFacade.findByFunTypeAndUserList(funType,sysUser);
+		if (null != funType) {
+			functionList = sysFunctionFacade.findByFunTypeList(funType);
 		}
 		JSONArray jsonArray = TreeUtil.listToTree(JSONArray.parseArray(JSONArray.toJSONString(functionList)), "id",
 				"parentId", "children");
@@ -59,6 +59,6 @@ public class SysFunctionController extends BasicController {
 		return result;
 
 	}
-	
+
 
 }
