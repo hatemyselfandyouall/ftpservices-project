@@ -37,7 +37,7 @@ public class LoginComponent {
 
 	/**
 	 * 判断是否为登录状态
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isLogin(HttpServletRequest request, HttpServletResponse response) {
@@ -48,7 +48,7 @@ public class LoginComponent {
 			if(DateUtil.dateDiff("s", outtime, System.currentTimeMillis())>CookieTime.TIME_LONGIN.getTime()){
 				return false;
 			}
-			
+
 			SysUserDTO sysUserDTO = sysUserFacade.getCacheByPrimaryKey(Long.parseLong(values[0]));
 			if (sysUserDTO != null && StringUtil.isNotEmpty(sysUserDTO.getLogonName()) &&sysUserDTO.getLogonName().equals(values[1])
 //					&& StringUtil.getMD5(sysUserDTO.getPasswd()).equals(values[2])

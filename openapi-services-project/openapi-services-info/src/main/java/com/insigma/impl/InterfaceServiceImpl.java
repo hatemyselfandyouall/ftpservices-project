@@ -578,7 +578,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         }
         if (openapiInterfaceSaveVO.getId()==null) {
             if (openapiInterfaceMapper.selectCount(new OpenapiInterface().setName(name).setIsDelete(DataConstant.NO_DELETE)) > 0) {
-                resultVo.setResultDes("不允许重名");
+                resultVo.setResultDes("接口名称不允许重名");
                 return resultVo;
             }
             if (openapiInterfaceMapper.selectCount(new OpenapiInterface().setCode(code).setIsDelete(DataConstant.NO_DELETE)) > 0) {
