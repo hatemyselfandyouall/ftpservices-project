@@ -29,4 +29,7 @@
 	<dubbo:reference id="comOperateLogFacade" interface="com.insigma.facade.ComOperateLogFacade"
 					 version="1.0.1" />
 
+	<dubbo:reference id="sendEmailFacade" interface="com.insigma.facade.common.SendEmailFacade"
+					 version="1.0.1" />
+
 </beans>

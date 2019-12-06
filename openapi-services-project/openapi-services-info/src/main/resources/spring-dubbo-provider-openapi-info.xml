@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         ">
-        
-        
+
+
 	<!-- jxm test eg -->
-		
-<!--	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />-->
-<!--	<dubbo:service interface="com.insigma.facade.openapi.ProjectFacade" ref="projectImpl"-->
-<!--				   version="1.0.1" delay="-1" retries="0"  />-->
+
+	<!--	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />-->
+	<!--	<dubbo:service interface="com.insigma.facade.openapi.ProjectFacade" ref="projectImpl"-->
+	<!--				   version="1.0.1" delay="-1" retries="0"  />-->
 
 	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.InterfaceFacade" ref="interfaceServiceImpl"
@@ -20,7 +20,7 @@
 
 	<!--<bean id="openapiInterfaceGroupServiceImpl" class="com.insigma.impl.OpenapiInterfaceGroupServiceImpl" />-->
 	<!--<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade" ref="openapiInterfaceGroupServiceImpl"-->
-				   <!--version="1.0.1" delay="-1" retries="0"  />-->
+	<!--version="1.0.1" delay="-1" retries="0"  />-->
 
 	<bean id="openapiAppServiceImpl" class="com.insigma.impl.OpenapiAppServiceImpl" />
 	<dubbo:service interface="com.insigma.facade.openapi.facade.OpenapiAppFacade" ref="openapiAppServiceImpl"
