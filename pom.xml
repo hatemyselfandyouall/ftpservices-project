@@ -224,6 +224,11 @@
 				<artifactId>devops-facade-info</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
+			<dependency>
+				<groupId>insigma.common.facade.sms</groupId>
+				<artifactId>common-facade-sms</artifactId>
+				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	

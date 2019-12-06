@@ -41,6 +41,10 @@ public class DataConstant {
     public static final String VISIT_NUM ="visit_num" ;
     //安全管控
     public static final String SAFE_MONITOR ="safe_monitor" ;
+      //平均调用时长预警
+    public static final String  AVERAGE_CALLDURATION_WARNING ="average_callduration_warning";
+    //1小时内失败次数预警
+    public static final String  FAILUREINHOUR_WARNING = "failureInhour_warning";
 
     public static final String TOTAL_USE_COUNT_YEAR ="total_use_count_year" ;
 
