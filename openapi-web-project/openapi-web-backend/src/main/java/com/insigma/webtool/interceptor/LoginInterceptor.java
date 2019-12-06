@@ -32,7 +32,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if (loginComponent.isLogin(request, response)) {
+		if (loginComponent.isLoginByH5(request, response)) {
 			return super.preHandle(request, response, handler);
 		} else {
 			RequestUtil.send302(response, "/login.html?url=" + StringUtil.urlencoder(RequestUtil.getURL(request)));
