@@ -21,7 +21,7 @@ public enum CookieEnum {
 	LOGIN("l"),
 	// 菜单
 	MENU("m"),
-
+	OAUTH_LOGIN("ol")
 	;
 
 	private String value;
