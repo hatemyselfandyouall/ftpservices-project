@@ -79,6 +79,10 @@ public class OpenapiAppTypeController extends BasicController {
         try {
             String userName=loginComponent.getLoginUserName();
             Long userId=loginComponent.getLoginUserId();
+            ResultVo checkResult=openapiAppTypeFacade.checkAppInterfaceTypeSave(openapiAppTypeSaveVO);
+            if (!checkResult.isSuccess()){
+                return checkResult;
+            }
             Integer flag = openapiAppTypeFacade.saveOpenapiAppType(openapiAppTypeSaveVO,userId,userName);
             if (1 == flag) {
                 resultVo.setResultDes("开放平台应用类型保存成功");

@@ -4,10 +4,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiAppTypeFacade;
+import com.insigma.facade.openapi.po.OpenapiAppInterface;
 import com.insigma.mapper.OpenapiAppTypeMapper;
 import com.insigma.util.JSONUtil;
 import constant.DataConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
@@ -82,5 +84,20 @@ public class OpenapiAppTypeServiceImpl implements OpenapiAppTypeFacade {
         Example example=new Example(OpenapiAppType.class);
         example.createCriteria().andEqualTo("id",openapiAppTypeDeleteVO.getId());
         return openapiAppTypeMapper.updateByExampleSelective(openapiAppType,example);
+    }
+
+    @Override
+    public ResultVo checkAppInterfaceTypeSave(OpenapiAppTypeSaveVO openapiAppTypeSaveVO) {
+        ResultVo resultVo=new ResultVo();
+        if (openapiAppTypeSaveVO==null) {
+            resultVo.setResultDes("参数必须传递");
+            return resultVo;
+        }
+        if (openapiAppTypeMapper.selectCount(new OpenapiAppType().setName(openapiAppTypeSaveVO.getName()))>0){
+            resultVo.setResultDes("不允许应用类型同名");
+            return resultVo;
+        }
+        resultVo.setSuccess(true);
+        return resultVo;
     }
 }

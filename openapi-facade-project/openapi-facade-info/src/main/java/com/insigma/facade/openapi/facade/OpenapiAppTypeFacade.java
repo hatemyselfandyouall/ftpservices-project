@@ -7,6 +7,7 @@ import com.insigma.facade.openapi.vo.OpenapiAppType.OpenapiAppTypeDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiAppType.OpenapiAppTypeDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiAppType.OpenapiAppTypeListVO;
 import com.insigma.facade.openapi.vo.OpenapiAppType.OpenapiAppTypeSaveVO;
+import star.vo.result.ResultVo;
 
 
 public interface OpenapiAppTypeFacade{
@@ -19,8 +20,8 @@ public interface OpenapiAppTypeFacade{
 
     Integer deleteOpenapiAppType(OpenapiAppTypeDeleteVO deleteVO);
 
-	 
 
+    ResultVo checkAppInterfaceTypeSave(OpenapiAppTypeSaveVO openapiAppTypeSaveVO);
 }
 
  
