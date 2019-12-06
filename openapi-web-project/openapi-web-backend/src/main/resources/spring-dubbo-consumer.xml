@@ -9,72 +9,72 @@
 	
 	<!-- openapi -->
 	<dubbo:reference id="projectFacade" interface="com.insigma.facade.openapi.ProjectFacade"
-		version="1.0.1.zhc" />
+		version="1.0.1" />
 
 	<dubbo:reference id="interfaceFacade" interface="com.insigma.facade.openapi.facade.InterfaceFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<!--<dubbo:reference id="openapiInterfaceGroupFacade" interface="com.insigma.facade.openapi.facade.OpenapiInterfaceGroupFacade"-->
-					 <!--version="1.0.1.zhc" />-->
+					 <!--version="1.0.1" />-->
 
 	<!--用户模块-->
 	<dubbo:reference id="openapiUserFacade" interface="com.insigma.facade.openapi.facade.OpenapiUserFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<!--应用模块-->
 	<dubbo:reference id="openapiAppFacade" interface="com.insigma.facade.openapi.facade.OpenapiAppFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiInterfaceTypeFacade" interface="com.insigma.facade.openapi.facade.OpenapiInterfaceTypeFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiInterfaceHistoryFacade" interface="com.insigma.facade.openapi.facade.OpenapiInterfaceHistoryFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiAppTypeFacade" interface="com.insigma.facade.openapi.facade.OpenapiAppTypeFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 	<!--yingy模块-->
 
 
 	<dubbo:reference id="openapiEarlyWarningFacade" interface="com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiBlackWhiteFacade" interface="com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<!--审核管理模块-->
     <dubbo:reference id="openapiAuditFacade" interface="com.insigma.facade.openapi.facade.OpenapiAuditFacade"
-                     version="1.0.1.zhc" />
+                     version="1.0.1" />
 
 	<!--审核管理模块-->
 	<dubbo:reference id="openapiAppInterfaceFacade" interface="com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<!--审核管理模块-->
 	<dubbo:reference id="openapiMonitoringDataConfigFacade" interface="com.insigma.facade.openapi.facade.OpenapiMonitoringDataConfigFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 
 	<dubbo:reference id="openapiDictionaryFacade" interface="com.insigma.facade.openapi.facade.OpenapiDictionaryFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 
 	<dubbo:reference id="openapiOrgFacade" interface="com.insigma.facade.openapi.facade.OpenapiOrgFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiSelfmachineRequestFacade" interface="com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiSelfmachineFacade" interface="com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 
 	<dubbo:reference id="openapiOrgShortnameFacade" interface="com.insigma.facade.openapi.facade.OpenapiOrgShortnameFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiSelfmachineTypeFacade" interface="com.insigma.facade.openapi.facade.OpenapiSelfmachineTypeFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 
 	<dubbo:reference id="openapiSelfmachineAddressFacade" interface="com.insigma.facade.openapi.facade.OpenapiSelfmachineAddressFacade"
-					 version="1.0.1.zhc" />
+					 version="1.0.1" />
 </beans>
