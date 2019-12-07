@@ -576,7 +576,6 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             resultVo.setResultDes("参数必须传递");
             return resultVo;
         }
-        if (openapiInterfaceSaveVO.getId()==null) {
             if (openapiInterfaceMapper.selectCount(new OpenapiInterface().setName(name)) > 0) {
                 resultVo.setResultDes("接口名称不允许重名");
                 return resultVo;
@@ -585,7 +584,6 @@ public class InterfaceServiceImpl implements InterfaceFacade {
                 resultVo.setResultDes("不允许重复url");
                 return resultVo;
             }
-        }
         resultVo.setSuccess(true);
         return resultVo;
     }
