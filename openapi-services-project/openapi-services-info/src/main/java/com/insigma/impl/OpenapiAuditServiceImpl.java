@@ -130,7 +130,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
                         saveVo.setModifyTime(new Date());
                         ResultVo checkResult = openapiAppFacade.checkAppInterfaceSave(saveVo);
                         if (checkResult.isSuccess()){
-                            Integer flag = openapiAppFacade.saveAppInterface(saveVo, userId, userName);
+                            Integer flag = openapiAppFacade.saveAppInterface(saveVo, openapiAuditSaveVO.getUserId(), openapiAuditSaveVO.getUserName());
                        }
                     }
                 }
