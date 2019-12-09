@@ -3,6 +3,7 @@ package com.insigma.web.frontGround;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
+import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
 import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
@@ -97,8 +98,7 @@ public class SelfMachineRequestController {
 
     @ApiOperation(value = "自助机请求")
     @RequestMapping(value = {"/testToken"}, method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-    public ResultVo testToken(
-            @RequestParam("token") String token) {
+    public ResultVo testToken(@RequestParam("token") String token) {
         ResultVo resultVo=new ResultVo();
         try {
             if (openapiSelfmachineRequestFacade.checkTokenExit(token)){
@@ -113,6 +113,28 @@ public class SelfMachineRequestController {
         }
         return resultVo;
     }
+
+    @ApiOperation(value = "自助机请求")
+    @RequestMapping(value = {"/getOrgByToken"}, method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo getOrgByToken(
+            @RequestParam("token") String token) {
+        ResultVo resultVo=new ResultVo();
+        try {
+            SelfMachineOrgDTO selfMachineOrgDTO=openapiSelfmachineRequestFacade.getOrgByToken(token);
+            if (selfMachineOrgDTO!=null){
+                resultVo.setSuccess(true);
+                resultVo.setResult(selfMachineOrgDTO);
+                resultVo.setResultDes("token验证通过");
+            }else {
+                resultVo.setResultDes("token验证未通过");
+            }
+        }catch (Exception e){
+            log.error("自助机请求接受异常",e);
+            resultVo.setResultDes("自助机请求接受异常");
+        }
+        return resultVo;
+    }
+
     private OpenapiOrg checkCertificate(String certificate, OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO) {
         return openapiOrgFacade.checkCertificate(certificate,openapiSelfmachineRequestSaveVO);
     }

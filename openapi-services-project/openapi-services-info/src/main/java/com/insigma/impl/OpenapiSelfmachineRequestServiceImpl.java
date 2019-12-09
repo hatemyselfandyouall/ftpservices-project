@@ -3,6 +3,7 @@ package com.insigma.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.enums.OpenapiCacheEnum;
+import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
 import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
@@ -11,6 +12,7 @@ import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachin
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestListVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
+import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.StringUtil;
@@ -38,6 +40,8 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
     CachesKeyService cachesKeyService;
     @Autowired
     CachesService cachesService;
+    @Autowired
+    OpenapiOrgMapper openapiOrgMapper;
 
     @Override
     public PageInfo<OpenapiSelfmachineRequest> getOpenapiSelfmachineRequestList(OpenapiSelfmachineRequestListVO openapiSelfmachineRequestListVO) {
@@ -130,6 +134,28 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             flag=true;
         }
         return flag;
+    }
+
+    @Override
+    public SelfMachineOrgDTO getOrgByToken(String token) {
+        SelfMachineOrgDTO selfMachineOrgDTO=null;
+        if (StringUtils.isEmpty(token)){
+            return null;
+        }
+        OpenapiSelfmachineRequest openapiSelfmachineRequest=openapiSelfmachineRequestMapper.selectOne(new OpenapiSelfmachineRequest().setToken(token));
+        if (openapiSelfmachineRequest==null){
+            return null;
+        }
+        OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());
+        if (openapiSelfmachineRequest1!=null&&token.equals(openapiSelfmachineRequest1.getToken())){
+            Long orgId=openapiSelfmachineRequest1.getOrgId();
+            OpenapiOrg openapiOrg=openapiOrgMapper.selectByPrimaryKey(orgId);
+            if (openapiOrg==null){
+                return null;
+            }
+            selfMachineOrgDTO=new SelfMachineOrgDTO().setOrgCode(openapiOrg.getOrgCode()).setOrgName(openapiOrg.getOrgName());
+        }
+        return selfMachineOrgDTO;
     }
 
 

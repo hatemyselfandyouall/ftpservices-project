@@ -2,6 +2,7 @@
 package com.insigma.facade.openapi.facade;
 
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
 import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
@@ -24,6 +25,9 @@ public interface OpenapiSelfmachineRequestFacade{
     OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest uniqueCode, OpenapiOrg openapiOrg);
 
     Boolean checkTokenExit(String token);
+
+
+    SelfMachineOrgDTO getOrgByToken(String token);
 }
 
  

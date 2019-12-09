@@ -46,8 +46,9 @@
 			<mvc:exclude-mapping path="/login*"/> 
 			<mvc:exclude-mapping path="/vcode"/> 
 			<mvc:exclude-mapping path="/doLogin"/>
-			
-			
+
+			<mvc:exclude-mapping path="/selfMachineRequest/**"/>
+
 			<mvc:exclude-mapping path="/test/**"/>
 			
 			<!--<mvc:exclude-mapping path="/appconsole/messageSet/initSet.html"/> -->
@@ -63,8 +64,9 @@
 			<mvc:exclude-mapping path="/common/**"/>
 			
 			<mvc:exclude-mapping path="/test/**"/>
-			
-			
+			<mvc:exclude-mapping path="/selfMachineRequest/**"/>
+
+
 			<bean class="com.insigma.webtool.interceptor.PermissionInterceptor" />
 		</mvc:interceptor>
 
