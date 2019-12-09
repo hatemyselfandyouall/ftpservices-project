@@ -7,6 +7,7 @@ import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,9 @@ public class OpenapiBlackWhiteController extends BasicController {
 
     @Autowired
     private OpenapiBlackWhiteFacade openapiBlackWhiteFacade;
+
+    @Autowired
+    private LoginComponent loginComponent;
 
     @ApiOperation(value = "黑白名单列表")
     @ResponseBody
@@ -77,6 +81,9 @@ public class OpenapiBlackWhiteController extends BasicController {
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiApp> saveOpenapiBlackWhite(@RequestBody OpenapiBlackWhiteDto openapiBlackWhiteDto){
         ResultVo resultVo=new ResultVo();
+        Long userId=loginComponent.getLoginUserId();
+        openapiBlackWhiteDto.setCreateBy(userId);
+        openapiBlackWhiteDto.setModifyBy(userId);
         try {
             String ipAddressStr = openapiBlackWhiteFacade.saveOpenapiBlackWhite(openapiBlackWhiteDto);
             if(ipAddressStr.length()<=0) {

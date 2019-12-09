@@ -59,6 +59,7 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
 
     @Override
     public String saveOpenapiBlackWhite(OpenapiBlackWhiteDto openapiBlackWhiteDto) {
+        Date date = new Date();
         StringBuilder sbu = new StringBuilder();
         List<ApplicationServiceDto> applicationServiceDtos = openapiBlackWhiteDto.getApplicationServiceDtos();
         if(applicationServiceDtos!=null&&applicationServiceDtos.size()>0) {
@@ -66,6 +67,8 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
                 OpenapiBlackWhite openapiBlackWhite= JSONUtil.convert(openapiBlackWhiteDto,OpenapiBlackWhite.class);
                 openapiBlackWhite.setApplicationId(applicationServiceDto.getApplicationId());
                 openapiBlackWhite.setApplicationName(applicationServiceDto.getApplicationName());
+                openapiBlackWhite.setCreateTime(date);
+                openapiBlackWhite.setModifyTime(date);
                 openapiBlackWhiteMapper.insertSelective(openapiBlackWhite);
             }
         }else{
@@ -77,8 +80,9 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
                     openapiBlackWhite.setIpAddress(ipAddress);
                     //如果当前ip不同类型的名单已存在，必须作废当前条，添加新的。
                     OpenapiBlackWhite openapiBlackWhiteUpd=new OpenapiBlackWhite();
-                    openapiBlackWhiteUpd.setModifyTime(new Date());
+                    openapiBlackWhiteUpd.setModifyTime(date);
                     openapiBlackWhiteUpd.setIsDelete(1);
+                    openapiBlackWhiteUpd.setModifyBy(openapiBlackWhiteDto.getModifyBy());
                     Example exampleQuery=new Example(OpenapiBlackWhite.class);
                     Example.Criteria criteriaQuery=exampleQuery.createCriteria();
                     criteriaQuery.andEqualTo("ipAddress",ipAddress);
