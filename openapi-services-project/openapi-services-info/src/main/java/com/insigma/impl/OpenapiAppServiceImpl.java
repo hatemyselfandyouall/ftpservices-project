@@ -264,7 +264,7 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer saveAppInterface(OpenapiAppInterfaceSaveVO openapiAppSaveVO) {
+    public Integer saveAppInterface(OpenapiAppInterfaceSaveVO openapiAppSaveVO, Long userId, String userName) {
         OpenapiAppInterface openapiAppInterface=JSONUtil.convert(openapiAppSaveVO,OpenapiAppInterface.class);
         List<Long> interrfaceIds=openapiAppSaveVO.getInterfaceIds();
         interrfaceIds.forEach(i->{
@@ -278,7 +278,9 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
             OpenapiBlackWhiteDto openapiBlackWhiteDto=new OpenapiBlackWhiteDto()
                     .setIpAddress(Arrays.asList(openapiAppSaveVO.getIpAddress()))
                     .setIsDelete(DataConstant.NO_DELETE)
-                    .setApplicationServiceDtos(Arrays.asList(new ApplicationServiceDto().setApplicationId(openapiAppSaveVO.getAppId().toString())));
+                    .setApplicationServiceDtos(Arrays.asList(new ApplicationServiceDto().setApplicationId(openapiAppSaveVO.getAppId().toString())))
+                    .setCreateBy(userId)
+                    .setModifyBy(userId);
             openapiBlackWhiteFacade.saveOpenapiBlackWhite(openapiBlackWhiteDto);
         }
         return 1;

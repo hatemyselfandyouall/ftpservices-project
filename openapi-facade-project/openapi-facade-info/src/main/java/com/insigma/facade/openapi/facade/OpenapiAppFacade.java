@@ -35,7 +35,7 @@ public interface OpenapiAppFacade{
 
     ResultVo checkAppInterfaceSave(OpenapiAppInterfaceSaveVO openapiAppSaveVO);
 
-    Integer saveAppInterface(OpenapiAppInterfaceSaveVO openapiAppSaveVO);
+    Integer saveAppInterface(OpenapiAppInterfaceSaveVO openapiAppSaveVO, Long userId, String userName);
 
     Integer changeAppBlackStatus(ChangeAppBlackStatusVO changeAppBlackStatusVO);
 

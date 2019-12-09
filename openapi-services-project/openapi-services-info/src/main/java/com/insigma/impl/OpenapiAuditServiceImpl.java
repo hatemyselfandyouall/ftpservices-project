@@ -6,7 +6,6 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
 import com.insigma.facade.openapi.facade.OpenapiAppFacade;
 import com.insigma.facade.openapi.facade.OpenapiAuditFacade;
-import com.insigma.facade.openapi.po.OpenapiAppInterface;
 import com.insigma.facade.openapi.po.OpenapiAudit;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
 import com.insigma.facade.openapi.vo.OpenapiAudit.OpenapiAuditDeleteVO;
@@ -19,7 +18,6 @@ import com.insigma.mapper.OpenapiAppInterfaceMapper;
 import com.insigma.mapper.OpenapiAuditMapper;
 import com.insigma.util.JSONUtil;
 import constant.DataConstant;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
@@ -132,7 +130,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
                         saveVo.setModifyTime(new Date());
                         ResultVo checkResult = openapiAppFacade.checkAppInterfaceSave(saveVo);
                         if (checkResult.isSuccess()){
-                            Integer flag = openapiAppFacade.saveAppInterface(saveVo);
+                            Integer flag = openapiAppFacade.saveAppInterface(saveVo, userId, userName);
                        }
                     }
                 }

@@ -166,11 +166,13 @@ public class OpenapiAppController extends BasicController {
     public ResultVo<OpenapiApp> saveAppInterface(@RequestBody OpenapiAppInterfaceSaveVO openapiAppInterfaceSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
+            Long userId=loginComponent.getLoginUserId();
+            String userName=loginComponent.getLoginUserName();
             ResultVo checkResult=openapiAppFacade.checkAppInterfaceSave(openapiAppInterfaceSaveVO);
             if (!checkResult.isSuccess()){
                 return checkResult;
             }
-            Integer flag = openapiAppFacade.saveAppInterface(openapiAppInterfaceSaveVO);
+            Integer flag = openapiAppFacade.saveAppInterface(openapiAppInterfaceSaveVO,userId,userName);
             if (1 == flag) {
                 resultVo.setResultDes("开放平台应用-接口保存成功");
                 resultVo.setSuccess(true);
