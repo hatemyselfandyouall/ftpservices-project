@@ -79,7 +79,9 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
         for(OpenapiAudit audit : openapiAuditList){
             openapiInterfaceDetailVO.setId(audit.getInterfaceId());
             OpenapiInterfaceShowVO interfaceShowVO=  interfaceFacade.getOpenapiInterfaceDetail(openapiInterfaceDetailVO);
-            audit.setOpenAccess(interfaceShowVO.getOpenapiInterface().getOpenAccess());
+            if (interfaceShowVO!=null){
+                audit.setOpenAccess(interfaceShowVO.getOpenapiInterface().getOpenAccess());
+            }
         }
         PageInfo<OpenapiAudit> openapiAuditPageInfo=new PageInfo<>(openapiAuditList);
         return openapiAuditPageInfo;

@@ -578,6 +578,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         Example example=new Example(OpenapiInterface.class);
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("name",name);
+        criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
         if (openapiInterfaceSaveVO.getId()!=null){
             criteria.andNotEqualTo("id",openapiInterfaceSaveVO.getId());
         }
@@ -588,6 +589,7 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         example.clear();
         criteria=example.createCriteria();
         criteria.andEqualTo("code",code);
+        criteria.andEqualTo("isDelete",DataConstant.NO_DELETE);
         if (openapiInterfaceSaveVO.getId()!=null){
             criteria.andNotEqualTo("id",openapiInterfaceSaveVO.getId());
         }
