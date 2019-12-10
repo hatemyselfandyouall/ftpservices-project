@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class OpenapiBlackWhiteDto implements Serializable{
+public class OpenapiBlackWhiteDtoList implements Serializable{
 
 
 	//========== properties ==========
@@ -21,10 +21,7 @@ public class OpenapiBlackWhiteDto implements Serializable{
     private Long id;
 
     @ApiModelProperty("IP地址集合")
-    private List<String> ipAddress;
-
-    @ApiModelProperty("应用服务集合")
-    private List<ApplicationServiceDto> applicationServiceDtos;
+    private String ipAddress;
 
     @ApiModelProperty("添加类型，1白名单，2黑名单")
     private Integer addType;

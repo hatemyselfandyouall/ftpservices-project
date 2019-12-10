@@ -3,6 +3,7 @@ package com.insigma.web.backGround.openapiblackwhite;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.dto.OpenapiBlackWhiteDto;
+import com.insigma.facade.openapi.dto.OpenapiBlackWhiteDtoList;
 import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
@@ -11,10 +12,12 @@ import com.insigma.webtool.component.LoginComponent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import star.vo.result.ResultVo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +48,17 @@ public class OpenapiBlackWhiteController extends BasicController {
         try {
             PageInfo<OpenapiBlackWhite> openapiBlackWhiteList=openapiBlackWhiteFacade.getOpenapiBlackWhiteList(name,addType,startDate,endDate,offset,limit);
             if(openapiBlackWhiteList!=null){
-                DataListResultDto<OpenapiBlackWhite> dataListResultDto=new DataListResultDto<>(openapiBlackWhiteList.getList(),(int)openapiBlackWhiteList.getTotal());
+                List<OpenapiBlackWhite> openapiBlackWhites = openapiBlackWhiteList.getList();
+                List<OpenapiBlackWhiteDtoList> OpenapiBlackWhiteDtoLists = new ArrayList<>();
+                for(OpenapiBlackWhite openapiBlackWhite:openapiBlackWhites){
+                    OpenapiBlackWhiteDtoList openapiBlackWhiteDtoList = new OpenapiBlackWhiteDtoList();
+                    BeanUtils.copyProperties(openapiBlackWhite,openapiBlackWhiteDtoList);
+                    String userName=loginComponent.getLoginUserName();
+                    openapiBlackWhiteDtoList.setCreateByName(userName);
+                    openapiBlackWhiteDtoList.setModifyByName(userName);
+                    OpenapiBlackWhiteDtoLists.add(openapiBlackWhiteDtoList);
+                }
+                DataListResultDto<OpenapiBlackWhiteDtoList> dataListResultDto=new DataListResultDto<>(OpenapiBlackWhiteDtoLists,(int)openapiBlackWhiteList.getTotal());
                 resultVo.setResult(dataListResultDto);
                 resultVo.setSuccess(true);
             }else {
