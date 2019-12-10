@@ -7,6 +7,7 @@ import com.insigma.facade.openapi.facade.OpenapiAppTypeFacade;
 import com.insigma.facade.openapi.po.OpenapiAppInterface;
 import com.insigma.mapper.OpenapiAppTypeMapper;
 import com.insigma.util.JSONUtil;
+import com.sun.org.apache.bcel.internal.generic.I2F;
 import constant.DataConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.vo.result.ResultVo;
@@ -93,7 +94,13 @@ public class OpenapiAppTypeServiceImpl implements OpenapiAppTypeFacade {
             resultVo.setResultDes("参数必须传递");
             return resultVo;
         }
-        if (openapiAppTypeMapper.selectCount(new OpenapiAppType().setName(openapiAppTypeSaveVO.getName()))>0){
+        Example example=new Example(OpenapiAppType.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("name",openapiAppTypeSaveVO.getName()).andEqualTo("isDelete",DataConstant.NO_DELETE);
+        if (openapiAppTypeSaveVO.getId()!=null){
+            criteria.andNotEqualTo("id",openapiAppTypeSaveVO.getId());
+        }
+        if (openapiAppTypeMapper.selectCountByExample(example)>0){
             resultVo.setResultDes("不允许应用类型同名");
             return resultVo;
         }
