@@ -17,7 +17,6 @@
         <result property="clientVersion" column="client_version" />
         <result property="machineCode" column="machine_code" />
         <result property="machineAddressId" column="machine_address_id" />
-        <result property="machineAddressId" column="machine_address_id" />
         <result property="machineAddress" column="machine_address" />
         <result property="createTime" column="create_time" />
 

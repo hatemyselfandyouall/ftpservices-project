@@ -17,9 +17,7 @@ public class OpenapiSelfmachineShowVO extends OpenapiSelfmachine implements Seri
     @Column( name="statu")
     private SelfMachineEnum statu;
 
-    @ApiModelProperty("客户端版本")
-    @Column( name="client_version")
-    private String clientVersion;
+
 
     @ApiModelProperty("机器型号")
     @Column( name="machine_type")

@@ -8,6 +8,7 @@ import com.insigma.mapper.OpenapiInterfaceMapper;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
@@ -37,7 +38,9 @@ public class OpenapiInterfaceHistoryServiceImpl implements OpenapiInterfaceHisto
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("interfaceId", openapiInterfaceHistoryListVO.getInterfaceId());
         List<OpenapiInterfaceHistory> openapiInterfaceHistoryList=openapiInterfaceHistoryMapper.selectByExample(example);
-        openapiInterfaceHistoryList.forEach(i->i.setIsAvaliable(openapiInterfaceMapper.selectByPrimaryKey(i.getInterfaceId()).getIsAvaliable()));
+        if(!CollectionUtils.isEmpty(openapiInterfaceHistoryList)){
+            openapiInterfaceHistoryList.get(0).setIsAvaliable(openapiInterfaceMapper.selectByPrimaryKey(openapiInterfaceHistoryList.get(0).getInterfaceId()).getIsAvaliable());
+        }
         if (openapiInterfaceHistoryListVO.getIsAvaliable()!=null){
             openapiInterfaceHistoryList=openapiInterfaceHistoryList.stream().filter(i->i.getIsAvaliable().equals(openapiInterfaceHistoryListVO.getIsAvaliable())).collect(Collectors.toList());
         }
