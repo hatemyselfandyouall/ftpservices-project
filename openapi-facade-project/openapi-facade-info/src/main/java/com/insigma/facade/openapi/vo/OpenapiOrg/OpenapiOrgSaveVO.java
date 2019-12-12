@@ -16,9 +16,9 @@ public class OpenapiOrgSaveVO implements Serializable {
     @Column( name="id")
     private Long id;
 
-    @ApiModelProperty("机构id")
-    @Column( name="org_id")
-    private Long orgId;
+    @ApiModelProperty("机构编码")
+    @Column( name="org_code")
+    private String orgCode;
 
     @ApiModelProperty("机构名")
     @Column( name="org_name")
