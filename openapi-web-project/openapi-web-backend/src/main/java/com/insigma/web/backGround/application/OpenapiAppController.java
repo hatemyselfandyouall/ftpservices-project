@@ -141,7 +141,7 @@ public class OpenapiAppController extends BasicController {
             String orgName= CollectionUtils.isEmpty(orgList)?"":orgList.get(0).getOrgName();
             OpenapiAppSaveVO.setUserId(userId);
             OpenapiAppSaveVO.setUserName(userName);
-            OpenapiAppSaveVO.setOrgName(orgName);
+//            OpenapiAppSaveVO.setOrgName(orgName);
             ResultVo checkResult=openapiAppFacade.checkSave(OpenapiAppSaveVO);
             if (!checkResult.isSuccess()){
                 return checkResult;
