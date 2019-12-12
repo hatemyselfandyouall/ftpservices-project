@@ -14,6 +14,7 @@ import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachin
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
+import com.insigma.util.DateUtils;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.StringUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -26,10 +27,7 @@ import star.modules.cache.CachesService;
 import star.modules.cache.enumerate.BaseCacheEnum;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineRequestFacade {
@@ -165,5 +163,9 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         Optional<Integer> number=openapiSelfmachineRequests.stream().filter(i->i.getNumber()!=null).max(Comparator.comparingInt(OpenapiSelfmachineRequest::getNumber)).map(OpenapiSelfmachineRequest::getNumber);
         openapiSelfmachineRequest.setNumber(number.orElse(0)+1);
         return openapiOrg.getAbbreviation()+"00"+openapiSelfmachineRequest.getNumber();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(DateUtils.parseDate(new Date(1574126664000l),"yyyy-MM-dd HH:mm:ss"));
     }
 }
