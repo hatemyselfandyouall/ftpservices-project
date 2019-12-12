@@ -70,7 +70,7 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("shortName",openapiOrgShortnameSaveVO.getShortName());
         if (openapiOrgShortnameSaveVO.getId()!=null){
-            criteria.andEqualTo("id",openapiOrgShortnameSaveVO.getId());
+            criteria.andNotEqualTo("id",openapiOrgShortnameSaveVO.getId());
         }
         if(openapiOrgShortnameMapper.selectCountByExample(example)>0){
             resultVo.setResultDes("简称不能重复");
