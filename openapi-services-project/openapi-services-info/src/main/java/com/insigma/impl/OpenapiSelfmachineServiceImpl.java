@@ -3,6 +3,7 @@ package com.insigma.impl;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
+import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineAddress;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
@@ -41,6 +42,7 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
     SysUserFacade sysUserFacade;
     @Autowired
     SysOrgFacade sysOrgFacade;
+
 
     @Override
     public PageInfo<OpenapiSelfmachineShowVO> getOpenapiSelfmachineList(OpenapiSelfmachineListVO openapiSelfmachineListVO, Long userId) {
@@ -107,11 +109,16 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, Long id) {
+    public String saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiOrg openapiOrg) {
         OpenapiSelfmachine openapiSelfmachine=JSONUtil.convert(openapiSelfmachineRequestSaveVO,OpenapiSelfmachine.class);
-        openapiSelfmachineMapper.insertSelective(openapiSelfmachine.setOrgId(id));
+        openapiSelfmachineMapper.insertSelective(openapiSelfmachine.setOrgId(openapiOrg.getId()));
         OpenapiSelfmachineRequest openapiSelfmachineRequest=JSONUtil.convert(openapiSelfmachineRequestSaveVO,OpenapiSelfmachineRequest.class);
-        openapiSelfmachineRequestMapper.insertSelective(openapiSelfmachineRequest.setOrgId(id));
+        if (openapiSelfmachineRequest.getMachineCode()==null){
+            openapiSelfmachineRequest.setMachineCode(openapiSelfmachineRequestFacade.getInitMachineCode(openapiSelfmachineRequest,openapiOrg));
+        }
+        openapiSelfmachineRequest.setIpSegment(openapiOrg.getIpSegment()).setOrgName(openapiOrg.getOrgName());
+        openapiSelfmachineRequestMapper.insertSelective(openapiSelfmachineRequest.setOrgId(openapiOrg.getId()));
+        return openapiSelfmachineRequest.getMachineCode();
     }
 
     @Override

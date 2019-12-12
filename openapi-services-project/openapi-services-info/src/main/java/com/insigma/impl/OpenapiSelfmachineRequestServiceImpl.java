@@ -102,19 +102,16 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
     }
 
     @Override
-    public OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest uniqueCode, OpenapiOrg openapiOrg) {
+    public OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg) {
         return new CacheKeyLock(cachesKeyService, SysCacheTimeDMO.CACHETIMEOUT_30M){
             @Override
             protected Object doGetList(BaseCacheEnum type, String key){
                 String token=UUID.randomUUID().toString().replaceAll("-","");
-                uniqueCode.setToken(token);
-                if (uniqueCode.getMachineCode()==null){
-                    uniqueCode.setMachineCode(getInitMachineCode(uniqueCode,openapiOrg));
-                }
-                openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(uniqueCode);
-                return uniqueCode;
+                openapiSelfmachineRequest.setToken(token);
+                openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachineRequest);
+                return openapiSelfmachineRequest;
             }
-        }.getCache(OpenapiCacheEnum.REQUEST_TOKEN, uniqueCode.getUniqueCode());
+        }.getCache(OpenapiCacheEnum.REQUEST_TOKEN, openapiSelfmachineRequest.getUniqueCode());
     }
 
     @Override
@@ -157,7 +154,7 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
     }
 
 
-    private String getInitMachineCode(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg){
+    public String getInitMachineCode(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg){
         Long orgId=openapiSelfmachineRequest.getOrgId();
         List<OpenapiSelfmachineRequest> openapiSelfmachineRequests=openapiSelfmachineRequestMapper.select(new OpenapiSelfmachineRequest().setOrgId(orgId));
         Optional<Integer> number=openapiSelfmachineRequests.stream().filter(i->i.getNumber()!=null).max(Comparator.comparingInt(OpenapiSelfmachineRequest::getNumber)).map(OpenapiSelfmachineRequest::getNumber);

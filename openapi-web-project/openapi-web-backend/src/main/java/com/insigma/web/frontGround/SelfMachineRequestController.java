@@ -70,11 +70,12 @@ public class SelfMachineRequestController {
                 resultVo.setResultDes("自助机请求接受错误:证书无效");
                 return resultVo;
             }
-            openapiSelfmachineRequestSaveVO.setUniqueCode(MD5Util.MD5Encode(openapiSelfmachineRequestSaveVO.getIp()+openapiSelfmachineRequestSaveVO.getMacAddress(),"UTF-8"));
+            openapiSelfmachineRequestSaveVO.setUniqueCode(openapiSelfmachineRequestSaveVO.getMd5Value());
             OpenapiSelfmachineRequest openapiSelfmachine=openapiSelfmachineRequestFacade.getOpenapiSelfmachineRequestDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachineRequestSaveVO.getUniqueCode()));
             if (openapiSelfmachine==null){
-                openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg.getId());
-                resultVo.setResultDes("自助机审核中，请等待审核通过");
+                String machineCode=openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg);
+                resultVo.setResult(machineCode);
+                resultVo.setResultDes("自助机进入审核，请等待审核通过");
                 return resultVo;
             }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
@@ -143,14 +144,17 @@ public class SelfMachineRequestController {
         OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
         openapiSelfmachineRequestSaveVO.setAppKey("123");
         openapiSelfmachineRequestSaveVO.setCertificate("123");
-        openapiSelfmachineRequestSaveVO.setIp("12345");
+        openapiSelfmachineRequestSaveVO.setIp("12345116");
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
-        openapiSelfmachineRequestSaveVO.setMachineType("123");
+        openapiSelfmachineRequestSaveVO.setClientVersion("1121");
         String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
+        String md5=MD5Util.md5Password(result);
+        openapiSelfmachineRequestSaveVO.setMd5Value(md5);
+        result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }

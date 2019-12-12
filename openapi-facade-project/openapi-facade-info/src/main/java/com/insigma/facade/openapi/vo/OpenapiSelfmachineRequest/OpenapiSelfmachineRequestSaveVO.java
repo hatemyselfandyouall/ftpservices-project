@@ -45,4 +45,7 @@ public class OpenapiSelfmachineRequestSaveVO implements Serializable {
     @Column( name="org_name")
     private String orgName;
 
+    @ApiModelProperty("md5加密值")
+    @Column( name="md5_value")
+    private String md5Value;
 }
