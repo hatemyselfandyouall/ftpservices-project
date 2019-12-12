@@ -78,6 +78,8 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
                     OpenapiBlackWhite openapiBlackWhite = JSONUtil.convert(openapiBlackWhiteDto, OpenapiBlackWhite.class);
                     Integer addType = openapiBlackWhiteDto.getAddType();
                     openapiBlackWhite.setIpAddress(ipAddress);
+                    openapiBlackWhite.setCreateTime(date);
+                    openapiBlackWhite.setModifyTime(date);
                     //如果当前ip不同类型的名单已存在，必须作废当前条，添加新的。
                     OpenapiBlackWhite openapiBlackWhiteUpd=new OpenapiBlackWhite();
                     openapiBlackWhiteUpd.setModifyTime(date);
