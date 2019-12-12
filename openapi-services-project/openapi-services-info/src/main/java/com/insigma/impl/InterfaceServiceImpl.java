@@ -88,7 +88,10 @@ public class InterfaceServiceImpl implements InterfaceFacade {
             criteria.andEqualTo("isPublic", openapiInterfaceListVO.getIsPublic());
         }
         if (openapiInterfaceListVO.getName() != null) {
-            criteria.andCondition("(name like '%" + openapiInterfaceListVO.getName() + "%' or command_code like '%" + openapiInterfaceListVO.getName() + "%' or out_url like '%" + openapiInterfaceListVO.getName() + "%' )");
+            criteria.andCondition("(name like '%" + openapiInterfaceListVO.getName()
+                    + "%' or command_code like '%" + openapiInterfaceListVO.getName()
+                    + "%' or code like '%" + openapiInterfaceListVO.getName()
+                    + "%' or out_url like '%" + openapiInterfaceListVO.getName() + "%' )");
         }
         example.setOrderByClause("modify_time desc");
         PageHelper.startPage(openapiInterfaceListVO.getPageNum().intValue(), openapiInterfaceListVO.getPageSize().intValue());

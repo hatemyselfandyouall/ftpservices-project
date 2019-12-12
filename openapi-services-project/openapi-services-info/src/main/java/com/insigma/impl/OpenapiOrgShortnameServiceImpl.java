@@ -66,7 +66,13 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
             resultVo.setResultDes("简称不能为空");
             return resultVo;
         }
-        if(openapiOrgShortnameMapper.selectCount(new OpenapiOrgShortname().setShortName(openapiOrgShortnameSaveVO.getShortName()))>0){
+        Example example=new Example(OpenapiOrgShortname.class);
+        Example.Criteria criteria=example.createCriteria();
+        criteria.andEqualTo("shortName",openapiOrgShortnameSaveVO.getShortName());
+        if (openapiOrgShortnameSaveVO.getId()!=null){
+            criteria.andEqualTo("id",openapiOrgShortnameSaveVO.getId());
+        }
+        if(openapiOrgShortnameMapper.selectCountByExample(example)>0){
             resultVo.setResultDes("简称不能重复");
             return resultVo;
         }
@@ -76,7 +82,7 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
              openapiOrgShortnameMapper.insertSelective(openapiOrgShortname);
         }else {
             openapiOrgShortname.setModifyTime(new Date());
-            Example example=new Example(OpenapiOrgShortname.class);
+            example=new Example(OpenapiOrgShortname.class);
             example.createCriteria().andEqualTo("id",openapiOrgShortname.getId());
              openapiOrgShortnameMapper.updateByExampleSelective(openapiOrgShortname,example);
         }
