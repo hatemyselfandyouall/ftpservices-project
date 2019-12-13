@@ -70,11 +70,11 @@ public class SelfMachineRequestController {
                 resultVo.setResultDes("自助机请求接受错误:证书无效");
                 return resultVo;
             }
-            openapiSelfmachineRequestSaveVO.setUniqueCode(openapiSelfmachineRequestSaveVO.getMd5Value());
+            openapiSelfmachineRequestSaveVO.setUniqueCode(MD5Util.md5Password(JSONObject.toJSONString(openapiSelfmachineRequestSaveVO)));
             OpenapiSelfmachineRequest openapiSelfmachine=openapiSelfmachineRequestFacade.getOpenapiSelfmachineRequestDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachineRequestSaveVO.getUniqueCode()));
             if (openapiSelfmachine==null){
                 String machineCode=openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg);
-                resultVo.setResult(machineCode);
+                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode));
                 resultVo.setResultDes("自助机进入审核，请等待审核通过");
                 return resultVo;
             }
@@ -87,6 +87,7 @@ public class SelfMachineRequestController {
                 resultVo.setResultDes("进入黑名单的自助机 不能取得token");
             }
             if (SelfMachineEnum.NOT_YET.equals(openapiSelfmachine.getStatu())){
+                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(openapiSelfmachine.getMachineCode()));
                 resultVo.setResultDes("自助机审核中，请等待审核通过");
             }
         }catch (Exception e){
@@ -144,14 +145,14 @@ public class SelfMachineRequestController {
         OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
 //        openapiSelfmachineRequestSaveVO.setAppKey("123");
         openapiSelfmachineRequestSaveVO.setCertificate("123");
-        openapiSelfmachineRequestSaveVO.setIp("123451161");
+        openapiSelfmachineRequestSaveVO.setIp("1234511612");
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
         openapiSelfmachineRequestSaveVO.setClientVersion("1121");
         openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
+//        String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
+//        String md5=MD5Util.md5Password(result);
+//        openapiSelfmachineRequestSaveVO.setMd5Value("6f04a982dab609fde2cd2a69710eb355");
         String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
-        String md5=MD5Util.md5Password(result);
-        openapiSelfmachineRequestSaveVO.setMd5Value(md5);
-        result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
