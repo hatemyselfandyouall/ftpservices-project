@@ -142,11 +142,12 @@ public class SelfMachineRequestController {
 
     public static void main(String[] args) {
         OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
-        openapiSelfmachineRequestSaveVO.setAppKey("123");
+//        openapiSelfmachineRequestSaveVO.setAppKey("123");
         openapiSelfmachineRequestSaveVO.setCertificate("123");
-        openapiSelfmachineRequestSaveVO.setIp("12345116");
+        openapiSelfmachineRequestSaveVO.setIp("123451161");
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
         openapiSelfmachineRequestSaveVO.setClientVersion("1121");
+        openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
         String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
         String md5=MD5Util.md5Password(result);
         openapiSelfmachineRequestSaveVO.setMd5Value(md5);
