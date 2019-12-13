@@ -5,15 +5,15 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
-import com.insigma.facade.openapi.po.OpenapiOrg;
-import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
-import com.insigma.facade.openapi.po.SelfMachineEnum;
+import com.insigma.facade.openapi.po.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestListVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 import com.insigma.mapper.OpenapiOrgMapper;
+import com.insigma.mapper.OpenapiSelfmachineMapper;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
+import com.insigma.mapper.OpenapiSelfmachineTypeMapper;
 import com.insigma.util.DateUtils;
 import com.insigma.util.JSONUtil;
 import com.insigma.util.StringUtil;
@@ -40,6 +40,10 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
     CachesService cachesService;
     @Autowired
     OpenapiOrgMapper openapiOrgMapper;
+    @Autowired
+    OpenapiSelfmachineMapper openapiSelfmachineMapper;
+    @Autowired
+    OpenapiSelfmachineTypeMapper openapiSelfmachineTypeMapper;
 
     @Override
     public PageInfo<OpenapiSelfmachineRequest> getOpenapiSelfmachineRequestList(OpenapiSelfmachineRequestListVO openapiSelfmachineRequestListVO) {
@@ -61,6 +65,12 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         criteria.andEqualTo("statu", SelfMachineEnum.NOT_YET);
         PageHelper.startPage(openapiSelfmachineRequestListVO.getPageNum().intValue(),openapiSelfmachineRequestListVO.getPageSize().intValue());
         List<OpenapiSelfmachineRequest> openapiSelfmachineRequestList=openapiSelfmachineRequestMapper.selectByExample(example);
+        openapiSelfmachineRequestList.forEach(i->{
+            OpenapiSelfmachine openapiSelfmachine= openapiSelfmachineMapper.selectOne(new OpenapiSelfmachine().setUniqueCode(i.getUniqueCode()));
+            if (openapiSelfmachine!=null&&openapiSelfmachine.getMachineTypeId()!=null){
+                i.setMachineType(openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachine.getUniqueCode())).getName());
+            }
+        });
         PageInfo<OpenapiSelfmachineRequest> openapiSelfmachineRequestPageInfo=new PageInfo<>(openapiSelfmachineRequestList);
         return openapiSelfmachineRequestPageInfo;
     }
