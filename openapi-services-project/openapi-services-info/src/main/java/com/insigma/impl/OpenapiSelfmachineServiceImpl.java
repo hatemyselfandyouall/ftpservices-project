@@ -60,7 +60,8 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         List<OpenapiSelfmachineShowVO> openapiSelfmachineRequestList=openapiSelfmachineMapper.getOpenapiSelfmachineList(openapiSelfmachineListVO);
         openapiSelfmachineRequestList.forEach(i->{
             if (i.getMachineTypeId()!=null){
-                i.setMachineType(openapiSelfmachineTypeMapper.selectByPrimaryKey(i.getMachineTypeId()).getName());
+                OpenapiSelfmachineType openapiSelfmachineType=openapiSelfmachineTypeMapper.selectByPrimaryKey(i.getMachineTypeId());
+                i.setMachineType(openapiSelfmachineType!=null?openapiSelfmachineType.getName():"");
             }
         });
         PageInfo<OpenapiSelfmachineShowVO> openapiSelfmachineRequestPageInfo=new PageInfo<>(openapiSelfmachineRequestList);

@@ -68,7 +68,8 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         openapiSelfmachineRequestList.forEach(i->{
             OpenapiSelfmachine openapiSelfmachine= openapiSelfmachineMapper.selectOne(new OpenapiSelfmachine().setUniqueCode(i.getUniqueCode()));
             if (openapiSelfmachine!=null&&openapiSelfmachine.getMachineTypeId()!=null){
-                i.setMachineType(openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachine.getUniqueCode())).getName());
+                OpenapiSelfmachineType openapiSelfmachineType=openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachine.getUniqueCode()));
+                i.setMachineType(openapiSelfmachineType!=null?openapiSelfmachineType.getName():"");
             }
         });
         PageInfo<OpenapiSelfmachineRequest> openapiSelfmachineRequestPageInfo=new PageInfo<>(openapiSelfmachineRequestList);
