@@ -24,10 +24,6 @@ import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHis
 import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistoryListVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceHistory.OpenapiInterfaceHistorySaveVO;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
 @RestController
 @RequestMapping("openapiInterfaceHistory")
 @Api(tags ="接口历史管理")

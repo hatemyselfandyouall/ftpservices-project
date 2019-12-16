@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
@@ -90,9 +88,6 @@ public class OpenapiAuditController extends BasicController {
     public ResultVo<OpenapiAudit> saveOpenapiAudit(@RequestBody OpenapiAuditSaveVO openapiAuditSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
-            //------------------------操作日志处理-----------------------------------------------------------------------
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
             Integer flag = openapiAuditFacade.saveOpenapiAudit(openapiAuditSaveVO);
             if (flag > 0) {
                 if (openapiAuditSaveVO.getIds()==null){
