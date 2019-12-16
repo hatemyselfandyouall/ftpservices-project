@@ -63,6 +63,7 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             criteria.andEqualTo("preliminaryCalibration",openapiSelfmachineRequestListVO.getPreliminaryCalibration());
         }
         criteria.andEqualTo("statu", SelfMachineEnum.NOT_YET);
+        example.setOrderByClause("create_time desc");
         PageHelper.startPage(openapiSelfmachineRequestListVO.getPageNum().intValue(),openapiSelfmachineRequestListVO.getPageSize().intValue());
         List<OpenapiSelfmachineRequest> openapiSelfmachineRequestList=openapiSelfmachineRequestMapper.selectByExample(example);
         openapiSelfmachineRequestList.forEach(i->{
