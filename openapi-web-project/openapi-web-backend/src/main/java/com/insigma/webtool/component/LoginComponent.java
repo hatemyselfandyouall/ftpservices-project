@@ -112,9 +112,6 @@ public class LoginComponent {
                     return false;
                 }
             } else {
-                CookieHelper.saveToken2Cookie4Domains(CookieEnum.LOGIN.getValue(),
-                        SecurityUtil.decrypt(value).split("\\|"),
-                        CookieTime.TIME_LONGIN);
                 return true;
             }
 

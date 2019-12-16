@@ -38,6 +38,7 @@ public class OpenapiInterfaceHistoryServiceImpl implements OpenapiInterfaceHisto
         Example example=new Example(OpenapiInterfaceHistory.class);
         Example.Criteria criteria=example.createCriteria();
         criteria.andEqualTo("interfaceId", openapiInterfaceHistoryListVO.getInterfaceId());
+        example.setOrderByClause("create_time desc");
         List<OpenapiInterfaceHistory> openapiInterfaceHistoryList=openapiInterfaceHistoryMapper.selectByExample(example);
         if(!CollectionUtils.isEmpty(openapiInterfaceHistoryList)){
             openapiInterfaceHistoryList.get(0).setIsAvaliable(openapiInterfaceMapper.selectByPrimaryKey(openapiInterfaceHistoryList.get(0).getInterfaceId()).getIsAvaliable());
