@@ -7,6 +7,7 @@ import com.insigma.facade.openapi.facade.OpenapiMonitoringDataConfigFacade;
 import com.insigma.facade.openapi.po.OpenapiMonitoringDataConfig;
 import com.insigma.table.TableInfo;
 import com.insigma.util.BIUtil;
+import com.taobao.diamond.extend.DynamicProperties;
 import constant.DataConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -45,7 +46,8 @@ public class FailureInhourTask {
                 Long id = (Long)entry.getKey();
                 OpenapiMonitoringDataConfig dataConfig = (OpenapiMonitoringDataConfig)entry.getValue();
                 if(id != null){
-                    map.put("conditions"," AND t.interface_id = ' " + id +" ' ");
+                    //where t.interface_id='1'
+                    map.put("conditions"," where t.interface_id = ' " + id +" ' ");
                 }
                 ResultVo  resultVo =  BIUtil.getRequestResult(1l, 90000l, map, "", DataConstant.FAILUREINHOUR_WARNING,openapiDictionaryFacade,restTemplate);
                 TableInfo tableInfo = (TableInfo) resultVo.getResult();
@@ -60,7 +62,11 @@ public class FailureInhourTask {
                 }
             }
             if(!"".equals(WarningStr)){
-                sendEmailFacade.sendEmail("huaw@epsoft.com.cn","开发平台服务监控接口1小时内失败次数报警","你好!<br/>以下接口：<br/>"+WarningStr+"已达到报警指标，请及时处理。<br/> 祝：工作顺利！ <br/>" +new Date());
+                String addressee = DynamicProperties.staticProperties.getProperty("mail.addressee");
+                String [] splitVal = addressee.split(",");
+                for(String addresser : Arrays.asList(splitVal)) {
+                    sendEmailFacade.sendEmail(addresser, "开发平台服务监控接口1小时内失败次数报警", "你好!<br/>以下接口：<br/>" + WarningStr + "已达到报警指标，请及时处理。<br/> 祝：工作顺利！ <br/>" + new Date());
+                }
             }
         }
     }
