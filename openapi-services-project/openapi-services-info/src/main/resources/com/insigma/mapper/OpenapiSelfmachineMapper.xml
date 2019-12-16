@@ -36,7 +36,7 @@
             AND  osr.machine_type = #{param.machineType}
         </if>
         <if test="param.keyWord!=null and param.keyWord!=''">
-            AND  ( osr.ip like concat('%',#{param.keyWord},'%') or osr.mac_address like concat('%',#{param.keyWord},'%') or osr.unique_code like concat('%',#{param.keyWord},'%'))
+            AND  ( osr.ip like concat('%',#{param.keyWord},'%')  or osr.machine_code like concat('%',#{param.keyWord},'%'))
         </if>
         <if test="param.orgCode!=null and param.orgCode!=''">
             AND  oo.org_code=#{param.orgCode}
