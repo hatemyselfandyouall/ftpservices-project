@@ -21,6 +21,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import star.bizbase.util.StringUtils;
 import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
@@ -77,7 +78,7 @@ public class OpenapiSafeMonitorController extends BasicController {
         List<OpenapiBlackWhite> list = openapiBlackWhiteFacade.getBlackWhiteList();
             Map<String, Object> map = new HashMap();
             List<OpenapiBlackWhite> list1 = new ArrayList<>();
-            list1=list.stream().collect(Collectors.toList());
+            list1=list.stream().filter(i->!StringUtils.isEmpty(i.getIpAddress())).collect(Collectors.toList());
             String ips="";
             //    if (interfaceDetailVO.getWhereWord().get("is_black") != null) { //根据ip条件查询   1白2黑
                     //list1=list.stream().filter(i->i.getAddType().equals(Integer.valueOf(interfaceDetailVO.getWhereWord().get("is_black").toString()))).collect(Collectors.toList());
