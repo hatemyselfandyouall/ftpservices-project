@@ -12,5 +12,4 @@ public class OpenapiDictionaryUpdateVO implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("安全监控访问次数预警值")
     private String value;
-
 }

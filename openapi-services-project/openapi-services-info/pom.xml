@@ -81,6 +81,10 @@
 			<groupId>insigma.common.facade.sms</groupId>
 			<artifactId>common-facade-sms</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>insigma.sysbase.facade.log</groupId>
+			<artifactId>sysbase-facade-log</artifactId>
+		</dependency>
     </dependencies>
 	
 	<profiles>

@@ -33,6 +33,7 @@ public class AverageCallDurationTask {
 
     @Scheduled(cron = "0 0/30 * * * ?")
     public void AverageCallDurationWarning() {
+        //0 0/30 * * * ?     0 */1 * * * ?
         //获取监控数据配置信息
         List<OpenapiMonitoringDataConfig> openapiMonitoringDataConfigs = openapiMonitoringDataConfigFacade.getConfigList();
         //获取到监控数据中所有的接口id

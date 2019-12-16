@@ -99,6 +99,12 @@
 		  <groupId>insigma.devops.facade.info</groupId>
 		  <artifactId>devops-facade-info</artifactId>
 	  </dependency>
+
+	  <dependency>
+		  <groupId>insigma.sysbase.facade.log</groupId>
+		  <artifactId>sysbase-facade-log</artifactId>
+	  </dependency>
+
     </dependencies>
 
 	<build>
