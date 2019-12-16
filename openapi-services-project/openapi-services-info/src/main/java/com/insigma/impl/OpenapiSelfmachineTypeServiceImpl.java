@@ -43,7 +43,7 @@ public class OpenapiSelfmachineTypeServiceImpl implements OpenapiSelfmachineType
             criteria.andEqualTo("creatorId",userId);
         }
         if (!StringUtils.isEmpty(openapiSelfmachineTypeListVO.getName())){
-            criteria.andEqualTo("name",openapiSelfmachineTypeListVO.getName());
+            criteria.andLike("name","%"+openapiSelfmachineTypeListVO.getName()+"%");
         }
         criteria.andEqualTo("isDelete", DataConstant.NO_DELETE);
         PageHelper.startPage(openapiSelfmachineTypeListVO.getPageNum().intValue(),openapiSelfmachineTypeListVO.getPageSize().intValue());
