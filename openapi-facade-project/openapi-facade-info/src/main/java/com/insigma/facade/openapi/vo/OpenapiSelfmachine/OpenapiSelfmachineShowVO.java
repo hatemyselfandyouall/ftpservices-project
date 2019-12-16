@@ -30,4 +30,7 @@ public class OpenapiSelfmachineShowVO extends OpenapiSelfmachine implements Seri
     @ApiModelProperty("证书编号")
     @Column( name="certificate_code")
     private String certificateCode;
+
+    @ApiModelProperty("完整地址")
+    private String fullAddress;
 }
