@@ -1,5 +1,6 @@
 package com.insigma.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
@@ -57,6 +58,7 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
                 openapiSelfmachineListVO.setOrgCode(orgCode);
             }
         }
+        PageHelper.startPage(openapiSelfmachineListVO.getPageNum().intValue(),openapiSelfmachineListVO.getPageSize().intValue());
         List<OpenapiSelfmachineShowVO> openapiSelfmachineRequestList=openapiSelfmachineMapper.getOpenapiSelfmachineList(openapiSelfmachineListVO);
         openapiSelfmachineRequestList.forEach(i->{
             if (i.getMachineTypeId()!=null){
