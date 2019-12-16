@@ -102,6 +102,10 @@ public class OpenapiAppTypeController extends BasicController {
     public ResultVo<OpenapiAppType> deleteOpenapiAppType(@RequestBody OpenapiAppTypeDeleteVO openapiAppTypeDeleteVO){
         ResultVo resultVo=new ResultVo();
         try {
+            ResultVo checkResult=openapiAppTypeFacade.checkDeleteOpenapiAppType(openapiAppTypeDeleteVO);
+            if (!checkResult.isSuccess()){
+                return checkResult;
+            }
             Integer flag = openapiAppTypeFacade.deleteOpenapiAppType(openapiAppTypeDeleteVO);
             if (1 == flag) {
                 resultVo.setResultDes("开放平台应用类型删除成功");
