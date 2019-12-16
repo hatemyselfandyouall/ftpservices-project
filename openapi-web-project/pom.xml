@@ -15,7 +15,7 @@
   
   
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
@@ -83,7 +83,11 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>insigma.sysbase.facade.log</groupId>
+			<artifactId>sysbase-facade-log</artifactId>
+		</dependency>
       
 	</dependencies>
 	

@@ -18,9 +18,6 @@ public interface OpenapiAuditFacade{
     Integer saveOpenapiAudit(OpenapiAuditSaveVO saveVO);
 
     Integer deleteOpenapiAudit(OpenapiAuditDeleteVO deleteVO);
-
-	 
-
 }
 
  

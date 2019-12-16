@@ -3,7 +3,11 @@ package com.insigma.web.backGround.interfaceManager;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiInterfaceTypeFacade;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.po.OpenapiInterfaceType;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeDeleteVO;
@@ -28,6 +33,10 @@ public class OpenapiInterfaceTypeController extends BasicController {
 
     @Autowired
     OpenapiInterfaceTypeFacade openapiInterfaceTypeFacade;
+    @Autowired
+    LoginComponent loginComponent;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -42,6 +51,8 @@ public class OpenapiInterfaceTypeController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口分类管理","接口分类管理", DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取列表异常");
             log.error("获取列表异常",e);
@@ -61,6 +72,8 @@ public class OpenapiInterfaceTypeController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口分类详情","接口分类详情"+openapiInterfaceType.getId(), DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取详情异常");
         log.error("获取详情异常",e);
@@ -84,6 +97,8 @@ public class OpenapiInterfaceTypeController extends BasicController {
             } else {
                 resultVo.setResultDes("保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口分类保存","接口分类保存"+flag, DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常");
                 log.error("保存异常",e);
@@ -107,6 +122,8 @@ public class OpenapiInterfaceTypeController extends BasicController {
             } else {
                 resultVo.setResultDes("删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口分类删除","接口分类删除"+openapiInterfaceTypeDeleteVO.getId(), DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("删除异常");
             log.error("删除异常",e);

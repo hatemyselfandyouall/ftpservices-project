@@ -1,5 +1,6 @@
 package com.insigma.facade.openapi.vo.OpenapiAudit;
 
+import com.insigma.facade.operatelog.vo.SysOperatelogRecord.SysOperatelogRecordSaveVO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -78,5 +79,4 @@ public class OpenapiAuditSaveVO implements Serializable {
 
     @ApiModelProperty("用户姓名,前端不用传")
     private String userName;
-
 }

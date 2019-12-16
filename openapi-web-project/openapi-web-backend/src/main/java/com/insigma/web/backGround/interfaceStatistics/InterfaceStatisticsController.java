@@ -1,12 +1,7 @@
 package com.insigma.web.backGround.interfaceStatistics;
 
-import com.github.pagehelper.PageInfo;
-import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
-import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.facade.OpenapiDictionaryFacade;
-import com.insigma.facade.openapi.po.OpenapiBlackWhite;
-import com.insigma.facade.openapi.po.OpenapiDictionary;
 import com.insigma.facade.openapi.vo.interfaceStatistics.InterfaceStatisticsVO;
 import com.insigma.facade.openapi.vo.openapiInterface.InterfaceStatisticsByAreaVO;
 import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import star.vo.result.ResultVo;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
