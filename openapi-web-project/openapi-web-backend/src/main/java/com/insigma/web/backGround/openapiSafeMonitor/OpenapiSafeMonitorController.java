@@ -93,6 +93,8 @@ public class OpenapiSafeMonitorController extends BasicController {
                     if(!ips.isEmpty()){
                         map.put("condition"," where r.requester_ip not in (" + ips + ")");
                     }
+                }else {
+                    map.put("condition","");
                 }
         if(!interfaceDetailVO.getWhereWord().isEmpty()){
             if(interfaceDetailVO.getWhereWord().get("requester_ip") != null) { //根据ip条件查询
