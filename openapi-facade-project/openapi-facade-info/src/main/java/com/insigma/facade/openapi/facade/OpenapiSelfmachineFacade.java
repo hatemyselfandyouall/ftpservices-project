@@ -6,7 +6,7 @@ import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachine;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.*;
 
 
 public interface OpenapiSelfmachineFacade{

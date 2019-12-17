@@ -64,8 +64,12 @@ public class SelfMachineRequestController {
             OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO = JSONObject.parseObject(tempString, OpenapiSelfmachineRequestSaveVO.class);
             String ipRoots= ServletAttributes.getRequest().getHeader("X-Forwarded-For");
             String ip= ServletAttributes.getRequest().getHeader("X-Real-IP");
-            openapiSelfmachineRequestSaveVO.setIpSegment(ipRoots);
-            openapiSelfmachineRequestSaveVO.setIpSegment(ip);
+            if (!StringUtils.isEmpty(ipRoots)) {
+                openapiSelfmachineRequestSaveVO.setIpSegment(ipRoots);
+            }
+            if (!StringUtils.isEmpty(ipRoots)) {
+                openapiSelfmachineRequestSaveVO.setIp(ip);
+            }
             if (StringUtils.isEmpty(openapiSelfmachineRequestSaveVO.getCertificate())){
                 resultVo.setResultDes("自助机请求接受错误:没有携带证书");
                 return resultVo;
@@ -154,7 +158,7 @@ public class SelfMachineRequestController {
         openapiSelfmachineRequestSaveVO.setCertificate("123");
         openapiSelfmachineRequestSaveVO.setIp("1234511612");
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
-        openapiSelfmachineRequestSaveVO.setClientVersion("1121");
+        openapiSelfmachineRequestSaveVO.setClientVersion("112111");
         openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
 //        String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
 //        String md5=MD5Util.md5Password(result);
