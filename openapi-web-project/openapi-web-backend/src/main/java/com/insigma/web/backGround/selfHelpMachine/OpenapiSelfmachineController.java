@@ -4,8 +4,12 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import com.insigma.webtool.util.Encrypt;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.po.OpenapiSelfmachine;
 
@@ -26,6 +31,10 @@ public class OpenapiSelfmachineController extends BasicController {
 
     @Autowired
     OpenapiSelfmachineFacade openapiSelfmachineFacade;
+    @Autowired
+    LoginComponent loginComponent;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "自助机列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -40,6 +49,8 @@ public class OpenapiSelfmachineController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机列表","自助机列表", DataConstant.SYSTEM_NAME,"自助机管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取自助机列表异常");
             log.error("获取自助机列表异常",e);
@@ -97,6 +108,8 @@ public class OpenapiSelfmachineController extends BasicController {
             } else {
                 resultVo.setResultDes("自助机设置状态失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机设置状态","自助机设置状态"+openapiSelfmachineDeleteVO.getId(), DataConstant.SYSTEM_NAME,"自助机管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("自助机设置状态异常");
             log.error("自助机设置状态异常",e);

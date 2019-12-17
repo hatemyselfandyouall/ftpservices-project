@@ -3,7 +3,11 @@ package com.insigma.web.backGround.selfHelpMachine;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
@@ -28,6 +33,10 @@ public class OpenapiSelfmachineRequestController extends BasicController {
 
     @Autowired
     OpenapiSelfmachineRequestFacade openapiSelfmachineRequestFacade;
+    @Autowired
+    LoginComponent loginComponent;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "自助机请求列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -42,6 +51,8 @@ public class OpenapiSelfmachineRequestController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机请求列表","自助机请求列表", DataConstant.SYSTEM_NAME,"自助机请求管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取自助机请求列表异常");
             log.error("获取自助机请求列表异常",e);
@@ -99,6 +110,8 @@ public class OpenapiSelfmachineRequestController extends BasicController {
             } else {
                 resultVo.setResultDes("自助机设置白名单或黑名单失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机设置白名单或黑名单","自助机设置白名单或黑名单", DataConstant.SYSTEM_NAME,"自助机请求管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("自助机设置白名单或黑名单异常");
             log.error("自助机请求删除异常",e);

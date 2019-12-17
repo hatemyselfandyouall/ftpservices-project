@@ -10,12 +10,15 @@ import com.insigma.facade.openapi.vo.OpenapiApp.*;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceListVO;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceSaveVO;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
 import com.insigma.facade.sysbase.SysOrgFacade;
 import com.insigma.facade.sysbase.SysUserFacade;
 import com.insigma.facade.sysbase.vo.SysOrgDTO;
 import com.insigma.facade.sysbase.vo.SysUserOrgDTO;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.po.OpenapiApp;
 
@@ -49,6 +53,8 @@ public class OpenapiAppController extends BasicController {
     LoginComponent loginComponent;
     @Autowired
     SysUserFacade sysUserFacade;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "开放平台应用列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
@@ -63,6 +69,8 @@ public class OpenapiAppController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用列表","开放平台应用列表", DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取开放平台应用列表异常");
             log.error("获取开放平台应用列表异常",e);
@@ -83,6 +91,8 @@ public class OpenapiAppController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用-接口列表","开放平台应用-接口列表", DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取开放平台应用列表异常");
             log.error("获取开放平台应用列表异常",e);
@@ -102,6 +112,8 @@ public class OpenapiAppController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用-获取未使用的接口列表","开放平台应用-获取未使用的接口列表", DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取开放平台应用列表异常");
             log.error("获取开放平台应用列表异常",e);
@@ -122,6 +134,8 @@ public class OpenapiAppController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用详情","开放平台应用详情", DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取开放平台应用详情异常");
         log.error("获取开放平台应用详情异常",e);
@@ -154,6 +168,8 @@ public class OpenapiAppController extends BasicController {
             } else {
                 resultVo.setResultDes("开放平台应用保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用保存","开放平台应用保存"+openapiApp.getId(), DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常");
                 log.error("开放平台应用保存异常",e);
@@ -179,6 +195,8 @@ public class OpenapiAppController extends BasicController {
             } else {
                 resultVo.setResultDes("开放平台应用-接口保存保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用-接口保存","开放平台应用-接口保存", DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("接口保存异常");
             log.error("开放平台应用保存异常",e);
@@ -198,6 +216,8 @@ public class OpenapiAppController extends BasicController {
             } else {
                 resultVo.setResultDes("开放平台应用删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用删除","开放平台应用删除"+OpenapiAppDeleteVO.getId(), DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("开放平台应用删除异常");
             log.error("开放平台应用删除异常",e);
@@ -217,6 +237,8 @@ public class OpenapiAppController extends BasicController {
             } else {
                 resultVo.setResultDes("开放平台应用-接口删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用-接口删除","开放平台应用-接口删除"+openapiAppInterfaceDeleteVO.getId(), DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("开放平台应用-接口删除异常");
             log.error("开放平台应用-接口删除异常",e);
@@ -234,6 +256,8 @@ public class OpenapiAppController extends BasicController {
             List<SysOrgDTO> sysOrgDTOS = sysOrgFacade.getListByWhere(test);
             resultVo.setResult(sysOrgDTOS);
             resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"获取机构列表","获取机构列表", DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取机构列表异常，原因为:"+e);
             log.error("获取机构列表异常",e);
@@ -253,6 +277,8 @@ public class OpenapiAppController extends BasicController {
             } else {
                 resultVo.setResultDes("开放平台应用黑名单状态改变失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用黑名单状态改变","开放平台应用黑名单状态改变"+changeAppBlackStatusVO.getId(), DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("开放平台应用黑名单状态改变异常");
             log.error("开放平台应用黑名单状态改变异常",e);
@@ -274,6 +300,8 @@ public class OpenapiAppController extends BasicController {
             } else {
                 resultVo.setResultDes("开放平台应用重设Appsecret失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台应用重设Appsecret","开放平台应用重设Appsecret"+resetAppSecretVO.getId(), DataConstant.SYSTEM_NAME,"应用管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("开放平台应用重设Appsecret异常");
             log.error("开放平台应用重设Appsecret异常",e);

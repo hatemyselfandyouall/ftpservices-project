@@ -5,8 +5,11 @@ import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineTypeFacade;
 import com.insigma.facade.openapi.po.OpenapiOrgShortname;
 import com.insigma.facade.openapi.vo.OpenapiOrgShortname.OpenapiOrgShortnameDeleteVO;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineType;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineType.OpenapiSelfmachineTypeDeleteVO;
@@ -35,6 +39,9 @@ public class OpenapiSelfmachineTypeController extends BasicController {
     @Autowired
     LoginComponent loginComponent;
 
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
+
     @ApiOperation(value = "列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiSelfmachineType> getOpenapiSelfmachineTypeList(@RequestBody OpenapiSelfmachineTypeListVO openapiSelfmachineTypeListVO){
@@ -49,6 +56,8 @@ public class OpenapiSelfmachineTypeController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机型号列表","自助机型号列表", DataConstant.SYSTEM_NAME,"自助机型号管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取列表异常");
             log.error("获取列表异常",e);
@@ -68,6 +77,8 @@ public class OpenapiSelfmachineTypeController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机型号详情","自助机型号详情"+openapiSelfmachineTypeDetailVO.getId(), DataConstant.SYSTEM_NAME,"自助机型号管理-用户",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取详情异常");
         log.error("获取详情异常",e);
@@ -89,6 +100,8 @@ public class OpenapiSelfmachineTypeController extends BasicController {
             } else {
                 resultVo.setResultDes("保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机型号保存","自助机型号保存"+flag, DataConstant.SYSTEM_NAME,"自助机型号管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常");
                 log.error("保存异常",e);
@@ -109,6 +122,8 @@ public class OpenapiSelfmachineTypeController extends BasicController {
             } else {
                 resultVo.setResultDes("删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机型号删除","自助机型号删除"+openapiSelfmachineTypeDeleteVO.getId(), DataConstant.SYSTEM_NAME,"自助机型号管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("删除异常");
             log.error("删除异常",e);
@@ -131,6 +146,8 @@ public class OpenapiSelfmachineTypeController extends BasicController {
                 resultVo.setResultDes("不可删除");
                 resultVo.setSuccess(true);
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机型号确认删除是否可行","自助机型号确认删除是否可行"+openapiSelfmachineTypeDeleteVO.getId(), DataConstant.SYSTEM_NAME,"自助机型号管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("确认删除是否可行异常");
             log.error("确认删除是否可行异常",e);

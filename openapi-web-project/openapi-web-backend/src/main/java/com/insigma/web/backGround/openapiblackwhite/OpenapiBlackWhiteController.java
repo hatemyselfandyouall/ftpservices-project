@@ -7,14 +7,18 @@ import com.insigma.facade.openapi.dto.OpenapiBlackWhiteDtoList;
 import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiBlackWhite;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
 import java.util.ArrayList;
@@ -33,6 +37,9 @@ public class OpenapiBlackWhiteController extends BasicController {
 
     @Autowired
     private LoginComponent loginComponent;
+
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "黑白名单列表")
     @ResponseBody
@@ -64,6 +71,8 @@ public class OpenapiBlackWhiteController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"黑白名单列表","黑白名单列表", DataConstant.SYSTEM_NAME,"黑白名单",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取黑白名单列表异常");
             log.error("获取黑白名单列表异常",e);
@@ -83,6 +92,8 @@ public class OpenapiBlackWhiteController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"黑白名单详情","黑白名单详情"+id, DataConstant.SYSTEM_NAME,"黑白名单",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取黑白名单详情异常");
         log.error("获取黑白名单详情异常",e);
@@ -109,6 +120,8 @@ public class OpenapiBlackWhiteController extends BasicController {
                 resultVo.setResultDes(ipAddressStr+"已存在");
                 resultVo.setSuccess(false);
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"黑白名单保存","黑白名单保存", DataConstant.SYSTEM_NAME,"黑白名单",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setSuccess(false);
             resultVo.setCode("400");
@@ -149,6 +162,8 @@ public class OpenapiBlackWhiteController extends BasicController {
             openapiBlackWhiteFacade.updateOpenapiBlackWhite(openapiBlackWhite);
             resultVo.setResultDes("黑白名单修改成功");
             resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"黑白名单修改","黑白名单修改"+openapiBlackWhite.getId(), DataConstant.SYSTEM_NAME,"黑白名单",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("黑白名单修改异常");
             log.error("黑白名单修改异常",e);
@@ -171,6 +186,8 @@ public class OpenapiBlackWhiteController extends BasicController {
             } else {
                 resultVo.setResultDes("黑白名单删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"黑白名单删除","黑白名单删除"+openapiBlackWhiteDto.getId(), DataConstant.SYSTEM_NAME,"黑白名单",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("黑白名单删除异常");
             log.error("黑白名单删除异常",e);
