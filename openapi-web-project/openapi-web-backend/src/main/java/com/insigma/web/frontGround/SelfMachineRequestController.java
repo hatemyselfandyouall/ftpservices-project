@@ -70,7 +70,7 @@ public class SelfMachineRequestController {
                 resultVo.setResultDes("自助机请求接受错误:证书无效");
                 return resultVo;
             }
-            openapiSelfmachineRequestSaveVO.setUniqueCode(MD5Util.md5Password(JSONObject.toJSONString(openapiSelfmachineRequestSaveVO)));
+            openapiSelfmachineRequestSaveVO.setUniqueCode(MD5Util.md5Password(openapiSelfmachineRequestSaveVO.getIp()+"|"+openapiSelfmachineRequestSaveVO.getMacAddress()));
             OpenapiSelfmachineRequest openapiSelfmachine=openapiSelfmachineRequestFacade.getOpenapiSelfmachineRequestDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachineRequestSaveVO.getUniqueCode()));
             if (openapiSelfmachine==null){
                 String machineCode=openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg);
