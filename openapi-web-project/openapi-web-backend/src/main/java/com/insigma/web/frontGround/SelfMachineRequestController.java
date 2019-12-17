@@ -4,6 +4,7 @@ package com.insigma.web.frontGround;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
+import com.insigma.facade.openapi.enums.OpenapiSelfmachineEnum;
 import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
@@ -87,6 +88,15 @@ public class SelfMachineRequestController {
             }else {
                 openapiSelfmachineFacade.updateSelfMachine(openapiSelfmachineRequestSaveVO,openapiSelfmachine);
             }
+            OpenapiSelfmachine tempMachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+            if (tempMachine==null){
+                resultVo.setResultDes("自助机请求接受异常:自助机不存在");
+                return resultVo;
+            }
+            if (OpenapiSelfmachineEnum.CANCEL.equals(tempMachine.getActiveStatu())){
+                resultVo.setResultDes("自助机请求接受错误:自助机被注销");
+                return resultVo;
+            }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
                 OpenapiSelfmachineRequest tempRequest=openapiSelfmachineRequestFacade.createToken(openapiSelfmachine,openapiOrg);
                 resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()));
@@ -165,7 +175,7 @@ public class SelfMachineRequestController {
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }
