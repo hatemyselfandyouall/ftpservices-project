@@ -88,7 +88,7 @@ public class SelfMachineRequestController {
             }else {
                 openapiSelfmachineFacade.updateSelfMachine(openapiSelfmachineRequestSaveVO,openapiSelfmachine);
             }
-            OpenapiSelfmachine tempMachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+            OpenapiSelfmachine tempMachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setUniqueCode(openapiSelfmachine.getUniqueCode()));
             if (tempMachine==null){
                 resultVo.setResultDes("自助机请求接受异常:自助机不存在");
                 return resultVo;
