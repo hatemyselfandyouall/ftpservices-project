@@ -32,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import star.bizbase.util.StringUtils;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,10 @@ public class SelfMachineRequestController {
         try {
             String tempString=Encrypt.desEncrypt(encodeString);
             OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO = JSONObject.parseObject(tempString, OpenapiSelfmachineRequestSaveVO.class);
+            String ipRoots= ServletAttributes.getRequest().getHeader("X-Forwarded-For");
+            String ip= ServletAttributes.getRequest().getHeader("X-Real-IP");
+            openapiSelfmachineRequestSaveVO.setIpSegment(ipRoots);
+            openapiSelfmachineRequestSaveVO.setIpSegment(ip);
             if (StringUtils.isEmpty(openapiSelfmachineRequestSaveVO.getCertificate())){
                 resultVo.setResultDes("自助机请求接受错误:没有携带证书");
                 return resultVo;
@@ -77,6 +82,8 @@ public class SelfMachineRequestController {
                 resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode));
                 resultVo.setResultDes("自助机进入审核，请等待审核通过");
                 return resultVo;
+            }else {
+                openapiSelfmachineFacade.updateSelfMachine(openapiSelfmachineRequestSaveVO,openapiSelfmachine);
             }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
                 OpenapiSelfmachineRequest tempRequest=openapiSelfmachineRequestFacade.createToken(openapiSelfmachine,openapiOrg);

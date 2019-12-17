@@ -171,4 +171,11 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         example.createCriteria().andIn("id",openapiSelfmachineSetOrgVO.getIds());
         return openapiSelfmachineMapper.updateByExampleSelective(openapiSelfmachine,example);
     }
+
+    @Override
+    public void updateSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO,OpenapiSelfmachineRequest openapiSelfmachine) {
+        openapiSelfmachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).
+                setIpSegment(openapiSelfmachineRequestSaveVO.getIpSegment());
+        openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachine);
+    }
 }

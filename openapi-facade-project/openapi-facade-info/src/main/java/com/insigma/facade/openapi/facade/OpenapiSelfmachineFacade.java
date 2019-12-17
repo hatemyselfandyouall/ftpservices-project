@@ -4,6 +4,7 @@ package com.insigma.facade.openapi.facade;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachine;
+import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 
@@ -26,6 +27,8 @@ public interface OpenapiSelfmachineFacade{
     Integer setActiveStatus(OpenapiSelfmachineSetActiveStatusVO openapiSelfmachineSetActiveStatusVO);
 
     Integer setOrg(OpenapiSelfmachineSetOrgVO openapiSelfmachineSetOrgVO);
+
+    void updateSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiSelfmachineRequest openapiSelfmachine);
 }
 
  
