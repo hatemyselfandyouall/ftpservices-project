@@ -27,9 +27,9 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		}
 
 		Long userId = loginComonent.getLoginUserId();
-		if (!sysUserFacade.getAuthByUrlAndUserId(uri, userId)) {
-			throw new BizRuleException("权限不足");
-		}
+//		if (!sysUserFacade.getAuthByUrlAndUserId(uri, userId)) {
+//			throw new BizRuleException("权限不足");
+//		}
 		
 		return super.preHandle(request, response, handler);
 	}
