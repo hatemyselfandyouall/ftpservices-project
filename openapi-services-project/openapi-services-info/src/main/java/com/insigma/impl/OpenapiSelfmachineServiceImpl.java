@@ -129,7 +129,7 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         if (openapiSelfmachineRequest.getMachineCode()==null){
             openapiSelfmachineRequest.setMachineCode(openapiSelfmachineRequestFacade.getInitMachineCode(openapiSelfmachineRequest,openapiOrg));
         }
-        openapiSelfmachineRequest.setIpSegment(openapiOrg.getIpSegment()).setOrgName(openapiOrg.getOrgName());
+        openapiSelfmachineRequest.setOrgName(openapiOrg.getOrgName());
         openapiSelfmachineRequestMapper.insertSelective(openapiSelfmachineRequest.setOrgId(openapiOrg.getId()));
         return openapiSelfmachineRequest.getMachineCode();
     }

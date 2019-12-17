@@ -64,9 +64,7 @@ public class SelfMachineRequestController {
             OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO = JSONObject.parseObject(tempString, OpenapiSelfmachineRequestSaveVO.class);
             String ipRoots= ServletAttributes.getRequest().getHeader("X-Forwarded-For");
             String ip= ServletAttributes.getRequest().getHeader("X-Real-IP");
-            if (!StringUtils.isEmpty(ipRoots)) {
-                openapiSelfmachineRequestSaveVO.setIpSegment(ipRoots);
-            }
+            openapiSelfmachineRequestSaveVO.setIpSegment(ipRoots);
             if (!StringUtils.isEmpty(ipRoots)) {
                 openapiSelfmachineRequestSaveVO.setIp(ip);
             }
@@ -167,7 +165,7 @@ public class SelfMachineRequestController {
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }
