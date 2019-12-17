@@ -5,8 +5,11 @@ import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
 import com.insigma.facade.openapi.vo.OpenapiApp.ResetAppSecretVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.*;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 import com.insigma.facade.openapi.po.OpenapiOrg;
 
@@ -29,8 +33,10 @@ public class OpenapiOrgController extends BasicController {
     OpenapiOrgFacade openapiOrgFacade;
     @Autowired
     LoginComponent loginComponent;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
-    @ApiOperation(value = "列表")
+    @ApiOperation(value = "证书列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiOrgShowVO> getOpenapiOrgList(@RequestBody OpenapiOrgListVO openapiOrgListVO){
         ResultVo resultVo=new ResultVo();
@@ -43,6 +49,8 @@ public class OpenapiOrgController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"证书列表","证书列表", DataConstant.SYSTEM_NAME,"机构证书管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取列表异常");
             log.error("获取列表异常",e);
@@ -50,7 +58,7 @@ public class OpenapiOrgController extends BasicController {
         return resultVo;
     }
 
-    @ApiOperation(value = "详情")
+    @ApiOperation(value = "机构证书详情")
     @RequestMapping(value = "/detail",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiOrg> getOpenapiOrgDetail(@RequestBody OpenapiOrgDetailVO openapiOrgDetailVO){
         ResultVo resultVo=new ResultVo();
@@ -62,6 +70,8 @@ public class OpenapiOrgController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"机构证书详情","机构证书详情"+openapiOrgDetailVO.getId(), DataConstant.SYSTEM_NAME,"机构证书管理",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取详情异常");
         log.error("获取详情异常",e);
@@ -69,7 +79,7 @@ public class OpenapiOrgController extends BasicController {
         return resultVo;
     }
 
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "机构证书保存")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiOrg> saveOpenapiOrg(@RequestBody OpenapiOrgSaveVO openapiOrgSaveVO){
         ResultVo resultVo=new ResultVo();
@@ -83,6 +93,8 @@ public class OpenapiOrgController extends BasicController {
             } else {
                 resultVo.setResultDes("保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"机构证书保存","机构证书保存"+flag, DataConstant.SYSTEM_NAME,"机构证书管理",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常");
                 log.error("保存异常",e);
@@ -90,7 +102,7 @@ public class OpenapiOrgController extends BasicController {
         return resultVo;
     }
 
-    @ApiOperation(value = "删除")
+    @ApiOperation(value = "机构证书删除")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiOrg> deleteOpenapiOrg(@RequestBody OpenapiOrgDeleteVO openapiOrgDeleteVO){
         ResultVo resultVo=new ResultVo();
@@ -102,6 +114,8 @@ public class OpenapiOrgController extends BasicController {
             } else {
                 resultVo.setResultDes("删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"机构证书删除","机构证书删除"+openapiOrgDeleteVO.getId(), DataConstant.SYSTEM_NAME,"机构证书管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("删除异常");
             log.error("删除异常",e);
@@ -122,6 +136,8 @@ public class OpenapiOrgController extends BasicController {
             } else {
                 resultVo.setResultDes("开放平台应用重设Appsecret失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"开放平台机构重设Appsecret","开放平台机构重设Appsecret", DataConstant.SYSTEM_NAME,"机构证书管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("开放平台应用重设Appsecret异常");
             log.error("开放平台应用重设Appsecret异常",e);
