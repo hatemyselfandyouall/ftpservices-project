@@ -44,7 +44,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://localhost:10500/frontInterface/interface/testUse";
+        String testUrl="http://10.85.94.238:10500/frontInterface/interface/testAddUse";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330324\",\"orgName\":\"永嘉县医疗保障局\",\"id\":\"\",\"inPut\":[{\"tradeNum\":10}]}";
