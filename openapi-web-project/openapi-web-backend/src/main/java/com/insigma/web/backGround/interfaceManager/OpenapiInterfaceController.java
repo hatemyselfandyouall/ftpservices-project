@@ -12,6 +12,7 @@ import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
 import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
+import com.insigma.webtool.component.loadBalance.UpstreamCacheManager;
 import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -122,6 +123,8 @@ public class OpenapiInterfaceController extends BasicController {
             openapiInterfaceSaveVO.setCreatorId(userId);
             openapiInterfaceSaveVO.setCreatorName(userName);
             OpenapiInterfaceShowVO openapiInterfaceShowVO = interfaceFacade.saveOpenapiInterface(openapiInterfaceSaveVO);
+            UpstreamCacheManager.removeByKey(openapiInterfaceShowVO.getOpenapiInterface().getId());
+            UpstreamCacheManager.submit(openapiInterfaceShowVO);
             if (openapiInterfaceShowVO!=null) {
                 resultVo.setResult(openapiInterfaceShowVO);
                 resultVo.setResultDes("接口保存成功");

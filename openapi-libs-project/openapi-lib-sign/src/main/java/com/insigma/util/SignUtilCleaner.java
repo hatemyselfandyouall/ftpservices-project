@@ -32,8 +32,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="837cff76d2fca4fa0dd47f0d9b3548f1";
-        String testSecret="051a475529a802b060bb8552b82fb496";
+        String testKey="7dc158031668436a81bd19f1dc7ada19";
+        String testSecret="021843d0d9264a5484ccfdeadbd6607c ";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -44,7 +44,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10480/cmd/getCommand";
+        String testUrl="http://localhost:10500/frontInterface/interface/testUse";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330324\",\"orgName\":\"永嘉县医疗保障局\",\"id\":\"\",\"inPut\":[{\"tradeNum\":10}]}";

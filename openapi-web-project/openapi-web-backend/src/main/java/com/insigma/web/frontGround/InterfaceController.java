@@ -135,11 +135,17 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             JSONObject paramsJSON = JSONObject.parseObject(paramString, Feature.OrderedField);
-//            log.info("开始进行接口转发，目标url为" + innerUrl + ",参数为" + paramsJSON);
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setHasForward(1);
             List<OpenapiInterfaceInnerUrl>  innerUrls=upstreamCacheManager.findUpstreamListBySelectorId(openapiInterface.getId());
+            if(CollectionUtils.isEmpty(innerUrls)){
+                resultVo.setResultDes("没有通过心跳检测的内部url");
+                log.error("没有通过心跳检测的内部url" + paramString);
+                saveFailRequestLog("没有通过心跳检测的内部url", cdGatewayRequestVO);
+                return resultVo;
+            }
             String  randomWay=openapiDictionaryFacade.getValueByCode(DataConstant.RANDOM_ALGORITHM);
             OpenapiInterfaceInnerUrl openapiInterfaceInnerUrl= LoadBalanceUtils.selector(innerUrls,randomWay,ip);
+            log.info("开始进行接口转发，目标url为" + openapiInterfaceInnerUrl.getInnerUrl() + ",参数为" + paramsJSON);
             ResponseEntity result = RestTemplateUtil.postByMap(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, String.class);
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setResponseBody(result.toString());
 //            log.info("开始进行接口转发，返回值为" + result);

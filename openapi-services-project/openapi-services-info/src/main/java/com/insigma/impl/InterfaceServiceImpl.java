@@ -39,6 +39,8 @@ import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -659,6 +661,18 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         openapiInterfaceStaaticsVO.setCompareTotal(Double.valueOf(newInterfaceCount) / Double.valueOf(totalCount));
         openapiInterfaceStaaticsVO.setCmpareSomeTimesBeford(Double.valueOf(newInterfaceCount) / Double.valueOf(oldInterfaceCount));
         return openapiInterfaceStaaticsVO;
+    }
+
+    @Override
+    public List<OpenapiInterfaceShowVO> intiQueue() {
+        List<OpenapiInterface> openapiInterfaces = openapiInterfaceMapper.select(new OpenapiInterface().setIsDelete(DataConstant.NO_DELETE));
+        List<OpenapiInterfaceShowVO> openapiInterfaceDetailShowVOS=openapiInterfaces.stream().map(i->{
+            OpenapiInterfaceShowVO openapiInterfaceShowVO = new OpenapiInterfaceShowVO();
+            openapiInterfaceShowVO.setOpenapiInterface(i);
+            openapiInterfaceShowVO.setOpenapiInterfaceInnerUrls(getInnerUrlByInterfaceId(i.getId()));
+            return openapiInterfaceShowVO;
+        }).collect(Collectors.toList());
+        return openapiInterfaceDetailShowVOS;
     }
 
 }
