@@ -99,14 +99,14 @@ public class SelfMachineRequestController {
             }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
                 OpenapiSelfmachineRequest tempRequest=openapiSelfmachineRequestFacade.createToken(openapiSelfmachine,openapiOrg);
-                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()));
+                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()));
                 resultVo.setSuccess(true);
             }
             if (SelfMachineEnum.BLACK.equals(openapiSelfmachine.getStatu())){
                 resultVo.setResultDes("进入黑名单的自助机 不能取得token");
             }
             if (SelfMachineEnum.NOT_YET.equals(openapiSelfmachine.getStatu())){
-                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(openapiSelfmachine.getMachineCode()));
+                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(openapiSelfmachine.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()));
                 resultVo.setResultDes("自助机审核中，请等待审核通过");
             }
         }catch (Exception e){
