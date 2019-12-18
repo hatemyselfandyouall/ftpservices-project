@@ -113,6 +113,12 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterName(openapiApp.getName());
+            if (CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
+                log.error("该应用没有任何接口" + paramString);
+                resultVo.setResultDes("该应用没有任何接口！");
+                saveFailRequestLog("该应用没有任何接口", cdGatewayRequestVO);
+                return resultVo;
+            }
             Map<String, OpenapiInterface> openapiInterfaceMap = openapiApp.getOpenapiInterfaces().stream().filter(i -> i != null && i.getCode() != null).collect(Collectors.toMap(i -> i.getCode(), i -> i));
             OpenapiInterface openapiInterface;
             if (openapiInterfaceMap.get(code) == null) {
