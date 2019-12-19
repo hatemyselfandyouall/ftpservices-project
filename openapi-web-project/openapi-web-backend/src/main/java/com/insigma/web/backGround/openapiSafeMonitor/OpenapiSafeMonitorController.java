@@ -54,9 +54,10 @@ public class OpenapiSafeMonitorController extends BasicController {
       try{
           Integer flag =  openapiDictionaryFacade.updateOpenapiDictionary(updateVO);
           if (1 == flag) {
+              resultVo.setSuccess(true);
               resultVo.setResultDes("更新成功");
           } else {
-              resultVo.setSuccess(true);
+              resultVo.setSuccess(false);
               resultVo.setResultDes("更新失败");
           }
           AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
