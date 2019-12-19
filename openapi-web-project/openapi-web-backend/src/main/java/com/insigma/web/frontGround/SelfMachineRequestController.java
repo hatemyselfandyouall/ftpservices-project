@@ -99,7 +99,7 @@ public class SelfMachineRequestController {
             }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
                 OpenapiSelfmachineRequest tempRequest=openapiSelfmachineRequestFacade.createToken(openapiSelfmachine,openapiOrg);
-                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()).setOrgCode(openapiOrg.getOrgCode());
+                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()).setOrgCode(openapiOrg.getOrgCode()));
                 resultVo.setSuccess(true);
             }
             if (SelfMachineEnum.BLACK.equals(openapiSelfmachine.getStatu())){
