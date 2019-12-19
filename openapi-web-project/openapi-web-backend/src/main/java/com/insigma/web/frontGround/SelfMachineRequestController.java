@@ -82,7 +82,7 @@ public class SelfMachineRequestController {
             OpenapiSelfmachineRequest openapiSelfmachine=openapiSelfmachineRequestFacade.getOpenapiSelfmachineRequestDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachineRequestSaveVO.getUniqueCode()));
             if (openapiSelfmachine==null){
                 String machineCode=openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg);
-                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode));
+                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode).setOrgCode(openapiOrg.getOrgCode()));
                 resultVo.setResultDes("自助机进入审核，请等待审核通过");
                 return resultVo;
             }else {
@@ -99,14 +99,14 @@ public class SelfMachineRequestController {
             }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
                 OpenapiSelfmachineRequest tempRequest=openapiSelfmachineRequestFacade.createToken(openapiSelfmachine,openapiOrg);
-                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()));
+                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()).setOrgCode(openapiOrg.getOrgCode());
                 resultVo.setSuccess(true);
             }
             if (SelfMachineEnum.BLACK.equals(openapiSelfmachine.getStatu())){
                 resultVo.setResultDes("进入黑名单的自助机 不能取得token");
             }
             if (SelfMachineEnum.NOT_YET.equals(openapiSelfmachine.getStatu())){
-                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(openapiSelfmachine.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()));
+                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(openapiSelfmachine.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()).setOrgCode(openapiOrg.getOrgCode()));
                 resultVo.setResultDes("自助机审核中，请等待审核通过");
             }
         }catch (Exception e){

@@ -17,4 +17,6 @@ public class SelfMachineRequestResultVO {
     @ApiModelProperty("自助机类型id")
     @Column( name="machine_type_id")
     private Long machineTypeId;
+
+    private String orgCode;
 }

@@ -130,6 +130,7 @@ public class LoginController extends BasicController {
 		ResultVo<String> result = Results.newResultVo();
 		if ("logout".equals(cmd)) {
 			CookieHelper.cancelCookie4Domains(CookieEnum.LOGIN.getValue());
+			CookieHelper.cancelCookie4Domains(CookieEnum.OAUTH_LOGIN.getValue());
 			ImageCodeUtil.clearImageCode(jedisService, request.getSession().getId());
 			result.setCode("0");
 	        result.setSuccess(true);
