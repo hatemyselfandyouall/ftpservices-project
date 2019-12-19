@@ -52,7 +52,7 @@
          </if>
     </where>
 
-         GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
 
     <select id="interfacePublishingTrendByWeek" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
@@ -60,7 +60,7 @@
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
-        GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
 
     <select id="interfacePublishingTrendByMonth" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
@@ -68,7 +68,7 @@
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
-        GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
 
     <select id="interfacePublishingTrendByDay" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
@@ -76,7 +76,7 @@
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
-        GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
     <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiInterface">-->
     <!--INSERT INTO openapi_interface ( -->
