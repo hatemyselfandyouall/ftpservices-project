@@ -100,7 +100,7 @@ public class SelfMachineRequestController {
                     return resultVo;
                 }else {
                     tempMachine.setOrgId(openapiOrg.getId());
-                    String machineCode=openapiSelfmachineFacade.openapiSelfmachineFacade(tempMachine,openapiSelfmachine,openapiOrg);
+                    String machineCode=openapiSelfmachineFacade.reActivSelfMachine(tempMachine,openapiSelfmachine,openapiOrg);
                     resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode).setOrgCode(openapiOrg.getOrgCode()));
                     resultVo.setResultDes("自助机进入审核，请等待审核通过");
                     return resultVo;
