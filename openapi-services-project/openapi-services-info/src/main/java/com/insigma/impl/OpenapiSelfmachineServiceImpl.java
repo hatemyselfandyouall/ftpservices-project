@@ -190,7 +190,8 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
     public String reActivSelfMachine(OpenapiSelfmachine openapiSelfmachine, OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg){
         openapiSelfmachine.setActiveStatu(OpenapiSelfmachineEnum.ACTIVE);
         openapiSelfmachineMapper.updateByPrimaryKeySelective(openapiSelfmachine);
-        openapiSelfmachineRequest.setMachineCode(openapiSelfmachineRequestFacade.getInitMachineCode(openapiSelfmachineRequest,openapiOrg));
+        openapiSelfmachineRequest.setMachineCode(openapiSelfmachineRequestFacade.getInitMachineCode(openapiSelfmachineRequest,openapiOrg))
+        .setStatu(SelfMachineEnum.NOT_YET);
         openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachineRequest);
         return openapiSelfmachineRequest.getMachineCode();
     }
