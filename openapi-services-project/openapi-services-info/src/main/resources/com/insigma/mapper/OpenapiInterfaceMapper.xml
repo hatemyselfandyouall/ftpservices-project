@@ -56,7 +56,7 @@
     </select>
 
     <select id="interfacePublishingTrendByWeek" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time,'%d') AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
+        SELECT COUNT(*) AS totalCount,DAYOFWEEK(create_time,'%d') AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
@@ -64,7 +64,7 @@
     </select>
 
     <select id="interfacePublishingTrendByMonth" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*) AS totalCount,DAYOFWEEK(create_time) AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
+        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time) AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
