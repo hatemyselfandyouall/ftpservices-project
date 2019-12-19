@@ -63,6 +63,7 @@ public class SelfMachineRequestController {
         try {
             String tempString=Encrypt.desEncrypt(encodeString);
             OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO = JSONObject.parseObject(tempString, OpenapiSelfmachineRequestSaveVO.class);
+            log.info("调用获取token方法"+openapiSelfmachineRequestSaveVO);
             String ipRoots= ServletAttributes.getRequest().getHeader("X-Forwarded-For");
             String ip= ServletAttributes.getRequest().getHeader("X-Real-IP");
             openapiSelfmachineRequestSaveVO.setIpSegment(ipRoots);
