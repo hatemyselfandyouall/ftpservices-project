@@ -78,4 +78,6 @@ public class DataConstant {
     public static final Integer NOT_LAST_USED = 0;
 
     public static final String SYSTEM_NAME = "开放平台管理端";
+
+    public static final Integer ZERO=0;
 }

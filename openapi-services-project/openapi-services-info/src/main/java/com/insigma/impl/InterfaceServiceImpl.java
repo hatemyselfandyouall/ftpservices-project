@@ -658,8 +658,10 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO = new OpenapiInterfaceStaaticsVO();
         openapiInterfaceStaaticsVO.setTotaliInterfaceCount(totalCount);
         openapiInterfaceStaaticsVO.setNewInterfaceCount(newInterfaceCount);
-        openapiInterfaceStaaticsVO.setCompareTotal(Double.valueOf(newInterfaceCount) / Double.valueOf(totalCount));
-        openapiInterfaceStaaticsVO.setCmpareSomeTimesBeford(Double.valueOf(newInterfaceCount) / Double.valueOf(oldInterfaceCount));
+        Double compareTototal=Double.valueOf(newInterfaceCount) / Double.valueOf(totalCount);
+        openapiInterfaceStaaticsVO.setCompareTotal(Double.POSITIVE_INFINITY!=compareTototal?compareTototal:1.0);
+        Double compareToBefore=Double.valueOf(newInterfaceCount) / Double.valueOf(oldInterfaceCount);
+        openapiInterfaceStaaticsVO.setCmpareSomeTimesBeford(Double.POSITIVE_INFINITY!=compareToBefore?compareToBefore:1.0);
         return openapiInterfaceStaaticsVO;
     }
 
