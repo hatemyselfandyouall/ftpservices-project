@@ -6,7 +6,7 @@ import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachine;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.*;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 
 
 public interface OpenapiSelfmachineFacade{
@@ -29,6 +29,8 @@ public interface OpenapiSelfmachineFacade{
     Integer setOrg(OpenapiSelfmachineSetOrgVO openapiSelfmachineSetOrgVO);
 
     void updateSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiSelfmachineRequest openapiSelfmachine);
+
+    String reActivSelfMachine(OpenapiSelfmachine openapiSelfmachine,OpenapiSelfmachineRequest openapiSelfmachineRequest,OpenapiOrg openapiOrg);
 }
 
  

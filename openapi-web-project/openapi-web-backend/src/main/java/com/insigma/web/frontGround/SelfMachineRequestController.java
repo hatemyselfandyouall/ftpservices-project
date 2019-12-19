@@ -95,8 +95,16 @@ public class SelfMachineRequestController {
                 return resultVo;
             }
             if (OpenapiSelfmachineEnum.CANCEL.equals(tempMachine.getActiveStatu())){
-                resultVo.setResultDes("自助机请求接受错误:自助机被注销");
-                return resultVo;
+                if(openapiOrg.getId().equals(tempMachine.getOrgId())) {
+                    resultVo.setResultDes("自助机请求接受错误:自助机被注销");
+                    return resultVo;
+                }else {
+                    tempMachine.setOrgId(openapiOrg.getId());
+                    String machineCode=openapiSelfmachineFacade.openapiSelfmachineFacade(tempMachine,openapiSelfmachine,openapiOrg);
+                    resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode).setOrgCode(openapiOrg.getOrgCode()));
+                    resultVo.setResultDes("自助机进入审核，请等待审核通过");
+                    return resultVo;
+                }
             }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
                 OpenapiSelfmachineRequest tempRequest=openapiSelfmachineRequestFacade.createToken(openapiSelfmachine,openapiOrg);

@@ -2,6 +2,7 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.enums.OpenapiSelfmachineEnum;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
 import com.insigma.facade.openapi.po.*;
@@ -19,6 +20,7 @@ import com.insigma.util.JSONUtil;
 import constant.DataConstant;
 import lombok.experimental.Accessors;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.zookeeper.Op;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -182,4 +184,15 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachine);
         openapiSelfmachineMapper.updateByPrimaryKeySelective(tempSelfMachine);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String reActivSelfMachine(OpenapiSelfmachine openapiSelfmachine, OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg){
+        openapiSelfmachine.setActiveStatu(OpenapiSelfmachineEnum.ACTIVE);
+        openapiSelfmachineMapper.updateByPrimaryKeySelective(openapiSelfmachine);
+        openapiSelfmachineRequest.setMachineCode(openapiSelfmachineRequestFacade.getInitMachineCode(openapiSelfmachineRequest,openapiOrg));
+        openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachineRequest);
+        return openapiSelfmachineRequest.getMachineCode();
+    }
+
 }
