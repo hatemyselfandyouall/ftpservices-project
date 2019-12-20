@@ -128,6 +128,7 @@ public class OpenapiServerMonitorController extends BasicController {
                 resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.INTERFACE_DETAIL, openapiDictionaryFacade, restTemplate);
             }
         }
+            resultVo.setSuccess(true);
             AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
                     ,"接口调用详情","接口调用详情", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
         }catch (Exception e){
@@ -152,6 +153,7 @@ public class OpenapiServerMonitorController extends BasicController {
             }
             resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.CALL_DETAIL, openapiDictionaryFacade, restTemplate);
         }
+            resultVo.setSuccess(true);
             AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
                     ,"应用查看详情","应用查看详情", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
     }catch (Exception e){
@@ -194,6 +196,7 @@ public class OpenapiServerMonitorController extends BasicController {
             AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
                     ,"服务监控折线统计","服务监控折线统计", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
         resultVo.setResult(list);
+        resultVo.setSuccess(true);
         }catch (Exception e){
             resultVo.setSuccess(false);
             resultVo.setResultDes("服务监控折线统计查询异常");
@@ -237,6 +240,7 @@ public class OpenapiServerMonitorController extends BasicController {
         }
             AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
                     ,"服务监控柱状统计","服务监控柱状统计", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
+        resultVo.setSuccess(true);
         resultVo.setResult(list);
     }catch (Exception e){
         resultVo.setSuccess(false);
