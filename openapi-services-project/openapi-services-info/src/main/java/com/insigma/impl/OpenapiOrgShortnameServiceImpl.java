@@ -8,6 +8,7 @@ import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.mapper.OpenapiOrgShortnameMapper;
 import com.insigma.util.JSONUtil;
 import constant.DataConstant;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
@@ -85,6 +86,13 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
             example=new Example(OpenapiOrgShortname.class);
             example.createCriteria().andEqualTo("id",openapiOrgShortname.getId());
              openapiOrgShortnameMapper.updateByExampleSelective(openapiOrgShortname,example);
+        }
+        List<OpenapiOrg> openapiOrgs=openapiOrgMapper.select(new OpenapiOrg().setOrgCode(openapiOrgShortname.getOrgCode()));
+        if (!CollectionUtils.isEmpty(openapiOrgs)){
+            openapiOrgs.forEach(i->{
+                i.setAbbreviation(openapiOrgShortname.getShortName());
+                openapiOrgMapper.updateByPrimaryKeySelective(i);
+            });
         }
         resultVo.setSuccess(true);
         resultVo.setResultDes("保存成功");

@@ -167,7 +167,7 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
 
 
     public String getInitMachineCode(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg){
-        Long orgId=openapiSelfmachineRequest.getOrgId();
+        Long orgId=openapiOrg.getId();
         List<OpenapiSelfmachineRequest> openapiSelfmachineRequests=openapiSelfmachineRequestMapper.select(new OpenapiSelfmachineRequest().setOrgId(orgId));
         Optional<Integer> number=openapiSelfmachineRequests.stream().filter(i->i.getNumber()!=null).max(Comparator.comparingInt(OpenapiSelfmachineRequest::getNumber)).map(OpenapiSelfmachineRequest::getNumber);
         openapiSelfmachineRequest.setNumber(number.orElse(0)+1);
