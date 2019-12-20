@@ -173,7 +173,7 @@ public class SelfMachineRequestController {
     public static void main(String[] args) {
         OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
 //        openapiSelfmachineRequestSaveVO.setAppKey("123");
-        openapiSelfmachineRequestSaveVO.setCertificate("bfb23d32e5888d0f8bde1d9bc2cb1417");
+        openapiSelfmachineRequestSaveVO.setCertificate("c6ae6cdcad6a859a447a3aca0f46d31f");
         openapiSelfmachineRequestSaveVO.setIp("1234511612");
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
         openapiSelfmachineRequestSaveVO.setClientVersion("112111");

@@ -77,6 +77,16 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
             resultVo.setResultDes("简称不能重复");
             return resultVo;
         }
+        example.clear();
+        criteria=example.createCriteria();
+        criteria.andEqualTo("orgCode",openapiOrgShortnameSaveVO.getOrgCode());
+        if (openapiOrgShortnameSaveVO.getId()!=null){
+            criteria.andNotEqualTo("id",openapiOrgShortnameSaveVO.getId());
+        }
+        if(openapiOrgShortnameMapper.selectCountByExample(example)>0){
+            resultVo.setResultDes("机构只能有一个简称");
+            return resultVo;
+        }
         OpenapiOrgShortname openapiOrgShortname= JSONUtil.convert(openapiOrgShortnameSaveVO,OpenapiOrgShortname.class);
         openapiOrgShortname.setModifyTime(new Date());
         if (openapiOrgShortname.getId()==null){
