@@ -25,6 +25,7 @@ import star.vo.result.ResultVo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 
 @RestController
 @RequestMapping("/interfaceStatistics")
@@ -179,6 +180,7 @@ public class InterfaceStatisticsController extends BasicController {
                     openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByYear(interfaceStatisticsVO);
             }
             OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO=interfaceFacade.getTotalInterfaceTrendDetail(interfaceStatisticsVO.getStaticType());
+            openapiInterfaceStaaticsVO.setNewInterfaceCount(openapiInterfaceStaaticsVOS.stream().map(OpenapiInterfaceStaaticsFieldsVO::getTotalCount).reduce(0,(a,b)->a+b));
             openapiInterfaceStaaticsVO.setOpenapiInterfaceStaaticsFieldsVOS(openapiInterfaceStaaticsVOS);
             resultVo.setResult(openapiInterfaceStaaticsVO);
             resultVo.setSuccess(true);
