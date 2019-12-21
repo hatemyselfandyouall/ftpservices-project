@@ -103,10 +103,14 @@ public class SysFunctionController extends BasicController {
 			} else {
 				Set<Long> ids  = sysFunctionFacade.queryFunctionListByRoleId(sysUser).stream().map(SysFunctionDTO::getId).collect(Collectors.toSet());
 				functionList.forEach(i->{
-					if (ids.contains(i.getId())){
+					if ("1".equals(sysUser.getUserType())) {//超级管理员
 						i.setHasPrivilege(true);
 					}else {
-						i.setHasPrivilege(false);
+						if (ids.contains(i.getId())) {
+							i.setHasPrivilege(true);
+						} else {
+							i.setHasPrivilege(false);
+						}
 					}
 				});
 			}
