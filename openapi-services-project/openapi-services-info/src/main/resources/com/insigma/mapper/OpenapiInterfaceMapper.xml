@@ -43,13 +43,6 @@
 
 <!--    </resultMap>-->
 
-    if (openapiInterfaceListVO.getName() != null) {
-    criteria.andCondition("(name like '%" + openapiInterfaceListVO.getName()
-    + "%' or command_code like '%" + openapiInterfaceListVO.getName()
-    + "%' or code like '%" + openapiInterfaceListVO.getName()
-    + "%' or out_url like '%" + openapiInterfaceListVO.getName() + "%' )");
-    }
-    example.setOrderByClause("modify_time desc");
 
     <select id="getOpenapiInterfaceList" resultType="com.insigma.facade.openapi.po.OpenapiInterface">
         SELECT * from openapi_interface oi left join openapi_interface_inner_url oiiu on oiiu.interface_id = oi.id
