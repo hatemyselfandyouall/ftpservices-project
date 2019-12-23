@@ -76,28 +76,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (openapiInterfaceListVO == null || openapiInterfaceListVO.getPageNum() == null || openapiInterfaceListVO.getPageSize() == null) {
             return null;
         }
-
-        Example example = new Example(OpenapiInterface.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("isDelete", DataConstant.NO_DELETE);
-        if (openapiInterfaceListVO.getIsAvaliable() != null) {
-            criteria.andEqualTo("isAvaliable", openapiInterfaceListVO.getIsAvaliable());
-        }
-        if (openapiInterfaceListVO.getTypeId() != null) {
-            criteria.andEqualTo("typeId", openapiInterfaceListVO.getTypeId());
-        }
-        if (openapiInterfaceListVO.getIsPublic() != null) {
-            criteria.andEqualTo("isPublic", openapiInterfaceListVO.getIsPublic());
-        }
-        if (openapiInterfaceListVO.getName() != null) {
-            criteria.andCondition("(name like '%" + openapiInterfaceListVO.getName()
-                    + "%' or command_code like '%" + openapiInterfaceListVO.getName()
-                    + "%' or code like '%" + openapiInterfaceListVO.getName()
-                    + "%' or out_url like '%" + openapiInterfaceListVO.getName() + "%' )");
-        }
-        example.setOrderByClause("modify_time desc");
         PageHelper.startPage(openapiInterfaceListVO.getPageNum().intValue(), openapiInterfaceListVO.getPageSize().intValue());
-        Page<OpenapiInterface> openapiInterfaceList = (Page<OpenapiInterface>) openapiInterfaceMapper.selectByExample(example);
+        Page<OpenapiInterface> openapiInterfaceList = (Page<OpenapiInterface>) openapiInterfaceMapper.getOpenapiInterfaceList(openapiInterfaceListVO);
         List<OpenapiInterfaceDetailShowVO> openapiInterfaceDetailShowVOS = openapiInterfaceList.stream().map(i -> {
             OpenapiInterfaceDetailShowVO openapiInterfaceDetailShowVO = JSONUtil.convert(i, OpenapiInterfaceDetailShowVO.class);
             openapiInterfaceDetailShowVO.setOpenapiInterfaceInnerUrls(getInnerUrlByInterfaceId(i.getId()));
