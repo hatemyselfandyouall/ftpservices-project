@@ -45,7 +45,7 @@
 
 
     <select id="getOpenapiInterfaceList" resultType="com.insigma.facade.openapi.po.OpenapiInterface">
-        SELECT * from openapi_interface oi left join openapi_interface_inner_url oiiu on oiiu.interface_id = oi.id
+        SELECT oi.* from openapi_interface oi left join openapi_interface_inner_url oiiu on oiiu.interface_id = oi.id
         <where>
             oi.is_delete= 0
             <if test="param.isAvaliable!=null">
