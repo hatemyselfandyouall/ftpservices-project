@@ -58,11 +58,11 @@
                 and oi.is_public=#{param.isPublic}
             </if>
             <if test="param.name!=null and param.name!=''">
-                and (oi.name like concat('%',{param.name},'%') or
-                oi.command_code like concat('%',{param.name},'%') or
-                oi.code like concat('%',{param.name},'%') or
-                oi.out_url like concat('%',{param.name},'%') or
-                oiiu.inner_url like concat('%',{param.name},'%') )
+                and (oi.name like concat('%',#{param.name},'%') or
+                oi.command_code like concat('%',#{param.name},'%') or
+                oi.code like concat('%',#{param.name},'%') or
+                oi.out_url like concat('%',#{param.name},'%') or
+                oiiu.inner_url like concat('%',#{param.name},'%') )
             </if>
         </where>
         GROUP BY oi.id
