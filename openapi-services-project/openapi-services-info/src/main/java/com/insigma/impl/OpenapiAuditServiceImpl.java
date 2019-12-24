@@ -144,10 +144,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
                 openapiAudit.setAuditor(openapiAuditSaveVO.getUserName());  //审核人
                 Example example=new Example(OpenapiAudit.class);
                 example.createCriteria().andIn("id",openapiAuditSaveVO.getIds());
-                openapiAuditMapper.updateByExampleSelective(openapiAudit,example);
-                if(openapiAuditSaveVO.getIds() != null){
-                    return openapiAudit.getId().intValue();
-                }
+               return openapiAuditMapper.updateByExampleSelective(openapiAudit,example);
             }
           return 1;
         }
