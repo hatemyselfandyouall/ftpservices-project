@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.insigma.mapper.OpenapiInterfaceMapper">
 
-    <resultMap id="BASE-RESULT" type="com.insigma.facade.po.OpenapiInterface">
+    <resultMap id="BASE-RESULT" type="com.insigma.facade.openapi.po.OpenapiInterface">
         <result property="id" column="id" />
         <result property="code" column="code" />
         <result property="name" column="name" />
