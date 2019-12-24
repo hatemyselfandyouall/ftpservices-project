@@ -69,6 +69,7 @@ public class BIUtil {
             }
             url=url.substring(0,url.length()-1);
         }
+        log.info("调用url"+url);
         return restTemplate.postForEntity(url,null,String.class);
     }
 }
