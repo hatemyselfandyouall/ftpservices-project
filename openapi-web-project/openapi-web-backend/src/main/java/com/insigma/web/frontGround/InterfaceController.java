@@ -16,6 +16,7 @@ import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceListVO;
 import com.insigma.facade.vo.CdGatewayRequestBodyBd.CdGatewayRequestBodyBdSaveVO;
 import com.insigma.facade.vo.CdGatewayRequestDetailBd.CdGatewayRequestDetailBdSaveVO;
 import com.insigma.facade.vo.CdGatewayRequestDetailBd.CdGatewayRequestVO;
+import com.insigma.util.BIUtil;
 import com.insigma.util.MD5Util;
 import com.insigma.util.SignUtil;
 import com.insigma.util.StringUtil;
@@ -72,6 +73,8 @@ public class InterfaceController extends BasicController {
     private  UpstreamCacheManager upstreamCacheManager;
     @Autowired
     private OpenapiDictionaryFacade openapiDictionaryFacade;
+    @Autowired
+    RestTemplate restTemplate;
 
 
 
@@ -152,7 +155,8 @@ public class InterfaceController extends BasicController {
             String  randomWay=openapiDictionaryFacade.getValueByCode(DataConstant.RANDOM_ALGORITHM);
             OpenapiInterfaceInnerUrl openapiInterfaceInnerUrl= LoadBalanceUtils.selector(innerUrls,randomWay,ip);
             log.info("开始进行接口转发，目标url为" + openapiInterfaceInnerUrl.getInnerUrl() + ",参数为" + paramsJSON);
-            ResponseEntity result = RestTemplateUtil.postByMap(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, String.class);
+//            ResponseEntity result = RestTemplateUtil.postByMap(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, String.class);
+            ResponseEntity result = BIUtil.postWithUrlParam(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, restTemplate);
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setResponseBody(result.toString());
 //            log.info("开始进行接口转发，返回值为" + result);
             return sendMessageBack(resultVo, result, cdGatewayRequestVO);

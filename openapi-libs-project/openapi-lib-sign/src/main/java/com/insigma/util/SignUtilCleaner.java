@@ -44,10 +44,14 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.94.238:10500/frontInterface/interface/6503";
+        String testUrl="http://10.85.94.238:10500/frontInterface/interface/6501";
         postTest(haeder,param,testUrl);
     }
-    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330324\",\"orgName\":\"永嘉县医疗保障局\",\"id\":\"\",\"inPut\":[{\"tradeNum\":10}]}";
+    private static String paramString="{\n" +
+            "   \"AAB301\":\"330799\",\n" +
+            "   \"BAB010\":\"12330000470027355W \"\n" +
+            "}";
+
     public static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();

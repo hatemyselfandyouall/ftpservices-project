@@ -57,4 +57,18 @@ public class BIUtil {
     public static ResponseEntity<String> postWithParamterMap(String url, Map<String,Object> paramMap,RestTemplate restTemplate){
         return restTemplate.postForEntity(url,paramMap,String.class);
     }
+
+
+
+    public static ResponseEntity<String> postWithUrlParam(String url, JSONObject paramMap,RestTemplate restTemplate){
+        if (paramMap!=null&&!paramMap.isEmpty()){
+            url+="?";
+            Set<String> keySet=paramMap.keySet();
+            for (String o:keySet){
+                url=url+o+"="+paramMap.get(o)+"&";
+            }
+            url=url.substring(0,url.length()-1);
+        }
+        return restTemplate.postForEntity(url,null,String.class);
+    }
 }
