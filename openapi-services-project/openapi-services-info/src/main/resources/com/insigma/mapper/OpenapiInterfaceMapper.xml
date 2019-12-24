@@ -4,47 +4,49 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.insigma.mapper.OpenapiInterfaceMapper">
 
-<!--    <resultMap id="BASE-RESULT" type="com.insigma.facade.po.OpenapiInterface">-->
-<!--                <result property="id" column="id" />-->
-<!--        <result property="code" column="code" />-->
-<!--        <result property="name" column="name" />-->
-<!--        <result property="isCallback" column="is_callback" />-->
-<!--        <result property="distribution" column="distribution" />-->
-<!--        <result property="groupId" column="group_id" />-->
-<!--        <result property="typeId" column="type_id" />-->
-<!--        <result property="typeName" column="type_name" />-->
-<!--        <result property="dataResourceCode" column="data_resource_code" />-->
-<!--        <result property="summary" column="summary" />-->
-<!--        <result property="versionNumber" column="version_number" />-->
-<!--        <result property="innerUrl" column="inner_url" />-->
-<!--        <result property="outUrl" column="out_url" />-->
-<!--        <result property="requestType" column="request_type" />-->
-<!--        <result property="outParamType" column="out_param_type" />-->
-<!--        <result property="innerParamType" column="inner_param_type" />-->
-<!--        <result property="commandCode" column="command_code" />-->
-<!--        <result property="requestExample" column="request_example" />-->
-<!--        <result property="isAvaliable" column="is_avaliable" />-->
-<!--        <result property="isPublic" column="is_public" />-->
-<!--        <result property="isDelete" column="is_delete" />-->
-<!--        <result property="providerName" column="provider_name" />-->
-<!--        <result property="providerType" column="provider_type" />-->
-<!--        <result property="outRequestWay" column="out_request_way" />-->
-<!--        <result property="innerRequestWay" column="inner_request_way" />-->
-<!--        <result property="outRequestFormat" column="out_request_format" />-->
-<!--        <result property="innerRequestFormat" column="inner_request_format" />-->
-<!--        <result property="innerRequestObject" column="inner_request_object" />-->
-<!--        <result property="requestParamExample" column="request_param_example" />-->
-<!--        <result property="responseParamExample" column="response_param_example" />-->
-<!--        <result property="requestModel" column="request_model" />-->
-<!--        <result property="creatorName" column="creator_name" />-->
-<!--        <result property="creatorId" column="creator_id" />-->
-<!--        <result property="createTime" column="create_time" />-->
-<!--        <result property="modifyTime" column="modify_time" />-->
+    <resultMap id="BASE-RESULT" type="com.insigma.facade.po.OpenapiInterface">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="isCallback" column="is_callback" />
+        <result property="distribution" column="distribution" />
+        <result property="groupId" column="group_id" />
+        <result property="typeId" column="type_id" />
+        <result property="typeName" column="type_name" />
+        <result property="dataResourceCode" column="data_resource_code" />
+        <result property="summary" column="summary" />
+        <result property="versionNumber" column="version_number" />
+        <result property="innerUrl" column="inner_url" />
+        <result property="outUrl" column="out_url" />
+        <result property="requestType" column="request_type" />
+        <result property="outParamType" column="out_param_type" />
+        <result property="innerParamType" column="inner_param_type" />
+        <result property="commandCode" column="command_code" />
+        <result property="requestExample" column="request_example" />
+        <result property="roleUrl" column="role_url" />
+        <result property="isAvaliable" column="is_avaliable" />
+        <result property="isPublic" column="is_public" />
+        <result property="isDelete" column="is_delete" />
+        <result property="providerName" column="provider_name" />
+        <result property="providerType" column="provider_type" />
+        <result property="outRequestWay" column="out_request_way" />
+        <result property="innerRequestWay" column="inner_request_way" />
+        <result property="outRequestFormat" column="out_request_format" />
+        <result property="innerRequestFormat" column="inner_request_format" />
+        <result property="innerRequestObject" column="inner_request_object" />
+        <result property="requestParamExample" column="request_param_example" />
+        <result property="responseParamExample" column="response_param_example" />
+        <result property="requestModel" column="request_model" />
+        <result property="openAccess" column="open_access" />
+        <result property="creatorName" column="creator_name" />
+        <result property="creatorId" column="creator_id" />
+        <result property="createTime" column="create_time" />
+        <result property="modifyTime" column="modify_time" />
 
-<!--    </resultMap>-->
+    </resultMap>
 
 
-    <select id="getOpenapiInterfaceList" resultType="com.insigma.facade.openapi.po.OpenapiInterface">
+    <select id="getOpenapiInterfaceList" resultMap="BASE-RESULT">
         SELECT oi.* from openapi_interface oi left join openapi_interface_inner_url oiiu on oiiu.interface_id = oi.id
         <where>
             oi.is_delete= 0
