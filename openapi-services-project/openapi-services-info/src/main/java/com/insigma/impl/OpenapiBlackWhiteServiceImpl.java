@@ -41,7 +41,7 @@ public class OpenapiBlackWhiteServiceImpl implements OpenapiBlackWhiteFacade {
             criteria.andEqualTo("addType",addType);
         }
         if(startDate!=null&&endDate!=null){
-            criteria.andBetween("createTime",startDate,endDate);
+            criteria.andBetween("modifyTime",startDate,endDate);
         }
         List<OpenapiBlackWhite> openapiBlackWhiteList=openapiBlackWhiteMapper.selectByExample(example);
         PageInfo<OpenapiBlackWhite> openapiBlackWhitePageInfo=new PageInfo<>(openapiBlackWhiteList);
