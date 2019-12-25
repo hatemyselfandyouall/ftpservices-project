@@ -1,19 +1,17 @@
 package com.insigma.web.backGround.interfaceStatistics;
 
-import com.github.pagehelper.PageInfo;
-import com.insigma.facade.openapi.dto.DataListResultDto;
 import com.insigma.facade.openapi.facade.InterfaceFacade;
-import com.insigma.facade.openapi.facade.OpenapiBlackWhiteFacade;
 import com.insigma.facade.openapi.facade.OpenapiDictionaryFacade;
-import com.insigma.facade.openapi.po.OpenapiBlackWhite;
-import com.insigma.facade.openapi.po.OpenapiDictionary;
 import com.insigma.facade.openapi.vo.interfaceStatistics.InterfaceStatisticsVO;
 import com.insigma.facade.openapi.vo.openapiInterface.InterfaceStatisticsByAreaVO;
 import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO;
 import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsVO;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
 import com.insigma.table.TableInfo;
+import com.insigma.util.AddLogUtil;
 import com.insigma.util.BIUtil;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,12 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 
 @RestController
 @RequestMapping("/interfaceStatistics")
@@ -40,6 +39,10 @@ public class InterfaceStatisticsController extends BasicController {
     RestTemplate restTemplate;
     @Autowired
     InterfaceFacade interfaceFacade;
+    @Autowired
+    LoginComponent loginComponent;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "调用总量")
     @ResponseBody
@@ -74,6 +77,8 @@ public class InterfaceStatisticsController extends BasicController {
             }else {
                 resultVo.setResultDes(BIResult.getResultDes());
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"调用总量","调用总量", DataConstant.SYSTEM_NAME,"服务监控分析",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取调用总量异常"+e);
             log.error("获取调用总量异常",e);
@@ -114,6 +119,8 @@ public class InterfaceStatisticsController extends BasicController {
             }else {
                 resultVo.setResultDes(BIResult.getResultDes());
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"调用总量-机构排名","调用总量-机构排名", DataConstant.SYSTEM_NAME,"服务监控分析",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取调用总量-机构排名异常"+e);
             log.error("获取调用总量-机构排名异常",e);
@@ -139,9 +146,11 @@ public class InterfaceStatisticsController extends BasicController {
             }else {
                 resultVo.setResultDes(BIResult.getResultDes());
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口调用实时情况","接口调用实时情况", DataConstant.SYSTEM_NAME,"服务监控分析",sysOperatelogRecordFacade);
         }catch (Exception e){
-            resultVo.setResultDes("获取调用总量-机构排名异常"+e);
-            log.error("获取调用总量-机构排名异常",e);
+            resultVo.setResultDes("接口调用实时情况异常"+e);
+            log.error("接口调用实时情况异常",e);
         }
         return resultVo;
     }
@@ -171,12 +180,15 @@ public class InterfaceStatisticsController extends BasicController {
                     openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByYear(interfaceStatisticsVO);
             }
             OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO=interfaceFacade.getTotalInterfaceTrendDetail(interfaceStatisticsVO.getStaticType());
+            openapiInterfaceStaaticsVO.setNewInterfaceCount(openapiInterfaceStaaticsVOS.stream().map(OpenapiInterfaceStaaticsFieldsVO::getTotalCount).reduce(0,(a,b)->a+b));
             openapiInterfaceStaaticsVO.setOpenapiInterfaceStaaticsFieldsVOS(openapiInterfaceStaaticsVOS);
             resultVo.setResult(openapiInterfaceStaaticsVO);
             resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口发布趋势","接口发布趋势", DataConstant.SYSTEM_NAME,"服务监控分析",sysOperatelogRecordFacade);
         }catch (Exception e){
-            resultVo.setResultDes("获取调用总量-机构排名异常"+e);
-            log.error("获取调用总量-机构排名异常",e);
+            resultVo.setResultDes("接口发布趋势异常"+e);
+            log.error("接口发布趋势异常",e);
         }
         return resultVo;
     }
@@ -232,9 +244,11 @@ public class InterfaceStatisticsController extends BasicController {
             }
 //            resultVo.setResult(openapiInterfaceStaaticsVO);
             resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口调用概况-地区","接口调用概况-地区", DataConstant.SYSTEM_NAME,"服务监控分析",sysOperatelogRecordFacade);
         }catch (Exception e){
-            resultVo.setResultDes("获取调用总量-机构排名异常"+e);
-            log.error("获取调用总量-机构排名异常",e);
+            resultVo.setResultDes("接口调用概况-地区异常"+e);
+            log.error("接口调用概况-地区异常",e);
         }
         return resultVo;
     }

@@ -22,6 +22,8 @@ public interface OpenapiAppTypeFacade{
 
 
     ResultVo checkAppInterfaceTypeSave(OpenapiAppTypeSaveVO openapiAppTypeSaveVO);
+
+    ResultVo checkDeleteOpenapiAppType(OpenapiAppTypeDeleteVO openapiAppTypeDeleteVO);
 }
 
  

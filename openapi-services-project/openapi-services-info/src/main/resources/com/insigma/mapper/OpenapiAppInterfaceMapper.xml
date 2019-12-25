@@ -25,7 +25,7 @@
             AND oai.source_type  = #{sourceType}
         </if>
         <if test="keyword!=null">
-            AND  (oi.name like CONCAT('%',#{keyword},'%') or oi.out_url like CONCAT('%',#{keyword},'%') or command_code like CONCAT('%',#{keyword},'%'))
+            AND  (oi.name like CONCAT('%',#{keyword},'%') or oi.out_url like CONCAT('%',#{keyword},'%') or command_code like CONCAT('%',#{keyword},'%') or oi.code like CONCAT('%',#{keyword},'%'))
         </if>
     </where>
     </select>

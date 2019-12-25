@@ -2,10 +2,15 @@ package com.insigma.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.facade.OpenapiAppInterfaceFacade;
+import com.insigma.facade.openapi.po.OpenapiApp;
+import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.mapper.OpenapiAppInterfaceMapper;
+import com.insigma.mapper.OpenapiAppMapper;
 import com.insigma.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import star.modules.cache.CachesKeyService;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.po.OpenapiAppInterface;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiAppInterfaceDeleteVO;
@@ -21,6 +26,10 @@ public class OpenapiAppInterfaceServiceImpl implements OpenapiAppInterfaceFacade
 
     @Autowired
     OpenapiAppInterfaceMapper openapiAppInterfaceMapper;
+    @Autowired
+    CachesKeyService cachesKeyService;
+    @Autowired
+    OpenapiAppMapper openapiAppMapper;
 
     @Override
     public PageInfo<OpenapiAppInterface> getOpenapiAppInterfaceList(OpenapiAppInterfaceListVO openapiAppInterfaceListVO) {
@@ -69,6 +78,12 @@ public class OpenapiAppInterfaceServiceImpl implements OpenapiAppInterfaceFacade
         openapiAppInterface.setIsDelete(openapiAppInterfaceDeleteVO.getIsDelete());
         Example example=new Example(OpenapiAppInterface.class);
         example.createCriteria().andEqualTo("id",openapiAppInterfaceDeleteVO.getId());
+        OpenapiAppInterface temp=openapiAppInterfaceMapper.selectByPrimaryKey(openapiAppInterfaceDeleteVO.getId());
+        OpenapiApp openapiApp=openapiAppMapper.selectByPrimaryKey(temp.getAppId());
+        if (openapiApp!=null){
+            cachesKeyService.deleteCache(OpenapiCacheEnum.OPENAPI_BY_APPID,openapiApp.getId().toString());
+            cachesKeyService.deleteCache(OpenapiCacheEnum.OPENAPI_BY_APPKEY,openapiApp.getAppKey());
+        }
         return openapiAppInterfaceMapper.updateByExampleSelective(openapiAppInterface,example);
     }
 }

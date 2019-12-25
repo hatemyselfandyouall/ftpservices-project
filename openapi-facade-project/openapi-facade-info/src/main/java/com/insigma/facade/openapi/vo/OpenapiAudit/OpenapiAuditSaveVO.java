@@ -78,5 +78,4 @@ public class OpenapiAuditSaveVO implements Serializable {
 
     @ApiModelProperty("用户姓名,前端不用传")
     private String userName;
-
 }

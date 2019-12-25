@@ -10,6 +10,7 @@ import com.insigma.facade.openapi.vo.openapiInterface.*;
 import star.vo.result.ResultVo;
 
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 public interface InterfaceFacade {
     PageInfo<OpenapiInterfaceDetailShowVO> getOpenapiInterfaceList(OpenapiInterfaceListVO buttonListVO);
@@ -51,5 +52,7 @@ public interface InterfaceFacade {
     List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByDay(InterfaceStatisticsVO interfaceStatisticsVO);
 
     OpenapiInterfaceStaaticsVO getTotalInterfaceTrendDetail(Integer staticType);
+
+    List<OpenapiInterfaceShowVO> intiQueue();
 }
 

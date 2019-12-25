@@ -36,7 +36,7 @@
                 AND  org_name like concat('%',#{name},'%')
             </if>
         </where>
-        GROUP BY org_id
+        GROUP BY org_code
     </select>
 
     <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiOrg">-->

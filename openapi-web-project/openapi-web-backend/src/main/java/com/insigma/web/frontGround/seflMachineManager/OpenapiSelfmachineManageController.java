@@ -12,11 +12,14 @@ import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgListVO;
 import com.insigma.facade.openapi.vo.OpenapiOrg.OpenapiOrgShowVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
 import com.insigma.facade.sysbase.SysOrgFacade;
 import com.insigma.facade.sysbase.vo.SysUserOrgDTO;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
 import com.insigma.webtool.util.Encrypt;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.experimental.Accessors;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
 import java.util.HashMap;
@@ -43,6 +47,10 @@ public class OpenapiSelfmachineManageController extends BasicController {
 
     @Autowired
     LoginComponent loginComponent;
+
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
+
 
     @Autowired
     SysOrgFacade sysOrgFacade;
@@ -66,6 +74,8 @@ public class OpenapiSelfmachineManageController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机管理-自助机列表","自助机管理-自助机列表", DataConstant.SYSTEM_NAME,"自助机管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取自助机列表异常");
             log.error("获取自助机列表异常",e);
@@ -85,6 +95,8 @@ public class OpenapiSelfmachineManageController extends BasicController {
             PageInfo<OpenapiOrgShowVO> openapiSelfmachineList=openapiOrgFacade.getOpenapiOrgList(openapiOrgListVO,userId);
             resultVo.setResult(openapiSelfmachineList);
             resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机管理-证书列表","自助机管理-证书列表", DataConstant.SYSTEM_NAME,"自助机管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取自助机列表异常");
             log.error("获取自助机列表异常",e);
@@ -102,6 +114,8 @@ public class OpenapiSelfmachineManageController extends BasicController {
             List<OptSelfServiceMachinesSoftVo> optSelfServiceMachinesSoftVos=optSelfServiceMachinesSoftFacade.getListByWhere(searchMap);
                 resultVo.setResult(optSelfServiceMachinesSoftVos);
                 resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机管理-自助机版本号列表","自助机管理-自助机版本号列表", DataConstant.SYSTEM_NAME,"自助机管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("自助机版本号列表异常");
             log.error("自助机版本号列表异常",e);
@@ -121,6 +135,8 @@ public class OpenapiSelfmachineManageController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机管理-自助机详情","自助机管理-自助机详情"+openapiSelfmachineDetailVO.getId(), DataConstant.SYSTEM_NAME,"自助机管理-用户",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取自助机详情异常");
         log.error("获取自助机详情异常",e);
@@ -141,6 +157,8 @@ public class OpenapiSelfmachineManageController extends BasicController {
             } else {
                 resultVo.setResultDes("自助机保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机管理-自助机保存","自助机管理-自助机保存", DataConstant.SYSTEM_NAME,"自助机管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常");
                 log.error("自助机保存异常",e);
@@ -161,6 +179,8 @@ public class OpenapiSelfmachineManageController extends BasicController {
             } else {
                 resultVo.setResultDes("自助机设置激活状态失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机管理-设置激活状态","自助机管理-设置激活状态"+openapiSelfmachineSetActiveStatusVO.getIds(), DataConstant.SYSTEM_NAME,"自助机管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("自助机设置激活状态异常");
             log.error("自助机设置激活状态异常",e);
@@ -180,6 +200,8 @@ public class OpenapiSelfmachineManageController extends BasicController {
             } else {
                 resultVo.setResultDes("自助机设置机构失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"自助机管理-自助机设置机构","自助机管理-自助机设置机构"+openapiSelfmachineSetOrgVO.getIds(), DataConstant.SYSTEM_NAME,"自助机管理-用户",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("自助机设置机构异常");
             log.error("自助机设置机构异常",e);

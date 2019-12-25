@@ -78,7 +78,7 @@ public class UpstreamCacheManager {
      *
      * @param key the key
      */
-    static void removeByKey(final Long key) {
+    public static void removeByKey(final Long key) {
         SCHEDULED_MAP.remove(key);
         UPSTREAM_MAP.remove(key);
     }
@@ -88,6 +88,7 @@ public class UpstreamCacheManager {
      */
     @PostConstruct
     public void init() {
+        intiQueue();
         new ThreadPoolExecutor(1, 1,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(),
@@ -100,12 +101,17 @@ public class UpstreamCacheManager {
                         TimeUnit.SECONDS);
     }
 
+    private void intiQueue() {
+        List<OpenapiInterfaceShowVO> openapiInterfaceShowVOS=interfaceFacade.intiQueue();
+        openapiInterfaceShowVOS.forEach(UpstreamCacheManager::submit);
+    }
+
     /**
      * Submit.
      *
      * @param selectorData the selector data
      */
-    static void submit(final OpenapiInterfaceShowVO selectorData) {
+    public static void submit(final OpenapiInterfaceShowVO selectorData) {
         try {
             BLOCKING_QUEUE.put(selectorData);
         } catch (InterruptedException e) {
@@ -158,11 +164,11 @@ public class UpstreamCacheManager {
     private boolean checkUrl(String heartUrl){
         boolean flag=false;
         try {
-            RestTemplate restTemplate=new RestTemplate();
-            ResponseEntity<String> responseEntity= restTemplate.getForEntity(heartUrl,String.class);
-            if (responseEntity.getStatusCode().is2xxSuccessful()){
+//            RestTemplate restTemplate=new RestTemplate();
+//            ResponseEntity<String> responseEntity= restTemplate.getForEntity(heartUrl,String.class);
+//            if (responseEntity.getStatusCode().is2xxSuccessful()){
                 flag=true;
-            }
+//            }
         }catch (Exception e){
             log.error("心跳检测异常"+e.getMessage());
         }

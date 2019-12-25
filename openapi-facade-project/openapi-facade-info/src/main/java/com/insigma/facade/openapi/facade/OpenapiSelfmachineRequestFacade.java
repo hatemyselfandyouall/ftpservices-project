@@ -28,6 +28,8 @@ public interface OpenapiSelfmachineRequestFacade{
 
 
     SelfMachineOrgDTO getOrgByToken(String token);
+
+    String getInitMachineCode(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg);
 }
 
  

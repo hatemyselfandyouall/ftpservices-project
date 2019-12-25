@@ -1,8 +1,10 @@
  
 package com.insigma.mapper;
 
+import com.github.pagehelper.Page;
 import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.interfaceStatistics.InterfaceStatisticsVO;
+import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceListVO;
 import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO;
 import com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsVO;
 import org.apache.ibatis.annotations.Param;
@@ -22,5 +24,5 @@ public interface OpenapiInterfaceMapper extends Mapper<OpenapiInterface>{
 
     List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByDay(@Param("param") InterfaceStatisticsVO interfaceStatisticsVO);
 
-
+    Page<OpenapiInterface> getOpenapiInterfaceList(@Param("param") OpenapiInterfaceListVO openapiInterfaceListVO);
 }

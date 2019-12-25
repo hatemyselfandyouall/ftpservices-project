@@ -48,15 +48,15 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
         if (OpenapiOrgListVO==null||OpenapiOrgListVO.getPageNum()==null||OpenapiOrgListVO.getPageSize()==null) {
             return null;
         }
-        OpenapiOrg exampleObeject=new OpenapiOrg().setAreaId(OpenapiOrgListVO.getAreaId()).setIsDelete(DataConstant.NO_DELETE);
+        OpenapiOrg exampleObeject=new OpenapiOrg().setAreaId(OpenapiOrgListVO.getAreaId()).setOrgCode(OpenapiOrgListVO.getOrgCode()).setIsDelete(DataConstant.NO_DELETE);
         String orgCode=null;
         if (userId!=null){
             List<SysUserOrgDTO> orgList=sysUserFacade.queryUserOrg(userId);
             if (orgList!=null&&!orgList.isEmpty()){
                 orgCode=sysOrgFacade.getByPrimaryKey(orgList.get(0).getOrgId()).getOrgenterCode();
             }
+            exampleObeject.setOrgCode(orgCode);
         }
-        exampleObeject.setOrgCode(orgCode);
         PageHelper.startPage(OpenapiOrgListVO.getPageNum().intValue(),OpenapiOrgListVO.getPageSize().intValue());
         List<OpenapiOrg> openapiOrgList=OpenapiOrgMapper.select(exampleObeject);
         List<OpenapiOrgShowVO> openapiOrgShowVOS=openapiOrgList.stream().map(i->{

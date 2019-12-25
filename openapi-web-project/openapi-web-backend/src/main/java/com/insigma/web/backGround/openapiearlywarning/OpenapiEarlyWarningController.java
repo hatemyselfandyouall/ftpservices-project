@@ -6,12 +6,17 @@ import com.insigma.facade.openapi.dto.OpenapiEarlyWarningDto;
 import com.insigma.facade.openapi.facade.OpenapiEarlyWarningFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiEarlyWarning;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
 
@@ -23,6 +28,11 @@ public class OpenapiEarlyWarningController extends BasicController {
 
     @Autowired
     private OpenapiEarlyWarningFacade openapiEarlyWarningFacade;
+    @Autowired
+    private LoginComponent loginComponent;
+
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "预警人员列表")
     @ResponseBody
@@ -38,6 +48,8 @@ public class OpenapiEarlyWarningController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"预警人员列表","预警人员列表", DataConstant.SYSTEM_NAME,"预警人员管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取预警人员列表异常");
             log.error("获取预警人员列表异常",e);
@@ -57,6 +69,8 @@ public class OpenapiEarlyWarningController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"预警人员详情","预警人员详情"+id, DataConstant.SYSTEM_NAME,"预警人员管理",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取预警人员详情异常");
         log.error("获取预警人员详情异常",e);
@@ -76,6 +90,8 @@ public class OpenapiEarlyWarningController extends BasicController {
             } else {
                 resultVo.setResultDes("预警人员保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"预警人员保存","预警人员保存"+flag, DataConstant.SYSTEM_NAME,"预警人员管理",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常");
                 log.error("预警人员保存异常",e);
@@ -98,6 +114,8 @@ public class OpenapiEarlyWarningController extends BasicController {
             } else {
                 resultVo.setResultDes("预警人员删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"预警人员删除","预警人员删除"+openapiEarlyWarningDto.getId(), DataConstant.SYSTEM_NAME,"预警人员管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("预警人员删除异常");
             log.error("预警人员删除异常",e);

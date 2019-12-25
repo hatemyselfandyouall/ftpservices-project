@@ -4,44 +4,72 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.insigma.mapper.OpenapiInterfaceMapper">
 
-<!--    <resultMap id="BASE-RESULT" type="com.insigma.facade.po.OpenapiInterface">-->
-<!--                <result property="id" column="id" />-->
-<!--        <result property="code" column="code" />-->
-<!--        <result property="name" column="name" />-->
-<!--        <result property="isCallback" column="is_callback" />-->
-<!--        <result property="distribution" column="distribution" />-->
-<!--        <result property="groupId" column="group_id" />-->
-<!--        <result property="typeId" column="type_id" />-->
-<!--        <result property="typeName" column="type_name" />-->
-<!--        <result property="dataResourceCode" column="data_resource_code" />-->
-<!--        <result property="summary" column="summary" />-->
-<!--        <result property="versionNumber" column="version_number" />-->
-<!--        <result property="innerUrl" column="inner_url" />-->
-<!--        <result property="outUrl" column="out_url" />-->
-<!--        <result property="requestType" column="request_type" />-->
-<!--        <result property="outParamType" column="out_param_type" />-->
-<!--        <result property="innerParamType" column="inner_param_type" />-->
-<!--        <result property="commandCode" column="command_code" />-->
-<!--        <result property="requestExample" column="request_example" />-->
-<!--        <result property="isAvaliable" column="is_avaliable" />-->
-<!--        <result property="isPublic" column="is_public" />-->
-<!--        <result property="isDelete" column="is_delete" />-->
-<!--        <result property="providerName" column="provider_name" />-->
-<!--        <result property="providerType" column="provider_type" />-->
-<!--        <result property="outRequestWay" column="out_request_way" />-->
-<!--        <result property="innerRequestWay" column="inner_request_way" />-->
-<!--        <result property="outRequestFormat" column="out_request_format" />-->
-<!--        <result property="innerRequestFormat" column="inner_request_format" />-->
-<!--        <result property="innerRequestObject" column="inner_request_object" />-->
-<!--        <result property="requestParamExample" column="request_param_example" />-->
-<!--        <result property="responseParamExample" column="response_param_example" />-->
-<!--        <result property="requestModel" column="request_model" />-->
-<!--        <result property="creatorName" column="creator_name" />-->
-<!--        <result property="creatorId" column="creator_id" />-->
-<!--        <result property="createTime" column="create_time" />-->
-<!--        <result property="modifyTime" column="modify_time" />-->
+    <resultMap id="BASE-RESULT" type="com.insigma.facade.openapi.po.OpenapiInterface">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="isCallback" column="is_callback" />
+        <result property="distribution" column="distribution" />
+        <result property="groupId" column="group_id" />
+        <result property="typeId" column="type_id" />
+        <result property="typeName" column="type_name" />
+        <result property="dataResourceCode" column="data_resource_code" />
+        <result property="summary" column="summary" />
+        <result property="versionNumber" column="version_number" />
+        <result property="innerUrl" column="inner_url" />
+        <result property="outUrl" column="out_url" />
+        <result property="requestType" column="request_type" />
+        <result property="outParamType" column="out_param_type" />
+        <result property="innerParamType" column="inner_param_type" />
+        <result property="commandCode" column="command_code" />
+        <result property="requestExample" column="request_example" />
+        <result property="roleUrl" column="role_url" />
+        <result property="isAvaliable" column="is_avaliable" />
+        <result property="isPublic" column="is_public" />
+        <result property="isDelete" column="is_delete" />
+        <result property="providerName" column="provider_name" />
+        <result property="providerType" column="provider_type" />
+        <result property="outRequestWay" column="out_request_way" />
+        <result property="innerRequestWay" column="inner_request_way" />
+        <result property="outRequestFormat" column="out_request_format" />
+        <result property="innerRequestFormat" column="inner_request_format" />
+        <result property="innerRequestObject" column="inner_request_object" />
+        <result property="requestParamExample" column="request_param_example" />
+        <result property="responseParamExample" column="response_param_example" />
+        <result property="requestModel" column="request_model" />
+        <result property="openAccess" column="open_access" />
+        <result property="creatorName" column="creator_name" />
+        <result property="creatorId" column="creator_id" />
+        <result property="createTime" column="create_time" />
+        <result property="modifyTime" column="modify_time" />
 
-<!--    </resultMap>-->
+    </resultMap>
+
+
+    <select id="getOpenapiInterfaceList" resultMap="BASE-RESULT">
+        SELECT oi.* from openapi_interface oi left join openapi_interface_inner_url oiiu on oiiu.interface_id = oi.id
+        <where>
+            oi.is_delete= 0
+            <if test="param.isAvaliable!=null">
+                and oi.is_avaliable=#{param.isAvaliable}
+            </if>
+            <if test="param.typeId!=null">
+                and oi.type_id=#{param.typeId}
+            </if>
+            <if test="param.isPublic!=null">
+                and oi.is_public=#{param.isPublic}
+            </if>
+            <if test="param.name!=null and param.name!=''">
+                and (oi.name like concat('%',#{param.name},'%') or
+                oi.command_code like concat('%',#{param.name},'%') or
+                oi.code like concat('%',#{param.name},'%') or
+                oi.out_url like concat('%',#{param.name},'%') or
+                oiiu.inner_url like concat('%',#{param.name},'%') )
+            </if>
+        </where>
+        GROUP BY oi.id
+        order by oi.create_time desc
+    </select>
 
     <select id="interfacePublishingTrendByYear" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
         SELECT COUNT(*)AS totalCount,MONTH(create_time) AS TIME FROM  `openapi_interface`
@@ -52,23 +80,23 @@
          </if>
     </where>
 
-         GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
 
     <select id="interfacePublishingTrendByWeek" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time,'%d') AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
+        SELECT COUNT(*) AS totalCount,DAYOFWEEK(create_time) AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
-        GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
 
     <select id="interfacePublishingTrendByMonth" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*) AS totalCount,DAYOFWEEK(create_time) AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
+        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time,'%d') AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
-        GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
 
     <select id="interfacePublishingTrendByDay" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
@@ -76,7 +104,7 @@
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
-        GROUP BY MONTH(create_time)
+        GROUP BY TIME
     </select>
     <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiInterface">-->
     <!--INSERT INTO openapi_interface ( -->

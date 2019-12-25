@@ -8,19 +8,23 @@ import com.insigma.facade.openapi.po.OpenapiInterface;
 import com.insigma.facade.openapi.vo.OpenapiAppInterface.OpenapiInterfaceDetailShowVO;
 import com.insigma.facade.openapi.vo.OpenapiInterfaceType.OpenapiInterfaceTypeTreeVO;
 import com.insigma.facade.openapi.vo.openapiInterface.*;
-import com.insigma.facade.sysbase.SysOrgFacade;
-import com.insigma.facade.sysbase.vo.SysOrgDTO;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
+import com.insigma.webtool.component.loadBalance.UpstreamCacheManager;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -34,6 +38,8 @@ public class OpenapiInterfaceController extends BasicController {
     InterfaceFacade interfaceFacade;
     @Autowired
     LoginComponent loginComponent;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
 
     @ApiOperation(value = "接口列表")
@@ -49,6 +55,8 @@ public class OpenapiInterfaceController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口列表","接口列表", DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取接口列表异常，原因为:"+e);
             log.error("获取接口列表异常",e);
@@ -68,6 +76,8 @@ public class OpenapiInterfaceController extends BasicController {
             }else {
                 resultVo.setResultDes("接口列表树获取失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口列表树","接口列表树", DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取接口列表树异常，原因为:"+e);
             log.error("获取接口列表树异常",e);
@@ -87,6 +97,8 @@ public class OpenapiInterfaceController extends BasicController {
         }else {
             resultVo.setResultDes("获取详情失败");
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口详情","接口详情id："+openapiInterface.getOpenapiInterface().getId(), DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         } catch (Exception e){
         resultVo.setResultDes("获取接口详情异常，原因为:"+e);
         log.error("获取接口详情异常",e);
@@ -99,6 +111,9 @@ public class OpenapiInterfaceController extends BasicController {
     public ResultVo<OpenapiInterfaceSaveVO> saveOpenapiInterface(@RequestBody OpenapiInterfaceSaveVO openapiInterfaceSaveVO){
         ResultVo resultVo=new ResultVo();
         try {
+            //------------------------操作日志处理-----------------------------------------------------------------------
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
             ResultVo checkResult=interfaceFacade.checkInterfaceSave(openapiInterfaceSaveVO);
             if (!checkResult.isSuccess()){
                 return checkResult;
@@ -108,6 +123,8 @@ public class OpenapiInterfaceController extends BasicController {
             openapiInterfaceSaveVO.setCreatorId(userId);
             openapiInterfaceSaveVO.setCreatorName(userName);
             OpenapiInterfaceShowVO openapiInterfaceShowVO = interfaceFacade.saveOpenapiInterface(openapiInterfaceSaveVO);
+            UpstreamCacheManager.removeByKey(openapiInterfaceShowVO.getOpenapiInterface().getId());
+            UpstreamCacheManager.submit(openapiInterfaceShowVO);
             if (openapiInterfaceShowVO!=null) {
                 resultVo.setResult(openapiInterfaceShowVO);
                 resultVo.setResultDes("接口保存成功");
@@ -115,6 +132,8 @@ public class OpenapiInterfaceController extends BasicController {
             } else {
                 resultVo.setResultDes("接口保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口保存","接口保存："+openapiInterfaceShowVO.getOpenapiInterface().getId(), DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("接口保存异常，原因为:"+e);
                 log.error("接口保存异常",e);
@@ -127,6 +146,9 @@ public class OpenapiInterfaceController extends BasicController {
     public ResultVo<OpenapiInterface> deleteOpenapiInterface(@RequestBody OpenapiInterfaceDeleteVO openapiInterfaceDeleteVO){
         ResultVo resultVo=new ResultVo();
         try {
+            //------------------------操作日志处理-----------------------------------------------------------------------
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
             Integer flag = interfaceFacade.deleteOpenapiInterface(openapiInterfaceDeleteVO);
             if (1 == flag) {
                 resultVo.setResultDes("接口删除成功");
@@ -134,6 +156,8 @@ public class OpenapiInterfaceController extends BasicController {
             } else {
                 resultVo.setResultDes("使用的应用类型1医保2医院失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口删除","接口删除："+openapiInterfaceDeleteVO.getId(), DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("接口删除异常，原因为:"+e);
             log.error("接口删除异常",e);
@@ -146,6 +170,9 @@ public class OpenapiInterfaceController extends BasicController {
     public ResultVo<OpenapiInterface> releaseOpenapiInterface(@RequestBody OpenapiInterfaceReleaseVO openapiInterfaceDeleteVO){
         ResultVo resultVo=new ResultVo();
         try {
+            //------------------------操作日志处理-----------------------------------------------------------------------
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
             Integer flag = interfaceFacade.releaseOpenapiInterface(openapiInterfaceDeleteVO);
             if (flag>0) {
                 resultVo.setResultDes("接口发布状态修改成功");
@@ -153,6 +180,8 @@ public class OpenapiInterfaceController extends BasicController {
             } else {
                 resultVo.setResultDes("接口发布状态修改失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口发布状态修改","接口发布状态修改："+openapiInterfaceDeleteVO.getIds(), DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("接口发布异常，原因为:"+e);
             log.error("接口发布异常",e);
@@ -173,6 +202,8 @@ public class OpenapiInterfaceController extends BasicController {
             } else {
                 resultVo.setResultDes("接口生效状态修改失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口生效状态修改","接口生效状态修改："+openapiInterfaceSetStatusVO.getId(), DataConstant.SYSTEM_NAME,"接口管理",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("接口生效状态修改异常，原因为:"+e);
             log.error("接口删除异常",e);

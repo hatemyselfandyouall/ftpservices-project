@@ -37,4 +37,7 @@
 
 	<dubbo:reference id="optSelfServiceMachinesSoftFacade" interface="com.insigma.facade.devops.OptSelfServiceMachinesSoftFacade"
 					 version="1.0.1" />
+
+	<dubbo:reference id="sysOperatelogRecordFacade" interface="com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade"
+					 version="1.0.1" />
 </beans>

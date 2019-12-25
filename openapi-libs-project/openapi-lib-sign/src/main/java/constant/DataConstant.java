@@ -77,4 +77,7 @@ public class DataConstant {
     public static final Integer IS_LAST_USED = 1;
     public static final Integer NOT_LAST_USED = 0;
 
+    public static final String SYSTEM_NAME = "开放平台管理端";
+
+    public static final Integer ZERO=0;
 }

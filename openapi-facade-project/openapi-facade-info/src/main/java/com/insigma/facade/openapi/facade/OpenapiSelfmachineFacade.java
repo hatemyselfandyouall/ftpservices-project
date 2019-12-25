@@ -2,7 +2,9 @@
 package com.insigma.facade.openapi.facade;
 
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachine;
+import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 
@@ -18,13 +20,17 @@ public interface OpenapiSelfmachineFacade{
     Integer deleteOpenapiSelfmachine(OpenapiSelfmachineDeleteVO deleteVO);
 
 
-    void saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, Long id);
+    String saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiOrg id);
 
     Integer setStatu(OpenapiSelfmachineDeleteVO openapiSelfmachineDeleteVO);
 
     Integer setActiveStatus(OpenapiSelfmachineSetActiveStatusVO openapiSelfmachineSetActiveStatusVO);
 
     Integer setOrg(OpenapiSelfmachineSetOrgVO openapiSelfmachineSetOrgVO);
+
+    void updateSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiSelfmachineRequest openapiSelfmachine);
+
+    String reActivSelfMachine(OpenapiSelfmachine openapiSelfmachine,OpenapiSelfmachineRequest openapiSelfmachineRequest,OpenapiOrg openapiOrg);
 }
 
  

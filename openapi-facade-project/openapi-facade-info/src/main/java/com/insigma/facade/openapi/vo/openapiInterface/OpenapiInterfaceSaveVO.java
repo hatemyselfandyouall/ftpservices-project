@@ -156,6 +156,10 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @Column( name="creator_id")
     private Long creatorId;
 
+    @ApiModelProperty("开放权限1全部2白名单")
+    @Column( name="open_access")
+    private Integer openAccess;
+
     private List<OpenapiInterfaceRequestParamSaveVO> openapiInterfaceRequestParamSaveVOList;
 
     private List<OpenapiInterfaceResponseParamSaveVO> openapiInterfaceResponseParamSaveVOList;

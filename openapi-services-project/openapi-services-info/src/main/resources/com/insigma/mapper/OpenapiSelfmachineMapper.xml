@@ -18,6 +18,7 @@
         <result property="machineCode" column="machine_code" />
         <result property="machineAddressId" column="machine_address_id" />
         <result property="machineAddress" column="machine_address" />
+        <result property="machineTypeId" column="machine_type_id" />
         <result property="createTime" column="create_time" />
 
     </resultMap>
@@ -35,7 +36,7 @@
             AND  osr.machine_type = #{param.machineType}
         </if>
         <if test="param.keyWord!=null and param.keyWord!=''">
-            AND  ( osr.ip like concat('%',#{param.keyWord},'%') or osr.mac_address like concat('%',#{param.keyWord},'%') or osr.unique_code like concat('%',#{param.keyWord},'%'))
+            AND  ( osr.ip like concat('%',#{param.keyWord},'%')  or osr.machine_code like concat('%',#{param.keyWord},'%') or os.unique_code like concat('%',#{param.keyWord},'%'))
         </if>
         <if test="param.orgCode!=null and param.orgCode!=''">
             AND  oo.org_code=#{param.orgCode}
@@ -47,6 +48,7 @@
             AND  os.client_version=#{param.clientVersion}
         </if>
     </where>
+    order by os.create_time desc
     </select>
 
     <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiSelfmachine">-->

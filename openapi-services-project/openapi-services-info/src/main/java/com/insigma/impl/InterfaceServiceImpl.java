@@ -39,6 +39,8 @@ import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -74,28 +76,8 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         if (openapiInterfaceListVO == null || openapiInterfaceListVO.getPageNum() == null || openapiInterfaceListVO.getPageSize() == null) {
             return null;
         }
-
-        Example example = new Example(OpenapiInterface.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("isDelete", DataConstant.NO_DELETE);
-        if (openapiInterfaceListVO.getIsAvaliable() != null) {
-            criteria.andEqualTo("isAvaliable", openapiInterfaceListVO.getIsAvaliable());
-        }
-        if (openapiInterfaceListVO.getTypeId() != null) {
-            criteria.andEqualTo("typeId", openapiInterfaceListVO.getTypeId());
-        }
-        if (openapiInterfaceListVO.getIsPublic() != null) {
-            criteria.andEqualTo("isPublic", openapiInterfaceListVO.getIsPublic());
-        }
-        if (openapiInterfaceListVO.getName() != null) {
-            criteria.andCondition("(name like '%" + openapiInterfaceListVO.getName()
-                    + "%' or command_code like '%" + openapiInterfaceListVO.getName()
-                    + "%' or code like '%" + openapiInterfaceListVO.getName()
-                    + "%' or out_url like '%" + openapiInterfaceListVO.getName() + "%' )");
-        }
-        example.setOrderByClause("modify_time desc");
         PageHelper.startPage(openapiInterfaceListVO.getPageNum().intValue(), openapiInterfaceListVO.getPageSize().intValue());
-        Page<OpenapiInterface> openapiInterfaceList = (Page<OpenapiInterface>) openapiInterfaceMapper.selectByExample(example);
+        Page<OpenapiInterface> openapiInterfaceList = (Page<OpenapiInterface>) openapiInterfaceMapper.getOpenapiInterfaceList(openapiInterfaceListVO);
         List<OpenapiInterfaceDetailShowVO> openapiInterfaceDetailShowVOS = openapiInterfaceList.stream().map(i -> {
             OpenapiInterfaceDetailShowVO openapiInterfaceDetailShowVO = JSONUtil.convert(i, OpenapiInterfaceDetailShowVO.class);
             openapiInterfaceDetailShowVO.setOpenapiInterfaceInnerUrls(getInnerUrlByInterfaceId(i.getId()));
@@ -656,9 +638,23 @@ public class InterfaceServiceImpl implements InterfaceFacade {
         OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO = new OpenapiInterfaceStaaticsVO();
         openapiInterfaceStaaticsVO.setTotaliInterfaceCount(totalCount);
         openapiInterfaceStaaticsVO.setNewInterfaceCount(newInterfaceCount);
-        openapiInterfaceStaaticsVO.setCompareTotal(Double.valueOf(newInterfaceCount) / Double.valueOf(totalCount));
-        openapiInterfaceStaaticsVO.setCmpareSomeTimesBeford(Double.valueOf(newInterfaceCount) / Double.valueOf(oldInterfaceCount));
+        Double compareTototal=Double.valueOf(newInterfaceCount) / Double.valueOf(totalCount);
+        openapiInterfaceStaaticsVO.setCompareTotal(Double.POSITIVE_INFINITY!=compareTototal?compareTototal:1.0);
+        Double compareToBefore=Double.valueOf(newInterfaceCount) / Double.valueOf(oldInterfaceCount);
+        openapiInterfaceStaaticsVO.setCmpareSomeTimesBeford(Double.POSITIVE_INFINITY!=compareToBefore?compareToBefore:1.0);
         return openapiInterfaceStaaticsVO;
+    }
+
+    @Override
+    public List<OpenapiInterfaceShowVO> intiQueue() {
+        List<OpenapiInterface> openapiInterfaces = openapiInterfaceMapper.select(new OpenapiInterface().setIsDelete(DataConstant.NO_DELETE));
+        List<OpenapiInterfaceShowVO> openapiInterfaceDetailShowVOS=openapiInterfaces.stream().map(i->{
+            OpenapiInterfaceShowVO openapiInterfaceShowVO = new OpenapiInterfaceShowVO();
+            openapiInterfaceShowVO.setOpenapiInterface(i);
+            openapiInterfaceShowVO.setOpenapiInterfaceInnerUrls(getInnerUrlByInterfaceId(i.getId()));
+            return openapiInterfaceShowVO;
+        }).collect(Collectors.toList());
+        return openapiInterfaceDetailShowVOS;
     }
 
 }

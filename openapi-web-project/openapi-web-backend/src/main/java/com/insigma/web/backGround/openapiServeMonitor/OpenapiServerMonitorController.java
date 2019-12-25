@@ -1,15 +1,17 @@
 package com.insigma.web.backGround.openapiServeMonitor;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.insigma.facade.openapi.facade.OpenapiAuditFacade;
 import com.insigma.facade.openapi.facade.OpenapiDictionaryFacade;
 import com.insigma.facade.openapi.facade.OpenapiMonitoringDataConfigFacade;
 import com.insigma.facade.openapi.po.OpenapiMonitoringDataConfig;
 import com.insigma.facade.openapi.vo.InterfaceDetailVO;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
 import com.insigma.table.TableInfo;
+import com.insigma.util.AddLogUtil;
 import com.insigma.util.BIUtil;
-import com.insigma.util.JSONUtil;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
 import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,11 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -37,7 +39,12 @@ public class OpenapiServerMonitorController extends BasicController {
     OpenapiDictionaryFacade openapiDictionaryFacade;
     @Autowired
     OpenapiMonitoringDataConfigFacade openapiMonitoringDataConfigFacade;
-
+    @Autowired
+    private LoginComponent loginComponent;
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
+    @Autowired
+    OpenapiAuditFacade openapiAuditFacade;
 
     @ApiOperation(value = "服务监控统计接口查询")
     @ResponseBody
@@ -54,6 +61,8 @@ public class OpenapiServerMonitorController extends BasicController {
                 resultVo.setResult(Arrays.asList(temp1.getResult(),temp2.getResult()));
             }
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"服务监控统计接口查询","服务监控统计接口查询", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setSuccess(false);
             resultVo.setResultDes("查询异常");
@@ -91,6 +100,9 @@ public class OpenapiServerMonitorController extends BasicController {
                 tableDataJson.put("numberOfFailures", openapiMonitoringDataConfig.getNumberOfFailures());   //一小时失败次数大于
             }
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"服务监控列表查询","服务监控列表查询", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
+            resultVo.setSuccess(true);
         }catch (Exception e){
             resultVo.setSuccess(false);
             resultVo.setResultDes("查询异常");
@@ -116,6 +128,9 @@ public class OpenapiServerMonitorController extends BasicController {
                 resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.INTERFACE_DETAIL, openapiDictionaryFacade, restTemplate);
             }
         }
+            resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"接口调用详情","接口调用详情", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setSuccess(false);
             resultVo.setResultDes("接口调用异常");
@@ -138,6 +153,9 @@ public class OpenapiServerMonitorController extends BasicController {
             }
             resultVo =  BIUtil.getRequestResult(interfaceDetailVO.getPageNum(), interfaceDetailVO.getPageSize(), interfaceDetailVO.getWhereWord(), interfaceDetailVO.getOrderByword(), DataConstant.CALL_DETAIL, openapiDictionaryFacade, restTemplate);
         }
+            resultVo.setSuccess(true);
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"应用查看详情","应用查看详情", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
     }catch (Exception e){
         resultVo.setSuccess(false);
         resultVo.setResultDes("应用查看详情异常");
@@ -175,7 +193,10 @@ public class OpenapiServerMonitorController extends BasicController {
             list.add(data);
          }
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"服务监控折线统计","服务监控折线统计", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
         resultVo.setResult(list);
+        resultVo.setSuccess(true);
         }catch (Exception e){
             resultVo.setSuccess(false);
             resultVo.setResultDes("服务监控折线统计查询异常");
@@ -217,6 +238,9 @@ public class OpenapiServerMonitorController extends BasicController {
                 list.add(data);
             }
         }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"服务监控柱状统计","服务监控柱状统计", DataConstant.SYSTEM_NAME,"服务监控",sysOperatelogRecordFacade);
+        resultVo.setSuccess(true);
         resultVo.setResult(list);
     }catch (Exception e){
         resultVo.setSuccess(false);

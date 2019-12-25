@@ -32,8 +32,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="837cff76d2fca4fa0dd47f0d9b3548f1";
-        String testSecret="051a475529a802b060bb8552b82fb496";
+        String testKey="284e788c17c34f5fa64ce96607b682e6";
+        String testSecret="be45787cc1614372a3cd88c01818215a  ";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -44,10 +44,14 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10480/cmd/getCommand";
+        String testUrl="http://10.85.94.238:10500/frontInterface/interface/6501";
         postTest(haeder,param,testUrl);
     }
-    private static String paramString="{\"ver\":\"V1.0\",\"orgNo\":\"330324\",\"orgName\":\"永嘉县医疗保障局\",\"id\":\"\",\"inPut\":[{\"tradeNum\":10}]}";
+    private static String paramString="{\n" +
+            "   \"AAB301\":\"330799\",\n" +
+            "   \"BAB010\":\"12330000470027355W \"\n" +
+            "}";
+
     public static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
         RestTemplate restTemplate=new RestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();

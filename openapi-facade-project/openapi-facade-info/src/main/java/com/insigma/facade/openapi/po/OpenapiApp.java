@@ -82,6 +82,10 @@ public class OpenapiApp implements Serializable{
     @Column( name="area")
     private String area;
 
+    @ApiModelProperty("所属区域")
+    @Column( name="area_id")
+    private String areaId;
+
     @ApiModelProperty("应用描述")
     @Column( name="distribution")
     private String distribution;

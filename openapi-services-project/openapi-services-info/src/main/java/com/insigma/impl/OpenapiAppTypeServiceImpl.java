@@ -4,11 +4,14 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.facade.OpenapiAppTypeFacade;
+import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiAppInterface;
+import com.insigma.mapper.OpenapiAppMapper;
 import com.insigma.mapper.OpenapiAppTypeMapper;
 import com.insigma.util.JSONUtil;
 import com.sun.org.apache.bcel.internal.generic.I2F;
 import constant.DataConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.vo.result.ResultVo;
 import tk.mybatis.mapper.entity.Example;
@@ -23,10 +26,13 @@ import com.insigma.facade.openapi.vo.OpenapiAppType.OpenapiAppTypeSaveVO;
 
 import javax.xml.crypto.Data;
 
+@Slf4j
 public class OpenapiAppTypeServiceImpl implements OpenapiAppTypeFacade {
 
     @Autowired
     OpenapiAppTypeMapper openapiAppTypeMapper;
+    @Autowired
+    OpenapiAppMapper openapiAppMapper;
 
     @Override
     public PageInfo<OpenapiAppType> getOpenapiAppTypeList(OpenapiAppTypeListVO openapiAppTypeListVO) {
@@ -105,6 +111,27 @@ public class OpenapiAppTypeServiceImpl implements OpenapiAppTypeFacade {
             return resultVo;
         }
         resultVo.setSuccess(true);
+        return resultVo;
+    }
+
+    @Override
+    public ResultVo checkDeleteOpenapiAppType(OpenapiAppTypeDeleteVO openapiAppTypeDeleteVO) {
+        ResultVo resultVo=new ResultVo();
+        try {
+            if (openapiAppTypeDeleteVO==null||openapiAppTypeDeleteVO.getId()==null){
+                resultVo.setResultDes("参数不全");
+            }
+            Long id=openapiAppTypeDeleteVO.getId();
+            if (openapiAppMapper.selectCount(new OpenapiApp().setIsDelete(DataConstant.NO_DELETE).setTypeId(id))>0){
+                resultVo.setResultDes("有使用中的应用，不能删除该类型");
+                return resultVo;
+            }
+            resultVo.setSuccess(true);
+        }catch (Exception e){
+            resultVo.setResultDes("删除校验异常");
+            resultVo.setSuccess(false);
+            log.error("删除校验异常",e);
+        }
         return resultVo;
     }
 }

@@ -283,6 +283,9 @@ public class OpenapiAppServiceImpl implements OpenapiAppFacade {
                     .setModifyBy(userId);
             openapiBlackWhiteFacade.saveOpenapiBlackWhite(openapiBlackWhiteDto);
         }
+        OpenapiApp openapiApp=openapiAppMapper.selectByPrimaryKey(openapiAppSaveVO.getAppId());
+        cachesKeyService.deleteCache(OpenapiCacheEnum.OPENAPI_BY_APPID,openapiApp.getId().toString());
+        cachesKeyService.deleteCache(OpenapiCacheEnum.OPENAPI_BY_APPKEY,openapiApp.getAppKey());
         return 1;
     }
 

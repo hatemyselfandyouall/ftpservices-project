@@ -8,6 +8,7 @@ import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.mapper.OpenapiOrgShortnameMapper;
 import com.insigma.util.JSONUtil;
 import constant.DataConstant;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import star.bizbase.util.StringUtils;
@@ -76,6 +77,16 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
             resultVo.setResultDes("简称不能重复");
             return resultVo;
         }
+        example.clear();
+        criteria=example.createCriteria();
+        criteria.andEqualTo("orgCode",openapiOrgShortnameSaveVO.getOrgCode());
+        if (openapiOrgShortnameSaveVO.getId()!=null){
+            criteria.andNotEqualTo("id",openapiOrgShortnameSaveVO.getId());
+        }
+        if(openapiOrgShortnameMapper.selectCountByExample(example)>0){
+            resultVo.setResultDes("机构只能有一个简称");
+            return resultVo;
+        }
         OpenapiOrgShortname openapiOrgShortname= JSONUtil.convert(openapiOrgShortnameSaveVO,OpenapiOrgShortname.class);
         openapiOrgShortname.setModifyTime(new Date());
         if (openapiOrgShortname.getId()==null){
@@ -85,6 +96,13 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
             example=new Example(OpenapiOrgShortname.class);
             example.createCriteria().andEqualTo("id",openapiOrgShortname.getId());
              openapiOrgShortnameMapper.updateByExampleSelective(openapiOrgShortname,example);
+        }
+        List<OpenapiOrg> openapiOrgs=openapiOrgMapper.select(new OpenapiOrg().setOrgCode(openapiOrgShortname.getOrgCode()));
+        if (!CollectionUtils.isEmpty(openapiOrgs)){
+            openapiOrgs.forEach(i->{
+                i.setAbbreviation(openapiOrgShortname.getShortName());
+                openapiOrgMapper.updateByPrimaryKeySelective(i);
+            });
         }
         resultVo.setSuccess(true);
         resultVo.setResultDes("保存成功");

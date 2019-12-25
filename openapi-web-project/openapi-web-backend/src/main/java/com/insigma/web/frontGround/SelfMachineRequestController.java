@@ -4,6 +4,7 @@ package com.insigma.web.frontGround;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
+import com.insigma.facade.openapi.enums.OpenapiSelfmachineEnum;
 import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
@@ -32,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import star.bizbase.util.StringUtils;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +63,13 @@ public class SelfMachineRequestController {
         try {
             String tempString=Encrypt.desEncrypt(encodeString);
             OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO = JSONObject.parseObject(tempString, OpenapiSelfmachineRequestSaveVO.class);
+            log.info("调用获取token方法"+openapiSelfmachineRequestSaveVO);
+            String ipRoots= ServletAttributes.getRequest().getHeader("X-Forwarded-For");
+            String ip= ServletAttributes.getRequest().getHeader("X-Real-IP");
+            openapiSelfmachineRequestSaveVO.setIpSegment(ipRoots);
+            if (!StringUtils.isEmpty(ipRoots)) {
+                openapiSelfmachineRequestSaveVO.setIp(ip);
+            }
             if (StringUtils.isEmpty(openapiSelfmachineRequestSaveVO.getCertificate())){
                 resultVo.setResultDes("自助机请求接受错误:没有携带证书");
                 return resultVo;
@@ -70,22 +79,44 @@ public class SelfMachineRequestController {
                 resultVo.setResultDes("自助机请求接受错误:证书无效");
                 return resultVo;
             }
-            openapiSelfmachineRequestSaveVO.setUniqueCode(MD5Util.MD5Encode(openapiSelfmachineRequestSaveVO.getIp()+openapiSelfmachineRequestSaveVO.getMacAddress(),"UTF-8"));
+            openapiSelfmachineRequestSaveVO.setUniqueCode(MD5Util.md5Password(openapiSelfmachineRequestSaveVO.getIp()+"|"+openapiSelfmachineRequestSaveVO.getMacAddress()));
             OpenapiSelfmachineRequest openapiSelfmachine=openapiSelfmachineRequestFacade.getOpenapiSelfmachineRequestDetail(new OpenapiSelfmachineRequestDetailVO().setUniqueCode(openapiSelfmachineRequestSaveVO.getUniqueCode()));
             if (openapiSelfmachine==null){
-                openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg.getId());
-                resultVo.setResultDes("自助机审核中，请等待审核通过");
+                String machineCode=openapiSelfmachineFacade.saveSelfMachine(openapiSelfmachineRequestSaveVO,openapiOrg);
+                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode).setOrgCode(openapiOrg.getOrgCode()));
+                resultVo.setResultDes("自助机进入审核，请等待审核通过");
                 return resultVo;
+            }else {
+                openapiSelfmachineFacade.updateSelfMachine(openapiSelfmachineRequestSaveVO,openapiSelfmachine);
+            }
+            OpenapiSelfmachine tempMachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+            if (tempMachine==null){
+                resultVo.setResultDes("自助机请求接受异常:自助机不存在");
+                return resultVo;
+            }
+            if (OpenapiSelfmachineEnum.CANCEL.equals(tempMachine.getActiveStatu())){
+                if(openapiOrg.getId().equals(tempMachine.getOrgId())) {
+                    resultVo.setResultDes("自助机请求接受错误:自助机被注销");
+                    return resultVo;
+                }else {
+                    tempMachine.setOrgId(openapiOrg.getId());
+                    String machineCode=openapiSelfmachineFacade.reActivSelfMachine(tempMachine,openapiSelfmachine,openapiOrg);
+                    resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(machineCode).setOrgCode(openapiOrg.getOrgCode()));
+                    resultVo.setResultDes("自助机进入审核，请等待审核通过");
+                    return resultVo;
+                }
             }
             if (SelfMachineEnum.WHITE.equals(openapiSelfmachine.getStatu())){
                 OpenapiSelfmachineRequest tempRequest=openapiSelfmachineRequestFacade.createToken(openapiSelfmachine,openapiOrg);
-                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()));
+                resultVo.setResult(new SelfMachineRequestResultVO().setToken(tempRequest.getToken()).setMachineCode(tempRequest.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()).setOrgCode(openapiOrg.getOrgCode()));
                 resultVo.setSuccess(true);
+                log.info("自助机取得token"+openapiSelfmachineRequestSaveVO+tempRequest.getToken());
             }
             if (SelfMachineEnum.BLACK.equals(openapiSelfmachine.getStatu())){
                 resultVo.setResultDes("进入黑名单的自助机 不能取得token");
             }
             if (SelfMachineEnum.NOT_YET.equals(openapiSelfmachine.getStatu())){
+                resultVo.setResult(new SelfMachineRequestResultVO().setMachineCode(openapiSelfmachine.getMachineCode()).setMachineTypeId(tempMachine.getMachineTypeId()).setOrgCode(openapiOrg.getOrgCode()));
                 resultVo.setResultDes("自助机审核中，请等待审核通过");
             }
         }catch (Exception e){
@@ -141,16 +172,20 @@ public class SelfMachineRequestController {
 
     public static void main(String[] args) {
         OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
-        openapiSelfmachineRequestSaveVO.setAppKey("123");
-        openapiSelfmachineRequestSaveVO.setCertificate("123");
-        openapiSelfmachineRequestSaveVO.setIp("12345");
+//        openapiSelfmachineRequestSaveVO.setAppKey("123");
+        openapiSelfmachineRequestSaveVO.setCertificate("c6ae6cdcad6a859a447a3aca0f46d31f");
+        openapiSelfmachineRequestSaveVO.setIp("1234511612");
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
-        openapiSelfmachineRequestSaveVO.setMachineType("123");
+        openapiSelfmachineRequestSaveVO.setClientVersion("112111");
+        openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
+//        String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
+//        String md5=MD5Util.md5Password(result);
+//        openapiSelfmachineRequestSaveVO.setMd5Value("6f04a982dab609fde2cd2a69710eb355");
         String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }

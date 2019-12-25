@@ -9,12 +9,17 @@ import com.insigma.facade.openapi.facade.OpenapiMonitoringDataConfigFacade;
 import com.insigma.facade.openapi.po.OpenapiApp;
 import com.insigma.facade.openapi.po.OpenapiEarlyWarning;
 import com.insigma.facade.openapi.po.OpenapiMonitoringDataConfig;
+import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
+import com.insigma.util.AddLogUtil;
 import com.insigma.web.BasicController;
+import com.insigma.webtool.component.LoginComponent;
+import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import star.fw.web.util.ServletAttributes;
 import star.vo.result.ResultVo;
 
 
@@ -26,6 +31,12 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
 
     @Autowired
     private OpenapiMonitoringDataConfigFacade openapiMonitoringDataConfigFacade;
+
+    @Autowired
+    private LoginComponent loginComponent;
+
+    @Autowired
+    SysOperatelogRecordFacade sysOperatelogRecordFacade;
 
     @ApiOperation(value = "监控数据配置列表")
     @ResponseBody
@@ -41,6 +52,8 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
             }else {
                 resultVo.setResultDes("分页数据缺失");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"监控数据配置列表","监控数据配置列表", DataConstant.SYSTEM_NAME,"监控数据配置",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("获取监控数据配置列表异常");
             log.error("获取监控数据配置列表异常",e);
@@ -58,6 +71,8 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
             resultVo.setResult(openapiMonitoringDataConfigDto);
             resultVo.setSuccess(true);
             resultVo.setResultDes("获取监控数据配置详情成功");
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"监控数据配置详情","监控数据配置详情"+id, DataConstant.SYSTEM_NAME,"监控数据配置",sysOperatelogRecordFacade);
         } catch (Exception e){
             resultVo.setCode("400");
             resultVo.setResult("fail");
@@ -78,6 +93,8 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
             resultVo.setResult(openapiMonitoringDataConfigDto);
             resultVo.setSuccess(true);
             resultVo.setResultDes("根据接口id获取监控数据配置详情成功");
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"根据接口id查询监控数据配置详情","根据接口id查询监控数据配置详情"+interfaceId, DataConstant.SYSTEM_NAME,"监控数据配置",sysOperatelogRecordFacade);
         } catch (Exception e){
             resultVo.setCode("400");
             resultVo.setSuccess(false);
@@ -100,6 +117,8 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
             } else {
                 resultVo.setResultDes("监控数据配置保存失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"监控数据配置保存","监控数据配置保存"+flag, DataConstant.SYSTEM_NAME,"监控数据配置",sysOperatelogRecordFacade);
         }catch (Exception e){
                 resultVo.setResultDes("监控数据配置保存异常");
                 log.error("监控数据配置保存异常",e);
@@ -122,6 +141,8 @@ public class OpenapiMonitoringDataConfigController extends BasicController {
             } else {
                 resultVo.setResultDes("监控数据配置删除失败");
             }
+            AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
+                    ,"监控数据配置删除","监控数据配置删除"+openapiMonitoringDataConfigDto.getId(), DataConstant.SYSTEM_NAME,"监控数据配置",sysOperatelogRecordFacade);
         }catch (Exception e){
             resultVo.setResultDes("监控数据配置删除异常");
             log.error("监控数据配置删除异常",e);

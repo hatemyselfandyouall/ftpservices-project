@@ -37,6 +37,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
     OpenapiAppFacade openapiAppFacade;
     @Autowired
     InterfaceFacade interfaceFacade;
+
     /**
      * 根据条件查询审核信息列表
      * @param openapiAuditListVO
@@ -98,6 +99,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
             return null;
         };
         OpenapiAudit openapiAudit=openapiAuditMapper.selectByPrimaryKey(openapiAuditDetailVO.getId());
+       // openapiAuditDetailVO.getSaveVO().setOperateContent("根据id:"+openapiAudit.getId()+"查询审核详情");
         return openapiAudit;
     }
 
@@ -115,7 +117,8 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
         if (openapiAuditSaveVO.getIds()==null){
             openapiAudit.setATime(new Date());  //申请时间
             openapiAudit.setAuditStatus(2);    //新增时状态为待审核2
-            return openapiAuditMapper.insertSelective(openapiAudit);
+            openapiAuditMapper.insertSelective(openapiAudit);
+            return openapiAudit.getId().intValue();
         }else {   //批量审核
             if((openapiAuditSaveVO.getIds() != null) && openapiAuditSaveVO.getIds() .size()>0 ){
                 for (Integer id : openapiAuditSaveVO.getIds()){
@@ -141,7 +144,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
                 openapiAudit.setAuditor(openapiAuditSaveVO.getUserName());  //审核人
                 Example example=new Example(OpenapiAudit.class);
                 example.createCriteria().andIn("id",openapiAuditSaveVO.getIds());
-                return  openapiAuditMapper.updateByExampleSelective(openapiAudit,example);
+               return openapiAuditMapper.updateByExampleSelective(openapiAudit,example);
             }
           return 1;
         }

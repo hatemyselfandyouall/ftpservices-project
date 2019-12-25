@@ -1,10 +1,11 @@
 package com.insigma.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.insigma.facade.openapi.enums.OpenapiSelfmachineEnum;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
-import com.insigma.facade.openapi.po.OpenapiSelfmachineAddress;
-import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
+import com.insigma.facade.openapi.po.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
@@ -14,14 +15,15 @@ import com.insigma.facade.sysbase.vo.SysUserOrgDTO;
 import com.insigma.mapper.OpenapiSelfmachineAddressMapper;
 import com.insigma.mapper.OpenapiSelfmachineMapper;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
+import com.insigma.mapper.OpenapiSelfmachineTypeMapper;
 import com.insigma.util.JSONUtil;
 import constant.DataConstant;
 import lombok.experimental.Accessors;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.zookeeper.Op;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
-import com.insigma.facade.openapi.po.OpenapiSelfmachine;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +43,9 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
     SysUserFacade sysUserFacade;
     @Autowired
     SysOrgFacade sysOrgFacade;
+    @Autowired
+    OpenapiSelfmachineTypeMapper openapiSelfmachineTypeMapper;
+
 
     @Override
     public PageInfo<OpenapiSelfmachineShowVO> getOpenapiSelfmachineList(OpenapiSelfmachineListVO openapiSelfmachineListVO, Long userId) {
@@ -55,7 +60,18 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
                 openapiSelfmachineListVO.setOrgCode(orgCode);
             }
         }
+        PageHelper.startPage(openapiSelfmachineListVO.getPageNum().intValue(),openapiSelfmachineListVO.getPageSize().intValue());
         List<OpenapiSelfmachineShowVO> openapiSelfmachineRequestList=openapiSelfmachineMapper.getOpenapiSelfmachineList(openapiSelfmachineListVO);
+        openapiSelfmachineRequestList.forEach(i->{
+            if (i.getMachineTypeId()!=null){
+                OpenapiSelfmachineType openapiSelfmachineType=openapiSelfmachineTypeMapper.selectByPrimaryKey(i.getMachineTypeId());
+                i.setMachineType(openapiSelfmachineType!=null?openapiSelfmachineType.getName():"");
+            }
+                OpenapiSelfmachineAddress openapiSelfmachineAddress=openapiSelfmachineAddressMapper.selectByPrimaryKey(i.getMachineAddressId());
+                String temp=openapiSelfmachineAddress!=null?openapiSelfmachineAddress.getAddress():"";
+                temp=temp+" "+(i.getMachineAddress()!=null?i.getMachineAddress():"");
+                i.setFullAddress(temp);
+        });
         PageInfo<OpenapiSelfmachineShowVO> openapiSelfmachineRequestPageInfo=new PageInfo<>(openapiSelfmachineRequestList);
         return openapiSelfmachineRequestPageInfo;
     }
@@ -107,11 +123,17 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, Long id) {
+    public String saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiOrg openapiOrg) {
         OpenapiSelfmachine openapiSelfmachine=JSONUtil.convert(openapiSelfmachineRequestSaveVO,OpenapiSelfmachine.class);
-        openapiSelfmachineMapper.insertSelective(openapiSelfmachine.setOrgId(id));
+        openapiSelfmachine.setOrgName(openapiOrg.getOrgName());
+        openapiSelfmachineMapper.insertSelective(openapiSelfmachine.setOrgId(openapiOrg.getId()));
         OpenapiSelfmachineRequest openapiSelfmachineRequest=JSONUtil.convert(openapiSelfmachineRequestSaveVO,OpenapiSelfmachineRequest.class);
-        openapiSelfmachineRequestMapper.insertSelective(openapiSelfmachineRequest.setOrgId(id));
+        if (openapiSelfmachineRequest.getMachineCode()==null){
+            openapiSelfmachineRequest.setMachineCode(openapiSelfmachineRequestFacade.getInitMachineCode(openapiSelfmachineRequest,openapiOrg));
+        }
+        openapiSelfmachineRequest.setOrgName(openapiOrg.getOrgName()).setAppKey(openapiOrg.getAppKey());
+        openapiSelfmachineRequestMapper.insertSelective(openapiSelfmachineRequest.setOrgId(openapiOrg.getId()));
+        return openapiSelfmachineRequest.getMachineCode();
     }
 
     @Override
@@ -151,4 +173,27 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         example.createCriteria().andIn("id",openapiSelfmachineSetOrgVO.getIds());
         return openapiSelfmachineMapper.updateByExampleSelective(openapiSelfmachine,example);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO,OpenapiSelfmachineRequest openapiSelfmachine) {
+        openapiSelfmachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).
+                setIpSegment(openapiSelfmachineRequestSaveVO.getIpSegment());
+        OpenapiSelfmachine tempSelfMachine=openapiSelfmachineMapper.selectOne(new OpenapiSelfmachine().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+        tempSelfMachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).setSystemCode(openapiSelfmachineRequestSaveVO.getSystemCode());
+        openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachine);
+        openapiSelfmachineMapper.updateByPrimaryKeySelective(tempSelfMachine);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String reActivSelfMachine(OpenapiSelfmachine openapiSelfmachine, OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg){
+        openapiSelfmachine.setActiveStatu(OpenapiSelfmachineEnum.ACTIVE);
+        openapiSelfmachineMapper.updateByPrimaryKeySelective(openapiSelfmachine);
+        openapiSelfmachineRequest.setMachineCode(openapiSelfmachineRequestFacade.getInitMachineCode(openapiSelfmachineRequest,openapiOrg))
+        .setStatu(SelfMachineEnum.NOT_YET);
+        openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachineRequest);
+        return openapiSelfmachineRequest.getMachineCode();
+    }
+
 }

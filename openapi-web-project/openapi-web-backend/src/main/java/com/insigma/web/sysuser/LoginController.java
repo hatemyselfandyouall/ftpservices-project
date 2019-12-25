@@ -60,9 +60,9 @@ public class LoginController extends BasicController {
 //				ImageCodeUtil.clearImageCode(jedisService, sessionId);
 				SysUserDTO sysUser = sysUserFacade.getByLoginName(loginName);
 				if (sysUser != null) {
-					if(!"1".equals(sysUser.getUserType()) && !"3".equals(sysUser.getUserType())){
-						return result = Results.setResult(false, "此用户没有权限");
-					}
+//					if(!"1".equals(sysUser.getUserType()) && !"3".equals(sysUser.getUserType())){
+//						return result = Results.setResult(false, "此用户没有权限");
+//					}
 					if(!"1".equals(sysUser.getUserState())){
 						return result = Results.setResult(false, "用户状态异常");
 					}
@@ -130,6 +130,7 @@ public class LoginController extends BasicController {
 		ResultVo<String> result = Results.newResultVo();
 		if ("logout".equals(cmd)) {
 			CookieHelper.cancelCookie4Domains(CookieEnum.LOGIN.getValue());
+			CookieHelper.cancelCookie4Domains(CookieEnum.OAUTH_LOGIN.getValue());
 			ImageCodeUtil.clearImageCode(jedisService, request.getSession().getId());
 			result.setCode("0");
 	        result.setSuccess(true);

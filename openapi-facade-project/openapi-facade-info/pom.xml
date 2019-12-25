@@ -25,6 +25,14 @@
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper</artifactId>
     </dependency>
+      <dependency>
+          <groupId>insigma.sysbase.facade.log</groupId>
+          <artifactId>sysbase-facade-log</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+      </dependency>
 
   </dependencies>
 </project>
