@@ -123,7 +123,7 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiOrg openapiOrg) {
+    public synchronized String saveSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO, OpenapiOrg openapiOrg) {
         OpenapiSelfmachine openapiSelfmachine=JSONUtil.convert(openapiSelfmachineRequestSaveVO,OpenapiSelfmachine.class);
         openapiSelfmachine.setOrgName(openapiOrg.getOrgName());
         openapiSelfmachineMapper.insertSelective(openapiSelfmachine.setOrgId(openapiOrg.getId()));

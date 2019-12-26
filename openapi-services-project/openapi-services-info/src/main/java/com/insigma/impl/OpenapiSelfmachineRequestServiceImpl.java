@@ -82,8 +82,12 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         if (openapiSelfmachineRequestDetailVO==null) {
             return null;
         };
-        OpenapiSelfmachineRequest openapiSelfmachineRequest=openapiSelfmachineRequestMapper.selectOne(JSONUtil.convert(openapiSelfmachineRequestDetailVO,OpenapiSelfmachineRequest.class));
-        return openapiSelfmachineRequest;
+        List<OpenapiSelfmachineRequest> openapiSelfmachineRequest=openapiSelfmachineRequestMapper.select(JSONUtil.convert(openapiSelfmachineRequestDetailVO,OpenapiSelfmachineRequest.class));
+        if (!CollectionUtils.isEmpty(openapiSelfmachineRequest)){
+            return openapiSelfmachineRequest.get(0);
+        }else {
+            return null;
+        }
     }
 
     @Override
