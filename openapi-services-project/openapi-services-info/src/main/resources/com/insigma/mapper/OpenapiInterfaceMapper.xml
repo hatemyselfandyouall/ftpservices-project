@@ -72,7 +72,7 @@
     </select>
 
     <select id="interfacePublishingTrendByYear" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*)AS totalCount,MONTH(create_time) AS TIME FROM  `openapi_interface`
+        SELECT COUNT(*)AS totalCount,create_time AS TIME FROM  `openapi_interface`
      <where>
         YEAR(create_time)=YEAR(NOW())
          <if test="param.interfaceId!=null">
@@ -81,30 +81,34 @@
     </where>
 
         GROUP BY TIME
+        ORDER BY TIME desc
     </select>
 
     <select id="interfacePublishingTrendByWeek" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*) AS totalCount,DAYOFWEEK(create_time) AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
+        SELECT COUNT(*) AS totalCount,create_time AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
         GROUP BY TIME
+        ORDER BY TIME desc
     </select>
 
     <select id="interfacePublishingTrendByMonth" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time,'%d') AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
+        SELECT COUNT(*) AS totalCount,create_time AS TIME FROM `openapi_interface`  WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
         GROUP BY TIME
+        ORDER BY TIME desc
     </select>
 
     <select id="interfacePublishingTrendByDay" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
-        SELECT COUNT(*) AS totalCount,DATE_FORMAT(create_time, '%H') AS TIME FROM `openapi_interface`  WHERE TO_DAYS(create_time)=TO_DAYS(NOW())
+        SELECT COUNT(*) AS totalCount,create_time AS TIME FROM `openapi_interface`  WHERE TO_DAYS(create_time)=TO_DAYS(NOW())
         <if test="param.interfaceId!=null">
             and id=#{param.interfaceId}
         </if>
         GROUP BY TIME
+        ORDER BY TIME desc
     </select>
     <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiInterface">-->
     <!--INSERT INTO openapi_interface ( -->

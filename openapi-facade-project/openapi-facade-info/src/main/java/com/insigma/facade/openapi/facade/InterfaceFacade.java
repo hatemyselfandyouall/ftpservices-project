@@ -51,7 +51,7 @@ public interface InterfaceFacade {
 
     List<OpenapiInterfaceStaaticsFieldsVO> interfacePublishingTrendByDay(InterfaceStatisticsVO interfaceStatisticsVO);
 
-    OpenapiInterfaceStaaticsVO getTotalInterfaceTrendDetail(Integer staticType);
+    OpenapiInterfaceStaaticsVO getTotalInterfaceTrendDetail(InterfaceStatisticsVO interfaceStatisticsVO);
 
     List<OpenapiInterfaceShowVO> intiQueue();
 }

@@ -179,7 +179,7 @@ public class InterfaceStatisticsController extends BasicController {
                 default:
                     openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByYear(interfaceStatisticsVO);
             }
-            OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO=interfaceFacade.getTotalInterfaceTrendDetail(interfaceStatisticsVO.getStaticType());
+            OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO=interfaceFacade.getTotalInterfaceTrendDetail(interfaceStatisticsVO);
             openapiInterfaceStaaticsVO.setNewInterfaceCount(openapiInterfaceStaaticsVOS.stream().map(OpenapiInterfaceStaaticsFieldsVO::getTotalCount).reduce(0,(a,b)->a+b));
             openapiInterfaceStaaticsVO.setOpenapiInterfaceStaaticsFieldsVOS(openapiInterfaceStaaticsVOS);
             resultVo.setResult(openapiInterfaceStaaticsVO);

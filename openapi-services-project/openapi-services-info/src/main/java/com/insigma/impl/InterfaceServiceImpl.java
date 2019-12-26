@@ -608,11 +608,11 @@ public class InterfaceServiceImpl implements InterfaceFacade {
     }
 
     @Override
-    public OpenapiInterfaceStaaticsVO getTotalInterfaceTrendDetail(Integer staticType) {
+    public OpenapiInterfaceStaaticsVO getTotalInterfaceTrendDetail(InterfaceStatisticsVO interfaceStatisticsVO) {
         Integer totalCount = openapiInterfaceMapper.selectCount(new OpenapiInterface().setIsDelete(DataConstant.NO_DELETE));
         Example example = new Example(OpenapiInterface.class);
         Integer date;
-        switch (staticType) {
+        switch (interfaceStatisticsVO.getStaticType()) {
             case 1:
                 date = 1;
                 break;

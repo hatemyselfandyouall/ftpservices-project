@@ -32,8 +32,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="284e788c17c34f5fa64ce96607b682e6";
-        String testSecret="be45787cc1614372a3cd88c01818215a  ";
+        String testKey="60ffad41e17d4675a445845b47b6eb66";
+        String testSecret="1f1f314eae5f4ad9b431fd91e3d3a703  ";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -44,7 +44,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.94.238:10500/frontInterface/interface/6501";
+        String testUrl="http://openapibk.insigma.com:10500/api/frontInterface/interface/6501";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\n" +
