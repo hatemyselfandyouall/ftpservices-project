@@ -67,7 +67,11 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         PageHelper.startPage(openapiSelfmachineRequestListVO.getPageNum().intValue(),openapiSelfmachineRequestListVO.getPageSize().intValue());
         List<OpenapiSelfmachineRequest> openapiSelfmachineRequestList=openapiSelfmachineRequestMapper.selectByExample(example);
         openapiSelfmachineRequestList.forEach(i->{
-            OpenapiSelfmachine openapiSelfmachine= openapiSelfmachineMapper.selectOne(new OpenapiSelfmachine().setUniqueCode(i.getUniqueCode()));
+            OpenapiSelfmachine openapiSelfmachine=null;
+            List<OpenapiSelfmachine> openapiSelfmachines=openapiSelfmachineMapper.select(new OpenapiSelfmachine().setUniqueCode(i.getUniqueCode()));
+            if (!CollectionUtils.isEmpty(openapiSelfmachines)){
+                openapiSelfmachine=openapiSelfmachines.get(0);
+            }
             if (openapiSelfmachine!=null&&openapiSelfmachine.getMachineTypeId()!=null){
                 OpenapiSelfmachineType openapiSelfmachineType=openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachine.getMachineTypeId());
                 i.setMachineType(openapiSelfmachineType!=null?openapiSelfmachineType.getName():"");
@@ -136,7 +140,11 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         if (StringUtils.isEmpty(token)){
             return flag;
         }
-        OpenapiSelfmachineRequest openapiSelfmachineRequest=openapiSelfmachineRequestMapper.selectOne(new OpenapiSelfmachineRequest().setToken(token));
+        OpenapiSelfmachineRequest openapiSelfmachineRequest=null;
+        List<OpenapiSelfmachineRequest> openapiSelfmachines=openapiSelfmachineRequestMapper.select(new OpenapiSelfmachineRequest().setToken(token));
+        if (!CollectionUtils.isEmpty(openapiSelfmachines)){
+            openapiSelfmachineRequest=openapiSelfmachines.get(0);
+        }
         if (openapiSelfmachineRequest==null){
             return flag;
         }
@@ -153,7 +161,11 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         if (StringUtils.isEmpty(token)){
             return null;
         }
-        OpenapiSelfmachineRequest openapiSelfmachineRequest=openapiSelfmachineRequestMapper.selectOne(new OpenapiSelfmachineRequest().setToken(token));
+        OpenapiSelfmachineRequest openapiSelfmachineRequest=null;
+        List<OpenapiSelfmachineRequest> openapiSelfmachines=openapiSelfmachineRequestMapper.select(new OpenapiSelfmachineRequest().setToken(token));
+        if (!CollectionUtils.isEmpty(openapiSelfmachines)){
+            openapiSelfmachineRequest=openapiSelfmachines.get(0);
+        }
         if (openapiSelfmachineRequest==null){
             return null;
         }
