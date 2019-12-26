@@ -81,7 +81,7 @@
     </where>
 
         GROUP BY TIME
-        ORDER BY TIME desc
+        ORDER BY TIME
     </select>
 
     <select id="interfacePublishingTrendByWeek" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
@@ -90,7 +90,7 @@
             and id=#{param.interfaceId}
         </if>
         GROUP BY TIME
-        ORDER BY TIME desc
+        ORDER BY TIME
     </select>
 
     <select id="interfacePublishingTrendByMonth" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
@@ -99,7 +99,7 @@
             and id=#{param.interfaceId}
         </if>
         GROUP BY TIME
-        ORDER BY TIME desc
+        ORDER BY TIME
     </select>
 
     <select id="interfacePublishingTrendByDay" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
@@ -108,7 +108,7 @@
             and id=#{param.interfaceId}
         </if>
         GROUP BY TIME
-        ORDER BY TIME desc
+        ORDER BY TIME
     </select>
     <!--<insert id="insert" parameterType="com.insigma.facade.po.OpenapiInterface">-->
     <!--INSERT INTO openapi_interface ( -->
