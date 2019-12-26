@@ -72,7 +72,7 @@ public class OpenapiAuditServiceImpl implements OpenapiAuditFacade {
             criteria.andCondition("(interface_name like '%" + openapiAuditListVO.getKeyWord() + "%'" + "or contact like '%"
                     + openapiAuditListVO.getKeyWord() + "%')");
         }
-        if((openapiAuditListVO.getStartDate() != null) || (openapiAuditListVO.getEndDate() != null)){
+        if((openapiAuditListVO.getStartDate() != null) && (openapiAuditListVO.getEndDate() != null)){
             criteria.andBetween("aTime",openapiAuditListVO.getStartDate(),openapiAuditListVO.getEndDate());
         }
         List<OpenapiAudit> openapiAuditList=openapiAuditMapper.selectByExample(example);
