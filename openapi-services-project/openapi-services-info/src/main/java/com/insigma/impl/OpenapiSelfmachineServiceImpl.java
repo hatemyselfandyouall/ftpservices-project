@@ -81,7 +81,11 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         if (openapiSelfmachineDetailVO==null) {
             return null;
         };
-        OpenapiSelfmachine openapiSelfmachine=openapiSelfmachineMapper.selectOne(JSONUtil.convert(openapiSelfmachineDetailVO,OpenapiSelfmachine.class));
+        OpenapiSelfmachine openapiSelfmachine=null;
+        List<OpenapiSelfmachine> openapiSelfmachines=openapiSelfmachineMapper.select(JSONUtil.convert(openapiSelfmachineDetailVO,OpenapiSelfmachine.class));
+        if (!CollectionUtils.isEmpty(openapiSelfmachines)){
+            openapiSelfmachine=openapiSelfmachines.get(0);
+        }
         return openapiSelfmachine;
     }
 
@@ -145,7 +149,11 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         if (openapiSelfmachine==null){
             return 0;
         }
-        OpenapiSelfmachineRequest openapiSelfmachineRequest=openapiSelfmachineRequestMapper.selectOne(new OpenapiSelfmachineRequest().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+        OpenapiSelfmachineRequest openapiSelfmachineRequest=null;
+        List<OpenapiSelfmachineRequest> openapiSelfmachines=openapiSelfmachineRequestMapper.select(new OpenapiSelfmachineRequest().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+        if (!CollectionUtils.isEmpty(openapiSelfmachines)){
+            openapiSelfmachineRequest=openapiSelfmachines.get(0);
+        }
         if (openapiSelfmachineRequest==null){
             return 0;
         }
@@ -179,7 +187,11 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
     public void updateSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO,OpenapiSelfmachineRequest openapiSelfmachine) {
         openapiSelfmachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).
                 setIpSegment(openapiSelfmachineRequestSaveVO.getIpSegment());
-        OpenapiSelfmachine tempSelfMachine=openapiSelfmachineMapper.selectOne(new OpenapiSelfmachine().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+        OpenapiSelfmachine tempSelfMachine=null;
+        List<OpenapiSelfmachine> openapiSelfmachines=openapiSelfmachineMapper.select(new OpenapiSelfmachine().setUniqueCode(openapiSelfmachine.getUniqueCode()));
+        if (!CollectionUtils.isEmpty(openapiSelfmachines)){
+            tempSelfMachine=openapiSelfmachines.get(0);
+        }
         tempSelfMachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).setSystemCode(openapiSelfmachineRequestSaveVO.getSystemCode());
         openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachine);
         openapiSelfmachineMapper.updateByPrimaryKeySelective(tempSelfMachine);
