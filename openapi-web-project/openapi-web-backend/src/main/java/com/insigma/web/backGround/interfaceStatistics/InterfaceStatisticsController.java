@@ -10,12 +10,15 @@ import com.insigma.facade.operatelog.facade.SysOperatelogRecordFacade;
 import com.insigma.table.TableInfo;
 import com.insigma.util.AddLogUtil;
 import com.insigma.util.BIUtil;
+import com.insigma.util.DateUtils;
+import com.insigma.util.StringUtil;
 import com.insigma.web.BasicController;
 import com.insigma.webtool.component.LoginComponent;
 import constant.DataConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/interfaceStatistics")
@@ -179,6 +183,7 @@ public class InterfaceStatisticsController extends BasicController {
                 default:
                     openapiInterfaceStaaticsVOS=interfaceFacade.interfacePublishingTrendByYear(interfaceStatisticsVO);
             }
+//            openapiInterfaceStaaticsVOS=zeroCompensation(openapiInterfaceStaaticsVOS,interfaceStatisticsVO);
             OpenapiInterfaceStaaticsVO openapiInterfaceStaaticsVO=interfaceFacade.getTotalInterfaceTrendDetail(interfaceStatisticsVO);
             openapiInterfaceStaaticsVO.setNewInterfaceCount(openapiInterfaceStaaticsVOS.stream().map(OpenapiInterfaceStaaticsFieldsVO::getTotalCount).reduce(0,(a,b)->a+b));
             openapiInterfaceStaaticsVO.setOpenapiInterfaceStaaticsFieldsVOS(openapiInterfaceStaaticsVOS);
@@ -192,6 +197,30 @@ public class InterfaceStatisticsController extends BasicController {
         }
         return resultVo;
     }
+
+//    private List<OpenapiInterfaceStaaticsFieldsVO> zeroCompensation(List<OpenapiInterfaceStaaticsFieldsVO> openapiInterfaceStaaticsVOS, InterfaceStatisticsVO interfaceStatisticsVO) {
+//        Map<String,OpenapiInterfaceStaaticsFieldsVO> openapiInterfaceStaaticsFieldsVOMap;
+//        switch(interfaceStatisticsVO.getStaticType()){
+//            case 1:
+//                break;
+//            case 2:
+//                openapiInterfaceStaaticsFieldsVOMap=openapiInterfaceStaaticsVOS.stream().filter(i->i!=null&&!StringUtils.isEmpty(i.getTime())).collect(Collectors.toMap(i->i.getTime(),i->i));
+//                openapiInterfaceStaaticsVOS=createStaticsVObyDaysBefore(7);
+//                break;
+//            case 3:
+//                openapiInterfaceStaaticsFieldsVOMap=openapiInterfaceStaaticsVOS.stream().filter(i->i!=null&&!StringUtils.isEmpty(i.getTime())).collect(Collectors.toMap(i->i.getTime(),i->i));
+//                openapiInterfaceStaaticsVOS=createStaticsVObyDaysBefore(30);
+//                break;
+//            case 4:
+//                break;
+//            default:
+//        }
+//        return openapiInterfaceStaaticsVOS;
+//    }
+//
+//    private List<OpenapiInterfaceStaaticsFieldsVO> createStaticsVObyDaysBefore(int i) {
+//        DateUtils.
+//    }
 
 
     @ApiOperation(value = "接口调用概况-地区")
