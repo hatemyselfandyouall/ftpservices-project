@@ -158,7 +158,7 @@ public class InterfaceController extends BasicController {
 //            ResponseEntity result = RestTemplateUtil.postByMap(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, String.class);
             ResponseEntity result = BIUtil.postWithUrlParam(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, restTemplate);
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setResponseBody(result.toString());
-//            log.info("开始进行接口转发，返回值为" + result);
+            log.info("开始进行接口转发，返回值为" + result);
             return sendMessageBack(resultVo, result, cdGatewayRequestVO);
         } catch (Exception e) {
             resultVo.setResultDes("接口转发功能异常!原因为:" + e.getMessage());

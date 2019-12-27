@@ -186,13 +186,14 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
     @Transactional(rollbackFor = Exception.class)
     public void updateSelfMachine(OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO,OpenapiSelfmachineRequest openapiSelfmachine) {
         openapiSelfmachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).
-                setIpSegment(openapiSelfmachineRequestSaveVO.getIpSegment());
+                setIpSegment(openapiSelfmachineRequestSaveVO.getIpSegment()).setIp(openapiSelfmachineRequestSaveVO.getIp());
         OpenapiSelfmachine tempSelfMachine=null;
         List<OpenapiSelfmachine> openapiSelfmachines=openapiSelfmachineMapper.select(new OpenapiSelfmachine().setUniqueCode(openapiSelfmachine.getUniqueCode()));
         if (!CollectionUtils.isEmpty(openapiSelfmachines)){
             tempSelfMachine=openapiSelfmachines.get(0);
         }
-        tempSelfMachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).setSystemCode(openapiSelfmachineRequestSaveVO.getSystemCode());
+        tempSelfMachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).setSystemCode(openapiSelfmachineRequestSaveVO.getSystemCode())
+                .setIp(openapiSelfmachineRequestSaveVO.getIp());
         openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachine);
         openapiSelfmachineMapper.updateByPrimaryKeySelective(tempSelfMachine);
     }
