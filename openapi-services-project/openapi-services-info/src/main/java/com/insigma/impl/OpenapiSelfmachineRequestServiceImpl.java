@@ -4,8 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.insigma.enums.OpenapiCacheEnum;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
+import com.insigma.facade.openapi.enums.OpenapiSelfmachineEnum;
+import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
 import com.insigma.facade.openapi.po.*;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestListVO;
@@ -44,6 +47,8 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
     OpenapiSelfmachineMapper openapiSelfmachineMapper;
     @Autowired
     OpenapiSelfmachineTypeMapper openapiSelfmachineTypeMapper;
+    @Autowired
+    OpenapiSelfmachineFacade openapiSelfmachineFacade;
 
     @Override
     public PageInfo<OpenapiSelfmachineRequest> getOpenapiSelfmachineRequestList(OpenapiSelfmachineRequestListVO openapiSelfmachineRequestListVO) {
@@ -146,6 +151,10 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             openapiSelfmachineRequest=openapiSelfmachines.get(0);
         }
         if (openapiSelfmachineRequest==null){
+            return flag;
+        }
+        OpenapiSelfmachine openapiSelfmachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setUniqueCode(openapiSelfmachineRequest.getUniqueCode()));
+        if (openapiSelfmachine==null|| OpenapiSelfmachineEnum.CANCEL.equals(openapiSelfmachine.getActiveStatu())){
             return flag;
         }
         OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());

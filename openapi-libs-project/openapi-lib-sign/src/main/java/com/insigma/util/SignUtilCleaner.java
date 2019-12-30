@@ -44,7 +44,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://openapibk.insigma.com:10500/api/frontInterface/interface/6501";
+        String testUrl="http://10.85.94.238:10500/frontInterface/interface/6501";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\n" +
