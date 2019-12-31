@@ -189,13 +189,19 @@ public class InterfaceController extends BasicController {
     private Object sendMessageBack(ResultVo resultVo, ResponseEntity result, CdGatewayRequestVO cdGatewayRequestVO) {
         cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setResultCode(result.getStatusCode().value());
         if (result == null || !HttpStatus.OK.equals(result.getStatusCode())) {
-            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(0);
+            if (HttpStatus.GATEWAY_TIMEOUT.equals(result.getStatusCode())||HttpStatus.REQUEST_TIMEOUT.equals(result.getStatusCode())){
+                cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsOvertime(1);
+            }else {
+                cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsOvertime(0);
+            }
+                cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(0);
             resultVo.setResultDes("获得了异常的返回码！返回信息为：" + result);
             resultVo.setResult("获得了异常的返回码！返回信息为：" + result);
             resultVo.setSuccess(false);
             saveLog(cdGatewayRequestVO);
             return resultVo;
         } else {
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsOvertime(0);
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setIsForwardSuccess(1);
             saveLog(cdGatewayRequestVO);
             return result;
