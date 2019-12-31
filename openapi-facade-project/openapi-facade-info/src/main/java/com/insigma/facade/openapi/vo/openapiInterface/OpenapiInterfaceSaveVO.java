@@ -156,9 +156,6 @@ public class OpenapiInterfaceSaveVO implements Serializable {
     @Column( name="creator_id")
     private Long creatorId;
 
-    @ApiModelProperty("接口提供者类型")
-    @Column( name="interface_producer_type")
-    private String interfaceProducerType;
 
     @ApiModelProperty("开放权限1全部2白名单")
     @Column( name="open_access")

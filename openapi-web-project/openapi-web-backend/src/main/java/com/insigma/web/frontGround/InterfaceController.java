@@ -116,6 +116,9 @@ public class InterfaceController extends BasicController {
                 return resultVo;
             }
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequesterName(openapiApp.getName());
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setOrgNo(openapiApp.getOrgId()+"");
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setOrgName(openapiApp.getOrgName());
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setArea(openapiApp.getArea());
             if (CollectionUtils.isEmpty(openapiApp.getOpenapiInterfaces())){
                 log.error("该应用没有任何接口" + paramString);
                 resultVo.setResultDes("该应用没有任何接口！");
@@ -135,6 +138,8 @@ public class InterfaceController extends BasicController {
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceProducerName(openapiInterface.getProviderName());
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceProducerType(openapiInterface.getProviderType());
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setTradeNo(openapiInterface.getCommandCode());
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceId(openapiInterface.getId());
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setInterfaceName(openapiInterface.getName());
             String appSecret = openapiApp.getAppSecret();
             JSONObject checkSignResult = SignUtil.checkSign(paramString, appKey, time, nonceStr, signature, encodeType, appSecret);
             if (checkSignResult.getInteger("flag") != 1) {
@@ -156,7 +161,9 @@ public class InterfaceController extends BasicController {
             OpenapiInterfaceInnerUrl openapiInterfaceInnerUrl= LoadBalanceUtils.selector(innerUrls,randomWay,ip);
             log.info("开始进行接口转发，目标url为" + openapiInterfaceInnerUrl.getInnerUrl() + ",参数为" + paramsJSON);
 //            ResponseEntity result = RestTemplateUtil.postByMap(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, String.class);
+            Date start=new Date();
             ResponseEntity result = BIUtil.postWithUrlParam(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, restTemplate);
+            cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequestUseTime((int)(long)(new Date().getTime()-start.getTime()));
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setResponseBody(result.toString());
             log.info("开始进行接口转发，返回值为" + result);
             return sendMessageBack(resultVo, result, cdGatewayRequestVO);
