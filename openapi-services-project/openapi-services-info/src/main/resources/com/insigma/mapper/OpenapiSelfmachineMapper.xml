@@ -15,6 +15,8 @@
         <result property="statu" column="statu" />
         <result property="activeStatu" column="active_statu" />
         <result property="clientVersion" column="client_version" />
+        <result property="qtVersion" column="qt_version" />
+        <result property="httpVersion" column="http_version" />
         <result property="machineCode" column="machine_code" />
         <result property="machineAddressId" column="machine_address_id" />
         <result property="machineAddress" column="machine_address" />
