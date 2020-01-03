@@ -52,7 +52,7 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
 
     @Override
     public OpenapiOrgShortname getOpenapiOrgShortnameDetail(OpenapiOrgShortnameDetailVO openapiOrgShortnameDetailVO) {
-        if (openapiOrgShortnameDetailVO==null||openapiOrgShortnameDetailVO.getId()==null) {
+        if (openapiOrgShortnameDetailVO==null) {
             return null;
         };
         List<OpenapiOrgShortname> openapiOrgShortnames=openapiOrgShortnameMapper.select(new OpenapiOrgShortname().setOrgCode(openapiOrgShortnameDetailVO.getOrgCode()).setId(openapiOrgShortnameDetailVO.getId()));
