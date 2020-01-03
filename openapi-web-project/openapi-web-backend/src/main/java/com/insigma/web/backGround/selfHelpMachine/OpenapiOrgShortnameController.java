@@ -82,6 +82,7 @@ public class OpenapiOrgShortnameController extends BasicController {
         return resultVo;
     }
 
+
     @ApiOperation(value = "机构简称保存")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     public ResultVo<OpenapiOrgShortname> saveOpenapiOrgShortname(@RequestBody OpenapiOrgShortnameSaveVO openapiOrgShortnameSaveVO){

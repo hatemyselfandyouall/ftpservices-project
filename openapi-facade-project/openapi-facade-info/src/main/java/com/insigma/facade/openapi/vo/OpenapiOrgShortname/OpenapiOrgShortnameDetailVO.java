@@ -15,4 +15,8 @@ public class OpenapiOrgShortnameDetailVO implements Serializable {
     @Column( name="id")
     private Long id;
 
+    @ApiModelProperty("")
+    @Column( name="org_code")
+    private String orgCode;
+
 }

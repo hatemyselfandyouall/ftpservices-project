@@ -55,8 +55,12 @@ public class OpenapiOrgShortnameServiceImpl implements OpenapiOrgShortnameFacade
         if (openapiOrgShortnameDetailVO==null||openapiOrgShortnameDetailVO.getId()==null) {
             return null;
         };
-        OpenapiOrgShortname openapiOrgShortname=openapiOrgShortnameMapper.selectByPrimaryKey(openapiOrgShortnameDetailVO.getId());
-        return openapiOrgShortname;
+        List<OpenapiOrgShortname> openapiOrgShortnames=openapiOrgShortnameMapper.select(new OpenapiOrgShortname().setOrgCode(openapiOrgShortnameDetailVO.getOrgCode()).setId(openapiOrgShortnameDetailVO.getId()));
+        if (!CollectionUtils.isEmpty(openapiOrgShortnames)) {
+            return openapiOrgShortnames.get(0);
+        }else {
+            return null;
+        }
     }
 
     @Override
