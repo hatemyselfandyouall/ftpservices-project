@@ -72,6 +72,10 @@ public class OpenapiSelfmachineRequest implements Serializable{
     @Column( name="token")
     private String token;
 
+    @ApiModelProperty("")
+    @Column( name="old_token")
+    private String oldToken;
+
     @ApiModelProperty("状态")
     @Column( name="statu")
     private SelfMachineEnum statu;
@@ -81,6 +85,13 @@ public class OpenapiSelfmachineRequest implements Serializable{
     @Column( name="client_version")
     private String clientVersion;
 
+    @ApiModelProperty("qt版本")
+    @Column( name="qt_version")
+    private String qtVersion;
+
+    @ApiModelProperty("http版本")
+    @Column( name="http_version")
+    private String httpVersion;
 
     @ApiModelProperty("机构名")
     @Column( name="org_name")

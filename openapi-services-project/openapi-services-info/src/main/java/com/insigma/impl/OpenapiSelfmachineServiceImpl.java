@@ -193,7 +193,7 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
             tempSelfMachine=openapiSelfmachines.get(0);
         }
         tempSelfMachine.setClientVersion(openapiSelfmachineRequestSaveVO.getClientVersion()).setSystemCode(openapiSelfmachineRequestSaveVO.getSystemCode())
-                .setIp(openapiSelfmachineRequestSaveVO.getIp());
+                .setIp(openapiSelfmachineRequestSaveVO.getIp()).setHttpVersion(openapiSelfmachineRequestSaveVO.getHttpVersion()).setQtVersion(openapiSelfmachineRequestSaveVO.getQtVersion());
         openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachine);
         openapiSelfmachineMapper.updateByPrimaryKeySelective(tempSelfMachine);
     }

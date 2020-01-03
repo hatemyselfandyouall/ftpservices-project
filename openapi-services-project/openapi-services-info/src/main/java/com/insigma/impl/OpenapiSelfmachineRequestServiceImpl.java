@@ -132,6 +132,7 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             @Override
             protected Object doGetList(BaseCacheEnum type, String key){
                 String token=UUID.randomUUID().toString().replaceAll("-","");
+                openapiSelfmachineRequest.setOldToken(openapiSelfmachineRequest.getToken());
                 openapiSelfmachineRequest.setToken(token);
                 openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachineRequest);
                 return openapiSelfmachineRequest;
@@ -146,7 +147,9 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             return flag;
         }
         OpenapiSelfmachineRequest openapiSelfmachineRequest=null;
-        List<OpenapiSelfmachineRequest> openapiSelfmachines=openapiSelfmachineRequestMapper.select(new OpenapiSelfmachineRequest().setToken(token));
+        Example example=new Example(OpenapiSelfmachineRequest.class);
+        example.createCriteria().andCondition("token = '"+token+"' or old_token ='"+token+"'");
+        List<OpenapiSelfmachineRequest> openapiSelfmachines=openapiSelfmachineRequestMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(openapiSelfmachines)){
             openapiSelfmachineRequest=openapiSelfmachines.get(0);
         }
@@ -156,12 +159,14 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         OpenapiSelfmachine openapiSelfmachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setUniqueCode(openapiSelfmachineRequest.getUniqueCode()));
         if (openapiSelfmachine==null|| OpenapiSelfmachineEnum.CANCEL.equals(openapiSelfmachine.getActiveStatu())){
             return flag;
+        }else {
+            return true;
         }
-        OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());
-        if (openapiSelfmachineRequest1!=null&&token.equals(openapiSelfmachineRequest1.getToken())){
-            flag=true;
-        }
-        return flag;
+//        OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());
+//        if (openapiSelfmachineRequest1!=null&&(token.equals(openapiSelfmachineRequest1.getToken())||token.equals(openapiSelfmachineRequest1.getOldToken()))){
+//            flag=true;
+//        }
+//        return flag;
     }
 
     @Override

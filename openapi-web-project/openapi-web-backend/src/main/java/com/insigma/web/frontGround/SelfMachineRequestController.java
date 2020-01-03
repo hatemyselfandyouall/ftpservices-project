@@ -178,6 +178,8 @@ public class SelfMachineRequestController {
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
         openapiSelfmachineRequestSaveVO.setClientVersion("112111");
         openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
+        openapiSelfmachineRequestSaveVO.setQtVersion("123");
+        openapiSelfmachineRequestSaveVO.setHttpVersion("123http");
 //        String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
 //        String md5=MD5Util.md5Password(result);
 //        openapiSelfmachineRequestSaveVO.setMd5Value("6f04a982dab609fde2cd2a69710eb355");
@@ -185,7 +187,7 @@ public class SelfMachineRequestController {
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }

@@ -56,4 +56,12 @@ public class OpenapiSelfmachineRequestSaveVO implements Serializable {
     @ApiModelProperty("ip段")
     @Column( name="ip_segment")
     private String ipSegment;
+
+    @ApiModelProperty("qt版本")
+    @Column( name="qt_version")
+    private String qtVersion;
+
+    @ApiModelProperty("http版本")
+    @Column( name="http_version")
+    private String httpVersion;
 }

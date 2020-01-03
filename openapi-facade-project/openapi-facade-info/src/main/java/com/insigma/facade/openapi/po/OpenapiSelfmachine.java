@@ -82,4 +82,13 @@ public class OpenapiSelfmachine implements Serializable{
     @ApiModelProperty("客户端版本")
     @Column( name="client_version")
     private String clientVersion;
+
+    @ApiModelProperty("qt版本")
+    @Column( name="qt_version")
+    private String qtVersion;
+
+
+    @ApiModelProperty("http版本")
+    @Column( name="http_version")
+    private String httpVersion;
 }
