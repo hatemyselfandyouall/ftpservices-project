@@ -97,9 +97,8 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
             openapiOrg.setCertificateKey(key);
             openapiOrg.setAppKey(appKey);
             openapiOrg.setAppSecret(appSecret);
-            openapiOrg.setSortNumber(OpenapiOrgMapper.selectCount(new OpenapiOrg().setOrgCode(openapiOrg.getOrgCode()))+1);
+            openapiOrg.setSortNumber(getCertCodeNumber(openapiOrg.getOrgCode()));
             openapiOrg.setCertificateCode(openapiOrg.getOrgCode()+ DateUtils.getStringCurrentDate()+ NumbersUtil.getSortNumber(openapiOrg.getSortNumber(),2));
-            openapiOrg.setCertCodeNumber(getCertCodeNumber(openapiOrg.getOrgCode()));
             return OpenapiOrgMapper.insertSelective(openapiOrg);
         }else {
             openapiOrg.setModifyId(userId);
@@ -113,7 +112,7 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
 
     private Integer getCertCodeNumber(String orgCode) {
         List<OpenapiOrg> openapiOrgs=OpenapiOrgMapper.select(new OpenapiOrg().setOrgCode(orgCode));
-        Optional<Integer> number=openapiOrgs.stream().filter(i->i.getCertCodeNumber()!=null).max(Comparator.comparingInt(OpenapiOrg::getCertCodeNumber)).map(OpenapiOrg::getCertCodeNumber);
+        Optional<Integer> number=openapiOrgs.stream().filter(i->i.getSortNumber()!=null).max(Comparator.comparingInt(OpenapiOrg::getSortNumber)).map(OpenapiOrg::getSortNumber);
         return number.orElse(0)+1;
     }
 

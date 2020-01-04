@@ -19,6 +19,6 @@ public class NumbersUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getSortNumber(1,3));
+        System.out.println(getSortNumber(1999,3));
     }
 }

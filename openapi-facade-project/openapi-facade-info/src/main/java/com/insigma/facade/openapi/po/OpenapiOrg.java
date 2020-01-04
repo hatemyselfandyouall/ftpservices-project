@@ -124,12 +124,6 @@ public class OpenapiOrg implements Serializable{
     @Column( name="certificate_code")
     private String certificateCode;
 
-    @ApiModelProperty("证书编码序号")
-    @Column( name="cert_code_number")
-    private Integer certCodeNumber;
 
-    @ApiModelProperty("证书编码")
-    @Column( name="cert_code")
-    private String certCode;
 
 }
