@@ -100,6 +100,7 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
             openapiOrg.setAppSecret(appSecret);
             openapiOrg.setSortNumber(OpenapiOrgMapper.selectCount(new OpenapiOrg().setOrgCode(openapiOrg.getOrgCode()))+1);
             openapiOrg.setCertificateCode(openapiOrg.getOrgCode()+ DateUtils.getStringCurrentDate()+ NumbersUtil.getSortNumber(openapiOrg.getSortNumber(),2));
+//            openapiOrg.setCertCodeNumber(getCertCodeNumber())
             return OpenapiOrgMapper.insertSelective(openapiOrg);
         }else {
             openapiOrg.setModifyId(userId);

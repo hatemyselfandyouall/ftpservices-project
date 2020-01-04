@@ -128,7 +128,7 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
 
     @Override
     public OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg) {
-        return new CacheKeyLock(cachesKeyService, SysCacheTimeDMO.CACHETIMEOUT_30M){
+        return new CacheKeyLock(cachesKeyService,5){
             @Override
             protected Object doGetList(BaseCacheEnum type, String key){
                 String token=UUID.randomUUID().toString().replaceAll("-","");
@@ -159,14 +159,12 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         OpenapiSelfmachine openapiSelfmachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setUniqueCode(openapiSelfmachineRequest.getUniqueCode()));
         if (openapiSelfmachine==null|| OpenapiSelfmachineEnum.CANCEL.equals(openapiSelfmachine.getActiveStatu())){
             return flag;
-        }else {
-            return true;
         }
-//        OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());
-//        if (openapiSelfmachineRequest1!=null&&(token.equals(openapiSelfmachineRequest1.getToken())||token.equals(openapiSelfmachineRequest1.getOldToken()))){
-//            flag=true;
-//        }
-//        return flag;
+        OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());
+        if (openapiSelfmachineRequest1!=null&&(token.equals(openapiSelfmachineRequest1.getToken())||token.equals(openapiSelfmachineRequest1.getOldToken()))){
+            flag=true;
+        }
+        return flag;
     }
 
     @Override
