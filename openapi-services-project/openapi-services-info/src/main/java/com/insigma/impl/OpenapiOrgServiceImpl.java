@@ -24,9 +24,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 import com.insigma.facade.openapi.facade.OpenapiOrgFacade;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -100,7 +99,7 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
             openapiOrg.setAppSecret(appSecret);
             openapiOrg.setSortNumber(OpenapiOrgMapper.selectCount(new OpenapiOrg().setOrgCode(openapiOrg.getOrgCode()))+1);
             openapiOrg.setCertificateCode(openapiOrg.getOrgCode()+ DateUtils.getStringCurrentDate()+ NumbersUtil.getSortNumber(openapiOrg.getSortNumber(),2));
-//            openapiOrg.setCertCodeNumber(getCertCodeNumber())
+            openapiOrg.setCertCodeNumber(getCertCodeNumber(openapiOrg.getOrgCode()));
             return OpenapiOrgMapper.insertSelective(openapiOrg);
         }else {
             openapiOrg.setModifyId(userId);
@@ -110,6 +109,12 @@ public class OpenapiOrgServiceImpl implements OpenapiOrgFacade {
             example.createCriteria().andEqualTo("id",openapiOrg.getId());
             return OpenapiOrgMapper.updateByExampleSelective(openapiOrg,example);
         }
+    }
+
+    private Integer getCertCodeNumber(String orgCode) {
+        List<OpenapiOrg> openapiOrgs=OpenapiOrgMapper.select(new OpenapiOrg().setOrgCode(orgCode));
+        Optional<Integer> number=openapiOrgs.stream().filter(i->i.getCertCodeNumber()!=null).max(Comparator.comparingInt(OpenapiOrg::getCertCodeNumber)).map(OpenapiOrg::getCertCodeNumber);
+        return number.orElse(0)+1;
     }
 
     @Override

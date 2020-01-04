@@ -27,6 +27,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
@@ -168,7 +169,14 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
         OpenapiSelfmachine openapiSelfmachine=new OpenapiSelfmachine().setActiveStatu(openapiSelfmachineSetActiveStatusVO.getActiveStatu()).setRemark(openapiSelfmachineSetActiveStatusVO.getRemark());
         Example example=new Example(OpenapiSelfmachine.class);
         example.createCriteria().andIn("id",openapiSelfmachineSetActiveStatusVO.getIds());
-        return openapiSelfmachineMapper.updateByExampleSelective(openapiSelfmachine,example);
+        openapiSelfmachineMapper.updateByExampleSelective(openapiSelfmachine,example);
+        List<String> requestUnionCodess=openapiSelfmachineMapper.selectByExample(example)
+                .stream().map(OpenapiSelfmachine::getUniqueCode).collect(Collectors.toList());
+        OpenapiSelfmachineRequest openapiSelfmachineRequest=new OpenapiSelfmachineRequest().setStatu(SelfMachineEnum.NOT_YET);
+        example=new Example(OpenapiSelfmachineRequest.class);
+        example.createCriteria().andIn("uniqueCode",requestUnionCodess);
+        openapiSelfmachineRequestMapper.updateByExampleSelective(openapiSelfmachineRequest,example);
+        return 1;
     }
 
     @Override

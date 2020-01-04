@@ -67,12 +67,8 @@ public class OpenapiOrgShortnameController extends BasicController {
         ResultVo resultVo=new ResultVo();
         try {
         OpenapiOrgShortname openapiOrgShortname=openapiOrgShortnameFacade.getOpenapiOrgShortnameDetail(openapiOrgShortnameDetailVO);
-        if(openapiOrgShortname!=null){
             resultVo.setResult(openapiOrgShortname);
             resultVo.setSuccess(true);
-        }else {
-            resultVo.setResultDes("获取详情失败");
-        }
             AddLogUtil.addLog(ServletAttributes.getRequest(),loginComponent.getLoginUserName(),loginComponent.getLoginUserId()
                     ,"机构简称详情","机构简称详情"+openapiOrgShortnameDetailVO.getId(), DataConstant.SYSTEM_NAME,"机构简称管理",sysOperatelogRecordFacade);
         } catch (Exception e){
