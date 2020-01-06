@@ -38,6 +38,19 @@ public class OpenapiSelfmachineAddress implements Serializable{
     @Column( name="org_code")
     private String orgCode;
 
+
+    @ApiModelProperty("省")
+    @Column( name="province")
+    private String province;
+
+    @ApiModelProperty("市")
+    @Column( name="city")
+    private String city;
+
+    @ApiModelProperty("区")
+    @Column( name="district")
+    private String district;
+
     @ApiModelProperty("")
     @Column( name="address")
     private String address;

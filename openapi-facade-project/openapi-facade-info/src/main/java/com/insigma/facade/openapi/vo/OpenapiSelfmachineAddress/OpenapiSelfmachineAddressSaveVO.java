@@ -19,6 +19,18 @@ public class OpenapiSelfmachineAddressSaveVO implements Serializable {
     @Column( name="address")
     private String address;
 
+    @ApiModelProperty("省")
+    @Column( name="province")
+    private String province;
+
+    @ApiModelProperty("市")
+    @Column( name="city")
+    private String city;
+
+    @ApiModelProperty("区")
+    @Column( name="district")
+    private String district;
+
     @ApiModelProperty("最近一次使用为1，其他0")
     @Column( name="is_last_used")
     private Integer isLastUsed;
