@@ -33,7 +33,10 @@ public class OpenapiSelfmachineAddressServiceImpl implements OpenapiSelfmachineA
             criteria.andEqualTo("userId",userId);
         }
         if (!StringUtils.isEmpty(openapiSelfmachineAddressListVO.getAddress())){
-            criteria.andLike("address","%"+openapiSelfmachineAddressListVO.getAddress()+"%");
+            criteria.andCondition("( address like ('%"+openapiSelfmachineAddressListVO.getAddress()+"%') " +
+                    "or province like ('%"+openapiSelfmachineAddressListVO.getAddress()+"%') "
+            +"or district like ('%"+openapiSelfmachineAddressListVO.getAddress()+"%') "
+                    +"or city like ('%"+openapiSelfmachineAddressListVO.getAddress()+"%') )");
         }
         criteria.andEqualTo("isDelete", DataConstant.NO_DELETE);
         PageHelper.startPage(openapiSelfmachineAddressListVO.getPageNum().intValue(),openapiSelfmachineAddressListVO.getPageSize().intValue());
