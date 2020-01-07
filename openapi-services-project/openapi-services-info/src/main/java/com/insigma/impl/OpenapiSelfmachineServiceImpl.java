@@ -69,7 +69,7 @@ public class OpenapiSelfmachineServiceImpl implements OpenapiSelfmachineFacade {
                 i.setMachineType(openapiSelfmachineType!=null?openapiSelfmachineType.getName():"");
             }
                 OpenapiSelfmachineAddress openapiSelfmachineAddress=openapiSelfmachineAddressMapper.selectByPrimaryKey(i.getMachineAddressId());
-                String temp=openapiSelfmachineAddress!=null?openapiSelfmachineAddress.getAddress():"";
+                String temp=openapiSelfmachineAddress!=null?openapiSelfmachineAddress.getProvince()+openapiSelfmachineAddress.getCity()+openapiSelfmachineAddress.getDistrict()+openapiSelfmachineAddress.getAddress():"";
                 temp=temp+" "+(i.getMachineAddress()!=null?i.getMachineAddress():"");
                 i.setFullAddress(temp);
         });
