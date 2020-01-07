@@ -33,4 +33,9 @@ public class OpenapiSelfmachineShowVO extends OpenapiSelfmachine implements Seri
 
     @ApiModelProperty("完整地址")
     private String fullAddress;
+
+    @ApiModelProperty("临时地址+详细地址")
+    private String tempAddress;
+
 }
+
