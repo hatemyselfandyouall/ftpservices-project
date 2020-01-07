@@ -128,7 +128,7 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
 
     @Override
     public OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg) {
-        return new CacheKeyLock(cachesKeyService,5){
+        return new CacheKeyLock(cachesKeyService,SysCacheTimeDMO.CACHETIMEOUT_30M){
             @Override
             protected Object doGetList(BaseCacheEnum type, String key){
                 String token=UUID.randomUUID().toString().replaceAll("-","");
