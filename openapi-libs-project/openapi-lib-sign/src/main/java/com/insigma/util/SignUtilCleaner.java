@@ -32,8 +32,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="e69ec838d7bc4b9cbe8ce99a9c70971a";
-        String testSecret="54c5c5114c5e41f8ba22fac5a9c81912";
+        String testKey="284e788c17c34f5fa64ce96607b682e6";
+        String testSecret="be45787cc1614372a3cd88c01818215a";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -44,7 +44,7 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/focusdata-7401";
+        String testUrl="http://10.85.94.238:10500/frontInterface/interface/testLog";
         postTest(haeder,param,testUrl);
     }
     private static String paramString="{\n" +

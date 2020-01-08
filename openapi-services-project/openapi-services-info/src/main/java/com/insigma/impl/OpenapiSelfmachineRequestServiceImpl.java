@@ -128,16 +128,17 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
 
     @Override
     public OpenapiSelfmachineRequest createToken(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg) {
+        String token=UUID.randomUUID().toString().replaceAll("-","");
         return new CacheKeyLock(cachesKeyService,SysCacheTimeDMO.CACHETIMEOUT_30M){
             @Override
             protected Object doGetList(BaseCacheEnum type, String key){
-                String token=UUID.randomUUID().toString().replaceAll("-","");
                 openapiSelfmachineRequest.setOldToken(openapiSelfmachineRequest.getToken());
                 openapiSelfmachineRequest.setToken(token);
                 openapiSelfmachineRequestMapper.updateByPrimaryKeySelective(openapiSelfmachineRequest);
+                cachesKeyService.putInCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getOldToken(),openapiSelfmachineRequest,SysCacheTimeDMO.CACHETIMEOUT_1H);
                 return openapiSelfmachineRequest;
             }
-        }.getCache(OpenapiCacheEnum.REQUEST_TOKEN, openapiSelfmachineRequest.getUniqueCode());
+        }.getCache(OpenapiCacheEnum.REQUEST_TOKEN, openapiSelfmachineRequest.getToken());
     }
 
     @Override
@@ -160,8 +161,9 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         if (openapiSelfmachine==null|| OpenapiSelfmachineEnum.CANCEL.equals(openapiSelfmachine.getActiveStatu())){
             return flag;
         }
-        OpenapiSelfmachineRequest openapiSelfmachineRequest1=cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getUniqueCode());
-        if (openapiSelfmachineRequest1!=null&&(token.equals(openapiSelfmachineRequest1.getToken())||token.equals(openapiSelfmachineRequest1.getOldToken()))){
+
+        if ( cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getToken())!=null||
+                cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getOldToken())!=null){
             flag=true;
         }
         return flag;

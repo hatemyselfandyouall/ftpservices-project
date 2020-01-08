@@ -74,7 +74,7 @@
     <select id="interfacePublishingTrendByYear" resultType="com.insigma.facade.openapi.vo.openapiInterface.OpenapiInterfaceStaaticsFieldsVO">
         SELECT COUNT(*)AS totalCount,DATE_FORMAT(create_time,'%Y-%m') AS TIME FROM  `openapi_interface`
      <where>
-        YEAR(create_time)=YEAR(NOW())
+         DATE_SUB(CURDATE(), INTERVAL 365 DAY) &lt;= create_time
          <if test="param.interfaceId!=null">
          and id=#{param.interfaceId}
          </if>

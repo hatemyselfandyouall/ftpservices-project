@@ -174,7 +174,7 @@ public class SelfMachineRequestController {
         OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
 //        openapiSelfmachineRequestSaveVO.setAppKey("123");
         openapiSelfmachineRequestSaveVO.setCertificate("c6ae6cdcad6a859a447a3aca0f46d31f");
-        openapiSelfmachineRequestSaveVO.setIp("1234511612");
+        openapiSelfmachineRequestSaveVO.setIp("12345116121");
         openapiSelfmachineRequestSaveVO.setMacAddress("123");
         openapiSelfmachineRequestSaveVO.setClientVersion("112111");
         openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
@@ -187,12 +187,12 @@ public class SelfMachineRequestController {
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
         JSONObject resultJSON=JSONObject.parseObject(responseEntity.getBody());
         String token=resultJSON.getJSONObject("result").getString("token");
-        responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/testToken?token="+token,
+        responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/testToken?token="+token,
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }
