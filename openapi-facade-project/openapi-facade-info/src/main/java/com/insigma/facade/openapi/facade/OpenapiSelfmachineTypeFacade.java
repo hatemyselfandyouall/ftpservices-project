@@ -8,6 +8,8 @@ import com.insigma.facade.openapi.vo.OpenapiSelfmachineType.OpenapiSelfmachineTy
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineType.OpenapiSelfmachineTypeListVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineType.OpenapiSelfmachineTypeSaveVO;
 
+import java.util.List;
+
 
 public interface OpenapiSelfmachineTypeFacade{
 
@@ -20,6 +22,8 @@ public interface OpenapiSelfmachineTypeFacade{
     Integer deleteOpenapiSelfmachineType(OpenapiSelfmachineTypeDeleteVO deleteVO,Long userId);
 
     Integer checkDelete(OpenapiSelfmachineTypeDeleteVO openapiSelfmachineTypeDeleteVO);
+
+    List<OpenapiSelfmachineType> getAllTypes();
 }
 
  

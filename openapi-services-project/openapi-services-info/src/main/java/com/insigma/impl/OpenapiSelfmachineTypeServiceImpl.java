@@ -101,4 +101,10 @@ public class OpenapiSelfmachineTypeServiceImpl implements OpenapiSelfmachineType
             return 1;
         }
     }
+
+    @Override
+    public List<OpenapiSelfmachineType> getAllTypes() {
+        List<OpenapiSelfmachineType> openapiSelfmachineTypes=openapiSelfmachineTypeMapper.select(new OpenapiSelfmachineType().setIsDelete(DataConstant.NO_DELETE));
+        return openapiSelfmachineTypes;
+    }
 }
