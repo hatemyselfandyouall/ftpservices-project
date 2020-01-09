@@ -162,11 +162,11 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             return flag;
         }
 
-        if ( cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getToken())!=null||
-                cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getOldToken())!=null){
-            flag=true;
-        }
-        return flag;
+//        if ( cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getToken())!=null||
+//                cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getOldToken())!=null){
+//            flag=true;
+//        }
+        return true;
     }
 
     @Override

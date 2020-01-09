@@ -184,15 +184,16 @@ public class SelfMachineRequestController {
 //        String md5=MD5Util.md5Password(result);
 //        openapiSelfmachineRequestSaveVO.setMd5Value("6f04a982dab609fde2cd2a69710eb355");
         String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
+        result="{\"certificate\":\"c6ae6cdcad6a859a447a3aca0f46d31f\",\"clientVersion\":\"0.0.4\",\"ip\":\"192.168.1.103\",\"macAddress\":\"1C-1B-0D-C7-6E-B7\",\"systemCode\":\"Windows 7\"}";
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.57:16666/api/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
         JSONObject resultJSON=JSONObject.parseObject(responseEntity.getBody());
         String token=resultJSON.getJSONObject("result").getString("token");
-        responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/testToken?token="+token,
+        responseEntity=restTemplate.postForEntity("http://10.85.94.57:16666/api/selfMachineRequest/testToken?token="+token,
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }
