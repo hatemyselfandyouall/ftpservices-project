@@ -188,12 +188,12 @@ public class SelfMachineRequestController {
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.57:16666/api/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
         JSONObject resultJSON=JSONObject.parseObject(responseEntity.getBody());
         String token=resultJSON.getJSONObject("result").getString("token");
-        responseEntity=restTemplate.postForEntity("http://10.85.94.57:16666/api/selfMachineRequest/testToken?token="+token,
+        responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/testToken?token="+token,
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }
