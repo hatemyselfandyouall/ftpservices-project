@@ -148,6 +148,7 @@ public class LoginController extends BasicController {
 		ResultVo<String> result = Results.newResultVo();
 		String userName=loginComponent.getLoginUserName();
 		result.setResult(userName);
+		result.setSuccess(true);
 		return result;
 	}
 }
