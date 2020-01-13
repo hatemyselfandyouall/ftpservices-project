@@ -5,10 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.insigma.facade.openapi.dto.SelfMachineOrgDTO;
 import com.insigma.facade.openapi.po.OpenapiOrg;
 import com.insigma.facade.openapi.po.OpenapiSelfmachineRequest;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestListVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.*;
 
 
 public interface OpenapiSelfmachineRequestFacade{
@@ -29,7 +26,10 @@ public interface OpenapiSelfmachineRequestFacade{
 
     SelfMachineOrgDTO getOrgByToken(String token);
 
+    OpenapiSelfmachineDetailShowVO getDetailByToken(String token);
+
     String getInitMachineCode(OpenapiSelfmachineRequest openapiSelfmachineRequest, OpenapiOrg openapiOrg);
+
 }
 
  

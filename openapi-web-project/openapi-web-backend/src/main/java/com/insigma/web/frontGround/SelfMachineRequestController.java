@@ -11,6 +11,7 @@ import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
 import com.insigma.facade.openapi.po.*;
 import com.insigma.facade.openapi.vo.OpenapiApp.OpenapiAppShowDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineDetailVO;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineDetailShowVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDetailVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.SelfMachineRequestResultVO;
@@ -155,6 +156,27 @@ public class SelfMachineRequestController {
             if (selfMachineOrgDTO!=null){
                 resultVo.setSuccess(true);
                 resultVo.setResult(selfMachineOrgDTO);
+                resultVo.setResultDes("token验证通过");
+            }else {
+                resultVo.setResultDes("token验证未通过");
+            }
+        }catch (Exception e){
+            log.error("自助机请求接受异常",e);
+            resultVo.setResultDes("自助机请求接受异常");
+        }
+        return resultVo;
+    }
+
+    @ApiOperation(value = "自助机请求")
+    @RequestMapping(value = {"/getDetailByToken"}, method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public ResultVo getDetailByToken(
+            @RequestParam("token") String token) {
+        ResultVo resultVo=new ResultVo();
+        try {
+            OpenapiSelfmachineDetailShowVO openapiSelfmachineDetailShowVO=openapiSelfmachineRequestFacade.getDetailByToken(token);
+            if (openapiSelfmachineDetailShowVO!=null){
+                resultVo.setSuccess(true);
+                resultVo.setResult(openapiSelfmachineDetailShowVO);
                 resultVo.setResultDes("token验证通过");
             }else {
                 resultVo.setResultDes("token验证未通过");

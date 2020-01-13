@@ -9,17 +9,16 @@ import com.insigma.facade.openapi.facade.OpenapiSelfmachineFacade;
 import com.insigma.facade.openapi.facade.OpenapiSelfmachineRequestFacade;
 import com.insigma.facade.openapi.po.*;
 import com.insigma.facade.openapi.vo.OpenapiSelfmachine.OpenapiSelfmachineDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDeleteVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestDetailVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestListVO;
-import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.OpenapiSelfmachineRequestSaveVO;
+import com.insigma.facade.openapi.vo.OpenapiSelfmachineRequest.*;
 import com.insigma.mapper.OpenapiOrgMapper;
 import com.insigma.mapper.OpenapiSelfmachineMapper;
 import com.insigma.mapper.OpenapiSelfmachineRequestMapper;
 import com.insigma.mapper.OpenapiSelfmachineTypeMapper;
 import com.insigma.util.DateUtils;
 import com.insigma.util.JSONUtil;
+import com.insigma.util.MybatisUtil;
 import com.insigma.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import star.bizbase.util.StringUtils;
@@ -33,6 +32,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.*;
 
 
+@Slf4j
 public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineRequestFacade {
 
     @Autowired
@@ -196,6 +196,28 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             selfMachineOrgDTO=new SelfMachineOrgDTO().setOrgCode(openapiOrg.getOrgCode()).setOrgName(openapiOrg.getOrgName());
         }
         return selfMachineOrgDTO;
+    }
+
+    @Override
+    public OpenapiSelfmachineDetailShowVO getDetailByToken(String token) {
+        Example example=new Example(OpenapiSelfmachineRequest.class);
+        example.createCriteria().andCondition("token = '"+token+"' or old_token ='"+token+"'");
+        OpenapiSelfmachineRequest openapiSelfmachineRequest=MybatisUtil.SelectOne(example,openapiSelfmachineRequestMapper);
+        if (openapiSelfmachineRequest==null){
+            log.info("无此自助机");
+            return null;
+        }
+        OpenapiOrg openapiOrg=MybatisUtil.SelectOne(new OpenapiOrg().setId(openapiSelfmachineRequest.getId()),openapiOrgMapper);
+        OpenapiSelfmachine openapiSelfmachine=MybatisUtil.SelectOne(new OpenapiSelfmachine().setUniqueCode(openapiSelfmachineRequest.getUniqueCode()),openapiSelfmachineMapper);
+        OpenapiSelfmachineDetailShowVO openapiSelfmachineDetailShowVO=new OpenapiSelfmachineDetailShowVO();
+        openapiSelfmachineDetailShowVO.setOrgCode(openapiOrg.getOrgCode())
+                .setOrgName(openapiOrg.getOrgName())
+                .setAreaId(openapiOrg.getAreaId())
+                .setAreaName(openapiOrg.getAreaName())
+                .setMachineTypeId(openapiSelfmachine.getMachineTypeId())
+                .setMachineTypeName(MybatisUtil.SelectOne(new OpenapiSelfmachineType().setId(openapiSelfmachine.getMachineTypeId()),openapiSelfmachineTypeMapper).getName());
+//        MybatisUtil.SelectOne(new OpenapiSelfmachineRequest(),openapiSelfmachineRequestMapper);
+        return openapiSelfmachineDetailShowVO;
     }
 
 
