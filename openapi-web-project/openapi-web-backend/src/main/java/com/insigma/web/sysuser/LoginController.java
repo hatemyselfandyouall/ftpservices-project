@@ -139,4 +139,15 @@ public class LoginController extends BasicController {
 		return result;
 	}
 
+	/**
+	 * 获取登录信息
+	 */
+	@ResponseBody
+	@RequestMapping(value = { "/getUserMsg" })
+	public ResultVo<String> getUserMsg() {
+		ResultVo<String> result = Results.newResultVo();
+		String userName=loginComponent.getLoginUserName();
+		result.setResult(userName);
+		return result;
+	}
 }
