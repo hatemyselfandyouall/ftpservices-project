@@ -209,6 +209,14 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         }
         OpenapiOrg openapiOrg=MybatisUtil.SelectOne(new OpenapiOrg().setId(openapiSelfmachineRequest.getId()),openapiOrgMapper);
         OpenapiSelfmachine openapiSelfmachine=MybatisUtil.SelectOne(new OpenapiSelfmachine().setUniqueCode(openapiSelfmachineRequest.getUniqueCode()),openapiSelfmachineMapper);
+        if (openapiOrg==null){
+            log.info("不能找到对应机构");
+            return null;
+        }
+        if (openapiSelfmachine==null){
+            log.info("无此自助机1");
+            return null;
+        }
         OpenapiSelfmachineDetailShowVO openapiSelfmachineDetailShowVO=new OpenapiSelfmachineDetailShowVO();
         openapiSelfmachineDetailShowVO.setOrgCode(openapiOrg.getOrgCode())
                 .setOrgName(openapiOrg.getOrgName())
