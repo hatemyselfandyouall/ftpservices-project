@@ -207,7 +207,7 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             log.info("无此自助机");
             return null;
         }
-        OpenapiOrg openapiOrg=MybatisUtil.SelectOne(new OpenapiOrg().setId(openapiSelfmachineRequest.getId()),openapiOrgMapper);
+        OpenapiOrg openapiOrg=MybatisUtil.SelectOne(new OpenapiOrg().setId(openapiSelfmachineRequest.getOrgId()),openapiOrgMapper);
         OpenapiSelfmachine openapiSelfmachine=MybatisUtil.SelectOne(new OpenapiSelfmachine().setUniqueCode(openapiSelfmachineRequest.getUniqueCode()),openapiSelfmachineMapper);
         if (openapiOrg==null){
             log.info("不能找到对应机构");
@@ -218,12 +218,13 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
             return null;
         }
         OpenapiSelfmachineDetailShowVO openapiSelfmachineDetailShowVO=new OpenapiSelfmachineDetailShowVO();
+        OpenapiSelfmachineType openapiSelfmachineType=openapiSelfmachineTypeMapper.selectByPrimaryKey(openapiSelfmachine.getMachineTypeId());
         openapiSelfmachineDetailShowVO.setOrgCode(openapiOrg.getOrgCode())
                 .setOrgName(openapiOrg.getOrgName())
                 .setAreaId(openapiOrg.getAreaId())
                 .setAreaName(openapiOrg.getAreaName())
                 .setMachineTypeId(openapiSelfmachine.getMachineTypeId())
-                .setMachineTypeName(MybatisUtil.SelectOne(new OpenapiSelfmachineType().setId(openapiSelfmachine.getMachineTypeId()),openapiSelfmachineTypeMapper).getName());
+                .setMachineTypeName(openapiSelfmachineType!=null?openapiSelfmachineType.getName():"");
 //        MybatisUtil.SelectOne(new OpenapiSelfmachineRequest(),openapiSelfmachineRequestMapper);
         return openapiSelfmachineDetailShowVO;
     }

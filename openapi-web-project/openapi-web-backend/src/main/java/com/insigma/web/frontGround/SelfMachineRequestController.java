@@ -177,9 +177,9 @@ public class SelfMachineRequestController {
             if (openapiSelfmachineDetailShowVO!=null){
                 resultVo.setSuccess(true);
                 resultVo.setResult(openapiSelfmachineDetailShowVO);
-                resultVo.setResultDes("token验证通过");
+                resultVo.setResultDes("token取得数据");
             }else {
-                resultVo.setResultDes("token验证未通过");
+                resultVo.setResultDes("未取得数据");
             }
         }catch (Exception e){
             log.error("自助机请求接受异常",e);
@@ -210,12 +210,12 @@ public class SelfMachineRequestController {
         System.out.println(result);
         System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
                 null,String.class);
         System.out.println(responseEntity.getBody());
         JSONObject resultJSON=JSONObject.parseObject(responseEntity.getBody());
         String token=resultJSON.getJSONObject("result").getString("token");
-        responseEntity=restTemplate.postForEntity("http://10.85.94.238:10500/selfMachineRequest/testToken?token="+token,
+        responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/testToken?token="+token,
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }
