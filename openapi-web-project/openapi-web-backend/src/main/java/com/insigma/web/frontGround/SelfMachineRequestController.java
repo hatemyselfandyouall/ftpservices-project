@@ -193,29 +193,30 @@ public class SelfMachineRequestController {
     }
 
     public static void main(String[] args) {
-        OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
-//        openapiSelfmachineRequestSaveVO.setAppKey("123");
-        openapiSelfmachineRequestSaveVO.setCertificate("c6ae6cdcad6a859a447a3aca0f46d31f");
-        openapiSelfmachineRequestSaveVO.setIp("12345116121");
-        openapiSelfmachineRequestSaveVO.setMacAddress("123");
-        openapiSelfmachineRequestSaveVO.setClientVersion("112111");
-        openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
-        openapiSelfmachineRequestSaveVO.setQtVersion("123");
-        openapiSelfmachineRequestSaveVO.setHttpVersion("123http");
+//        OpenapiSelfmachineRequestSaveVO openapiSelfmachineRequestSaveVO=new OpenapiSelfmachineRequestSaveVO();
+////        openapiSelfmachineRequestSaveVO.setAppKey("123");
+//        openapiSelfmachineRequestSaveVO.setCertificate("c6ae6cdcad6a859a447a3aca0f46d31f");
+//        openapiSelfmachineRequestSaveVO.setIp("12345116121");
+//        openapiSelfmachineRequestSaveVO.setMacAddress("123");
+//        openapiSelfmachineRequestSaveVO.setClientVersion("112111");
+//        openapiSelfmachineRequestSaveVO.setSystemCode("windows xp");
+//        openapiSelfmachineRequestSaveVO.setQtVersion("123");
+//        openapiSelfmachineRequestSaveVO.setHttpVersion("123http");
+////        String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
+////        String md5=MD5Util.md5Password(result);
+////        openapiSelfmachineRequestSaveVO.setMd5Value("6f04a982dab609fde2cd2a69710eb355");
 //        String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
-//        String md5=MD5Util.md5Password(result);
-//        openapiSelfmachineRequestSaveVO.setMd5Value("6f04a982dab609fde2cd2a69710eb355");
-        String result=JSONObject.toJSONString(openapiSelfmachineRequestSaveVO);
-        result="{\"certificate\":\"c6ae6cdcad6a859a447a3aca0f46d31f\",\"clientVersion\":\"0.0.4\",\"ip\":\"192.168.1.103\",\"macAddress\":\"1C-1B-0D-C7-6E-B7\",\"systemCode\":\"Windows 7\"}";
-        System.out.println(result);
-        System.out.println(Encrypt.encrypt(result));
+//        result="{\"certificate\":\"c6ae6cdcad6a859a447a3aca0f46d31f\",\"clientVersion\":\"0.0.4\",\"ip\":\"192.168.1.103\",\"macAddress\":\"1C-1B-0D-C7-6E-B7\",\"systemCode\":\"Windows 7\"}";
+//        System.out.println(result);
+//        System.out.println(Encrypt.encrypt(result));
         RestTemplate restTemplate=new RestTemplate();
-        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
-                null,String.class);
-        System.out.println(responseEntity.getBody());
-        JSONObject resultJSON=JSONObject.parseObject(responseEntity.getBody());
-        String token=resultJSON.getJSONObject("result").getString("token");
-        responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/testToken?token="+token,
+//        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://localhost:10500/selfMachineRequest/request?encodeString="+Encrypt.encrypt(result),
+//                null,String.class);
+//        System.out.println(responseEntity.getBody());
+//        JSONObject resultJSON=JSONObject.parseObject(responseEntity.getBody());
+//        String token=resultJSON.getJSONObject("result").getString("token");
+        String token="d942365d82cfdb999834199a3ca0f7";
+        ResponseEntity<String> responseEntity=restTemplate.postForEntity("http://openapibk.insigma.com:10500/api/selfMachineRequest/testToken?token="+token,
                 null,String.class);
         System.out.println(responseEntity.getBody());
     }

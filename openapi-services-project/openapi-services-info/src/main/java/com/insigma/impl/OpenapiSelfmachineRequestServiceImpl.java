@@ -163,13 +163,15 @@ public class OpenapiSelfmachineRequestServiceImpl implements OpenapiSelfmachineR
         OpenapiSelfmachine openapiSelfmachine=openapiSelfmachineFacade.getOpenapiSelfmachineDetail(new OpenapiSelfmachineDetailVO().setUniqueCode(openapiSelfmachineRequest.getUniqueCode()));
         if (openapiSelfmachine==null|| OpenapiSelfmachineEnum.CANCEL.equals(openapiSelfmachine.getActiveStatu())){
             return flag;
+        }else {
+            return true;
         }
 
-        if ( cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getToken())!=null||
-                cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getOldToken())!=null){
-            flag=  true;
-        }
-        return flag;
+//        if ( cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getToken())!=null||
+//                cachesKeyService.getFromCache(OpenapiCacheEnum.REQUEST_TOKEN,openapiSelfmachineRequest.getOldToken())!=null){
+//            flag=  true;
+//        }
+//        return flag;
     }
 
     @Override
