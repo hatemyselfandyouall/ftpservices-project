@@ -159,10 +159,14 @@ public class InterfaceController extends BasicController {
             }
             String  randomWay=openapiDictionaryFacade.getValueByCode(DataConstant.RANDOM_ALGORITHM);
             OpenapiInterfaceInnerUrl openapiInterfaceInnerUrl= LoadBalanceUtils.selector(innerUrls,randomWay,ip);
-            log.info("开始进行接口转发，目标url为" + openapiInterfaceInnerUrl.getInnerUrl() + ",参数为" + paramsJSON);
+            String innerurl=openapiInterfaceInnerUrl.getInnerUrl();
+            log.info("开始进行接口转发，目标url为" + innerurl + ",参数为" + paramsJSON);
 //            ResponseEntity result = RestTemplateUtil.postByMap(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, String.class);
             Date start=new Date();
-            ResponseEntity result = BIUtil.postWithUrlParam(openapiInterfaceInnerUrl.getInnerUrl(), paramsJSON, restTemplate);
+            if (!StringUtils.isEmpty(innerurl)){
+                innerurl=innerurl.trim();
+            }
+            ResponseEntity result = BIUtil.postWithUrlParam(innerurl, paramsJSON, restTemplate);
             cdGatewayRequestVO.getCdGatewayRequestDetailBdSaveVO().setRequestUseTime((int)(long)(new Date().getTime()-start.getTime()));
             cdGatewayRequestVO.getCdGatewayRequestBodyBdSaveVO().setResponseBody(result.toString());
             log.info("开始进行接口转发，返回值为" + result);
