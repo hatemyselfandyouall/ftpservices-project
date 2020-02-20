@@ -162,16 +162,16 @@ public class UpstreamCacheManager {
     }
 
     private boolean checkUrl(String heartUrl){
-        boolean flag=false;
-        try {
-            RestTemplate restTemplate=new RestTemplate();
-            ResponseEntity<String> responseEntity= restTemplate.getForEntity(heartUrl,String.class);
-            if (responseEntity.getStatusCode().is2xxSuccessful()){
-                flag=true;
-            }
-        }catch (Exception e){
-            log.error("心跳检测异常"+e.getMessage());
-        }
+        boolean flag=true;
+//        try {
+//            RestTemplate restTemplate=new RestTemplate();
+//            ResponseEntity<String> responseEntity= restTemplate.getForEntity(heartUrl,String.class);
+//            if (responseEntity.getStatusCode().is2xxSuccessful()){
+//                flag=true;
+//            }
+//        }catch (Exception e){
+//            log.error("心跳检测异常"+e.getMessage());
+//        }
         return flag;
     }
     /**

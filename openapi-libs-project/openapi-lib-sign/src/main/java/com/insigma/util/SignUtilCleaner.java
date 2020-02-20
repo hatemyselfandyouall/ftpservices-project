@@ -32,8 +32,8 @@ public class SignUtilCleaner {
         testMethod1();
     }
     private static void testMethod1(){
-        String testKey="284e788c17c34f5fa64ce96607b682e6";
-        String testSecret="be45787cc1614372a3cd88c01818215a";
+        String testKey="ef81a55d60e24bc7a07f4dadca0eda4d";
+        String testSecret="c73f2ac429d142cfbe3edd3de1d0d909";
         JSONObject haeder=new JSONObject(true);
         haeder.put("appKey",testKey);
         haeder.put("time", "20190729 21:01:35");
@@ -44,10 +44,10 @@ public class SignUtilCleaner {
         System.out.println(signature);
         haeder.put("signature",signature);
         param=getParamWithoutsignatureParam(param);
-        String testUrl="http://10.85.159.203:10500/frontInterface/interface/testLog";
+        String testUrl="http://10.85.94.57:16679/frontInterface/interface/6802";
         postTest(haeder,param,testUrl);
     }
-    private static String paramString="{\"id\":\"\",\"orgNo\":\"330522\",\"ver\":\"V1.0\",\"orgName\":\"湖州市长兴县\",\"inPut\":[{\"AGA001\":\"330599200106517278588\"}]}";
+    private static String paramString="{\"inPut\":[{\"AAC002\":\"330922199011020045\"}],\"ver\":\"V1.0\",\"orgName\":\"嵊泗县人民医院\",\"orgNo\":\"330900100006\",\"id\":\"\"}";
 
     public static void postTest(JSONObject haeder, Object paramJson,String testUrl) {
         RestTemplate restTemplate=new RestTemplate();
