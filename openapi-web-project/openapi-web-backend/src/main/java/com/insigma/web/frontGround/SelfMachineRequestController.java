@@ -168,7 +168,7 @@ public class SelfMachineRequestController {
     }
 
     @ApiOperation(value = "自助机请求")
-    @RequestMapping(value = {"/getDetailByToken"}, method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = {"/getDetailByToken"},  produces = {"application/json;charset=UTF-8"})
     public ResultVo getDetailByToken(
             @RequestParam("token") String token) {
         ResultVo resultVo=new ResultVo();
