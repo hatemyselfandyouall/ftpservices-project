@@ -56,10 +56,7 @@
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>insigma.fiscobcos.libs.sign</groupId>
-			<artifactId>fiscobcos-lib-sign</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>insigma.common</groupId>
 			<artifactId>insigma-common-cache</artifactId>
