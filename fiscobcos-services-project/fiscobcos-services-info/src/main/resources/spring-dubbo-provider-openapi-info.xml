@@ -14,76 +14,76 @@
 	<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.ProjectFacade" ref="projectImpl"-->
 	<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.InterfaceFacade" ref="interfaceServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.InterfaceFacade" ref="interfaceServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<!--<bean id="fiscobcosInterfaceGroupServiceImpl" class="com.insigma.impl.FiscobcosInterfaceGroupServiceImpl" />-->
-	<!--<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceGroupFacade" ref="fiscobcosInterfaceGroupServiceImpl"-->
-	<!--version="1.0.1.gzd" delay="-1" retries="0"  />-->
+<!--	&lt;!&ndash;<bean id="fiscobcosInterfaceGroupServiceImpl" class="com.insigma.impl.FiscobcosInterfaceGroupServiceImpl" />&ndash;&gt;-->
+<!--	&lt;!&ndash;<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceGroupFacade" ref="fiscobcosInterfaceGroupServiceImpl"&ndash;&gt;-->
+<!--	&lt;!&ndash;version="1.0.1.gzd" delay="-1" retries="0"  />&ndash;&gt;-->
 
-	<bean id="fiscobcosAppServiceImpl" class="com.insigma.impl.FiscobcosAppServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppFacade" ref="fiscobcosAppServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosAppServiceImpl" class="com.insigma.impl.FiscobcosAppServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppFacade" ref="fiscobcosAppServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosInterfaceTypeServiceImpl" class="com.insigma.impl.FiscobcosInterfaceTypeServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceTypeFacade" ref="fiscobcosInterfaceTypeServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosInterfaceTypeServiceImpl" class="com.insigma.impl.FiscobcosInterfaceTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceTypeFacade" ref="fiscobcosInterfaceTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosInterfaceHistoryServiceImpl" class="com.insigma.impl.FiscobcosInterfaceHistoryServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceHistoryFacade" ref="fiscobcosInterfaceHistoryServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosInterfaceHistoryServiceImpl" class="com.insigma.impl.FiscobcosInterfaceHistoryServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceHistoryFacade" ref="fiscobcosInterfaceHistoryServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosEarlyWarningServiceImpl" class="com.insigma.impl.FiscobcosEarlyWarningServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosEarlyWarningFacade" ref="fiscobcosEarlyWarningServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
-
-
-	<bean id="fiscobcosBlackWhiteServiceImpl" class="com.insigma.impl.FiscobcosBlackWhiteServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosBlackWhiteFacade" ref="fiscobcosBlackWhiteServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
-
-	<bean id="fiscobcosAuditServiceImpl" class="com.insigma.impl.FiscobcosAuditServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAuditFacade" ref="fiscobcosAuditServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
-
-	<bean id="fiscobcosAppTypeServiceImpl" class="com.insigma.impl.FiscobcosAppTypeServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppTypeFacade" ref="fiscobcosAppTypeServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
-
-	<bean id="fiscobcosAppInterfaceServiceImpl" class="com.insigma.impl.FiscobcosAppInterfaceServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppInterfaceFacade" ref="fiscobcosAppInterfaceServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
-
-	<bean id="fiscobcosMonitoringDataConfigServiceImpl" class="com.insigma.impl.FiscobcosMonitoringDataConfigServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosMonitoringDataConfigFacade" ref="fiscobcosMonitoringDataConfigServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosEarlyWarningServiceImpl" class="com.insigma.impl.FiscobcosEarlyWarningServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosEarlyWarningFacade" ref="fiscobcosEarlyWarningServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
 
-	<bean id="fiscobcosDictionaryServiceImpl" class="com.insigma.impl.FiscobcosDictionaryServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosDictionaryFacade" ref="fiscobcosDictionaryServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosBlackWhiteServiceImpl" class="com.insigma.impl.FiscobcosBlackWhiteServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosBlackWhiteFacade" ref="fiscobcosBlackWhiteServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosOrgServiceImpl" class="com.insigma.impl.FiscobcosOrgServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgFacade" ref="fiscobcosOrgServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosAuditServiceImpl" class="com.insigma.impl.FiscobcosAuditServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAuditFacade" ref="fiscobcosAuditServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosSelfmachineServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineFacade" ref="fiscobcosSelfmachineServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
-	<bean id="fiscobcosSelfmachineRequestServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineRequestServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineRequestFacade" ref="fiscobcosSelfmachineRequestServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosAppTypeServiceImpl" class="com.insigma.impl.FiscobcosAppTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppTypeFacade" ref="fiscobcosAppTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosOrgShortnameServiceImpl" class="com.insigma.impl.FiscobcosOrgShortnameServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgShortnameFacade" ref="fiscobcosOrgShortnameServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosAppInterfaceServiceImpl" class="com.insigma.impl.FiscobcosAppInterfaceServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppInterfaceFacade" ref="fiscobcosAppInterfaceServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosSelfmachineAddressServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineAddressServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineAddressFacade" ref="fiscobcosSelfmachineAddressServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+<!--	<bean id="fiscobcosMonitoringDataConfigServiceImpl" class="com.insigma.impl.FiscobcosMonitoringDataConfigServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosMonitoringDataConfigFacade" ref="fiscobcosMonitoringDataConfigServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 
-	<bean id="fiscobcosSelfmachineTypeServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineTypeServiceImpl" />
-	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineTypeFacade" ref="fiscobcosSelfmachineTypeServiceImpl"
-				   version="1.0.1.gzd" delay="-1" retries="0"  />
+
+<!--	<bean id="fiscobcosDictionaryServiceImpl" class="com.insigma.impl.FiscobcosDictionaryServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosDictionaryFacade" ref="fiscobcosDictionaryServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="fiscobcosOrgServiceImpl" class="com.insigma.impl.FiscobcosOrgServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgFacade" ref="fiscobcosOrgServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="fiscobcosSelfmachineServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineFacade" ref="fiscobcosSelfmachineServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+<!--	<bean id="fiscobcosSelfmachineRequestServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineRequestServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineRequestFacade" ref="fiscobcosSelfmachineRequestServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="fiscobcosOrgShortnameServiceImpl" class="com.insigma.impl.FiscobcosOrgShortnameServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgShortnameFacade" ref="fiscobcosOrgShortnameServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="fiscobcosSelfmachineAddressServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineAddressServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineAddressFacade" ref="fiscobcosSelfmachineAddressServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="fiscobcosSelfmachineTypeServiceImpl" class="com.insigma.impl.FiscobcosSelfmachineTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineTypeFacade" ref="fiscobcosSelfmachineTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
 </beans>

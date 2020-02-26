@@ -8,74 +8,74 @@
         ">
 	
 	<!-- fiscobcos -->
-	<dubbo:reference id="projectFacade" interface="com.insigma.facade.fiscobcos.ProjectFacade"
-		version="1.0.1.gzd" />
+<!--	<dubbo:reference id="projectFacade" interface="com.insigma.facade.fiscobcos.ProjectFacade"-->
+<!--		version="1.0.1.gzd" />-->
 
-	<dubbo:reference id="interfaceFacade" interface="com.insigma.facade.fiscobcos.facade.InterfaceFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="interfaceFacade" interface="com.insigma.facade.fiscobcos.facade.InterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
-	<!--<dubbo:reference id="fiscobcosInterfaceGroupFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceGroupFacade"-->
-					 <!--version="1.0.1.gzd" />-->
+<!--	&lt;!&ndash;<dubbo:reference id="fiscobcosInterfaceGroupFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceGroupFacade"&ndash;&gt;-->
+<!--					 &lt;!&ndash;version="1.0.1.gzd" />&ndash;&gt;-->
 
-	<!--用户模块-->
-	<dubbo:reference id="fiscobcosUserFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosUserFacade"
-					 version="1.0.1.gzd" />
+<!--	&lt;!&ndash;用户模块&ndash;&gt;-->
+<!--	<dubbo:reference id="fiscobcosUserFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosUserFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
-	<!--应用模块-->
-	<dubbo:reference id="fiscobcosAppFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppFacade"
-					 version="1.0.1.gzd" />
+<!--	&lt;!&ndash;应用模块&ndash;&gt;-->
+<!--	<dubbo:reference id="fiscobcosAppFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
-	<dubbo:reference id="fiscobcosInterfaceTypeFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceTypeFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosInterfaceTypeFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
-	<dubbo:reference id="fiscobcosInterfaceHistoryFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceHistoryFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosInterfaceHistoryFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosInterfaceHistoryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
-	<dubbo:reference id="fiscobcosAppTypeFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppTypeFacade"
-					 version="1.0.1.gzd" />
-	<!--yingy模块-->
-
-
-	<dubbo:reference id="fiscobcosEarlyWarningFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosEarlyWarningFacade"
-					 version="1.0.1.gzd" />
-
-	<dubbo:reference id="fiscobcosBlackWhiteFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosBlackWhiteFacade"
-					 version="1.0.1.gzd" />
-
-	<!--审核管理模块-->
-    <dubbo:reference id="fiscobcosAuditFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAuditFacade"
-                     version="1.0.1.gzd" />
-
-	<!--审核管理模块-->
-	<dubbo:reference id="fiscobcosAppInterfaceFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppInterfaceFacade"
-					 version="1.0.1.gzd" />
-
-	<!--审核管理模块-->
-	<dubbo:reference id="fiscobcosMonitoringDataConfigFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosMonitoringDataConfigFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosAppTypeFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+<!--	&lt;!&ndash;yingy模块&ndash;&gt;-->
 
 
-	<dubbo:reference id="fiscobcosDictionaryFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosDictionaryFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosEarlyWarningFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosEarlyWarningFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="fiscobcosBlackWhiteFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosBlackWhiteFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--    <dubbo:reference id="fiscobcosAuditFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAuditFacade"-->
+<!--                     version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="fiscobcosAppInterfaceFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosAppInterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="fiscobcosMonitoringDataConfigFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosMonitoringDataConfigFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
 
-	<dubbo:reference id="fiscobcosOrgFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgFacade"
-					 version="1.0.1.gzd" />
-
-	<dubbo:reference id="fiscobcosSelfmachineRequestFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineRequestFacade"
-					 version="1.0.1.gzd" />
-
-	<dubbo:reference id="fiscobcosSelfmachineFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosDictionaryFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosDictionaryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
 
-	<dubbo:reference id="fiscobcosOrgShortnameFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgShortnameFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosOrgFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
-	<dubbo:reference id="fiscobcosSelfmachineTypeFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineTypeFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosSelfmachineRequestFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineRequestFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
-	<dubbo:reference id="fiscobcosSelfmachineAddressFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineAddressFacade"
-					 version="1.0.1.gzd" />
+<!--	<dubbo:reference id="fiscobcosSelfmachineFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="fiscobcosOrgShortnameFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosOrgShortnameFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="fiscobcosSelfmachineTypeFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="fiscobcosSelfmachineAddressFacade" interface="com.insigma.facade.fiscobcos.facade.FiscobcosSelfmachineAddressFacade"-->
+<!--					 version="1.0.1.gzd" />-->
 
 </beans>
