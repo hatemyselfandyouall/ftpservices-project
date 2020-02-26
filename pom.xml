@@ -5,16 +5,16 @@
     <artifactId>insigma-parent</artifactId>
     <version>1.0.3</version>
   </parent>
-  <groupId>insigma.openapi</groupId>
-  <artifactId>openapi-project</artifactId>
+  <groupId>insigma.fiscobcos</groupId>
+  <artifactId>fiscobcos-project</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>openapi-project</name>
+  <name>fiscobcos-project</name>
   <modules>
-  	<module>openapi-facade-project</module>
-  	<module>openapi-libs-project</module>
-  	<module>openapi-services-project</module>
-	<module>openapi-web-project</module>
+  	<module>fiscobcos-facade-project</module>
+  	<module>fiscobcos-libs-project</module>
+  	<module>fiscobcos-services-project</module>
+	<module>fiscobcos-web-project</module>
   </modules>
   
   
@@ -43,8 +43,8 @@
 			</dependency>
 
 			<dependency>
-				<groupId>insigma.openapi.facade.info</groupId>
-				<artifactId>openapi-facade-info</artifactId>
+				<groupId>insigma.fiscobcos.facade.info</groupId>
+				<artifactId>fiscobcos-facade-info</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 
@@ -61,22 +61,18 @@
 			</dependency>
 			
 			 <dependency>
-				<groupId>insigma.openapi.libs.fineopenapi</groupId>
-  				<artifactId>openapi-lib-fineopenapi</artifactId>
+				<groupId>insigma.fiscobcos.libs.finefiscobcos</groupId>
+  				<artifactId>fiscobcos-lib-finefiscobcos</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			 <dependency>
-				<groupId>insigma.openapi.libs.base</groupId>
- 				 <artifactId>openapi-lib-base</artifactId>
+				<groupId>insigma.fiscobcos.libs.base</groupId>
+ 				 <artifactId>fiscobcos-lib-base</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
-			<dependency>
-				<groupId>insigma.openapi.libs.sign</groupId>
-				<artifactId>openapi-lib-sign</artifactId>
-				<version>1.0.1-SNAPSHOT</version>
-			</dependency>
+
 			
-			<!-- fineopenapi bgn -->
+			<!-- finefiscobcos bgn -->
 			<dependency>
 			    <groupId>com.fr</groupId>
 			    <artifactId>fr-chart</artifactId>
@@ -99,7 +95,7 @@
 			</dependency>
 			<dependency>
 			  <groupId>com.fr</groupId>
-			  <artifactId>fr-openapi</artifactId>
+			  <artifactId>fr-fiscobcos</artifactId>
 			  <version>8.0</version>
 			</dependency>
 			<dependency>
@@ -124,11 +120,11 @@
 			</dependency>
 			<dependency>
 			  <groupId>com.fr</groupId>
-			  <artifactId>plugin-com.fr.plugin.openapifit</artifactId>
+			  <artifactId>plugin-com.fr.plugin.fiscobcosfit</artifactId>
 			  <version>0</version>
 			</dependency>
 			
-			<!-- fineopenapi end -->
+			<!-- finefiscobcos end -->
 		    <dependency>
 				<groupId>insigma.common.facade.collection</groupId>
 				<artifactId>empcollection-facade-collection</artifactId>
@@ -233,6 +229,11 @@
 				<groupId>insigma.sysbase.facade.log</groupId>
 				<artifactId>sysbase-facade-log</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.fisco-bcos</groupId>
+				<artifactId>web3sdk</artifactId>
+				<version>2.1.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

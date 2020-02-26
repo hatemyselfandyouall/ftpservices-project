@@ -33,10 +33,7 @@
 			<groupId>insigma.common</groupId>
 			<artifactId>insigma-common-framework-web</artifactId>
 		</dependency>
-	  <dependency>
-		  <groupId>insigma.fiscobcos.libs.sign</groupId>
-		  <artifactId>fiscobcos-lib-sign</artifactId>
-	  </dependency>
+
 		 <!-- insigma-lib-bizbase -->
 		<dependency>
 			<groupId>insigma.common.lib.bizbase</groupId>
@@ -105,6 +102,11 @@
 		  <artifactId>sysbase-facade-log</artifactId>
 	  </dependency>
 
+
+	  <dependency>
+		  <groupId>org.fisco-bcos</groupId>
+		  <artifactId>web3sdk</artifactId>
+	  </dependency>
     </dependencies>
 
 	<build>
@@ -114,7 +116,7 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
 					<httpConnector>
-						<port>10500</port>
+						<port>10750</port>
 					</httpConnector>
 				</configuration>
 			</plugin>
