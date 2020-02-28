@@ -72,75 +72,8 @@
 			</dependency>
 
 			
-			<!-- finefiscobcos bgn -->
-			<dependency>
-			    <groupId>com.fr</groupId>
-			    <artifactId>fr-chart</artifactId>
-			    <version>8.0</version>
-			</dependency>
-			<dependency>
-			    <groupId>com.fr</groupId>
-			    <artifactId>fr-core</artifactId>
-			    <version>8.0</version>
-			</dependency>
-			<dependency>
-				  <groupId>com.fr</groupId>
-				  <artifactId>fr-performance</artifactId>
-				  <version>8.0</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fr</groupId>
-			  <artifactId>fr-platform</artifactId>
-			  <version>8.0</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fr</groupId>
-			  <artifactId>fr-fiscobcos</artifactId>
-			  <version>8.0</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fr</groupId>
-			  <artifactId>fr-third</artifactId>
-			  <version>8.0</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fr</groupId>
-			  <artifactId>plugin-com.fr.plugin.chart.vancharts</artifactId>
-			  <version>0</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fr</groupId>
-			  <artifactId>plugin-com.fr.plugin.chart.vancharts</artifactId>
-			  <version>1</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fr</groupId>
-			  <artifactId>plugin-com.fr.plugin.nativeprint</artifactId>
-			  <version>0</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.fr</groupId>
-			  <artifactId>plugin-com.fr.plugin.fiscobcosfit</artifactId>
-			  <version>0</version>
-			</dependency>
-			
-			<!-- finefiscobcos end -->
-		    <dependency>
-				<groupId>insigma.common.facade.collection</groupId>
-				<artifactId>empcollection-facade-collection</artifactId>
-				<version>1.0.1-SNAPSHOT</version>
-			</dependency>
-		 	<dependency>
-				<groupId>insigma.empparam.facade.info</groupId>
-  				<artifactId>empparam-facade-info</artifactId>
-				<version>1.0.1-SNAPSHOT</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>insigma.archive.facade.info</groupId>
-				<artifactId>archive-facade-info</artifactId>
-				<version>1.0.1-SNAPSHOT</version>
-			</dependency>
+
+
 
 
 			<dependency>
@@ -180,17 +113,8 @@
 				<version>1.3.0</version>
 			</dependency>
 
-			<dependency>
-				<groupId>insigma.ftp.facade.info</groupId>
-				<artifactId>ftp-facade-info</artifactId>
-				<version>1.0.1-SNAPSHOT</version>
-			</dependency>
 
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>2.3.1</version>
-			</dependency>
+
 
 			<dependency>
 				<groupId>insigma.common.libs.open</groupId>

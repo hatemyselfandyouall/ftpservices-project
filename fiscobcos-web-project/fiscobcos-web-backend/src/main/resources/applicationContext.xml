@@ -29,10 +29,10 @@
 <!--                            <value>10.85.94.238:10001</value>-->
 <!--                            <value>10.85.94.238:10002</value>-->
 <!--                            <value>10.85.94.238:10003</value>-->
-                            <value>10.85.159.54:20200</value>  <!-- IP:channel_port -->
-                            <value>10.85.159.55:20200</value>
-                            <value>10.85.159.56:20200</value>
-                            <value>10.85.159.57:20200</value>
+                            <value>10.85.159.203:20200</value>  <!-- IP:channel_port -->
+<!--                            <value>10.85.159.55:20200</value>-->
+<!--                            <value>10.85.159.56:20200</value>-->
+<!--                            <value>10.85.159.57:20200</value>-->
                         </list>
                     </property>
                 </bean>
