@@ -49,10 +49,7 @@
 			<artifactId>httpmime</artifactId>
 		</dependency>
 		
-		<dependency>
-			<groupId>insigma.empparam.facade.info</groupId>
- 				<artifactId>empparam-facade-info</artifactId>
-		</dependency>
+
 		
 		
 		
@@ -63,18 +60,7 @@
   			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>insigma.common.facade.collection</groupId>
-			<artifactId>empcollection-facade-collection</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>insigma.archive.facade.info</groupId>
-			  <artifactId>archive-facade-info</artifactId>
-		</dependency>
-	  <dependency>
-		  <groupId>insigma.ftp.facade.info</groupId>
-		  <artifactId>ftp-facade-info</artifactId>
-	  </dependency>
+
 
 	  <dependency>
 		  <groupId>insigma.clouddata.facade.info</groupId>
