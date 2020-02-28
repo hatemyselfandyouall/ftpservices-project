@@ -8,13 +8,6 @@
         ">
 	
 
-	<!--yingy模块-->
-	<dubbo:reference id="ftpManageFacade" interface="com.insigma.facade.ftp.FtpManageFacade"
-					 version="1.0.1" />
-
-	<!--yingy模块-->
-	<dubbo:reference id="cdGatewayRequestDetailBdFacade" interface="com.insigma.facade.facade.CdGatewayRequestDetailBdFacade"
-					 version="1.0.1" />
 
 	<!-- 系统用户 -->
 	<dubbo:reference id="sysUserFacade" interface="com.insigma.facade.sysbase.SysUserFacade"
