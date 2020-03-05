@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-         http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-         http://www.springframework.org/schema/aop
-    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
 
     <bean id="encryptType" class="org.fisco.bcos.web3j.crypto.EncryptType">
         <constructor-arg value="0"/> <!-- 0:standard 1:guomi -->
@@ -20,38 +15,23 @@
         <property name="sslCert" value="sdk.crt" />
         <property name="sslKey" value="sdk.key" />
         <property name="allChannelConnections">
-            <list>  <!-- 每个群组需要配置一个bean，每个群组可以配置多个节点 -->
+            <list>
                 <bean id="group1"  class="org.fisco.bcos.channel.handler.ChannelConnections">
-                    <property name="groupId" value="1" /> <!-- 群组的groupID -->
+                    <property name="groupId" value="1" />
                     <property name="connectionsStr">
                         <list>
-<!--                            <value>10.85.94.238:10000</value>  &lt;!&ndash; IP:channel_port &ndash;&gt;-->
-<!--                            <value>10.85.94.238:10001</value>-->
-<!--                            <value>10.85.94.238:10002</value>-->
-<!--                            <value>10.85.94.238:10003</value>-->
-                            <value>10.85.159.203:20200</value>  <!-- IP:channel_port -->
-<!--                            <value>10.85.159.55:20200</value>-->
-<!--                            <value>10.85.159.56:20200</value>-->
-<!--                            <value>10.85.159.57:20200</value>-->
+<!--                            <value>10.85.159.203:20200</value>-->
+                            <value>10.85.159.54:20200</value>
                         </list>
                     </property>
                 </bean>
-<!--                <bean id="group2"  class="org.fisco.bcos.channel.handler.ChannelConnections">-->
-<!--                    <property name="groupId" value="2" /> &lt;!&ndash; 群组的groupID &ndash;&gt;-->
-<!--                    <property name="connectionsStr">-->
-<!--                        <list>-->
-<!--                            <value>127.0.0.1:20202</value>-->
-<!--                            <value>127.0.0.1:20203</value>-->
-<!--                        </list>-->
-<!--                    </property>-->
-<!--                </bean>-->
             </list>
         </property>
     </bean>
 
     <bean id="channelService" class="org.fisco.bcos.channel.client.Service" depends-on="groupChannelConnectionsConfig">
-        <property name="groupId" value="1" /> <!-- 配置连接群组1 -->
-        <property name="agencyName" value="fisco" /> <!-- 配置机构名 -->
+        <property name="groupId" value="1" />
+        <property name="agencyName" value="fisco" />
         <property name="allChannelConnections" ref="groupChannelConnectionsConfig"></property>
     </bean>
 

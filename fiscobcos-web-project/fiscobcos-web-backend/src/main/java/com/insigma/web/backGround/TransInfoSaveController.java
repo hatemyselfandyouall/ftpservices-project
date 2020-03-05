@@ -32,8 +32,7 @@ public class TransInfoSaveController {
     @Autowired
     private Credentials credentials;
 
-    @Value("${constract.transinfo.address}")
-    private String constractAddress;
+    private static final String constractAddress="0xd2033708b8fc9042119b2c809136a001b9bb9988";
 
     @ApiOperation(value = "区块链保存Json信息")
     @RequestMapping(value = "/saveJSON",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
