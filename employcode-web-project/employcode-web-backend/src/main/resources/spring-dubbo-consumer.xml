@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	
+	<!-- employcode -->
+<!--	<dubbo:reference id="projectFacade" interface="com.insigma.facade.employcode.ProjectFacade"-->
+<!--		version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="interfaceFacade" interface="com.insigma.facade.employcode.facade.InterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;<dubbo:reference id="employcodeInterfaceGroupFacade" interface="com.insigma.facade.employcode.facade.employcodeInterfaceGroupFacade"&ndash;&gt;-->
+<!--					 &lt;!&ndash;version="1.0.1.gzd" />&ndash;&gt;-->
+
+<!--	&lt;!&ndash;用户模块&ndash;&gt;-->
+<!--	<dubbo:reference id="employcodeUserFacade" interface="com.insigma.facade.employcode.facade.employcodeUserFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;应用模块&ndash;&gt;-->
+<!--	<dubbo:reference id="employcodeAppFacade" interface="com.insigma.facade.employcode.facade.employcodeAppFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeInterfaceTypeFacade" interface="com.insigma.facade.employcode.facade.employcodeInterfaceTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeInterfaceHistoryFacade" interface="com.insigma.facade.employcode.facade.employcodeInterfaceHistoryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeAppTypeFacade" interface="com.insigma.facade.employcode.facade.employcodeAppTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+<!--	&lt;!&ndash;yingy模块&ndash;&gt;-->
+
+
+<!--	<dubbo:reference id="employcodeEarlyWarningFacade" interface="com.insigma.facade.employcode.facade.employcodeEarlyWarningFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeBlackWhiteFacade" interface="com.insigma.facade.employcode.facade.employcodeBlackWhiteFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--    <dubbo:reference id="employcodeAuditFacade" interface="com.insigma.facade.employcode.facade.employcodeAuditFacade"-->
+<!--                     version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="employcodeAppInterfaceFacade" interface="com.insigma.facade.employcode.facade.employcodeAppInterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="employcodeMonitoringDataConfigFacade" interface="com.insigma.facade.employcode.facade.employcodeMonitoringDataConfigFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="employcodeDictionaryFacade" interface="com.insigma.facade.employcode.facade.employcodeDictionaryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="employcodeOrgFacade" interface="com.insigma.facade.employcode.facade.employcodeOrgFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeSelfmachineRequestFacade" interface="com.insigma.facade.employcode.facade.employcodeSelfmachineRequestFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeSelfmachineFacade" interface="com.insigma.facade.employcode.facade.employcodeSelfmachineFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="employcodeOrgShortnameFacade" interface="com.insigma.facade.employcode.facade.employcodeOrgShortnameFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeSelfmachineTypeFacade" interface="com.insigma.facade.employcode.facade.employcodeSelfmachineTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="employcodeSelfmachineAddressFacade" interface="com.insigma.facade.employcode.facade.employcodeSelfmachineAddressFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+</beans>

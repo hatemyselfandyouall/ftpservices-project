@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+
+	<!-- jxm test eg -->
+
+	<!--	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />-->
+	<!--	<dubbo:service interface="com.insigma.facade.employcode.ProjectFacade" ref="projectImpl"-->
+	<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.InterfaceFacade" ref="interfaceServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	&lt;!&ndash;<bean id="employcodeInterfaceGroupServiceImpl" class="com.insigma.impl.employcodeInterfaceGroupServiceImpl" />&ndash;&gt;-->
+<!--	&lt;!&ndash;<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeInterfaceGroupFacade" ref="employcodeInterfaceGroupServiceImpl"&ndash;&gt;-->
+<!--	&lt;!&ndash;version="1.0.1.gzd" delay="-1" retries="0"  />&ndash;&gt;-->
+
+<!--	<bean id="employcodeAppServiceImpl" class="com.insigma.impl.employcodeAppServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeAppFacade" ref="employcodeAppServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeInterfaceTypeServiceImpl" class="com.insigma.impl.employcodeInterfaceTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeInterfaceTypeFacade" ref="employcodeInterfaceTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeInterfaceHistoryServiceImpl" class="com.insigma.impl.employcodeInterfaceHistoryServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeInterfaceHistoryFacade" ref="employcodeInterfaceHistoryServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeEarlyWarningServiceImpl" class="com.insigma.impl.employcodeEarlyWarningServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeEarlyWarningFacade" ref="employcodeEarlyWarningServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+
+<!--	<bean id="employcodeBlackWhiteServiceImpl" class="com.insigma.impl.employcodeBlackWhiteServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeBlackWhiteFacade" ref="employcodeBlackWhiteServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeAuditServiceImpl" class="com.insigma.impl.employcodeAuditServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeAuditFacade" ref="employcodeAuditServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeAppTypeServiceImpl" class="com.insigma.impl.employcodeAppTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeAppTypeFacade" ref="employcodeAppTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeAppInterfaceServiceImpl" class="com.insigma.impl.employcodeAppInterfaceServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeAppInterfaceFacade" ref="employcodeAppInterfaceServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeMonitoringDataConfigServiceImpl" class="com.insigma.impl.employcodeMonitoringDataConfigServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeMonitoringDataConfigFacade" ref="employcodeMonitoringDataConfigServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+
+<!--	<bean id="employcodeDictionaryServiceImpl" class="com.insigma.impl.employcodeDictionaryServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeDictionaryFacade" ref="employcodeDictionaryServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeOrgServiceImpl" class="com.insigma.impl.employcodeOrgServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeOrgFacade" ref="employcodeOrgServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeSelfmachineServiceImpl" class="com.insigma.impl.employcodeSelfmachineServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeSelfmachineFacade" ref="employcodeSelfmachineServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+<!--	<bean id="employcodeSelfmachineRequestServiceImpl" class="com.insigma.impl.employcodeSelfmachineRequestServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeSelfmachineRequestFacade" ref="employcodeSelfmachineRequestServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeOrgShortnameServiceImpl" class="com.insigma.impl.employcodeOrgShortnameServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeOrgShortnameFacade" ref="employcodeOrgShortnameServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeSelfmachineAddressServiceImpl" class="com.insigma.impl.employcodeSelfmachineAddressServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeSelfmachineAddressFacade" ref="employcodeSelfmachineAddressServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="employcodeSelfmachineTypeServiceImpl" class="com.insigma.impl.employcodeSelfmachineTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.employcode.facade.employcodeSelfmachineTypeFacade" ref="employcodeSelfmachineTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+</beans>

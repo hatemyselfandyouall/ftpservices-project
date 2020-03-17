@@ -5,16 +5,16 @@
     <artifactId>insigma-parent</artifactId>
     <version>1.0.3</version>
   </parent>
-  <groupId>insigma.fiscobcos</groupId>
-  <artifactId>fiscobcos-project</artifactId>
+  <groupId>insigma.employcode</groupId>
+  <artifactId>employcode-project</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>fiscobcos-project</name>
+  <name>employcode-project</name>
   <modules>
-  	<module>fiscobcos-facade-project</module>
-  	<module>fiscobcos-libs-project</module>
-  	<module>fiscobcos-services-project</module>
-	<module>fiscobcos-web-project</module>
+  	<module>employcode-facade-project</module>
+  	<module>employcode-libs-project</module>
+  	<module>employcode-services-project</module>
+	<module>employcode-web-project</module>
   </modules>
   
   
@@ -43,8 +43,8 @@
 			</dependency>
 
 			<dependency>
-				<groupId>insigma.fiscobcos.facade.info</groupId>
-				<artifactId>fiscobcos-facade-info</artifactId>
+				<groupId>insigma.employcode.facade.info</groupId>
+				<artifactId>employcode-facade-info</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 
@@ -61,13 +61,13 @@
 			</dependency>
 			
 			 <dependency>
-				<groupId>insigma.fiscobcos.libs.finefiscobcos</groupId>
-  				<artifactId>fiscobcos-lib-finefiscobcos</artifactId>
+				<groupId>insigma.employcode.libs.fineemploycode</groupId>
+  				<artifactId>employcode-lib-fineemploycode</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			 <dependency>
-				<groupId>insigma.fiscobcos.libs.base</groupId>
- 				 <artifactId>fiscobcos-lib-base</artifactId>
+				<groupId>insigma.employcode.libs.base</groupId>
+ 				 <artifactId>employcode-lib-base</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 
