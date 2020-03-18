@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	
+	<!-- qrcodebase -->
+<!--	<dubbo:reference id="projectFacade" interface="com.insigma.facade.qrcodebase.ProjectFacade"-->
+<!--		version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="interfaceFacade" interface="com.insigma.facade.qrcodebase.facade.InterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;<dubbo:reference id="qrcodebaseInterfaceGroupFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseInterfaceGroupFacade"&ndash;&gt;-->
+<!--					 &lt;!&ndash;version="1.0.1.gzd" />&ndash;&gt;-->
+
+<!--	&lt;!&ndash;用户模块&ndash;&gt;-->
+<!--	<dubbo:reference id="qrcodebaseUserFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseUserFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;应用模块&ndash;&gt;-->
+<!--	<dubbo:reference id="qrcodebaseAppFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseAppFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseInterfaceTypeFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseInterfaceTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseInterfaceHistoryFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseInterfaceHistoryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseAppTypeFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseAppTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+<!--	&lt;!&ndash;yingy模块&ndash;&gt;-->
+
+
+<!--	<dubbo:reference id="qrcodebaseEarlyWarningFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseEarlyWarningFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseBlackWhiteFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseBlackWhiteFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--    <dubbo:reference id="qrcodebaseAuditFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseAuditFacade"-->
+<!--                     version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="qrcodebaseAppInterfaceFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseAppInterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="qrcodebaseMonitoringDataConfigFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseMonitoringDataConfigFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="qrcodebaseDictionaryFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseDictionaryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="qrcodebaseOrgFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseOrgFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseSelfmachineRequestFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseSelfmachineRequestFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseSelfmachineFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseSelfmachineFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="qrcodebaseOrgShortnameFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseOrgShortnameFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseSelfmachineTypeFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseSelfmachineTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="qrcodebaseSelfmachineAddressFacade" interface="com.insigma.facade.qrcodebase.facade.qrcodebaseSelfmachineAddressFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+</beans>

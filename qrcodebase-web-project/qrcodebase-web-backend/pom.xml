@@ -1,0 +1,140 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>insigma.qrcodebase.web</groupId>
+    <artifactId>qrcodebase-web-project</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>qrcodebase-web-backend</artifactId>
+  <name>qrcodebase-web-backend</name>
+  
+  <dependencies>
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>insigma.common</groupId>
+			<artifactId>insigma-common-framework-web</artifactId>
+		</dependency>
+
+		 <!-- insigma-lib-bizbase -->
+		<dependency>
+			<groupId>insigma.common.lib.bizbase</groupId>
+ 			<artifactId>insigma-lib-bizbase</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+	    
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+		</dependency>
+		
+
+		
+		
+		
+	   
+	   <dependency>
+			<groupId>insigma.qrcodebase.facade.info</groupId>
+  			<artifactId>qrcodebase-facade-info</artifactId>
+  			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+		
+
+
+	  <dependency>
+		  <groupId>insigma.clouddata.facade.info</groupId>
+		  <artifactId>clouddata-facade-info</artifactId>
+	  </dependency>
+
+	  <!-- sysbase -->
+	  <dependency>
+		  <groupId>insigma.sysbase.facade.info</groupId>
+		  <artifactId>sysbase-facade-info</artifactId>
+	  </dependency>
+
+	  <dependency>
+		  <groupId>insigma.qrcodebase.libs.base</groupId>
+		  <artifactId>qrcodebase-lib-base</artifactId>
+	  </dependency>
+
+	  <dependency>
+		  <groupId>insigma.devops.facade.info</groupId>
+		  <artifactId>devops-facade-info</artifactId>
+	  </dependency>
+
+	  <dependency>
+		  <groupId>insigma.sysbase.facade.log</groupId>
+		  <artifactId>sysbase-facade-log</artifactId>
+	  </dependency>
+
+
+	  <dependency>
+		  <groupId>org.fisco-bcos</groupId>
+		  <artifactId>web3sdk</artifactId>
+	  </dependency>
+    </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<httpConnector>
+						<port>10750</port>
+					</httpConnector>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>publish</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>make-assembly</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+	
+</project>
