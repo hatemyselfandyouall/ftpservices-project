@@ -5,16 +5,16 @@
     <artifactId>insigma-parent</artifactId>
     <version>1.0.3</version>
   </parent>
-  <groupId>insigma.employcode</groupId>
-  <artifactId>employcode-project</artifactId>
+  <groupId>insigma.qrcodebase</groupId>
+  <artifactId>qrcodebase-project</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>employcode-project</name>
+  <name>qrcodebase-project</name>
   <modules>
-  	<module>employcode-facade-project</module>
-  	<module>employcode-libs-project</module>
-  	<module>employcode-services-project</module>
-	<module>employcode-web-project</module>
+  	<module>qrcodebase-facade-project</module>
+  	<module>qrcodebase-libs-project</module>
+  	<module>qrcodebase-services-project</module>
+	<module>qrcodebase-web-project</module>
   </modules>
   
   
@@ -43,8 +43,8 @@
 			</dependency>
 
 			<dependency>
-				<groupId>insigma.employcode.facade.info</groupId>
-				<artifactId>employcode-facade-info</artifactId>
+				<groupId>insigma.qrcodebase.facade.info</groupId>
+				<artifactId>qrcodebase-facade-info</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 
@@ -61,13 +61,13 @@
 			</dependency>
 			
 			 <dependency>
-				<groupId>insigma.employcode.libs.fineemploycode</groupId>
-  				<artifactId>employcode-lib-fineemploycode</artifactId>
+				<groupId>insigma.qrcodebase.libs.fineqrcodebase</groupId>
+  				<artifactId>qrcodebase-lib-fineqrcodebase</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			 <dependency>
-				<groupId>insigma.employcode.libs.base</groupId>
- 				 <artifactId>employcode-lib-base</artifactId>
+				<groupId>insigma.qrcodebase.libs.base</groupId>
+ 				 <artifactId>qrcodebase-lib-base</artifactId>
 				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 

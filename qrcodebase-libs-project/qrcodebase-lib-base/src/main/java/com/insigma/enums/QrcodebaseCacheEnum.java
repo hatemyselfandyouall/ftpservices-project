@@ -8,7 +8,7 @@ import star.modules.cache.enumerate.BaseCacheEnum;
  * @author jinxm
  * @since:2019年5月15日下午15:08
  */
-public enum qrcodebaseCacheEnum implements BaseCacheEnum {
+public enum QrcodebaseCacheEnum implements BaseCacheEnum {
 
 	/**
 	 * APPkey对应的接口列表
@@ -31,7 +31,7 @@ public enum qrcodebaseCacheEnum implements BaseCacheEnum {
 
 	private String type;
 
-	qrcodebaseCacheEnum(String type) {
+	QrcodebaseCacheEnum(String type) {
 		this.type = type;
 	}
 
@@ -43,7 +43,7 @@ public enum qrcodebaseCacheEnum implements BaseCacheEnum {
 	@Override
 	public BaseCacheEnum get(String key) {
 		if (key != null && key.length() > 0) {
-			for (qrcodebaseCacheEnum type : qrcodebaseCacheEnum.values()) {
+			for (QrcodebaseCacheEnum type : QrcodebaseCacheEnum.values()) {
 				if (key.equals(type.getAnchor())) {
 					return type;
 				}

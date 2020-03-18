@@ -102,7 +102,7 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
 					<httpConnector>
-						<port>10750</port>
+						<port>10760</port>
 					</httpConnector>
 				</configuration>
 			</plugin>
