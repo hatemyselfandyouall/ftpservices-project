@@ -159,6 +159,11 @@
 				<artifactId>web3sdk</artifactId>
 				<version>2.1.0</version>
 			</dependency>
+			<dependency>
+				<groupId>io.nayuki</groupId>
+				<artifactId>qrcodegen</artifactId>
+				<version>1.6.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	
