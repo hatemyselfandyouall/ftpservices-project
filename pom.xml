@@ -160,9 +160,9 @@
 				<version>2.1.0</version>
 			</dependency>
 			<dependency>
-				<groupId>io.nayuki</groupId>
-				<artifactId>qrcodegen</artifactId>
-				<version>1.6.0</version>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>3.3.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -343,7 +343,12 @@
 			</build>
 		</profile>
 	</profiles>
-	
-	
+
+	<repositories>
+		<repository>
+			<id>yihui-maven-repo</id>
+			<url>https://raw.githubusercontent.com/liuyueyi/maven-repository/master/repository</url>
+		</repository>
+	</repositories>
 	
 </project>
