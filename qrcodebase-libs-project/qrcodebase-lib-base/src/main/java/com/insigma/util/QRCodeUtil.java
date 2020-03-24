@@ -102,6 +102,14 @@ public class QRCodeUtil {
         // ImageIO.write(image, FORMAT_NAME, new File(destPath+"/"+file));
         ImageIO.write(image, FORMAT_NAME, new File(destPath));
     }
+    public static BufferedImage encodeReturnBufferImg(String content, String imgPath, String destPath, boolean needCompress, Integer color) throws Exception {
+        BufferedImage image = QRCodeUtil.createImage(content, imgPath, needCompress,color);
+//        mkdirs(destPath);
+        // String file = new Random().nextInt(99999999)+".jpg";
+        // ImageIO.write(image, FORMAT_NAME, new File(destPath+"/"+file));
+//        ImageIO.write(image, FORMAT_NAME, new File(destPath));
+        return image;
+    }
 
 
 
@@ -175,7 +183,7 @@ public class QRCodeUtil {
         // 生成的二维码的路径及名称
         String destPath = "F:\\test1.jpg";
         //生成二维码
-        QRCodeUtil.encode(text, imgPath, destPath, true,0xFF228B22);
+        QRCodeUtil.encode(text, imgPath, destPath, true,color);
 
         // 解析二维码
         String str = QRCodeUtil.decode(destPath);

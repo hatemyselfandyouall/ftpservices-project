@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import star.vo.result.ResultVo;
 
@@ -23,10 +24,10 @@ public class QRCodeController {
 
     @ApiOperation(value = "二维码模块")
     @RequestMapping(value = "/textToIMG",produces = {"application/json;charset=UTF-8"})
-    public void textToIMG(String text, HttpServletResponse response){
+    public void textToIMG(@RequestParam(value = "text") String text, @RequestParam(value = "imgPath")String imgPath, @RequestParam(value = "color")Integer color, HttpServletResponse response){
 //        ResultVo resultVo=new ResultVo();
         try(OutputStream os=response.getOutputStream()){
-            BufferedImage bufferedImage=QRCodeUtil.toQrImage(text);
+            BufferedImage bufferedImage=QRCodeUtil.encodeReturnBufferImg(text,imgPath,null,true,color);
             ImageIO.write(bufferedImage, "PNG",os);
         }catch (Exception e){
             log.error("二维码生成异常",e);
