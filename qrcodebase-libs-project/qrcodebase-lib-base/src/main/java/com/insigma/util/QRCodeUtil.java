@@ -5,13 +5,18 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import io.swagger.models.auth.In;
+import org.apache.http.HttpConnection;
+import star.util.StringUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Hashtable;
 
 public class QRCodeUtil {
@@ -103,6 +108,13 @@ public class QRCodeUtil {
         ImageIO.write(image, FORMAT_NAME, new File(destPath));
     }
     public static BufferedImage encodeReturnBufferImg(String content, String imgPath, String destPath, boolean needCompress, Integer color) throws Exception {
+        if (!StringUtil.isEmpty(imgPath)) {
+            InputStream inputStream = FileUtil.UrlToInputStream(imgPath);
+            String [] temp=imgPath.split("\\.");
+            String filePath ="temp."+temp[temp.length-1];
+            FileUtil.getFileByUrl(filePath,inputStream);
+            imgPath=filePath;
+        }
         BufferedImage image = QRCodeUtil.createImage(content, imgPath, needCompress,color);
 //        mkdirs(destPath);
         // String file = new Random().nextInt(99999999)+".jpg";

@@ -2,13 +2,12 @@ package com.insigma.web.backGround;
 
 
 import com.insigma.util.QRCodeUtil;
+import com.insigma.vo.CreateIMGVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import star.vo.result.ResultVo;
 
 import javax.imageio.ImageIO;
@@ -22,11 +21,15 @@ import java.io.OutputStream;
 @Slf4j
 public class QRCodeController {
 
+
     @ApiOperation(value = "二维码模块")
-    @RequestMapping(value = "/textToIMG",produces = {"application/json;charset=UTF-8"})
-    public void textToIMG(@RequestParam(value = "text") String text, @RequestParam(value = "imgPath")String imgPath, @RequestParam(value = "color")Integer color, HttpServletResponse response){
+    @RequestMapping(value = "/textToIMG",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public void textToIMG(@RequestBody CreateIMGVO createIMGVO,HttpServletResponse response){
 //        ResultVo resultVo=new ResultVo();
         try(OutputStream os=response.getOutputStream()){
+            String text=createIMGVO.getText();
+            String imgPath=createIMGVO.getImgPath();
+            Integer color=Integer.valueOf(createIMGVO.getColorEunm().getColerInt());
             BufferedImage bufferedImage=QRCodeUtil.encodeReturnBufferImg(text,imgPath,null,true,color);
             ImageIO.write(bufferedImage, "PNG",os);
         }catch (Exception e){
