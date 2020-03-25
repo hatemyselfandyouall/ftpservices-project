@@ -109,10 +109,10 @@ public class QRCodeUtil {
     }
     public static BufferedImage encodeReturnBufferImg(String content, String imgPath, String destPath, boolean needCompress, Integer color) throws Exception {
         if (!StringUtil.isEmpty(imgPath)) {
-            InputStream inputStream = FileUtil.UrlToInputStream(imgPath);
             String [] temp=imgPath.split("\\.");
             String filePath ="temp."+temp[temp.length-1];
-            FileUtil.getFileByUrl(filePath,inputStream);
+           FileUtil.UrlToInputStream(imgPath,filePath);
+//            FileUtil.getFileByUrl(filePath,inputStream);
             imgPath=filePath;
         }
         BufferedImage image = QRCodeUtil.createImage(content, imgPath, needCompress,color);

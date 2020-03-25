@@ -6,18 +6,18 @@ import java.net.URL;
 
 public class FileUtil {
 
-    public  static File getFileByUrl(String path,InputStream inputStream)throws Exception{
-        InputStream initialStream = inputStream;
-        byte[] buffer = new byte[initialStream.available()];
-        initialStream.read(buffer);
+//    public  static File getFileByUrl(String path,InputStream inputStream)throws Exception{
+//        InputStream initialStream = inputStream;
+//        byte[] buffer = new byte[initialStream.available()];
+//        initialStream.read(buffer);
+//
+//        File targetFile = new File(path);
+//        OutputStream outStream = new FileOutputStream(targetFile);
+//        outStream.write(buffer);
+//        return targetFile;
+//    }
 
-        File targetFile = new File(path);
-        OutputStream outStream = new FileOutputStream(targetFile);
-        outStream.write(buffer);
-        return targetFile;
-    }
-
-    public static InputStream UrlToInputStream(String urls)throws Exception{
+    public static File UrlToInputStream(String urls,String path)throws Exception{
         URL url = new URL(urls);
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         //设置超时间为3秒
@@ -28,6 +28,23 @@ public class FileUtil {
 //			conn.setDoInput(true);
         //得到输入流
         InputStream inputStream = conn.getInputStream();
-        return inputStream;
+        byte[] getData = readInputStream(inputStream);
+
+        //文件保存位置
+        File saveDir = new File(path);
+        FileOutputStream fos;
+        fos = new FileOutputStream(saveDir);
+        fos.write(getData);
+        return saveDir;
+    }
+    public static  byte[] readInputStream(InputStream inputStream) throws IOException {
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        while((len = inputStream.read(buffer)) != -1) {
+            bos.write(buffer, 0, len);
+        }
+        bos.close();
+        return bos.toByteArray();
     }
 }
