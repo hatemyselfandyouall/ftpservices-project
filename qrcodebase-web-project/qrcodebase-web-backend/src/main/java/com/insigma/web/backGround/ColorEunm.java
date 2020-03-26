@@ -2,7 +2,7 @@ package com.insigma.web.backGround;
 
 public enum ColorEunm {
 
-    GREEN(0xFF228B22),BLACK(0x11111111);
+    GREEN(0x50B061),RED(0xFF4B1A);
 
     private Integer colerInt;
 
