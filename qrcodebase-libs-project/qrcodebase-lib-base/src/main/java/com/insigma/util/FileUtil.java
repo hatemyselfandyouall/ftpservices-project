@@ -6,16 +6,16 @@ import java.net.URL;
 
 public class FileUtil {
 
-//    public  static File getFileByUrl(String path,InputStream inputStream)throws Exception{
-//        InputStream initialStream = inputStream;
-//        byte[] buffer = new byte[initialStream.available()];
-//        initialStream.read(buffer);
-//
-//        File targetFile = new File(path);
-//        OutputStream outStream = new FileOutputStream(targetFile);
-//        outStream.write(buffer);
-//        return targetFile;
-//    }
+    public  static File getFileByUrl(String path,InputStream inputStream)throws Exception{
+        InputStream initialStream = inputStream;
+        byte[] buffer = new byte[initialStream.available()];
+        initialStream.read(buffer);
+
+        File targetFile = new File(path);
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(buffer);
+        return targetFile;
+    }
 
     public static File UrlToInputStream(String urls,String path)throws Exception{
         URL url = new URL(urls);

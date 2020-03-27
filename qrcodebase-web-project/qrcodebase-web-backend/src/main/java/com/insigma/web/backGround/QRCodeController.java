@@ -1,6 +1,7 @@
 package com.insigma.web.backGround;
 
 
+import com.insigma.util.BarCodeUtil;
 import com.insigma.util.QRCodeUtil;
 import com.insigma.vo.CreateIMGVO;
 import io.swagger.annotations.Api;
@@ -31,6 +32,20 @@ public class QRCodeController {
             String imgPath=createIMGVO.getImgPath();
             Integer color=Integer.valueOf(createIMGVO.getColorEunm().getColerInt());
             BufferedImage bufferedImage=QRCodeUtil.encodeReturnBufferImg(text,imgPath,null,true,color);
+            ImageIO.write(bufferedImage, "PNG",os);
+        }catch (Exception e){
+            log.error("二维码生成异常",e);
+        }
+//        return resultVo;
+    }
+
+    @ApiOperation(value = "生成条形码")
+    @RequestMapping(value = "/textToBarCode",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    public void textToBarCode(@RequestBody CreateIMGVO createIMGVO,HttpServletResponse response){
+//        ResultVo resultVo=new ResultVo();
+        try(OutputStream os=response.getOutputStream()){
+            String text=createIMGVO.getText();
+            BufferedImage bufferedImage= BarCodeUtil.getBarCode(text);
             ImageIO.write(bufferedImage, "PNG",os);
         }catch (Exception e){
             log.error("二维码生成异常",e);

@@ -1,21 +1,26 @@
 package com.insigma.webtool.component;
 
+import com.alibaba.fastjson.JSONObject;
 import com.insigma.facade.sysbase.SysUserFacade;
 import com.insigma.facade.sysbase.vo.SysUserDTO;
+import com.insigma.util.FileUtil;
 import com.insigma.vo.ManagerVo;
 import com.insigma.webtool.struct.CookieEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import star.fw.web.util.CookieHelper;
 import star.fw.web.util.CookieHelper.CookieTime;
-import star.util.DateUtil;
-import star.util.NumberUtil;
-import star.util.SecurityUtil;
-import star.util.StringUtil;
+import star.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -123,7 +128,6 @@ public class LoginComponent {
         return false;
     }
 
-
 //    public boolean isLoginByCas(HttpServletRequest request, HttpServletResponse response) {
 //        try {
 //
@@ -145,7 +149,14 @@ public class LoginComponent {
 //        }
 //        return false;
 //    }
-public static void main(String[] args) {
-    Arrays.asList(CookieHelper.decodeCookie("81997fd3b4d94976cec73cd1700e6db4607a7fb54da02896f29fe169de2c52b8fceb8392d5545b76ecf9f36c743ba322763aaece2496fa08")).forEach(i-> System.out.println(i));
-}
+public static void main(String[] args) throws Exception{
+    RestTemplate template=new RestTemplate();
+    JSONObject paramJson=new JSONObject();
+    paramJson.put("colorEunm","YELLOW");
+    paramJson.put("imgPath","http://10.85.159.203:10540/openapiApp/download?key=bizimg/rdm/158520730165694l.png");
+    paramJson.put("text","虽然我可爱又迷人，但是我会带来死亡");
+    ResponseEntity<Resource> resourceResponseEntity= template.postForEntity("http://10.85.94.238:10760/qrcode/textToIMG",paramJson, Resource.class);
+    InputStream inputStream=resourceResponseEntity.getBody().getInputStream();
+    FileUtil.getFileByUrl("tempget.jpg",inputStream);
+    }
 }

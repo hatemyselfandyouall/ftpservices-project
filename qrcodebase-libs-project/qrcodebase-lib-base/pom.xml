@@ -58,6 +58,10 @@
 		  <artifactId>core</artifactId>
 	  </dependency>
 
+	  <dependency>
+		  <groupId>net.sf.barcode4j</groupId>
+		  <artifactId>barcode4j-light</artifactId>
+	  </dependency>
   </dependencies>
     
     
