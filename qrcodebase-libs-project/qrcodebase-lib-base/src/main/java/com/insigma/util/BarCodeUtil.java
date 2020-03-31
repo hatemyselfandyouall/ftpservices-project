@@ -18,15 +18,16 @@ public class BarCodeUtil {
      * @param msg
 //     * @param path
      */
-    public static BufferedImage getBarCode(String msg){
+    public static BufferedImage getBarCode(Double moduleWidth,Integer resolution,String msg){
         try {
             if(StringUtils.isEmpty(msg) )
                 return null;
             //选择条形码类型(好多类型可供选择)
             Code128Bean bean=new Code128Bean();
             //设置长宽
-            final double moduleWidth=0.20;
-            final int resolution=150;
+//            final double moduleWidth=0.10;
+//            final int resolution=300;
+
             bean.setModuleWidth(moduleWidth);
             bean.doQuietZone(false);
 //            String format = "image/png";
