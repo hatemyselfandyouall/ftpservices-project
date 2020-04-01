@@ -9,4 +9,5 @@ public class CreateBarCodeVO {
     private Double moduleWidth;
     private Integer resolution;
     private String text;
+    private Integer needCache;
 }

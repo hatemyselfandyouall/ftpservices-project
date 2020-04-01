@@ -12,4 +12,6 @@ public class CreateIMGVO{
     private String  text;
     private String imgPath;
     private ColorEunm colorEunm;
+    private Integer needCache;
+
 }

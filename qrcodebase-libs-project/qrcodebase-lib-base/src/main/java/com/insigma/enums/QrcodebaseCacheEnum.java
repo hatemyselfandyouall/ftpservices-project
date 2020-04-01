@@ -13,21 +13,10 @@ public enum QrcodebaseCacheEnum implements BaseCacheEnum {
 	/**
 	 * APPkey对应的接口列表
 	 */
-    OPENAPI_BY_APPKEY("work_qrcodebase_by_appkey"),
+    BARCODE_CACHE("barcode_cache"),
 
-	/**
-	 * APPid对应的接口列表
-	 */
-	OPENAPI_BY_APPID("work_qrcodebase_by_appid"),
+	QRCODE_CACHE("qrcode_cache");
 
-    /**
-     * APPid对应的接口列表
-     */
-    INTERFACE_BY_CODE("work_interface_by_code"),
-	/**
-	 * 请求token
-	 */
-	REQUEST_TOKEN("request_token");
 
 	private String type;
 

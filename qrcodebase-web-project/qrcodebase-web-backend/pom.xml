@@ -93,6 +93,14 @@
 		  <groupId>org.fisco-bcos</groupId>
 		  <artifactId>web3sdk</artifactId>
 	  </dependency>
+	  <dependency>
+		  <groupId>javax.media</groupId>
+		  <artifactId>jai_core1</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>com.sun.media</groupId>
+		  <artifactId>jai-codec</artifactId>
+	  </dependency>
     </dependencies>
 
 	<build>
