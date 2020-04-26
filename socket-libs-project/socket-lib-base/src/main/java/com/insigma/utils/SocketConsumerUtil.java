@@ -24,7 +24,7 @@ public class SocketConsumerUtil {
         Socket socket = null;
         try {
             // 与服务端建立连接
-            socket = new Socket("127.0.0.1", 8899);
+            socket = new Socket("127.0.0.1", 9999);
 //            socket.setSoTimeout(_sec * 1000);
 
             System.out.println(format.format(new Date()));

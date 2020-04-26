@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyClient {
     public static void main(String[] args) throws Exception{
-        sendMsg("127.0.0.1",8899,"Hello Jetty");
+        sendMsg("127.0.0.1",8999,"Hello Jetty");
     }
 
     public static void sendMsg(String targetHost, Integer targetPort, MyClientInitializer channal){
