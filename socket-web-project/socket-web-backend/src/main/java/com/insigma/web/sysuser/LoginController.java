@@ -6,7 +6,7 @@
 //import com.insigma.web.BasicController;
 //import com.insigma.webtool.component.LoginComponent;
 //import com.insigma.webtool.struct.CookieEnum;
-//import com.insigma.util.DateUtils;
+//import DateUtils;
 //import com.insigma.webtool.util.Encrypt;
 //import com.insigma.webtool.util.ImageCodeUtil;
 //import org.springframework.beans.factory.annotation.Autowired;

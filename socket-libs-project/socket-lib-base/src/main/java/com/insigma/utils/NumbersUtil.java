@@ -1,4 +1,4 @@
-package com.insigma.util;
+package com.insigma.utils;
 
 public class NumbersUtil {
 

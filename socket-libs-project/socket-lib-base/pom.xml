@@ -53,7 +53,14 @@
 		  <artifactId>commons-httpclient</artifactId>
 	  </dependency>
 
-
+	  <dependency>
+		  <groupId>com.corundumstudio.socketio</groupId>
+		  <artifactId>netty-socketio</artifactId>
+	  </dependency>
+	  <dependency>
+		  <groupId>io.socket</groupId>
+		  <artifactId>socket.io-client</artifactId>
+	  </dependency>
   </dependencies>
     
     

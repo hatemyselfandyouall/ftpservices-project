@@ -1,4 +1,4 @@
-package com.insigma.util;
+package com.insigma.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

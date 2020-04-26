@@ -3,13 +3,11 @@ package com.insigma.webtool.component;
 import com.alibaba.fastjson.JSONObject;
 import com.insigma.facade.sysbase.SysUserFacade;
 import com.insigma.facade.sysbase.vo.SysUserDTO;
-import com.insigma.util.FileUtil;
+import com.insigma.utils.FileUtil;
 import com.insigma.vo.ManagerVo;
 import com.insigma.webtool.struct.CookieEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -21,7 +19,6 @@ import star.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * Title: 登录帮助类
