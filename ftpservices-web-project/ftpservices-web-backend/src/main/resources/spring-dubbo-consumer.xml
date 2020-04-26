@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	
+	<!-- ftpservices -->
+<!--	<dubbo:reference id="projectFacade" interface="com.insigma.facade.ftpservices.ProjectFacade"-->
+<!--		version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="interfaceFacade" interface="com.insigma.facade.ftpservices.facade.InterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;<dubbo:reference id="ftpservicesInterfaceGroupFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesInterfaceGroupFacade"&ndash;&gt;-->
+<!--					 &lt;!&ndash;version="1.0.1.gzd" />&ndash;&gt;-->
+
+<!--	&lt;!&ndash;用户模块&ndash;&gt;-->
+<!--	<dubbo:reference id="ftpservicesUserFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesUserFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;应用模块&ndash;&gt;-->
+<!--	<dubbo:reference id="ftpservicesAppFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesAppFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesInterfaceTypeFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesInterfaceTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesInterfaceHistoryFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesInterfaceHistoryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesAppTypeFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesAppTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+<!--	&lt;!&ndash;yingy模块&ndash;&gt;-->
+
+
+<!--	<dubbo:reference id="ftpservicesEarlyWarningFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesEarlyWarningFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesBlackWhiteFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesBlackWhiteFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--    <dubbo:reference id="ftpservicesAuditFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesAuditFacade"-->
+<!--                     version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="ftpservicesAppInterfaceFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesAppInterfaceFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	&lt;!&ndash;审核管理模块&ndash;&gt;-->
+<!--	<dubbo:reference id="ftpservicesMonitoringDataConfigFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesMonitoringDataConfigFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="ftpservicesDictionaryFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesDictionaryFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="ftpservicesOrgFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesOrgFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesSelfmachineRequestFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineRequestFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesSelfmachineFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+
+<!--	<dubbo:reference id="ftpservicesOrgShortnameFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesOrgShortnameFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesSelfmachineTypeFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineTypeFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+<!--	<dubbo:reference id="ftpservicesSelfmachineAddressFacade" interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineAddressFacade"-->
+<!--					 version="1.0.1.gzd" />-->
+
+</beans>

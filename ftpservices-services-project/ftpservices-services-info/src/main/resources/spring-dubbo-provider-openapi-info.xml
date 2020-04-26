@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+
+	<!-- jxm test eg -->
+
+	<!--	<bean id="projectImpl" class="com.insigma.impl.ProjectImpl" />-->
+	<!--	<dubbo:service interface="com.insigma.facade.ftpservices.ProjectFacade" ref="projectImpl"-->
+	<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="interfaceServiceImpl" class="com.insigma.impl.InterfaceServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.InterfaceFacade" ref="interfaceServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	&lt;!&ndash;<bean id="ftpservicesInterfaceGroupServiceImpl" class="com.insigma.impl.ftpservicesInterfaceGroupServiceImpl" />&ndash;&gt;-->
+<!--	&lt;!&ndash;<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesInterfaceGroupFacade" ref="ftpservicesInterfaceGroupServiceImpl"&ndash;&gt;-->
+<!--	&lt;!&ndash;version="1.0.1.gzd" delay="-1" retries="0"  />&ndash;&gt;-->
+
+<!--	<bean id="ftpservicesAppServiceImpl" class="com.insigma.impl.ftpservicesAppServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesAppFacade" ref="ftpservicesAppServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesInterfaceTypeServiceImpl" class="com.insigma.impl.ftpservicesInterfaceTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesInterfaceTypeFacade" ref="ftpservicesInterfaceTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesInterfaceHistoryServiceImpl" class="com.insigma.impl.ftpservicesInterfaceHistoryServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesInterfaceHistoryFacade" ref="ftpservicesInterfaceHistoryServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesEarlyWarningServiceImpl" class="com.insigma.impl.ftpservicesEarlyWarningServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesEarlyWarningFacade" ref="ftpservicesEarlyWarningServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+
+<!--	<bean id="ftpservicesBlackWhiteServiceImpl" class="com.insigma.impl.ftpservicesBlackWhiteServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesBlackWhiteFacade" ref="ftpservicesBlackWhiteServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesAuditServiceImpl" class="com.insigma.impl.ftpservicesAuditServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesAuditFacade" ref="ftpservicesAuditServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesAppTypeServiceImpl" class="com.insigma.impl.ftpservicesAppTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesAppTypeFacade" ref="ftpservicesAppTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesAppInterfaceServiceImpl" class="com.insigma.impl.ftpservicesAppInterfaceServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesAppInterfaceFacade" ref="ftpservicesAppInterfaceServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesMonitoringDataConfigServiceImpl" class="com.insigma.impl.ftpservicesMonitoringDataConfigServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesMonitoringDataConfigFacade" ref="ftpservicesMonitoringDataConfigServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+
+<!--	<bean id="ftpservicesDictionaryServiceImpl" class="com.insigma.impl.ftpservicesDictionaryServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesDictionaryFacade" ref="ftpservicesDictionaryServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesOrgServiceImpl" class="com.insigma.impl.ftpservicesOrgServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesOrgFacade" ref="ftpservicesOrgServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesSelfmachineServiceImpl" class="com.insigma.impl.ftpservicesSelfmachineServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineFacade" ref="ftpservicesSelfmachineServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+<!--	<bean id="ftpservicesSelfmachineRequestServiceImpl" class="com.insigma.impl.ftpservicesSelfmachineRequestServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineRequestFacade" ref="ftpservicesSelfmachineRequestServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesOrgShortnameServiceImpl" class="com.insigma.impl.ftpservicesOrgShortnameServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesOrgShortnameFacade" ref="ftpservicesOrgShortnameServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesSelfmachineAddressServiceImpl" class="com.insigma.impl.ftpservicesSelfmachineAddressServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineAddressFacade" ref="ftpservicesSelfmachineAddressServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+
+<!--	<bean id="ftpservicesSelfmachineTypeServiceImpl" class="com.insigma.impl.ftpservicesSelfmachineTypeServiceImpl" />-->
+<!--	<dubbo:service interface="com.insigma.facade.ftpservices.facade.ftpservicesSelfmachineTypeFacade" ref="ftpservicesSelfmachineTypeServiceImpl"-->
+<!--				   version="1.0.1.gzd" delay="-1" retries="0"  />-->
+</beans>
